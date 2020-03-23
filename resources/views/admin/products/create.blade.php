@@ -48,10 +48,20 @@
                             <label for="is_distinct">Produto diferenciável <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <input
-                                            type="checkbox"
+                                            type="radio"
+                                            name="is_distinct"
+                                            id="is_distinct"
+                                            checked="checked"
+                                            value="0"> Não
+                                    <br/>
+                                    <input
+                                            type="radio"
                                             name="is_distinct"
                                             id="is_distinct"
                                             value="1"> Sim
+
+
+
                                 </div>
                             </label>
                         </div>
