@@ -63,7 +63,7 @@
                                                 <span class="text-warning">You can use ctr (cmd) to select multiple images</span>
                                             </div>
                                             <div class="form-group">
-                                                <label for="quantity">Quantidade <span class="text-danger">*</span></label>
+                                                <label for="quantity">Quantidade disponível<span class="text-danger">*</span></label>
                                                 @if($productAttributes->isEmpty())
                                                     <input
                                                             type="text"
@@ -84,14 +84,16 @@
                                                 @if($productAttributes->isEmpty())
                                                     <div class="input-group">
                                                         <span class="input-group-addon">{{ config('cart.currency') }}</span>
-                                                        <input type="text" name="price" id="price" placeholder="Price" class="form-control" value="{!! $product->price !!}">
+                                                        <input type="text" pattern="[\d.]* name="price" id="price" placeholder="Price" class="form-control" value="{!! $product->price !!}">
                                                     </div>
+                                                    <small class="text-danger">Para valores com centavos utilize ponto</small>
                                                 @else
                                                     <input type="hidden" name="price" value="{!! $product->price !!}">
                                                     <div class="input-group">
                                                         <span class="input-group-addon">{{ config('cart.currency') }}</span>
-                                                        <input type="text" id="price" placeholder="Price" class="form-control" value="{!! $product->price !!}" disabled>
+                                                        <input type="text" id="price" pattern="[\d.]*" placeholder="Preço" class="form-control" value="{!! $product->price !!}" disabled>
                                                     </div>
+                                                    <small class="text-danger">Para valores com centavos utilize ponto</small>
                                                 @endif
                                                 @if(!$productAttributes->isEmpty())<span class="text-danger">Note: Price is disabled. Price is derived based on the combination.</span> @endif
                                             </div>
@@ -99,8 +101,29 @@
                                                 <label for="sale_price">Preço de Venda</label>
                                                 <div class="input-group">
                                                     <span class="input-group-addon">{{ config('cart.currency') }}</span>
-                                                    <input type="text" name="sale_price" id="sale_price" placeholder="Sale Price" class="form-control" value="{{ $product->sale_price }}">
+                                                    <input type="text" pattern="[\d.]*"  name="sale_price" id="sale_price" placeholder="Preço de Venda" class="form-control" value="{{ $product->sale_price }}">
                                                 </div>
+                                                <small class="text-danger">Para valores com centavos utilize ponto</small>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="is_distinct">Produto diferenciável <span class="text-danger">*</span></label>
+                                                <div class="input-group">
+                                                    <input
+                                                            type="radio"
+                                                            name="is_distinct"
+                                                            id="is_distinct"
+                                                            @if(isset($product->is_distinct) && $product->is_distinct == 0)   checked ='checked' @endif
+                                                            value="0"> Não
+                                                    <br/>
+                                                    <input
+                                                            type="radio"
+                                                            name="is_distinct"
+                                                            id="is_distinct"
+                                                            @if(isset($product->is_distinct) && $product->is_distinct == 1)   checked ='checked' @endif
+                                                            value="1"> Sim
+                                                </div>
+                                                </label>
                                             </div>
                                             @if(!$brands->isEmpty())
                                                 <div class="form-group">
