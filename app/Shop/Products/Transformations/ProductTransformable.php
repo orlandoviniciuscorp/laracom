@@ -29,6 +29,7 @@ trait ProductTransformable
         $prod->mass_unit = $product->mass_unit;
         $prod->sale_price = $product->sale_price;
         $prod->brand_id = (int) $product->brand_id;
+        $prod->is_distinct = $product->is_distinct;
 
         return $prod;
     }
