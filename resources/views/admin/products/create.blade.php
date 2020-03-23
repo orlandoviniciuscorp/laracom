@@ -38,9 +38,22 @@
                         <div class="form-group">
                             <label for="price">Preço <span class="text-danger">*</span></label>
                             <div class="input-group">
-                                <span class="input-group-addon">PHP</span>
-                                <input type="text" name="price" id="price" placeholder="Price" class="form-control" value="{{ old('price') }}">
+                                <span class="input-group-addon">R$</span>
+                                <input type="text" name="price" id="price" placeholder="Price" pattern="[\d.]*" class="form-control" value="{{ old('price') }}">
                             </div>
+                            <small class="text-danger">Para valores com centavos utilize ponto</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="is_distinct">Produto diferenciável <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <input
+                                            type="checkbox"
+                                            name="is_distinct"
+                                            id="is_distinct"
+                                            value="1"> Sim
+                                </div>
+                            </label>
                         </div>
                         @if(!$brands->isEmpty())
                         <div class="form-group">
