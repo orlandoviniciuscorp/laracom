@@ -270,7 +270,7 @@ class ProductController extends Controller
         $productRepo->updateProduct($data);
 
         return redirect()->route('admin.products.edit', $id)
-            ->with('message', 'Update successful');
+            ->with('message', $this->getSucessMesseger());
     }
 
     /**

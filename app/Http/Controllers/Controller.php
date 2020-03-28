@@ -15,4 +15,8 @@ class Controller extends BaseController
     {
         return auth()->user();
     }
+
+    public function getSucessMesseger(){
+        return "Atualizado com Sucesso!";
+    }
 }
