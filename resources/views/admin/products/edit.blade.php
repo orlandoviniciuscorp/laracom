@@ -84,7 +84,7 @@
                                                 @if($productAttributes->isEmpty())
                                                     <div class="input-group">
                                                         <span class="input-group-addon">{{ config('cart.currency') }}</span>
-                                                        <input type="text" pattern="[\d.]* name="price" id="price" placeholder="Price" class="form-control" value="{!! $product->price !!}">
+                                                        <input type="text" pattern="[\d.]*" name="price" id="price" placeholder="Price" class="form-control" value="{!! $product->price !!}">
                                                     </div>
                                                     <small class="text-danger">Para valores com centavos utilize ponto</small>
                                                 @else
