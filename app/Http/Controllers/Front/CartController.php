@@ -65,8 +65,13 @@ class CartController extends Controller
      */
     public function index()
     {
+
         $courier = $this->courierRepo->findCourierById(request()->session()->get('courierId', 1));
         $shippingFee = $this->cartRepo->getShippingFee($courier);
+
+        $this->neededBag();
+
+
 
         return view('front.carts.cart', [
             'cartItems' => $this->cartRepo->getCartItemsTransformed(),
@@ -142,5 +147,26 @@ class CartController extends Controller
 
         request()->session()->flash('message', 'Removed to cart successful');
         return redirect()->route('cart.index');
+    }
+
+    public function neededBag()
+    {
+        $carItens = $this->cartRepo->getCartItemsTransformed();
+        $hasBag = false;
+        foreach($carItens as $carItem){
+            if($carItem->name == 'Sacola Retornável'){
+                $hasBag = true;
+
+            }
+        }
+
+        if ((!is_null(auth()->user())) && auth()->user()->countBought() < 1 && !$hasBag) {
+
+            $product = $this->productRepo->findByProductName('Sacola Retornável');
+            $options = [];
+            $this->cartRepo->addToCart($product,1,$options);
+        }
+
+
     }
 }

@@ -25,7 +25,7 @@ class HomeController
      */
     public function index()
     {
-        $cats = $this->categoryRepo->all();
+        $cats = $this->categoryRepo->all()->shuffle();
 
         return view('front.index')->with('cats',$cats);
     }
