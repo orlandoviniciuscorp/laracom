@@ -51,14 +51,11 @@
                             <!-- </div> -->
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-8">
-                            <form action="{{ route('cart.update', $cartItem->rowId) }}" class="form-inline" method="post">
-                                {{ csrf_field() }}
-                                <input type="hidden" name="_method" value="put">
                                 <div class="input-group">
-                                    <input type="text" name="quantity" value="{{ $cartItem->qty }}" class="form-control input-sm" />
-                                    <span class="input-group-btn"><button class="btn btn-default btn-sm">Update</button></span>
+                                    <input type="text" name="quantity" value="{{ $cartItem->qty }}" readonly="readonly" class="form-control input-sm" />
+                                    <span class="input-group-btn">
+                                    </span>
                                 </div>
-                            </form>
                         </div>
                         <div class="col-lg-1 col-md-1 col-sm-8 col-xs-4">
                             <form action="{{ route('cart.destroy', $cartItem->rowId) }}" method="post">

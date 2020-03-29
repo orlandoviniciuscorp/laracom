@@ -11,7 +11,7 @@
     @endif
     <ul class="row text-center list-unstyled">
         @foreach($products as $product)
-            <li class="col-md-3 col-sm-6 col-xs-12 product-list">
+            <div class="col-md-3 col-sm-6 col-xs-12 product-list">
                 <div class="single-product">
                     <div class="product">
                         <div class="product-overlay">
@@ -74,7 +74,7 @@
                         </div>
                     </div>
                 </div>
-            </li>
+            </div>
         @endforeach
         @if($products instanceof \Illuminate\Contracts\Pagination\LengthAwarePaginator)
             <div class="row">
