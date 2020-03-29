@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Shop\Addresses\Repositories\Interfaces\AddressRepositoryInterface;
 use App\Shop\Cart\Requests\CartCheckoutRequest;
+use App\Shop\Cart\Requests\CartDeliveryCheckoutRequest;
 use App\Shop\Carts\Repositories\Interfaces\CartRepositoryInterface;
 use App\Shop\Carts\Requests\PayPalCheckoutExecutionRequest;
 use App\Shop\Carts\Requests\StripeExecutionRequest;
@@ -118,25 +119,20 @@ class CheckoutController extends Controller
         }
 
         if($error){
-            $courier = $this->courierRepo->findCourierById(request()->session()->get('courierId', 1));
-            $shippingFee = $this->cartRepo->getShippingFee($courier);
+
+
+            $couriers = $this->courierRepo->allEnable();
 
             return view('front.carts.cart', [
                 'cartItems' => $this->cartRepo->getCartItemsTransformed(),
                 'subtotal' => $this->cartRepo->getSubTotal(),
                 'tax' => $this->cartRepo->getTax(),
-                'shippingFee' => $shippingFee,
-                'total' => $this->cartRepo->getTotal(2, $shippingFee)
+                'couriers' => $couriers,
+                'total' => $this->cartRepo->getTotal(2)
             ])->withErrors($msgErros);
         }
 
-        if (env('ACTIVATE_SHIPPING') == 1) {
-            $shipment = $this->createShippingProcess($customer, $carItens);
-            if (!is_null($shipment)) {
-                $shipment_object_id = $shipment->object_id;
-                $rates = $shipment->rates;
-            }
-        }
+
 
         // Get payment gateways
         $paymentGateways = collect(explode(',', config('payees.name')))->transform(function ($name) {
@@ -145,8 +141,8 @@ class CheckoutController extends Controller
 
         $billingAddress = $customer->addresses()->first();
 
-        $courier = $this->courierRepo->findCourierById(request()->session()->get('courierId', 1));
-        $shippingFee = $this->cartRepo->getShippingFee($courier);
+        $courier = $this->courierRepo->findCourierById($request->input('courier_id'));
+        //$shippingFee = $this->cartRepo->getShippingFee($courier);
 
         return view('front.checkout', [
             'customer' => $customer,
@@ -155,13 +151,17 @@ class CheckoutController extends Controller
             'products' => $this->cartRepo->getCartItems(),
             'subtotal' => $this->cartRepo->getSubTotal(),
             'tax' => $this->cartRepo->getTax(),
-            'total' => $this->cartRepo->getTotal(2),
+            'total' => $this->cartRepo->getTotal(2,$courier->cost),
             'payments' => $paymentGateways,
             'cartItems' => $this->cartRepo->getCartItemsTransformed(),
             'shipment_object_id' => $shipment_object_id,
-            'rates' => $rates,
-            'shippingFee'=>$shippingFee
+            'courier'=>$courier
         ]);
+    }
+
+    public function checkoutItens(CartDeliveryCheckoutRequest $request)
+    {
+       return $this->index($request);
     }
 
     /**

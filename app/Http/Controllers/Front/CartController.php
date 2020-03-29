@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Shop\Cart\Requests\CartDeliveryCheckoutRequest;
 use App\Shop\Carts\Requests\AddToCartRequest;
 use App\Shop\Carts\Requests\UpdateCartRequest;
 use App\Shop\Carts\Repositories\Interfaces\CartRepositoryInterface;
@@ -71,14 +72,15 @@ class CartController extends Controller
 
         $this->neededBag();
 
+        $couriers = $this->courierRepo->allEnable();
 
 
         return view('front.carts.cart', [
             'cartItems' => $this->cartRepo->getCartItemsTransformed(),
             'subtotal' => $this->cartRepo->getSubTotal(),
             'tax' => $this->cartRepo->getTax(),
-            'shippingFee' => $shippingFee,
-            'total' => $this->cartRepo->getTotal(2, $shippingFee)
+            'couriers' => $couriers,
+            'total' => $this->cartRepo->getTotal(2)
         ]);
     }
 
