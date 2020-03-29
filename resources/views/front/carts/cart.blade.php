@@ -94,7 +94,7 @@
                                             <form action="{{ route('cart.destroy', $cartItem->rowId) }}" method="post">
                                                 {{ csrf_field() }}
                                                 <input type="hidden" name="_method" value="delete">
-                                                <button onclick="return confirm('Are you sure?')" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button>
+                                                <button onclick="return confirm('Tem certeza que deseja remover o Item?')" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button>
                                             </form>
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">

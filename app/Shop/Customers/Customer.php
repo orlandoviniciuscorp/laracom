@@ -66,6 +66,10 @@ class Customer extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
+    public function countBought(){
+        return $this->hasMany(Order::class)->where('order_status_id','=',1)->count('*');
+    }
+
     /**
      * @param $term
      *

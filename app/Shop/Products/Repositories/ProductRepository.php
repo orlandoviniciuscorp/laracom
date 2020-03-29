@@ -100,6 +100,14 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         }
     }
 
+    public function findByProductName($name) : Product{
+        try {
+            return $this->transformProduct($this->findBy(['name'=>$name])->first());
+        } catch (ModelNotFoundException $e) {
+            throw new ProductNotFoundException($e);
+        }
+    }
+
     /**
      * Delete the product
      *
