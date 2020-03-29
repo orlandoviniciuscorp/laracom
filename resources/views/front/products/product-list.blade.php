@@ -33,7 +33,7 @@
                             </div>
                         </div>
                         @if(isset($product->cover))
-                            <img src="{{ asset("storage/$product->cover") }}" alt="{{ $product->name }}" class="img-bordered img-responsive">
+                            <img width="263" height="330" src="{{ asset("storage/$product->cover") }}" alt="{{ $product->name }}" class="img-bordered img-responsive">
                         @else
                             <img src="https://placehold.it/263x330" alt="{{ $product->name }}" class="img-bordered img-responsive" />
                         @endif

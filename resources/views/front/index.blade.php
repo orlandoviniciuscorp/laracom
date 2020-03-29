@@ -17,12 +17,11 @@
                         <h2>{{ $cat->name }}</h2>
                     </div>
                     @include('front.products.product-list', ['products' => $cat->products->where('status', 1)])
-                    <div id="browse-all-btn"> <a class="btn btn-default browse-all-btn" href="{{ route('front.category.slug', $cat->slug) }}" role="button">browse all items</a></div>
+                    <div id="browse-all-btn"> <a class="btn btn-default browse-all-btn" href="{{ route('front.category.slug', $cat->slug) }}" role="button">Ver todos os ítens do produtor</a></div>
                 </div>
             </section>
         @endif
         <hr>
     @endforeach
-    <hr />
     @include('mailchimp::mailchimp')
 @endsection
