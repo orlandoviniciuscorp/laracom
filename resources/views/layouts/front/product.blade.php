@@ -77,7 +77,16 @@
                                    value="{{ old('quantity') }}" />
                             <input type="hidden" name="product" value="{{ $product->id }}" />
                         </div>
-                        <button type="submit" class="btn btn-warning"><i class="fa fa-cart-plus"></i> Adicionar ao carrinho
+                        <button type="submit" class="btn btn-warning"
+                                @if($product->quantity < 1)
+                                    disabled
+                                @endif
+                        ><i class="fa fa-cart-plus"></i>
+                            @if($product->quantity < 1)
+                                ESGOTADO
+                            @else
+                                Adicionar ao carrinho
+                            @endif
                         </button>
                     </form>
                 </div>
