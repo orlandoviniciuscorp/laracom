@@ -101,13 +101,37 @@ class CheckoutController extends Controller
     {
         $this->neededBag();
 
-        $products = $this->cartRepo->getCartItems();
+        $carItens = $this->cartRepo->getCartItems();
         $customer = $request->user();
         $rates = null;
         $shipment_object_id = null;
 
+        $error = false;
+        $msgErros = [];
+
+        foreach($carItens as $carItem){
+            if($carItem->qty >$carItem->product->quantity){
+                $error = true;
+                $msg = ['O produto "'. $carItem->name . '" possui '. $carItem->product->quantity . ' no estoque. Por favor, atualize o seu pedido'];
+               $msgErros = array_merge($msgErros,$msg);
+            }
+        }
+
+        if($error){
+            $courier = $this->courierRepo->findCourierById(request()->session()->get('courierId', 1));
+            $shippingFee = $this->cartRepo->getShippingFee($courier);
+
+            return view('front.carts.cart', [
+                'cartItems' => $this->cartRepo->getCartItemsTransformed(),
+                'subtotal' => $this->cartRepo->getSubTotal(),
+                'tax' => $this->cartRepo->getTax(),
+                'shippingFee' => $shippingFee,
+                'total' => $this->cartRepo->getTotal(2, $shippingFee)
+            ])->withErrors($msgErros);
+        }
+
         if (env('ACTIVATE_SHIPPING') == 1) {
-            $shipment = $this->createShippingProcess($customer, $products);
+            $shipment = $this->createShippingProcess($customer, $carItens);
             if (!is_null($shipment)) {
                 $shipment_object_id = $shipment->object_id;
                 $rates = $shipment->rates;

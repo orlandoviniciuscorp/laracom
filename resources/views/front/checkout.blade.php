@@ -19,6 +19,42 @@
                             <div class="col-md-12">
                                 @include('front.products.product-list-table', compact('products'))
                             </div>
+                            <div>
+                                <table class="table table-striped">
+                                    <tfoot>
+                                    <tr>
+                                        <td class="bg-warning">Subtotal</td>
+                                        <td class="bg-warning"></td>
+                                        <td class="bg-warning"></td>
+                                        <td class="bg-warning"></td>
+                                        <td class="bg-warning">{{config('cart.currency')}} {{ number_format($subtotal, 2, '.', ',') }}</td>
+                                    </tr>
+                                    @if(isset($shippingFee) && $shippingFee != 0)
+                                        <tr>
+                                            <td class="bg-warning">Frete</td>
+                                            <td class="bg-warning"></td>
+                                            <td class="bg-warning"></td>
+                                            <td class="bg-warning"></td>
+                                            <td class="bg-warning">{{config('cart.currency')}} {{ $shippingFee }}</td>
+                                        </tr>
+                                    @endif
+                                    {{--<tr>--}}
+                                    {{--<td class="bg-warning">Tax</td>--}}
+                                    {{--<td class="bg-warning"></td>--}}
+                                    {{--<td class="bg-warning"></td>--}}
+                                    {{--<td class="bg-warning"></td>--}}
+                                    {{--<td class="bg-warning">{{config('cart.currency')}} {{ number_format($tax, 2) }}</td>--}}
+                                    {{--</tr>--}}
+                                    <tr>
+                                        <td class="bg-success">Total</td>
+                                        <td class="bg-success"></td>
+                                        <td class="bg-success"></td>
+                                        <td class="bg-success"></td>
+                                        <td class="bg-success">{{config('cart.currency')}} {{ number_format($total, 2, '.', ',') }}</td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
                         </div>
                         @if(isset($addresses))
                             <div class="row">
@@ -90,6 +126,7 @@
                                     </table>
                                 </div>
                             </div>
+
                         @endif
                         @if(!is_null($rates))
                             <div class="row">
