@@ -99,6 +99,8 @@ class CheckoutController extends Controller
      */
     public function index(Request $request)
     {
+        $this->neededBag();
+
         $products = $this->cartRepo->getCartItems();
         $customer = $request->user();
         $rates = null;
@@ -253,5 +255,26 @@ class CheckoutController extends Controller
 
             return $this->shippingRepo->readyShipment();
         }
+    }
+
+    public function neededBag()
+    {
+        $carItens = $this->cartRepo->getCartItemsTransformed();
+        $hasBag = false;
+        foreach($carItens as $carItem){
+            if($carItem->name == 'Sacola Retornável'){
+                $hasBag = true;
+
+            }
+        }
+
+        if ((!is_null(auth()->user())) && auth()->user()->countBought() < 1 && !$hasBag) {
+
+            $product = $this->productRepo->findByProductName('Sacola Retornável');
+            $options = [];
+            $this->cartRepo->addToCart($product,1,$options);
+        }
+
+
     }
 }

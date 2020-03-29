@@ -10,7 +10,7 @@
     @include('layouts.front.home-slider')
 
     @foreach($cats as $cat)
-        @if($cat->products->isNotEmpty())
+        @if($cat->products->isNotEmpty() && $cat->status == 1)
             <section class="new-product t100 home">
                 <div class="container">
                     <div class="section-title b50">
