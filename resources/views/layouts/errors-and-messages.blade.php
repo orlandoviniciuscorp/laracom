@@ -2,7 +2,7 @@
     @foreach($errors->all() as $message)
         <div class="box no-border">
             <div class="box-tools">
-                <p class="alert alert-warning alert-dismissible">
+                <p class="alert alert-danger alert-dismissible">
                     {{ $message }}
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </p>

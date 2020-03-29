@@ -14,7 +14,12 @@ class UpdateCartRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'quantity' => ['required', 'integer']
+            'quantity' => ['required', 'integer','gt:0']
         ];
+    }
+
+    public function messages()
+    {
+        return ['quantity.gt' => 'A quantidade de Itens não pode ser Zero. Para retirar, por favor clique em remover'];
     }
 }
