@@ -85,6 +85,11 @@ class CourierRepository extends BaseRepository implements CourierRepositoryInter
         return $this->all(['*'], $order, $sort);
     }
 
+    public function allEnable()
+    {
+        return $this->findBy(['status'=>1]);
+    }
+
     /**
      * @return bool
      * @throws \Exception

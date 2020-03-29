@@ -90,25 +90,66 @@
                                     </table>
                                 </div>
                             </div>
+
                         @endif
-                        @if(!is_null($rates))
                             <div class="row">
                                 <div class="col-md-12">
-                                    <legend><i class="fa fa-truck"></i> Courier</legend>
-                                    <ul class="list-unstyled">
-                                        @foreach($rates as $rate)
-                                            <li class="col-md-4">
-                                                <label class="radio">
-                                                    <input type="radio" name="rate" data-fee="{{ $rate->amount }}" value="{{ $rate->object_id }}">
-                                                </label>
-                                                <img src="{{ $rate->provider_image_75 }}" alt="courier" class="img-thumbnail" /> {{ $rate->currency }} {{ $rate->amount }}<br />
-                                                {{ $rate->servicelevel->name }}
-                                            </li>
-                                        @endforeach
-                                    </ul>
+                                    <legend><i class="fa fa-truck"></i> Entrega</legend>
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <th>Nome</th>
+                                            <th>Descrição</th>
+                                            <th>Custo</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>{{$courier->name}}</td>
+                                                <td>{!! $courier->description !!}</td>
+                                                <td>R$ {{$courier->cost}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div> <br>
-                        @endif
+
+                        <div>
+                            <table class="table table-striped">
+                                <tfoot>
+                                <tr>
+                                    <td class="bg-warning">Subtotal</td>
+                                    <td class="bg-warning"></td>
+                                    <td class="bg-warning"></td>
+                                    <td class="bg-warning"></td>
+                                    <td class="bg-warning">{{config('cart.currency')}} {{ number_format($subtotal, 2, '.', ',') }}</td>
+                                </tr>
+                                @if(isset($courier))
+                                    <tr>
+                                        <td class="bg-warning">Frete</td>
+                                        <td class="bg-warning"></td>
+                                        <td class="bg-warning"></td>
+                                        <td class="bg-warning"></td>
+                                        <td class="bg-warning">{{config('cart.currency')}} {{ $courier->cost }}</td>
+                                    </tr>
+                                @endif
+                                {{--<tr>--}}
+                                {{--<td class="bg-warning">Tax</td>--}}
+                                {{--<td class="bg-warning"></td>--}}
+                                {{--<td class="bg-warning"></td>--}}
+                                {{--<td class="bg-warning"></td>--}}
+                                {{--<td class="bg-warning">{{config('cart.currency')}} {{ number_format($tax, 2) }}</td>--}}
+                                {{--</tr>--}}
+                                <tr>
+                                    <td class="bg-success">Total</td>
+                                    <td class="bg-success"></td>
+                                    <td class="bg-success"></td>
+                                    <td class="bg-success"></td>
+                                    <td class="bg-success">{{config('cart.currency')}} {{ number_format($total, 2, '.', ',') }}</td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    <br />
+
                         <div class="row">
                             <div class="col-md-12">
                                 <legend><i class="fa fa-credit-card"></i> Pagamento</legend>
