@@ -23,7 +23,17 @@
                                                 {{ csrf_field() }}
                                                 <input type="hidden" name="quantity" value="1" />
                                                 <input type="hidden" name="product" value="{{ $product->id }}">
-                                                <button id="add-to-cart-btn" type="submit" class="btn btn-warning" data-toggle="modal" data-target="#cart-modal"> <i class="fa fa-cart-plus"></i> Adicionar ao carrinho</button>
+                                                <button id="add-to-cart-btn" type="submit" class="btn btn-warning"
+                                                        @if($product->quantity < 1)
+                                                            disabled
+                                                        @endif
+                                                        data-toggle="modal" data-target="#cart-modal"> <i class="fa fa-cart-plus"></i>
+                                                    @if($product->quantity < 1)
+                                                        ESGOTADO
+                                                    @else
+                                                        Adicionar ao carrinho
+                                                    @endif
+                                                </button>
                                             </form>
                                         </li>
                                         <li>  <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal_{{ $product->id }}"> <i class="fa fa-eye"></i> Visualizar</button>
