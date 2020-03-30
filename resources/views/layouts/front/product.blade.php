@@ -44,7 +44,8 @@
             </h1>
             <div class="description">{!! $product->description !!}</div>
             <div class="excerpt">
-                <hr>{!!  str_limit($product->description, 100, ' ...') !!}</div>
+                <hr>{{ str_limit($product->description, 100, ' ...') }}
+            </div>
             <hr>
             <div class="row">
                 <div class="col-md-12">
