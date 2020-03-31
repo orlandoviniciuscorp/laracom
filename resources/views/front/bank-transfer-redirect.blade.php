@@ -23,10 +23,10 @@
                     </div>
                     <div class="col-md-6">
                         <div class="box-body">
-                            <h3>Banco: Banco do Brasil }}</h3>
+                            <h3>Banco: Banco do Brasil</h3>
                             <hr>
                             <p>Tipo de Conta: Conta Corrente</p>
-                            <p>Beneficiário: Sarita De Cassia C. Marques }}</p>
+                            <p>Beneficiário: Sarita De Cassia C. Marques </p>
                             <p>Agência: 1252-1</p>
                             <p>Número da Conta:21529-5</p>
                             <p>CPF: 126.853.717-96</p>
