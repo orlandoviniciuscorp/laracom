@@ -23,13 +23,15 @@
                     </div>
                     <div class="col-md-6">
                         <div class="box-body">
-                            <h3>Banco: {{ config('bank-transfer.bank_name') }}</h3>
+                            <h3>Banco: Banco do Brasil</h3>
                             <hr>
-                            <p>Tipo de Conta:{{ config('bank-transfer.account_type') }}</p>
-                            <p>Beneficiário: {{ config('bank-Endereço de Cobrançatransfer.account_name') }}</p>
-                            <p>Agência: {{ config('bank-transfer.bank_swift_code') }}</p>
-                            <p>Número da Conta:{{ config('bank-transfer.account_number') }}</p>
+                            <p>Tipo de Conta: Conta Corrente</p>
+                            <p>Beneficiário: Sarita De Cassia C. Marques </p>
+                            <p>Agência: 1252-1</p>
+                            <p>Número da Conta:21529-5</p>
+                            <p>CPF: 126.853.717-96</p>
                             <p><strong><small class="text-danger text">* {{ config('bank-transfer.note') }}</small></strong></p>
+                            <p><strong><small class="text-danger text">*Enviar o comprovante de depósito para o  número: (21) 96618-9093 - Jenifer</small></strong></p>
                             <hr>
                             <div class="btn-group">
                                 <a href="{{ route('checkout.index') }}" class="btn btn-default">Back</a>
