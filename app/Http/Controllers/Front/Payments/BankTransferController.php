@@ -89,13 +89,15 @@ class BankTransferController extends Controller
      */
     public function index()
     {
-        $courier = $this->courierRepo->findCourierById(request()->session()->get('courierId', 1));
+        $courier = $this->courierRepo->findCourierById(intval(request()->session()->get('courier_id')));
+
+
         $this->shippingFee = $this->cartRepo->getShippingFee($courier);
         return view('front.bank-transfer-redirect', [
             'subtotal' => $this->cartRepo->getSubTotal(),
-            'shipping' => $this->shippingFee,
+            'shipping' => $courier->cost,
             'tax' => $this->cartRepo->getTax(),
-            'total' => $this->cartRepo->getTotal(2, $this->shippingFee),
+            'total' => $this->cartRepo->getTotal(2, $courier->cost),
             'rateObjectId' => $this->rateObjectId,
             'shipmentObjId' => $this->shipmentObjId,
             'billingAddress' => $this->billingAddress
@@ -113,6 +115,8 @@ class BankTransferController extends Controller
         $checkoutRepo = new CheckoutRepository;
         $orderStatusRepo = new OrderStatusRepository(new OrderStatus);
         $os = $orderStatusRepo->findByName('Pedido Feito');
+
+        dd($request);
 
         $order = $checkoutRepo->buildCheckoutItems([
             'reference' => Uuid::uuid4()->toString(),
