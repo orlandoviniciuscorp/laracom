@@ -74,13 +74,13 @@
                                                                 </tbody>
                                                             </table>
                                                             <hr>
-                                                            <p>Order details:</p>
+                                                            <p>Detalhes do Pedido:</p>
                                                             <table class="table">
                                                               <thead>
-                                                                  <th>Name</th>
-                                                                  <th>Quantity</th>
-                                                                  <th>Price</th>
-                                                                  <th>Cover</th>
+                                                                  <th>Produto</th>
+                                                                  <th>Quatidade</th>
+                                                                  <th>Preço</th>
+                                                                  <th>Foto</th>
                                                               </thead>
                                                               <tbody>
                                                               @foreach ($order['products'] as $product)
@@ -121,17 +121,17 @@
                             @if(!$addresses->isEmpty())
                                 <table class="table">
                                 <thead>
-                                    <th>Alias</th>
-                                    <th>Address 1</th>
-                                    <th>Address 2</th>
-                                    <th>City</th>
+                                    <th>Apelido</th>
+                                    <th>Endereço</th>
+                                    <th>Complemento</th>
+                                    <th>Cidade</th>
                                     @if(isset($address->province))
                                     <th>Province</th>
                                     @endif
-                                    <th>State</th>
-                                    <th>Country</th>
-                                    <th>Zip</th>
-                                    <th>Phone</th>
+                                    <th>Estado</th>
+                                    <th>País</th>
+                                    <th>CEP</th>
+                                    <th>Telefone</th>
                                     <th>Actions</th>
                                 </thead>
                                 <tbody>
@@ -154,7 +154,7 @@
                                                         <input type="hidden" name="_method" value="delete">
                                                         {{ csrf_field() }}
                                                         <a href="{{ route('customer.address.edit', [auth()->user()->id, $address->id]) }}" class="btn btn-primary"> <i class="fa fa-pencil"></i> Edit</a>
-                                                        <button onclick="return confirm('Are you sure?')" type="submit" class="btn btn-danger"> <i class="fa fa-trash"></i> Delete</button>
+                                                        <button onclick="return confirm('Tem Certeza?')" type="submit" class="btn btn-danger"> <i class="fa fa-trash"></i> Delete</button>
                                                     </div>
                                                 </form>
                                             </td>

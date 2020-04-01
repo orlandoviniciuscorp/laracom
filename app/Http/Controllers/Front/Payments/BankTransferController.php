@@ -89,16 +89,18 @@ class BankTransferController extends Controller
      */
     public function index()
     {
-        $courier = $this->courierRepo->findCourierById(request()->session()->get('courierId', 1));
-        $this->shippingFee = $this->cartRepo->getShippingFee($courier);
+
+        $courier = $this->courierRepo->findCourierById(intval(request()->get('courier_id')));
+
         return view('front.bank-transfer-redirect', [
             'subtotal' => $this->cartRepo->getSubTotal(),
-            'shipping' => $this->shippingFee,
+            'shipping' => $courier->cost,
             'tax' => $this->cartRepo->getTax(),
-            'total' => $this->cartRepo->getTotal(2, $this->shippingFee),
+            'total' => $this->cartRepo->getTotal(2, $courier->cost),
             'rateObjectId' => $this->rateObjectId,
             'shipmentObjId' => $this->shipmentObjId,
-            'billingAddress' => $this->billingAddress
+            'billingAddress' => $this->billingAddress,
+            'courier_id' =>$courier->id
         ]);
     }
 
@@ -113,18 +115,21 @@ class BankTransferController extends Controller
         $checkoutRepo = new CheckoutRepository;
         $orderStatusRepo = new OrderStatusRepository(new OrderStatus);
         $os = $orderStatusRepo->findByName('Pedido Feito');
+        $courier = $this->courierRepo->findCourierById(intval(request()->get('courier_id')));
+
+
 
         $order = $checkoutRepo->buildCheckoutItems([
             'reference' => Uuid::uuid4()->toString(),
-            'courier_id' => 1, // @deprecated
+            'courier_id' => $request->input('courier_id'),
             'customer_id' => $request->user()->id,
             'address_id' => $request->input('billing_address'),
             'order_status_id' => $os->id,
             'payment' => strtolower(config('bank-transfer.name')),
             'discounts' => 0,
             'total_products' => $this->cartRepo->getSubTotal(),
-            'total' => $this->cartRepo->getTotal(2, $this->shippingFee),
-            'total_shipping' => $this->shippingFee,
+            'total' => $this->cartRepo->getTotal(2, $courier->cost),
+            'total_shipping' => $courier->cost,
             'total_paid' => 0,
             'tax' => $this->cartRepo->getTax()
         ]);
@@ -159,6 +164,6 @@ class BankTransferController extends Controller
 
         Cart::destroy();
 
-        return redirect()->route('accounts', ['tab' => 'orders'])->with('message', 'Order successful!');
+        return redirect()->route('accounts', ['tab' => 'orders'])->with('message', 'Pedido Cadastrado com Sucesso, Aguarde a aprovação do Pagamento');
     }
 }

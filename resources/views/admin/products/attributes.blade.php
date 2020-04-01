@@ -37,7 +37,7 @@
                         </td>
                         <td class="btn-group">
                             <a
-                                    onclick="return confirm('Are you sure?')"
+                                    onclick="return confirm('Tem Certeza?')"
                                     href="{{ route('admin.products.edit', [$product->id, 'combination' => 1, 'delete' => 1, 'pa' => $pa->id]) }}"
                                     class="btn btn-sm btn-danger">
                                 <i class="fa fa-trash"></i> Delete
