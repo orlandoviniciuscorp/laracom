@@ -7,7 +7,7 @@
             <div class="col-md-12">
                 <ol class="breadcrumb">
                     <li><a href="{{ route('home') }}"> <i class="fa fa-home"></i> Home</a></li>
-                    <li class="active">Shopping Cart</li>
+                    <li class="active">Carrinho de Compras</li>
                 </ol>
             </div>
             <div class="col-md-12">
@@ -32,13 +32,12 @@
                             <hr>
                             <div class="btn-group">
                                 <a href="{{ route('checkout.index') }}" class="btn btn-default">Back</a>
-                                <button onclick="return confirm('Are you sure?')" class="btn btn-primary">Ok</button>
+                                <button onclick="return confirm('Tem Certeza?')" class="btn btn-primary">Ok</button>
                                 <input type="hidden" id="billing_address" name="billing_address" value="{{ $billingAddress }}">
                                 <input type="hidden" name="shipment_obj_id" value="{{ $shipmentObjId }}">
                                 <input type="hidden" name="rate" value="{{ $rateObjectId }}">
-                                @if(request()->has('courier'))
-                                    <input type="hidden" name="courier" value="{{ request()->input('courier') }}">
-                                @endif
+                                <input type="hidden" name="courier_id" value="{{ $courier_id }}">
+
                             </div>
                         </div>
                     </div>

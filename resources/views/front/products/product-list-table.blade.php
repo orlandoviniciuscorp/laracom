@@ -61,7 +61,7 @@
                             <form action="{{ route('cart.destroy', $cartItem->rowId) }}" method="post">
                                 {{ csrf_field() }}
                                 <input type="hidden" name="_method" value="delete">
-                                <button onclick="return confirm('Are you sure?')" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button>
+                                <button onclick="return confirm('Tem Certeza?')" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button>
                             </form>
                         </div>
 

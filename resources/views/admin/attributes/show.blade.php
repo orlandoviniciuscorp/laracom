@@ -39,7 +39,7 @@
                                         {{ csrf_field() }}
                                         <input type="hidden" name="_method" value="delete">
                                         <div class="btn-group">
-                                            <button onclick="return confirm('Are you sure?')" type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Remove</button>
+                                            <button onclick="return confirm('Tem Certeza?')" type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Remove</button>
                                         </div>
                                     </form>
                                 </td>

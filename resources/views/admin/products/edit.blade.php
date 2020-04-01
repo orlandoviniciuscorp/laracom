@@ -51,7 +51,7 @@
                                                     <div class="col-md-3">
                                                         <div class="row">
                                                             <img src="{{ asset("storage/$image->src") }}" alt="" class="img-responsive img-thumbnail"> <br /> <br>
-                                                            <a onclick="return confirm('Are you sure?')" href="{{ route('admin.product.remove.thumb', ['src' => $image->src]) }}" class="btn btn-danger btn-sm btn-block">Remove?</a><br />
+                                                            <a onclick="return confirm('Tem Certeza?')" href="{{ route('admin.product.remove.thumb', ['src' => $image->src]) }}" class="btn btn-danger btn-sm btn-block">Remove?</a><br />
                                                         </div>
                                                     </div>
                                                 @endforeach
