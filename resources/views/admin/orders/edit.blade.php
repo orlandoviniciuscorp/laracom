@@ -50,7 +50,7 @@
                                             <option @if($currentStatus->id == $status->id) selected="selected" @endif value="{{ $status->id }}">{{ $status->name }}</option>
                                         @endforeach
                                     </select>
-                                    <span class="input-group-btn"><button onclick="return confirm('Are you sure?')" type="submit" class="btn btn-primary">Update</button></span>
+                                    <span class="input-group-btn"><button onclick="return confirm('Tem Certeza?')" type="submit" class="btn btn-primary">Update</button></span>
                                 </div>
                             </form>
                         </td>
