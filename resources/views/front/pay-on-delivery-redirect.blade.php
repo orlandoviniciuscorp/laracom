@@ -7,7 +7,7 @@
             <div class="col-md-12">
                 <ol class="breadcrumb">
                     <li><a href="{{ route('home') }}"> <i class="fa fa-home"></i> Home</a></li>
-                    <li class="active">Shopping Cart</li>
+                    <li class="active">Carrinho de Compras</li>
                 </ol>
             </div>
             <div class="col-md-12">

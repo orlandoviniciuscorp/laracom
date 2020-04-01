@@ -92,8 +92,6 @@ class BankTransferController extends Controller
 
         $courier = $this->courierRepo->findCourierById(intval(request()->get('courier_id')));
 
-
-        $this->shippingFee = $this->cartRepo->getShippingFee($courier);
         return view('front.bank-transfer-redirect', [
             'subtotal' => $this->cartRepo->getSubTotal(),
             'shipping' => $courier->cost,
