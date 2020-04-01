@@ -25,6 +25,7 @@
                         <div class="box-body">
                             <h3>Banco: Banco do Brasil</h3>
                             <hr>
+                            <p>Código do Banco: <strong>001</strong></p>
                             <p>Tipo de Conta: Conta Corrente</p>
                             <p>Beneficiário: Sarita De Cassia C. Marques </p>
                             <p>Agência: 1252-1</p>
