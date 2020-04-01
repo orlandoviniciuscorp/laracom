@@ -89,7 +89,8 @@ class BankTransferController extends Controller
      */
     public function index()
     {
-        $courier = $this->courierRepo->findCourierById(intval(request()->session()->get('courier_id')));
+
+        $courier = $this->courierRepo->findCourierById(intval(request()->get('courier_id')));
 
 
         $this->shippingFee = $this->cartRepo->getShippingFee($courier);
