@@ -57,6 +57,7 @@
     </p>
 </noscript>
 <section>
+    @if(env('SHOPPING_OPENED') == 1)
     <div class="hidden-xs">
         <div class="container">
             <div class="clearfix"></div>
@@ -100,7 +101,13 @@
     </header>
 </section>
 @yield('content')
-
+@else
+    <div class="container">
+        Estamos preparando os seus produtos... =)
+        <br>
+        Volte mais tarde! =)
+    </div>
+@endif
 @include('layouts.front.footer')
 
 <script src="{{ asset('js/front.min.js') }}"></script>
