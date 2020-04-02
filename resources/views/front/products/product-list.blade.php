@@ -64,6 +64,22 @@
                                 {{ number_format($product->price, 2) }}
                             @endif
                         </p>
+                                <form action="{{ route('cart.store') }}" class="form-inline" method="post">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="quantity" value="1" />
+                                    <input type="hidden" name="product" value="{{ $product->id }}">
+                                    <button id="add-to-cart-btn" type="submit" class="btn btn-warning"
+                                            @if($product->quantity < 1)
+                                            disabled
+                                            @endif
+                                            data-toggle="modal" data-target="#cart-modal"> <i class="fa fa-cart-plus"></i>
+                                        @if($product->quantity < 1)
+                                            ESGOTADO
+                                        @else
+                                            Comprar
+                                        @endif
+                                    </button>
+                                </form>
                     </div>
                     <!-- Modal -->
                     <div class="modal fade" id="myModal_{{ $product->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

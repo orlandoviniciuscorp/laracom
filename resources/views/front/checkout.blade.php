@@ -159,7 +159,7 @@
                                         <thead>
                                         <th class="col-md-4">Nome</th>
                                         <th class="col-md-4">Descrição</th>
-                                        <th class="col-md-4 text-right">Escolha o método de Pagamento</th>
+                                        <th class="col-md-4 text-left">Método de Pagamento</th>
                                         </thead>
                                         <tbody>
                                         @foreach($payments as $payment)
