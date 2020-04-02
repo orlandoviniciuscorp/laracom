@@ -176,7 +176,7 @@
             @else
                 <div class="row">
                     <div class="col-md-12">
-                        <p class="alert alert-warning">Não há produtos no carrinho <a href="{{ route('home') }}">Compre Agora</a></p>
+                        <p class="alert alert-warning">Seu carrinho de compras está vazio.  <a href="{{ route('home') }}">Compre Agora</a></p>
                     </div>
                 </div>
             @endif
