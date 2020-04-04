@@ -13,7 +13,7 @@
                 <form action="{{ route('bank-transfer.store') }}" class="form-horizontal" method="post">
                     {{ csrf_field() }}
                     <div class="col-md-6">
-                        <h3>Review</h3>
+                        <h3>Revisão</h3>
                         <hr>
                         <ul class="list-unstyled">
                             <li>Items: {{ config('cart.currency_symbol') }} {{ $subtotal }}</li>
@@ -26,18 +26,19 @@
                             <h3>Banco: Banco do Brasil</h3>
                             <hr>
                             <p>Código do Banco: <strong>001</strong></p>
-                            <p>Tipo de Conta: Conta Corrente</p>
-                            <p>Beneficiário: Sarita De Cassia C. Marques </p>
-                            <p>Agência: 1252-1</p>
-                            <p>Número da Conta:21529-5</p>
-                            <p>CPF: 126.853.717-96</p>
+                            <p>Tipo de Conta: <strong>Conta Corrente</strong></p>
+                            <p>Beneficiário: <strong>Sarita De Cassia C. Marques </strong></p>
+                            <p>Agência: <strong>1252-1</strong></p>
+                            <p>Número da Conta: <strong> 21529-5</strong></p>
+                            <p>CPF: <strong>126.853.717-96</strong></p>
+                            <p>Valor: <strong> {{ config('cart.currency_symbol') }} {{ $total }}</strong></p>
                             <p><strong><small class="text-danger text">* {{ config('bank-transfer.note') }}</small></strong></p>
                             <p><strong><small class="text-danger text">*Enviar o comprovante de depósito para o  número: (21) 96618-9093 - Jenifer</small></strong></p>
-                            <p><strong><small class="text-danger text">*Clique no botão abaixo para confirmar e finalizar o pedido.</small></strong></p>
+                            <p><strong><small class="text-danger text">*Clique no botão abaixo para confirmar e finalizar sua compra.</small></strong></p>
                             <hr>
                             <div class="btn-group">
-                                <a href="{{ route('checkout.index') }}" class="btn btn-default">Back</a>
-                                <button onclick="return confirm('Tem Certeza?')" class="btn btn-primary">Confirmar Compra.</button>
+                                <a href="{{ route('cart.index') }}" class="btn btn-default">Back</a>
+                                <button onclick="return confirm('Tem Certeza?')" class="btn btn-danger">Confirmar Compra</button>
                                 <input type="hidden" id="billing_address" name="billing_address" value="{{ $billingAddress }}">
                                 <input type="hidden" name="shipment_obj_id" value="{{ $shipmentObjId }}">
                                 <input type="hidden" name="rate" value="{{ $rateObjectId }}">

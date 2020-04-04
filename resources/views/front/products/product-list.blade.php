@@ -36,7 +36,6 @@
                                 {{ number_format($product->price, 2) }}
                             @endif
                         </p>
-                                <div class="col-2">
                                 <form action="{{ route('cart.store') }}" class="form-inline" method="post">
                                     {{ csrf_field() }}
                                     <input type="hidden" name="quantity" value="1" />
@@ -55,10 +54,8 @@
                                     </button>
                                     <a class="btn btn-primary product-info" href="{{ route('front.get.product', str_slug($product->slug)) }}"> <i class="fa fa-link"></i> Detalhes</a> </li>
                                 </form>
-                                </div>
-                            <div class="col-2">
 
-                            </div>
+
                     </div>
                     <!-- Modal -->
                     <div class="modal fade" id="myModal_{{ $product->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'name' => 'Pagamento na Entrega (SOMENTE EM TERESÓPOLIS)',
+    'name' => 'Pagamento na Entrega',
     'description' => 'Pagamento na Entrega',
     'account_id' => env('PP_ACCOUNT_ID', 'xxxx'),
     'client_id' => env('PP_CLIENT_ID', 'xxxx'),
