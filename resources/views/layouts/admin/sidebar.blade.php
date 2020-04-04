@@ -100,6 +100,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="{{ route('admin.orders.index') }}"><i class="fa fa-circle-o"></i> Lista de Pedidos</a></li>
+                    <li><a href="{{ route('admin.orders.labels') }}"><i class="fa fa-circle-o"></i> Pegar etiquetas</a></li>
                 </ul>
             </li>
             <li class="treeview @if(request()->segment(2) == 'order-statuses') active @endif">

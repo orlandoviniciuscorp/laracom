@@ -33,10 +33,11 @@
                             <p>CPF: 126.853.717-96</p>
                             <p><strong><small class="text-danger text">* {{ config('bank-transfer.note') }}</small></strong></p>
                             <p><strong><small class="text-danger text">*Enviar o comprovante de depósito para o  número: (21) 96618-9093 - Jenifer</small></strong></p>
+                            <p><strong><small class="text-danger text">*Clique no botão abaixo para confirmar e finalizar o pedido.</small></strong></p>
                             <hr>
                             <div class="btn-group">
                                 <a href="{{ route('checkout.index') }}" class="btn btn-default">Back</a>
-                                <button onclick="return confirm('Tem Certeza?')" class="btn btn-primary">Depositarei na conta informada! Finalizar o pedido.</button>
+                                <button onclick="return confirm('Tem Certeza?')" class="btn btn-primary">Confirmar Compra.</button>
                                 <input type="hidden" id="billing_address" name="billing_address" value="{{ $billingAddress }}">
                                 <input type="hidden" name="shipment_obj_id" value="{{ $shipmentObjId }}">
                                 <input type="hidden" name="rate" value="{{ $rateObjectId }}">
