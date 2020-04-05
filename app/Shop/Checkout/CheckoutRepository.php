@@ -5,6 +5,8 @@ namespace App\Shop\Checkout;
 use App\Events\OrderCreateEvent;
 use App\Shop\Carts\Repositories\CartRepository;
 use App\Shop\Carts\ShoppingCart;
+use App\Shop\Fairs\Fair;
+use App\Shop\Fairs\Repositories\FairRepository;
 use App\Shop\Orders\Order;
 use App\Shop\Orders\Repositories\OrderRepository;
 
@@ -19,6 +21,10 @@ class CheckoutRepository
     {
         $orderRepo = new OrderRepository(new Order);
 
+        $fairRepo = new FairRepository(new Fair);
+
+
+
         $order = $orderRepo->createOrder([
             'reference' => $data['reference'],
             'courier_id' => $data['courier_id'],
@@ -31,7 +37,8 @@ class CheckoutRepository
             'total' => $data['total'],
             'total_paid' => $data['total_paid'],
             'total_shipping' => isset($data['total_shipping']) ? $data['total_shipping'] : 0,
-            'tax' => $data['tax']
+            'tax' => $data['tax'],
+            'fair_id' => $fairRepo->findCurrentFair()
         ]);
 
         return $order;
