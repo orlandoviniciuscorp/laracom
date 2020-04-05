@@ -41,10 +41,20 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
             });
             Route::namespace('Orders')->group(function () {
                 Route::get('orders/labels', 'OrderController@generateLabel')->name('orders.labels');
+
                 Route::resource('orders', 'OrderController');
                 Route::resource('order-statuses', 'OrderStatusController');
                 Route::get('orders/{id}/invoice', 'OrderController@generateInvoice')->name('orders.invoice.generate');
             });
+
+            Route::group(['prefix'=>'fairs'],function () {
+                Route::get('/','Fairs\FairController@index')->name('fairs.index');
+                Route::get('/create','Fairs\FairController@create')->name('fairs.create');
+                Route::post('/store','Fairs\FairController@store')->name('fair.store');
+                Route::get('/order/{fair_id}','Fairs\FairController@showOrders')->name('fair.orders-list');
+
+            });
+
             Route::resource('addresses', 'Addresses\AddressController');
             Route::resource('countries', 'Countries\CountryController');
             Route::resource('countries.provinces', 'Provinces\ProvinceController');

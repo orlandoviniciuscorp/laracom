@@ -66,6 +66,7 @@ class RegisterController extends Controller
         $customer = $this->create($request->except('_method', '_token'));
         Auth::login($customer);
 
-        return redirect()->route('accounts');
+
+        return redirect()->route('customer.address.create',$customer->id);
     }
 }

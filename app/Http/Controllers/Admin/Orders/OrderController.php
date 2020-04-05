@@ -10,6 +10,8 @@ use App\Shop\Couriers\Repositories\Interfaces\CourierRepositoryInterface;
 use App\Shop\Customers\Customer;
 use App\Shop\Customers\Repositories\CustomerRepository;
 use App\Shop\Customers\Repositories\Interfaces\CustomerRepositoryInterface;
+use App\Shop\Fairs\Fair;
+use App\Shop\Fairs\Repositories\FairRepository;
 use App\Shop\Orders\Order;
 use App\Shop\Orders\Repositories\Interfaces\OrderRepositoryInterface;
 use App\Shop\Orders\Repositories\OrderRepository;
@@ -184,16 +186,18 @@ class OrderController extends Controller
      * @param Collection $list
      * @return array
      */
-    private function transFormOrder(Collection $list)
+    protected function transFormOrder(Collection $list)
     {
         $courierRepo = new CourierRepository(new Courier());
         $customerRepo = new CustomerRepository(new Customer());
         $orderStatusRepo = new OrderStatusRepository(new OrderStatus());
+        $fairRepo = new FairRepository(new Fair());
 
-        return $list->transform(function (Order $order) use ($courierRepo, $customerRepo, $orderStatusRepo) {
+        return $list->transform(function (Order $order) use ($courierRepo, $customerRepo, $orderStatusRepo,$fairRepo) {
             $order->courier = $courierRepo->findCourierById($order->courier_id);
             $order->customer = $customerRepo->findCustomerById($order->customer_id);
             $order->status = $orderStatusRepo->findOrderStatusById($order->order_status_id);
+            $order->fair = $fairRepo->findFairById($order->fair_id);
             return $order;
         })->all();
     }
