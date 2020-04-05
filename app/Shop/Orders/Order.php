@@ -5,6 +5,7 @@ namespace App\Shop\Orders;
 use App\Shop\Addresses\Address;
 use App\Shop\Couriers\Courier;
 use App\Shop\Customers\Customer;
+use App\Shop\Fairs\Fair;
 use App\Shop\OrderStatuses\OrderStatus;
 use App\Shop\Products\Product;
 use Illuminate\Database\Eloquent\Model;
@@ -59,7 +60,8 @@ class Order extends Model
         'label_url',
         'tracking_number',
         'total_shipping',
-        'obs'
+        'obs',
+        'fair_id'
     ];
 
     /**
@@ -115,6 +117,11 @@ class Order extends Model
     public function orderStatus()
     {
         return $this->belongsTo(OrderStatus::class);
+    }
+
+    public function fair()
+    {
+        return $this->belongsTo(Fair::class);
     }
 
     /**
