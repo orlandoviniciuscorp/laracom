@@ -9,13 +9,13 @@
         @if($category)
             <div class="box">
                 <div class="box-body">
-                    <h2>Category</h2>
+                    <h2>Produtores</h2>
                     <table class="table">
                         <thead>
                         <tr>
-                            <td class="col-md-4">Name</td>
-                            <td class="col-md-4">Description</td>
-                            <td class="col-md-4">Cover</td>
+                            <td class="col-md-4">Nome</td>
+                            <td class="col-md-4">Descrição</td>
+                            <td class="col-md-4">Logo</td>
                         </tr>
                         </thead>
                         <tbody>
