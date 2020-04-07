@@ -153,7 +153,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <legend><i class="fa fa-credit-card"></i> Pagamento</legend>
-
+                                <p><strong><small class="text-danger text">Em virtude do surto do Corona virus - Covid-19, dêem preferência para o pagamento por Transferência Bancária.</small></strong></p>
                                 @if(isset($payments) && !empty($payments))
                                     <table class="table table-striped">
                                         <thead>

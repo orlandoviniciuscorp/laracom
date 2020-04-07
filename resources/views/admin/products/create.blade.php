@@ -9,26 +9,26 @@
                 <div class="box-body">
                     {{ csrf_field() }}
                     <div class="col-md-8">
-                        <h2>Protudo</h2>
+                        <h2>Produto</h2>
                         <div class="form-group">
                             <label for="sku">Código <span class="text-danger">*</span></label>
                             <input type="text" name="sku" id="sku" placeholder="xxxxx" class="form-control" value="{{ $nextSKU }}">
                         </div>
                         <div class="form-group">
                             <label for="name">Nome <span class="text-danger">*</span></label>
-                            <input type="text" name="name" id="name" placeholder="Name" class="form-control" value="{{ old('name') }}">
+                            <input type="text" name="name" id="name" placeholder="Nome" class="form-control" value="{{ old('name') }}">
                         </div>
                         <div class="form-group">
                             <label for="description">Descrição </label>
-                            <textarea class="form-control" name="description" id="description" rows="5" placeholder="Description">{{ old('description') }}</textarea>
+                            <textarea class="form-control" name="description" id="description" rows="5" placeholder="Descrição">{{ old('description') }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="cover">Foto de Capa </label>
-                            <input type="file" name="cover" id="cover" class="form-control">
+                            <input type="file" name="cover" id="cover" class="form-control" {{old('cover')}}>
                         </div>
                         <div class="form-group">
                             <label for="image">Imagens</label>
-                            <input type="file" name="image[]" id="image" class="form-control" multiple>
+                            <input type="file" name="image[]" id="image" class="form-control" multiple {{old('image[]')}}>
                             <small class="text-warning">Você pode usar o ctr (cmd) para selecionar mais de uma imagem</small>
                         </div>
                         <div class="form-group">
@@ -39,7 +39,7 @@
                             <label for="price">Preço <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <span class="input-group-addon">R$</span>
-                                <input type="text" name="price" id="price" placeholder="Price" pattern="[\d.]*" class="form-control" value="{{ old('price') }}">
+                                <input type="text" name="price" id="price" placeholder="Preço" pattern="[\d.]*" class="form-control" value="{{ old('price') }}">
                             </div>
                             <small class="text-danger">Para valores com centavos utilize ponto</small>
                         </div>
@@ -51,13 +51,18 @@
                                             type="radio"
                                             name="is_distinct"
                                             id="is_distinct"
+                                            @if(is_null(old('is_distinct')) || old('is_distinct') == 0)
                                             checked="checked"
+                                            @endif
                                             value="0"> Não
                                     <br/>
                                     <input
                                             type="radio"
                                             name="is_distinct"
                                             id="is_distinct"
+                                            @if(old('is_distinct') == 1)
+                                            checked="checked"
+                                            @endif
                                             value="1"> Sim
 
 
@@ -80,7 +85,7 @@
                         {{--@include('admin.shared.attribute-select', [compact('default_weight')])--}}
                     </div>
                     <div class="col-md-4">
-                        <h2>Categoria</h2>
+                        <h2>Produtor</h2>
                         @include('admin.shared.categories', ['categories' => $categories, 'selectedIds' => []])
                     </div>
                 </div>
