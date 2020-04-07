@@ -57,14 +57,14 @@
             </li>
             <li class="treeview @if(request()->segment(2) == 'categories') active @endif">
                 <a href="#">
-                    <i class="fa fa-folder"></i> <span>Categorias</span>
+                    <i class="fa fa-users" aria-hidden="true"></i> <span>Produtores</span>
                     <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ route('admin.categories.index') }}"><i class="fa fa-circle-o"></i> Lista Categorias</a></li>
-                    <li><a href="{{ route('admin.categories.create') }}"><i class="fa fa-plus"></i> Criar Categoria</a></li>
+                    <li><a href="{{ route('admin.categories.index') }}"><i class="fa fa-circle-o"></i> Lista de Produtores</a></li>
+                    <li><a href="{{ route('admin.categories.create') }}"><i class="fa fa-plus"></i> Cadastrar Produtor</a></li>
                 </ul>
             </li>
             <li class="treeview @if(request()->segment(2) == 'customers' || request()->segment(2) == 'addresses') active @endif">

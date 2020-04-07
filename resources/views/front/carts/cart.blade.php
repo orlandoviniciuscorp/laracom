@@ -167,7 +167,8 @@
                                 <div class="col-md-12">
                                     <div class="btn-group pull-right">
                                         <a href="{{ route('home') }}" class="btn btn-default">Continuar Comprando</a>
-                                        <button type="submit" class="btn btn-primary">Formas de Pagamentos</button>
+
+                                        <button type="submit" class="btn btn-primary">Revisão e Forma de Pagamento</button>
                                     </div>
                                 </div>
                             </div>
