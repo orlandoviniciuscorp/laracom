@@ -16,7 +16,7 @@
                             <tr>
                                 <td class="col-md-3">Nome</td>
                                 <td class="col-md-3">Status</td>
-                                <td class="col-md-2">Pedidos</td>
+                                <td class="col-md-2">Ações</td>
                                 {{--<td class="col-md-2">Total</td>--}}
                                 {{--<td class="col-md-2">Status</td>--}}
                             </tr>
@@ -31,7 +31,12 @@
                                     <a href="{{ route('admin.fair.orders-list', $fair->id) }}" class="btn btn-primary btn-sm">
                                         <i class="fa fa-money"></i> Pedidos
                                     </a>
+                                    <a href="{{ route('admin.fair.harvest', $fair->id) }}" class="btn btn-success btn-sm">
+                                        <i class="fa fa-leaf" aria-hidden="true"></i> Colheita
+                                    </a>
+
                                 </td>
+
                             </tr>
                         @endforeach
                         </tbody>

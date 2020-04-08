@@ -52,6 +52,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
                 Route::get('/create','Fairs\FairController@create')->name('fairs.create');
                 Route::post('/store','Fairs\FairController@store')->name('fair.store');
                 Route::get('/order/{fair_id}','Fairs\FairController@showOrders')->name('fair.orders-list');
+                Route::get('/harvest/{fair_id}','Fairs\FairController@showHarvest')->name('fair.harvest');
 
             });
 

@@ -80,9 +80,18 @@ class OrderController extends Controller
 
     public function generateLabel()
     {
-        $orders = app(Order::class)->whereNotIn('order_status_id',[6])->get();
 
-        return view('admin.orders.labels')->with('orders',$this->transFormOrder($orders));
+
+
+        $orders = app(Order::class)->whereNotIn('order_status_id',[6,3])->get();
+        $data = ['orders'=>$orders];
+        $pdf = app()->make('dompdf.wrapper');
+
+        $pdf->loadView('invoices.labels', $data)->stream();
+        return $pdf->stream();
+
+//        return view('invoices.labels', $data);
+       // return view('admin.orders.labels')->with('orders',$this->transFormOrder($orders));
     }
 
     /**
