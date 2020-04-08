@@ -225,4 +225,18 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     {
         return $this->model->courier()->get();
     }
+
+    public function totalOrders($fair_id)
+    {
+        return $this->model->where('fair_id',$fair_id)
+            ->whereNotIn('order_status_id',[3,6])
+            ->count();
+    }
+
+    public function totalAmount($fair_id)
+    {
+        return $this->model->where('fair_id',$fair_id)
+            ->whereNotIn('order_status_id',[3,6])
+            ->sum('total');
+    }
 }

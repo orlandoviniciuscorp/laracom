@@ -71,7 +71,7 @@ class FairController extends Controller
      */
     public function index()
     {
-        return view('admin.fairs.list', ['fairs' => $this->fairRepo->all()]);
+        return view('admin.fairs.list', ['fairs' => $this->fairRepo->all()->sortByDesc('id')]);
     }
 
     public function create()
