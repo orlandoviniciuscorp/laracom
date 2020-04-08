@@ -95,6 +95,19 @@ class FairController extends Controller
         return view('admin.orders.list', ['orders' => $orders]);
     }
 
+    public function showHarvest($fair_id)
+    {
+        $harvest = $this->fairRepo->harvest($fair_id);
+
+        $data = ['harvest'=>$harvest];
+
+        $pdf = app()->make('dompdf.wrapper');
+        $pdf->loadView('invoices.harvest', $data)->stream();
+
+        return $pdf->stream();
+//        return view('invoices.harvest', $data);
+    }
+
     /**
      * @param Collection $list
      * @return array

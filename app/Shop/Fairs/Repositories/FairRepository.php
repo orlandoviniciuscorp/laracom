@@ -7,6 +7,7 @@ use App\Shop\Carts\ShoppingCart;
 use App\Shop\Fairs\Fair;
 use Carbon\Carbon;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\DB;
 use Jsdecena\Baserepo\BaseRepository;
 use App\Shop\Employees\Employee;
 use App\Shop\Employees\Repositories\EmployeeRepository;
@@ -177,6 +178,20 @@ class FairRepository extends BaseRepository
             $product->product_attribute_id = $product->pivot->product_attribute_id;
             return $product;
         });
+    }
+
+    public function harvest($id)
+    {
+        return DB::select('select c.name as produtor, p.name as produto, sum(op.quantity) as quantidade '.
+                ' from orders o, ' .
+                '	 order_product op, ' .
+                '	 products p, ' .
+                '     category_product cp, ' .
+                '     categories c ' .
+                'where o.fair_id = ? and o.order_status_id not in (3,6) ' .
+                'and o.id = op.order_id and p.id = op.product_id ' .
+                'and cp.category_id = c.id and cp.product_id = p.id ' .
+                'group by c.name, p.name', [$id]);
     }
 
 
