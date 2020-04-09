@@ -194,5 +194,38 @@ class FairRepository extends BaseRepository
                 'group by c.name, p.name', [$id]);
     }
 
+    public function deliveryAddresses($fair_id){
+
+        return DB::select(' select 																' .
+            ' o.id as pedido,                                                       ' .
+            ' c.name as cliente,                                                    ' .
+            ' c.email as email,                                                     ' .
+            ' ad.phone as telefone,                                                 ' .
+            ' o.payment as pagamento,                                               ' .
+            ' o.total as total,                                                     ' .
+            ' co.name as zona,                                                      ' .
+            ' sum(op.quantity) as itens,	                                        ' .
+            ' ad.address_1 as end_1, 												' .
+            ' ad.address_2 as end_2,              									' .
+            ' o.obs as observacao                                                   ' .
+            ' from orders o,                                                        ' .
+            ' 	 customers c,                                                       ' .
+            '      order_product op,                                                ' .
+            '      addresses ad,                                                    ' .
+            '      products p,                                                      ' .
+            '      couriers co                                                      ' .
+            ' where                                                                 ' .
+            ' o.fair_id = ?                                                         ' .
+            ' and co.id = o.courier_id                                              ' .
+            ' and o.customer_id = c.id                                              ' .
+            ' and op.order_id = o.id                                                ' .
+            ' and o.address_id = ad.id                                              ' .
+            ' and op.product_id = p.id                                              ' .
+            ' and o.order_status_id not in(3,6)                                     ' .
+            ' group by o.id,c.name, c.email, ad.phone, o.payment, o.total,co.name   ' .
+            ' order by co.id, o.payment                                             ',[$fair_id]);
+
+    }
+
 
 }

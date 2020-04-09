@@ -122,6 +122,22 @@ class FairController extends Controller
         // return view('admin.orders.labels')->with('orders',$this->transFormOrder($orders));
     }
 
+    public function generateDeliveryList($fair_id)
+    {
+        $deliveryAddrresses = $this->fairRepo->deliveryAddresses($fair_id);
+
+        $data = ['deliveryAddrresses'=>$deliveryAddrresses];
+
+//        dd($data);
+//
+        $pdf = app()->make('dompdf.wrapper');
+        $pdf->loadView('invoices.delivery', $data)->stream();
+
+        return $pdf->stream();
+//                return view('invoices.delivery', $data);
+
+    }
+
     /**
      * @param Collection $list
      * @return array
