@@ -18,7 +18,7 @@
             </div>
             <div class="box-body">
 
-                <div class="card" style="width: 36rem;">
+                <div class="card" style="width: 40rem;">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item bg-info">{{$fair->name}}</li>
                         <li class="list-group-item">
@@ -44,6 +44,10 @@
 
                             <a href="{{ route('admin.fair.labels', $fair->id) }}" class="btn btn-primary btn-sm">
                                 <i class="fa fa-tag" aria-hidden="true"></i> Etiquetas
+                            </a>
+
+                            <a href="{{ route('admin.fair.delivery', $fair->id) }}" class="btn btn-primary btn-sm">
+                                <i class="fa fa-tag" aria-hidden="true"></i> Entregas
                             </a>
                         </li>
 
