@@ -91,7 +91,6 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="{{ route('home') }}">
-                    <img src="/img/logo_feira.jpg" class="img-responsive img-thumbnail">
                     {{ config('app.name') }}</a>
 
                 </div>

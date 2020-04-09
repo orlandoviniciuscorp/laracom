@@ -71,7 +71,7 @@ class FairController extends Controller
      */
     public function index()
     {
-        return view('admin.fairs.list', ['fairs' => $this->fairRepo->all()]);
+        return view('admin.fairs.list', ['fairs' => $this->fairRepo->all()->sortByDesc('id')]);
     }
 
     public function create()
@@ -93,6 +93,33 @@ class FairController extends Controller
         $orders = $this->orderRepo->paginateArrayResults($this->transFormOrder($list), 10);
 
         return view('admin.orders.list', ['orders' => $orders]);
+    }
+
+    public function showHarvest($fair_id)
+    {
+        $harvest = $this->fairRepo->harvest($fair_id);
+
+        $data = ['harvest'=>$harvest];
+
+        $pdf = app()->make('dompdf.wrapper');
+        $pdf->loadView('invoices.harvest', $data)->stream();
+
+        return $pdf->stream();
+//        return view('invoices.harvest', $data);
+    }
+
+    public function generateLabel($fair_id)   {
+
+
+
+        $orders = app(Order::class)->where('fair_id','=',$fair_id)->whereNotIn('order_status_id',[6,3])->get();
+        $data = ['orders'=>$orders];
+//        $pdf = app()->make('dompdf.wrapper');
+//        $pdf->loadView('invoices.labels', $data)->stream();
+//        return $pdf->stream();
+
+        return view('invoices.labels', $data);
+        // return view('admin.orders.labels')->with('orders',$this->transFormOrder($orders));
     }
 
     /**

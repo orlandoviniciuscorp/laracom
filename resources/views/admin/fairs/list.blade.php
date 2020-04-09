@@ -14,9 +14,10 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <td class="col-md-3">Nome</td>
-                                <td class="col-md-3">Status</td>
-                                <td class="col-md-2">Pedidos</td>
+                                <td class="col-md-2">Nome</td>
+                                <td class="col-md-2">Início</td>
+                                <td class="col-md-2">Status</td>
+                                <td class="col-md-6">Ações</td>
                                 {{--<td class="col-md-2">Total</td>--}}
                                 {{--<td class="col-md-2">Status</td>--}}
                             </tr>
@@ -26,12 +27,22 @@
                             <tr>
                                 {{--<td><a title="Show order" href="{{ route('admin.orders.show', $order->id) }}">{{ date('M d, Y h:i a', strtotime($order->created_at)) }}</a></td>--}}
                                 <td>{{$fair->name}}</td>
-                                <td>{{ $fair->status == 1 ? 'Aberta' : 'Fechada'  }}</td>
+                                <td>{{$fair->start_at}}</td>
+                                <td>@include('layouts.status', ['status' => $fair->status])</td>
                                 <td>
                                     <a href="{{ route('admin.fair.orders-list', $fair->id) }}" class="btn btn-primary btn-sm">
                                         <i class="fa fa-money"></i> Pedidos
                                     </a>
+                                    <a href="{{ route('admin.fair.harvest', $fair->id) }}" class="btn btn-success btn-sm">
+                                        <i class="fa fa-leaf" aria-hidden="true"></i> Colheita
+                                    </a>
+
+                                    <a href="{{ route('admin.fair.labels', $fair->id) }}" class="btn btn-primary btn-sm">
+                                        <i class="fa fa-tag" aria-hidden="true"></i> Etiquetas
+                                    </a>
+
                                 </td>
+
                             </tr>
                         @endforeach
                         </tbody>

@@ -99,23 +99,23 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ route('admin.fairs.index') }}"><i class="fa fa-circle-o"></i>Lista Feiras</a></li>
+                    <li><a href="{{ route('admin.fairs.index') }}"><i class="fa fa-circle-o"></i>Listar Feiras</a></li>
                     <li><a href="{{ route('admin.fairs.create') }}"><i class="fa fa-plus"></i> Criar</a>
                     </li>
                 </ul>
             </li>
-            <li class="treeview @if(request()->segment(2) == 'orders') active @endif">
-                <a href="#">
-                    <i class="fa fa-money"></i> <span>Pedidos</span>
-                    <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="{{ route('admin.orders.index') }}"><i class="fa fa-circle-o"></i> Lista de Pedidos</a></li>
-                    <li><a href="{{ route('admin.orders.labels') }}"><i class="fa fa-circle-o"></i> Pegar etiquetas</a></li>
-                </ul>
-            </li>
+            {{--<li class="treeview @if(request()->segment(2) == 'orders') active @endif">--}}
+                {{--<a href="#">--}}
+                    {{--<i class="fa fa-money"></i> <span>Pedidos</span>--}}
+                    {{--<span class="pull-right-container">--}}
+                            {{--<i class="fa fa-angle-left pull-right"></i>--}}
+                    {{--</span>--}}
+                {{--</a>--}}
+                {{--<ul class="treeview-menu">--}}
+                    {{--<li><a href="{{ route('admin.orders.index') }}"><i class="fa fa-circle-o"></i> Lista de Pedidos</a></li>--}}
+                    {{--<li><a href="{{ route('admin.orders.labels') }}"><i class="fa fa-circle-o"></i> Pegar etiquetas</a></li>--}}
+                {{--</ul>--}}
+            {{--</li>--}}
             <li class="treeview @if(request()->segment(2) == 'order-statuses') active @endif">
                 <a href="#">
                     <i class="fa fa-anchor"></i> <span>Status do Pedido</span>
