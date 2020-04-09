@@ -101,11 +101,11 @@ class FairController extends Controller
 
         $data = ['harvest'=>$harvest];
 
-        $pdf = app()->make('dompdf.wrapper');
-        $pdf->loadView('invoices.harvest', $data)->stream();
+//        $pdf = app()->make('dompdf.wrapper');
+//        $pdf->loadView('invoices.harvest', $data)->stream();
 
-        return $pdf->stream();
-//        return view('invoices.harvest', $data);
+//        return $pdf->stream();
+        return view('invoices.harvest', $data);
     }
 
     public function generateLabel($fair_id)   {

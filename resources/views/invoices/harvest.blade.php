@@ -10,7 +10,7 @@
     {{--<link rel="stylesheet" href="{{asset('css/style.min.css')}}">--}}
     <style>
         table {
-            border-collapse: collapse;
+
         }
         table, th, td {
             border: 1px solid black;
@@ -24,6 +24,17 @@
     <h2>Colheita</h2>
     @if($harvest)
         <table border="0" style="border: 1px solid black">
+            <tr>
+                <th>
+                    Sítio
+                </th>
+                <th>
+                    Produto
+                </th>
+                <th>
+                    Quantidade
+                </th>
+            </tr>
                 @foreach ($harvest as $hav)
 
                     <tr>
