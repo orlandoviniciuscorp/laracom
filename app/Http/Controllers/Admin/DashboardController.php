@@ -24,7 +24,7 @@ class DashboardController extends Controller
         $amount = $orderRepo->totalAmount($fair->id);
 
         $breadcumb = [
-            ["name" => "Dashboard", "url" => route("admin.dashboard"), "icon" => "fa fa-dashboard"],
+            ["name" => "Estatísticas", "url" => route("admin.dashboard"), "icon" => "fa fa-dashboard"],
             ["name" => "Home", "url" => route("admin.dashboard"), "icon" => "fa fa-home"],
 
         ];
