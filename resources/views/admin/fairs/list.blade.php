@@ -41,6 +41,10 @@
                                         <i class="fa fa-tag" aria-hidden="true"></i> Etiquetas
                                     </a>
 
+                                    <a href="{{ route('admin.fair.delivery', $fair->id) }}" class="btn btn-primary btn-sm">
+                                        <i class="fa fa-tag" aria-hidden="true"></i> Pedidos e Entregas
+                                    </a>
+
                                 </td>
 
                             </tr>
