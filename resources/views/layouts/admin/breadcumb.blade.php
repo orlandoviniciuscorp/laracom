@@ -1,7 +1,7 @@
 <section class="content-header">
     <h1>
-        Dashboard
-        <small>Control panel</small>
+
+        Administração - {{ config('app.name') }}
     </h1>
     <ol class="breadcrumb">
         @foreach($breadcumbs as $breadcumb)

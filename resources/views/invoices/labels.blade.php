@@ -8,7 +8,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Etiquetas</title>
     {{--<link rel="stylesheet" href="{{asset('css/style.min.css')}}">--}}
+    <style>
 
+        table, tr, td,th{
+            border-collapse: collapse;
+            border: 1px solid black;
+        }
+
+    </style>
 </head>
 <body>
 
@@ -18,47 +25,58 @@
     @if($orders)
 
                 @foreach ($orders as $order)
-                    <table border="1">
+                <table>
                     <tr>
-                        <td>
-                            <li><strong>{{$order->customer->name}}</strong></li>
-                        </td>
+                        <th>
+                            Número do Pedido
+                        </th>
+                        <th>
+                            Cliente
+                        </th>
+                        <th>
+                            Telefone
+                        </th>
+
+                        <th>
+                            Valor a Pagar
+                        </th>
+
+                        <th>
+                            Produtos
+                        </th>
+                        <th>
+                            Observação
+                        </th>
                     </tr>
                     <tr>
                         <td>
-                        <li>{{$order->customer->email}}</li>
+                            #{{$order->id}}
+                        </td>
+                        <td>
+                            <strong>{{$order->customer->name}}</strong>
+                        </td>
+                        <td>
+                            {{$order->address->phone}}</li>
+                        </td>
+
+                        <td>
+                            R$ {{$order->total}}</li>
+                        </td>
+                        <td>
+                            @foreach($order->products as $product)
+                                {{$product->name }} - {{$product->pivot->quantity }} <br />
+                            @endforeach
+                        </td>
+                        <td>
+                            {{$order->obs}}</li>
                         </td>
                     </tr>
-                        <tr>
-                            <td>
-                        <li>{{$order->address->phone}}</li>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                        <li>R$ {{$order->total}}</li>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                        @foreach($order->products as $product)
-                            <li>{{$product->name }} - {{$product->pivot->quantity }}</li>
-                        @endforeach
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                        <li>{{$order->obs}}</li>
-                            </td>
-                        </tr>
-                    </table>
-                    </ul>
-                    <hr>
-
-
+                </table>
+        <br />
+            <hr>
                 @endforeach
+
         <!-- /.box-body -->
-        </small>
 
         <!-- /.box -->
 

@@ -37,7 +37,7 @@
                                         <i class="fa fa-leaf" aria-hidden="true"></i> Colheita
                                     </a>
 
-                                    <a href="{{ route('admin.fair.harvest', $fair->id) }}" class="btn btn-primary btn-sm">
+                                    <a href="{{ route('admin.fair.labels', $fair->id) }}" class="btn btn-primary btn-sm">
                                         <i class="fa fa-tag" aria-hidden="true"></i> Etiquetas
                                     </a>
 
