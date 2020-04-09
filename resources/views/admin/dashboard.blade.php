@@ -38,10 +38,11 @@
                             <a href="{{ route('admin.fair.orders-list', $fair->id) }}" class="btn btn-primary btn-sm">
                                 <i class="fa fa-money"></i> Pedidos
                             </a>
+                            @if(auth()->guard('employee')->user()->hasRole('admin|superadmin'))
                             <a href="{{ route('admin.fair.harvest', $fair->id) }}" class="btn btn-success btn-sm">
                                 <i class="fa fa-leaf" aria-hidden="true"></i> Colheita
                             </a>
-
+                            @endif
                             <a href="{{ route('admin.fair.labels', $fair->id) }}" class="btn btn-primary btn-sm">
                                 <i class="fa fa-tag" aria-hidden="true"></i> Etiquetas
                             </a>
