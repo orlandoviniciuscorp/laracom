@@ -15,7 +15,7 @@ class DashboardController extends Controller
 
         $fairRepo = new FairRepository(new Fair);
 
-        $fair  = $fairRepo->find($fairRepo->findCurrentFair());
+        $fair  = $fairRepo->find($fairRepo->findLastFair());
 
         $orderRepo = new OrderRepository(new Order);
 
