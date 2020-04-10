@@ -273,6 +273,16 @@ class ProductController extends Controller
             ->with('message', $this->getSucessMesseger());
     }
 
+    public function updateQuantity(Request $request)
+    {
+
+        if($request->has('id')){
+
+        }
+
+
+    }
+
     /**
      * Remove the specified resource from storage.
      *

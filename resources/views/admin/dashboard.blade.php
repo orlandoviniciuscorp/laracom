@@ -33,6 +33,8 @@
                         <li class="list-group-item">Inicio: {{$fair->start_at}}</li>
                         <li class="list-group-item">Fim: {{$fair->end_at}}</li>
                         <li class="list-group-item">Arrecadado: R$ {{$amount}}</li>
+                        {{--<li class="list-group-item">Conferido: R$ {{$amount}}</li>--}}
+
                         <li class="list-group-item">Cestas: {{$totalOrders}}</li>
                         <li class="list-group-item">
                             <a href="{{ route('admin.fair.orders-list', $fair->id) }}" class="btn btn-primary btn-sm">

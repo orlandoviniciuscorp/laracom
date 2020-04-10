@@ -38,7 +38,7 @@ class CheckoutRepository
             'total_paid' => $data['total_paid'],
             'total_shipping' => isset($data['total_shipping']) ? $data['total_shipping'] : 0,
             'tax' => $data['tax'],
-            'fair_id' => $fairRepo->findCurrentFair()
+            'fair_id' => $fairRepo->findLastFair()
         ]);
 
         return $order;
