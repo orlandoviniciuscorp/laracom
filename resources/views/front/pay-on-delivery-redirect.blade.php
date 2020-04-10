@@ -27,12 +27,14 @@
                             <h3 class="text-danger">Atenção:</h3>
                             <hr>
                             <p>Os pagamentos só serão aceitos na seguinte forma:</p>
-                            <p><ul>Débito</ul></p>
+                            <p><ul>Débito (Tem um adicional de 2,5%) na compra.</ul></p>
                             <p><ul>Dinheiro</ul></p>
+                            <p><strong><small class="text-danger text">*Clique no botão abaixo para confirmar e finalizar sua compra.</small></strong></p>
+                            <p><strong><small class="text-danger text">Em virtude do surto do Corona virus - Covid-19, dêem preferência para o pagamento por Transferência Bancária.</small></strong></p>
                             <hr>
                             <div class="btn-group">
-                                <a href="{{ route('checkout.index') }}" class="btn btn-default">Back</a>
-                                <button onclick="return confirm('Tem Certeza?')" class="btn btn-primary">Ok</button>
+                                <a href="{{ route('cart.index') }}" class="btn btn-default">Voltar</a>
+                                <button onclick="return confirm('Tem Certeza?')" class="btn btn-danger">Confirmar Compra</button>
                                 <input type="hidden" id="billing_address" name="billing_address" value="{{ $billingAddress }}">
                                 <input type="hidden" name="shipment_obj_id" value="{{ $shipmentObjId }}">
                                 <input type="hidden" name="rate" value="{{ $rateObjectId }}">

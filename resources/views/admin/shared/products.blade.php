@@ -3,11 +3,11 @@
         <thead>
         <tr>
             <td>ID</td>
-            <td>Name</td>
-            <td>Quantity</td>
-            <td>Price</td>
+            <td>Nome</td>
+            <td>Quantidade</td>
+            <td>Preço</td>
             <td>Status</td>
-            <td>Actions</td>
+            <td>Ações</td>
         </tr>
         </thead>
         <tbody>
@@ -29,9 +29,18 @@
                         {{ csrf_field() }}
                         <input type="hidden" name="_method" value="delete">
                         <div class="btn-group">
-                            @if($admin->hasPermission('update-product'))<a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Edit</a>@endif
-                            @if($admin->hasPermission('delete-product'))<button onclick="return confirm('Tem certeza?')" type="submit" class="btn btn-danger btn-sm"><i class="fa fa-times"></i> Delete</button>@endif
+                            @if($admin->hasPermission('update-product'))<a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Editar</a>@endif
+                            @if($admin->hasPermission('delete-product'))<button onclick="return confirm('Tem certeza?')" type="submit" class="btn btn-danger btn-sm"><i class="fa fa-times"></i> Apagar</button>@endif
                         </div>
+                    </form>
+                    <br />
+                    <form action="{{route('admin.products.update-quantity')}}" method="post"  class="form-horizontal">
+                        {{ csrf_field() }}
+                        <div class="col-xs-4">
+                            <input type="hidden" name="id" id="id" value="{{$product->id}}" />
+                            <input type="number" name="quantity" id="quantity" value="{{$product->quantity}}" class="form-control">
+                        </div>
+                        <button onclick="return confirm('Tem certeza?')" type="submit" class="btn btn-success btn-sm">Atualizar</button>
                     </form>
                 </td>
             </tr>

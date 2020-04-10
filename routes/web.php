@@ -27,6 +27,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
         Route::group(['middleware' => ['role:admin|superadmin|clerk, guard:employee']], function () {
             Route::get('/', 'DashboardController@index')->name('dashboard');
             Route::namespace('Products')->group(function () {
+
+                Route::post('/update-quantity', 'ProductController@updateQuantity')->name('products.update-quantity');
                 Route::resource('products', 'ProductController');
                 Route::get('remove-image-product', 'ProductController@removeImage')->name('product.remove.image');
                 Route::get('remove-image-thumb', 'ProductController@removeThumbnail')->name('product.remove.thumb');
@@ -44,6 +46,19 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
                 Route::resource('order-statuses', 'OrderStatusController');
                 Route::get('orders/{id}/invoice', 'OrderController@generateInvoice')->name('orders.invoice.generate');
             });
+
+            Route::group(['prefix'=>'fairs'],function () {
+                Route::get('/','Fairs\FairController@index')->name('fairs.index');
+                Route::get('/create','Fairs\FairController@create')->name('fairs.create');
+                Route::post('/store','Fairs\FairController@store')->name('fair.store');
+                Route::get('/order/{fair_id}','Fairs\FairController@showOrders')->name('fair.orders-list');
+                Route::get('/harvest/{fair_id}','Fairs\FairController@showHarvest')->name('fair.harvest');
+                Route::get('/labels/{fair_id}', 'Fairs\FairController@generateLabel')->name('fair.labels');
+                Route::get('/delivery/{fair_id}', 'Fairs\FairController@generateDeliveryList')->name('fair.delivery');
+
+
+            });
+
             Route::resource('addresses', 'Addresses\AddressController');
             Route::resource('countries', 'Countries\CountryController');
             Route::resource('countries.provinces', 'Provinces\ProvinceController');

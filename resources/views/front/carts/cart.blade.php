@@ -115,6 +115,33 @@
 
 
                     </div>
+                    <div class="col-md-12 content">
+                        <table class="table table-striped">
+                            <tfoot>
+                            <tr>
+                                <td class="bg-warning">Subtotal</td>
+                                <td class="bg-warning"></td>
+                                <td class="bg-warning"></td>
+                                <td class="bg-warning"></td>
+                                <td class="bg-warning">{{config('cart.currency')}} {{ number_format($subtotal, 2, '.', ',') }}</td>
+                            </tr>
+                            {{--<tr>--}}
+                            {{--<td class="bg-warning">Tax</td>--}}
+                            {{--<td class="bg-warning"></td>--}}
+                            {{--<td class="bg-warning"></td>--}}
+                            {{--<td class="bg-warning"></td>--}}
+                            {{--<td class="bg-warning">{{config('cart.currency')}} {{ number_format($tax, 2) }}</td>--}}
+                            {{--</tr>--}}
+                            <tr>
+                                <td class="bg-success">Total</td>
+                                <td class="bg-success"></td>
+                                <td class="bg-success"></td>
+                                <td class="bg-success"></td>
+                                <td class="bg-success">{{config('cart.currency')}} {{ number_format($total, 2, '.', ',') }}</td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
                 </div>
                 <form action="{{route('cart.checkout')}}" method="post">
                     {{ csrf_field() }}
@@ -125,7 +152,7 @@
                                 @foreach($couriers as $courier)
                                     <li class="col-md-4">
                                         <label class="radio">
-                                            <input type="radio" name="courier_id" data-fee="{{ $courier->name }}" value="{{ $courier->id }}"> {{$courier->name}}
+                                            <input type="radio" name="courier_id" data-fee="{{ $courier->name }}" value="{{ $courier->id }}"> {{$courier->name}} - R${{$courier->cost}}
                                         </label>
                                     </li>
                                 @endforeach
@@ -135,43 +162,17 @@
 
 
                     <div class="row">
-                        <div class="col-md-12 content">
-                            <table class="table table-striped">
-                                <tfoot>
-                                    <tr>
-                                        <td class="bg-warning">Subtotal</td>
-                                        <td class="bg-warning"></td>
-                                        <td class="bg-warning"></td>
-                                        <td class="bg-warning"></td>
-                                        <td class="bg-warning">{{config('cart.currency')}} {{ number_format($subtotal, 2, '.', ',') }}</td>
-                                    </tr>
-                                    {{--<tr>--}}
-                                        {{--<td class="bg-warning">Tax</td>--}}
-                                        {{--<td class="bg-warning"></td>--}}
-                                        {{--<td class="bg-warning"></td>--}}
-                                        {{--<td class="bg-warning"></td>--}}
-                                        {{--<td class="bg-warning">{{config('cart.currency')}} {{ number_format($tax, 2) }}</td>--}}
-                                    {{--</tr>--}}
-                                    <tr>
-                                        <td class="bg-success">Total</td>
-                                        <td class="bg-success"></td>
-                                        <td class="bg-success"></td>
-                                        <td class="bg-success"></td>
-                                        <td class="bg-success">{{config('cart.currency')}} {{ number_format($total, 2, '.', ',') }}</td>
-                                    </tr>
-                                </tfoot>
-                            </table>
                             <hr>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="btn-group pull-right">
                                         <a href="{{ route('home') }}" class="btn btn-default">Continuar Comprando</a>
-                                        <button type="submit" class="btn btn-primary">Finalizar Carrinho</button>
+
+                                        <button type="submit" class="btn btn-primary">Revisão e Forma de Pagamento</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </form>
             @else
                 <div class="row">

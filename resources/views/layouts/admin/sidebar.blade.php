@@ -57,14 +57,14 @@
             </li>
             <li class="treeview @if(request()->segment(2) == 'categories') active @endif">
                 <a href="#">
-                    <i class="fa fa-folder"></i> <span>Categorias</span>
+                    <i class="fa fa-users" aria-hidden="true"></i> <span>Produtores</span>
                     <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ route('admin.categories.index') }}"><i class="fa fa-circle-o"></i> Lista Categorias</a></li>
-                    <li><a href="{{ route('admin.categories.create') }}"><i class="fa fa-plus"></i> Criar Categoria</a></li>
+                    <li><a href="{{ route('admin.categories.index') }}"><i class="fa fa-circle-o"></i> Lista de Produtores</a></li>
+                    <li><a href="{{ route('admin.categories.create') }}"><i class="fa fa-plus"></i> Cadastrar Produtor</a></li>
                 </ul>
             </li>
             <li class="treeview @if(request()->segment(2) == 'customers' || request()->segment(2) == 'addresses') active @endif">
@@ -91,17 +91,31 @@
                 </ul>
             </li>
             <li class="header">PEDIDOS</li>
-            <li class="treeview @if(request()->segment(2) == 'orders') active @endif">
+            <li class="treeview @if(request()->segment(2) == 'countries' || request()->segment(2) == 'provinces') active @endif">
                 <a href="#">
-                    <i class="fa fa-money"></i> <span>Pedidos</span>
+                    <i class="fa fa-pagelines"></i> <span>Feiras</span>
                     <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ route('admin.orders.index') }}"><i class="fa fa-circle-o"></i> Lista de Pedidos</a></li>
+                    <li><a href="{{ route('admin.fairs.index') }}"><i class="fa fa-circle-o"></i>Listar Feiras</a></li>
+                    <li><a href="{{ route('admin.fairs.create') }}"><i class="fa fa-plus"></i> Criar</a>
+                    </li>
                 </ul>
             </li>
+            {{--<li class="treeview @if(request()->segment(2) == 'orders') active @endif">--}}
+                {{--<a href="#">--}}
+                    {{--<i class="fa fa-money"></i> <span>Pedidos</span>--}}
+                    {{--<span class="pull-right-container">--}}
+                            {{--<i class="fa fa-angle-left pull-right"></i>--}}
+                    {{--</span>--}}
+                {{--</a>--}}
+                {{--<ul class="treeview-menu">--}}
+                    {{--<li><a href="{{ route('admin.orders.index') }}"><i class="fa fa-circle-o"></i> Lista de Pedidos</a></li>--}}
+                    {{--<li><a href="{{ route('admin.orders.labels') }}"><i class="fa fa-circle-o"></i> Pegar etiquetas</a></li>--}}
+                {{--</ul>--}}
+            {{--</li>--}}
             <li class="treeview @if(request()->segment(2) == 'order-statuses') active @endif">
                 <a href="#">
                     <i class="fa fa-anchor"></i> <span>Status do Pedido</span>
@@ -129,7 +143,11 @@
             </li>
             <li class="header">Configurações</li>
             @if($user->hasRole('admin|superadmin'))
-                <li class="treeview @if(request()->segment(2) == 'employees' || request()->segment(2) == 'roles' || request()->segment(2) == 'permissions') active @endif">
+                <li class="treeview
+                    @if(request()->segment(2) == 'employees' ||
+                        request()->segment(2) == 'roles' ||
+                        request()->segment(2) == 'permissions') active
+                    @endif">
             <a href="#">
                 <i class="fa fa-star"></i> <span>Produtores e Administradores</span>
                 <span class="pull-right-container">
@@ -164,6 +182,8 @@
             </ul>
         </li>
             @endif
+
+
             <li class="treeview @if(request()->segment(2) == 'countries' || request()->segment(2) == 'provinces') active @endif">
                 <a href="#">
                     <i class="fa fa-flag"></i> <span>Países</span>

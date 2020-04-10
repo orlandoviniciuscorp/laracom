@@ -1,10 +1,13 @@
 <?php
 
-namespace App\Shop\Orders\Repositories;
+namespace App\Shop\Fairs\Repositories;
 
 use App\Shop\Carts\Repositories\CartRepository;
 use App\Shop\Carts\ShoppingCart;
+use App\Shop\Fairs\Fair;
+use Carbon\Carbon;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\DB;
 use Jsdecena\Baserepo\BaseRepository;
 use App\Shop\Employees\Employee;
 use App\Shop\Employees\Repositories\EmployeeRepository;
@@ -25,7 +28,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;
 
-class OrderRepository extends BaseRepository implements OrderRepositoryInterface
+class FairRepository extends BaseRepository
 {
     use OrderTransformable;
 
@@ -33,10 +36,10 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
      * OrderRepository constructor.
      * @param Order $order
      */
-    public function __construct(Order $order)
+    public function __construct(Fair $fair)
     {
-        parent::__construct($order);
-        $this->model = $order;
+        parent::__construct($fair);
+        $this->model = $fair;
     }
 
     /**
@@ -64,32 +67,22 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     }
 
     /**
-     * @param array $params
-     *
-     * @return bool
-     * @throws OrderInvalidArgumentException
-     */
-    public function updateOrder(array $params) : bool
-    {
-        try {
-            return $this->update($params);
-        } catch (QueryException $e) {
-            throw new OrderInvalidArgumentException($e->getMessage());
-        }
-    }
-
-    /**
      * @param int $id
      * @return Order
      * @throws OrderNotFoundException
      */
-    public function findOrderById(int $id) : Order
+    public function findFairById(int $id) : Fair
     {
         try {
             return $this->findOneOrFail($id);
         } catch (ModelNotFoundException $e) {
-            throw new OrderNotFoundException($e);
+            throw new FairNotFoundException($e);
         }
+    }
+
+    public function findLastFair(){
+
+        return $this->model->max('id');
     }
 
 
@@ -106,14 +99,8 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
         return $this->all($columns, $order, $sort);
     }
 
-    /**
-     * @param Order $order
-     * @return mixed
-     */
-    public function findProducts(Order $order) : Collection
-    {
-        return $order->products;
-    }
+
+
 
     /**
      * @param Product $product
@@ -192,51 +179,52 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
         });
     }
 
-    /**
-     * @param Collection $items
-     */
-    public function buildOrderDetails(Collection $items)
+    public function harvest($id)
     {
-        $items->each(function ($item) {
-            $productRepo = new ProductRepository(new Product);
-            $product = $productRepo->find($item->id);
-            if ($item->options->has('product_attribute_id')) {
-                $this->associateProduct($product, $item->qty, [
-                    'product_attribute_id' => $item->options->product_attribute_id
-                ]);
-            } else {
-                $this->associateProduct($product, $item->qty);
-            }
-        });
+        return DB::select('select c.name as produtor, p.name as produto, sum(op.quantity) as quantidade '.
+                ' from orders o, ' .
+                '	 order_product op, ' .
+                '	 products p, ' .
+                '     category_product cp, ' .
+                '     categories c ' .
+                'where o.fair_id = ? and o.order_status_id not in (3,6) ' .
+                'and o.id = op.order_id and p.id = op.product_id ' .
+                'and cp.category_id = c.id and cp.product_id = p.id ' .
+                'group by c.name, p.name', [$id]);
     }
 
-    /**
-     * @return Collection $addresses
-     */
-    public function getAddresses() : Collection
-    {
-        return $this->model->address()->get();
+    public function deliveryAddresses($fair_id){
+
+        return DB::select(' select 																' .
+            ' o.id as pedido,                                                       ' .
+            ' c.name as cliente,                                                    ' .
+            ' c.email as email,                                                     ' .
+            ' ad.phone as telefone,                                                 ' .
+            ' o.payment as pagamento,                                               ' .
+            ' o.total as total,                                                     ' .
+            ' co.name as zona,                                                      ' .
+            ' sum(op.quantity) as itens,	                                        ' .
+            ' ad.address_1 as end_1, 												' .
+            ' ad.address_2 as end_2,              									' .
+            ' o.obs as observacao                                                   ' .
+            ' from orders o,                                                        ' .
+            ' 	 customers c,                                                       ' .
+            '      order_product op,                                                ' .
+            '      addresses ad,                                                    ' .
+            '      products p,                                                      ' .
+            '      couriers co                                                      ' .
+            ' where                                                                 ' .
+            ' o.fair_id = ?                                                         ' .
+            ' and co.id = o.courier_id                                              ' .
+            ' and o.customer_id = c.id                                              ' .
+            ' and op.order_id = o.id                                                ' .
+            ' and o.address_id = ad.id                                              ' .
+            ' and op.product_id = p.id                                              ' .
+            ' and o.order_status_id not in(3,6)                                     ' .
+            ' group by o.id,c.name, c.email, ad.phone, o.payment, o.total,co.name   ' .
+            ' order by co.id, o.payment                                             ',[$fair_id]);
+
     }
 
-    /**
-     * @return Collection $couriers
-     */
-    public function getCouriers() : Collection
-    {
-        return $this->model->courier()->get();
-    }
 
-    public function totalOrders($fair_id)
-    {
-        return $this->model->where('fair_id',$fair_id)
-            ->whereNotIn('order_status_id',[3,6])
-            ->count();
-    }
-
-    public function totalAmount($fair_id)
-    {
-        return $this->model->where('fair_id',$fair_id)
-            ->whereNotIn('order_status_id',[3,6])
-            ->sum('total');
-    }
 }
