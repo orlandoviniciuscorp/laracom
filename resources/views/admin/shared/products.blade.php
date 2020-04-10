@@ -33,6 +33,15 @@
                             @if($admin->hasPermission('delete-product'))<button onclick="return confirm('Tem certeza?')" type="submit" class="btn btn-danger btn-sm"><i class="fa fa-times"></i> Apagar</button>@endif
                         </div>
                     </form>
+                    <br />
+                    <form action="{{route('admin.products.update-quantity')}}" method="post"  class="form-horizontal">
+                        {{ csrf_field() }}
+                        <div class="col-xs-4">
+                            <input type="hidden" name="id" id="id" value="{{$product->id}}" />
+                            <input type="number" name="quantity" id="quantity" value="{{$product->quantity}}" class="form-control">
+                        </div>
+                        <button onclick="return confirm('Tem certeza?')" type="submit" class="btn btn-success btn-sm">Atualizar</button>
+                    </form>
                 </td>
             </tr>
         @endforeach

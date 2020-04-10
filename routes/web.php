@@ -27,6 +27,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
         Route::group(['middleware' => ['role:admin|superadmin|clerk, guard:employee']], function () {
             Route::get('/', 'DashboardController@index')->name('dashboard');
             Route::namespace('Products')->group(function () {
+
+                Route::post('/update-quantity', 'ProductController@updateQuantity')->name('products.update-quantity');
                 Route::resource('products', 'ProductController');
                 Route::get('remove-image-product', 'ProductController@removeImage')->name('product.remove.image');
                 Route::get('remove-image-thumb', 'ProductController@removeThumbnail')->name('product.remove.thumb');
