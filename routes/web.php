@@ -29,6 +29,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
             Route::namespace('Products')->group(function () {
 
                 Route::post('/update-quantity', 'ProductController@updateQuantity')->name('products.update-quantity');
+                Route::post('/empty-availability', 'ProductController@emptyAvailability')->name('products.empty-availability');
                 Route::resource('products', 'ProductController');
                 Route::get('remove-image-product', 'ProductController@removeImage')->name('product.remove.image');
                 Route::get('remove-image-thumb', 'ProductController@removeThumbnail')->name('product.remove.thumb');
