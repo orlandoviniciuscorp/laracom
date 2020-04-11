@@ -95,15 +95,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $list = $this->productRepo->listProducts('id');
-
-        if (request()->has('q') && request()->input('q') != '') {
-            $list = $this->productRepo->searchProduct(request()->input('q'));
-        }
-
-        $products = $list->map(function (Product $item) {
-            return $this->transformProduct($item);
-        })->all();
+        $products = $this->getAllProducts();
 
         return view('admin.products.list', [
             'products' => $this->productRepo->paginateArrayResults($products, 25)
@@ -276,11 +268,34 @@ class ProductController extends Controller
     public function updateQuantity(Request $request)
     {
 
-        if($request->has('id')){
 
+
+        $product = $this->productRepo->find($request->input('id'));
+        $product->quantity = $request->input('quantity');
+        $product->save();
+
+        $products = $this->getAllProducts();
+
+        $request->session()->flash('message', $this->getSucessMesseger());
+
+        return view('admin.products.list', [
+            'products' => $this->productRepo->paginateArrayResults($products, 25)
+        ]);
+
+
+    }
+
+    public function emptyAvailability()
+    {
+        $products = $this->getAllProducts();
+
+        foreach($products as $product){
+            $p = $this->productRepo->find($product->id);
+            $p->quantity = 0;
+            $p->save();
         }
 
-
+        return redirect()->route('admin.dashboard');
     }
 
     /**
@@ -397,5 +412,20 @@ class ProductController extends Controller
         if ($validator->fails()) {
             return $validator;
         }
+    }
+
+    public function getAllProducts()
+    {
+        $list = $this->productRepo->listProducts('id');
+
+        if (request()->has('q') && request()->input('q') != '') {
+            $list = $this->productRepo->searchProduct(request()->input('q'));
+        }
+
+        $products = $list->map(function (Product $item) {
+            return $this->transformProduct($item);
+        })->all();
+
+        return $products;
     }
 }
