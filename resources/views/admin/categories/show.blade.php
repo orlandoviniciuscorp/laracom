@@ -9,7 +9,7 @@
         @if($category)
             <div class="box">
                 <div class="box-body">
-                    <h2>Produtores</h2>
+                    <h2>Categorias</h2>
                     <table class="table">
                         <thead>
                         <tr>
