@@ -66,12 +66,15 @@
                                 <li class="list-group-item bg-info"><strong>Opções</strong></li>
 
 
-                                <form action="{{route('admin.products.empty-availability')}}" method="post"  class="form-horizontal">
-                                    {{ csrf_field() }}
+                                @if(auth()->guard('employee')->user()->hasRole('admin|superadmin'))
                                     <li class="list-group-item bg-info">
+                                        <form action="{{route('admin.products.empty-availability')}}" method="post"  class="form-horizontal">
+                                            {{ csrf_field() }}
                                         <button onclick="return confirm('Isso irá zerar de todos os produtores. Tem certeza?')" type="submit" class="btn btn-danger btn-sm">Zerar Disponibilidade</button>
+                                        </form>
                                     </li>
-                                </form>
+                                @endif
+
                             </ul>
                         </div>
                     </div>
