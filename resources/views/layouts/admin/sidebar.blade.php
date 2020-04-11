@@ -57,7 +57,7 @@
             </li>
             <li class="treeview @if(request()->segment(2) == 'categories') active @endif">
                 <a href="#">
-                    <i class="fa fa-users" aria-hidden="true"></i> <span>Produtores</span>
+                    <i class="fa fa-users" aria-hidden="true"></i> <span>Categoria</span>
                     <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
