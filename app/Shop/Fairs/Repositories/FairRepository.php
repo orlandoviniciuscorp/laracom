@@ -80,10 +80,9 @@ class FairRepository extends BaseRepository
         }
     }
 
-    public function findCurrentFair(){
-        $ldate = Carbon::now();
-        return $this->model->whereDate('start_at','<=',$ldate)
-                                    ->whereDate('end_at','>=',$ldate)->max('id');
+    public function findLastFair(){
+
+        return $this->model->max('id');
     }
 
 
