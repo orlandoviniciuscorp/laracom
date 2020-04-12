@@ -92,7 +92,8 @@ class FairController extends Controller
 
         $orders = $this->orderRepo->paginateArrayResults($this->transFormOrder($list), 10);
 
-        return view('admin.orders.list', ['orders' => $orders]);
+        return view('admin.orders.list', ['orders' => $orders,
+                                                'fair_id'=>$fair_id]);
     }
 
     public function showHarvest($fair_id)

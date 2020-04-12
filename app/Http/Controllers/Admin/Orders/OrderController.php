@@ -68,14 +68,23 @@ class OrderController extends Controller
     public function index()
     {
         $list = $this->orderRepo->listOrders('created_at', 'desc');
-
+        $data =[];
         if (request()->has('q')) {
-            $list = $this->orderRepo->searchOrder(request()->input('q') ?? '');
+            if(request()->has('fair_id')) {
+                $list = $this->orderRepo->searchOrder(request()->input('q') ?? '')
+                    ->where('fair_id','=',request()->input('fair_id'));
+                $data = array_merge($data,['fair_id'=>request()->input('fair_id')]);
+            }else{
+                $list = $this->orderRepo->searchOrder(request()->input('q') ?? '');
+            }
         }
 
         $orders = $this->orderRepo->paginateArrayResults($this->transFormOrder($list), 10);
+        $data = array_merge($data,['orders'=>$orders]);
+        //dd($data);
 
-        return view('admin.orders.list', ['orders' => $orders]);
+
+        return view('admin.orders.list', $data);
     }
 
     /**
