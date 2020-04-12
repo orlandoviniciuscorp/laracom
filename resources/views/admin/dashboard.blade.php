@@ -28,12 +28,14 @@
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item bg-info"><strong>{{$fair->name}}</strong></li>
                                     <li class="list-group-item">
-                                        @if($fair->status == 1)
-                                            {{--<span class="label label-sucess">--}}
-                                                Aberta
-                                            {{--</span>--}}
+                                        @if( $fair->status == 0)
+                                            <span class="label  label-danger">
+                                            Fechada
+                                        </span>
                                         @else
-                                            <span class="label label-danger">Fechada</span>
+                                            <span class="label label-success">
+                                            Aberta
+                                        </span>
                                         @endif
                                     </li>
                                     <li class="list-group-item">Inicio: {{$fair->start_at}}</li>

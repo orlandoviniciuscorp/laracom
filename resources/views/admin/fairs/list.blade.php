@@ -28,7 +28,17 @@
                                 {{--<td><a title="Show order" href="{{ route('admin.orders.show', $order->id) }}">{{ date('M d, Y h:i a', strtotime($order->created_at)) }}</a></td>--}}
                                 <td>{{$fair->name}}</td>
                                 <td>{{$fair->start_at}}</td>
-                                <td>@include('layouts.status', ['status' => $fair->status])</td>
+                                <td>
+                                    @if( $fair->status == 0)
+                                        <span class="label  label-danger">
+                                            Fechada
+                                        </span>
+                                    @else
+                                        <span class="label label-success">
+                                            Aberta
+                                        </span>
+                                    @endif
+                                </td>
                                 <td>
                                     <a href="{{ route('admin.fair.orders-list', $fair->id) }}" class="btn btn-primary btn-sm">
                                         <i class="fa fa-money"></i> Pedidos
