@@ -154,6 +154,7 @@
                                         <label class="radio">
                                             <input type="radio" name="courier_id" data-fee="{{ $courier->name }}" value="{{ $courier->id }}"> {{$courier->name}} - R${{$courier->cost}}
                                         </label>
+                                        {{$courier->description}}
                                     </li>
                                 @endforeach
                             </ul>
