@@ -18,10 +18,13 @@
             </div>
             <div class="box-body">
 
+
                 <div class="container">
                     <div class="row">
+
                         <div class="col col-md-5">
                             <div class="card">
+                                @isset($fair)
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item bg-info"><strong>{{$fair->name}}</strong></li>
                                     <li class="list-group-item">
@@ -58,9 +61,15 @@
                                     </li>
 
                                 </ul>
+                                    @else
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item bg-info"><strong>Ainda não há Feiras Criadas</strong></li>
+                                    </ul>
+                                @endisset
                             </div>
 
                         </div>
+
                         <div class="col col-md-5">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item bg-info"><strong>Opções</strong></li>
