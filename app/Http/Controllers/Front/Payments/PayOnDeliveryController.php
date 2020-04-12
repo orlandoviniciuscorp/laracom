@@ -113,7 +113,7 @@ class PayOnDeliveryController extends Controller
     {
         $checkoutRepo = new CheckoutRepository;
         $orderStatusRepo = new OrderStatusRepository(new OrderStatus);
-        $os = $orderStatusRepo->findByName('Pedido Feito');
+        $os = $orderStatusRepo->findByName('Pagar na Entrega');
         $courier = $this->courierRepo->findCourierById(intval(request()->get('courier_id')));
 
         $order = $checkoutRepo->buildCheckoutItems([
