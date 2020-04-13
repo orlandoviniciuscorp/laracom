@@ -64,7 +64,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="{{ route('admin.categories.index') }}"><i class="fa fa-circle-o"></i> Lista de Produtores</a></li>
-                    <li><a href="{{ route('admin.categories.create') }}"><i class="fa fa-plus"></i> Cadastrar Produtor</a></li>
+                    <li><a href="{{ route('admin.categories.create') }}"><i class="fa fa-plus"></i> Cadastrar Produtores</a></li>
                 </ul>
             </li>
             <li class="treeview @if(request()->segment(2) == 'customers' || request()->segment(2) == 'addresses') active @endif">

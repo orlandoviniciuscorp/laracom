@@ -19,10 +19,14 @@ class DashboardController extends Controller
 
         $orderRepo = new OrderRepository(new Order);
 
-        $totalOrders = $orderRepo->totalOrders($fair->id);
+        $totalOrders = 0;
+        $amount = 0;
 
-        $amount = $orderRepo->totalAmount($fair->id);
+        if(!is_null($fair)) {
+            $totalOrders = $orderRepo->totalOrders($fair->id);
 
+            $amount = $orderRepo->totalAmount($fair->id);
+        }
         $breadcumb = [
             ["name" => "Estatísticas", "url" => route("admin.dashboard"), "icon" => "fa fa-dashboard"],
             ["name" => "Home", "url" => route("admin.dashboard"), "icon" => "fa fa-home"],
