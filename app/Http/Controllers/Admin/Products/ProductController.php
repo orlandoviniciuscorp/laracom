@@ -278,9 +278,11 @@ class ProductController extends Controller
 
         $request->session()->flash('message', $this->getSucessMesseger());
 
-        return view('admin.products.list', [
-            'products' => $this->productRepo->paginateArrayResults($products, 25)
-        ]);
+//        return view('admin.products.list', [
+//            'products' => $this->productRepo->paginateArrayResults($products, 25)
+//        ]);
+
+        return redirect()->back()->with('message',$this->getSucessMesseger());
 
 
     }
