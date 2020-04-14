@@ -32,7 +32,8 @@
                                 <table class="table">
                                 <tbody>
                                 <tr>
-                                    <td>Date</td>
+                                    <td>Número do Pedido</td>
+                                    <td>Data</td>
                                     <td>Total</td>
                                     <td>Status</td>
                                 </tr>
@@ -41,7 +42,10 @@
                                 @foreach ($orders as $order)
                                     <tr>
                                         <td>
-                                            <a data-toggle="modal" data-target="#order_modal_{{$order['id']}}" title="Show order" href="javascript: void(0)">{{ date('M d, Y h:i a', strtotime($order['created_at'])) }}</a>
+                                            #{{$order['id']}}
+                                        </td>
+                                        <td>
+                                            <a data-toggle="modal" data-target="#order_modal_{{$order['id']}}" title="Show order" href="javascript: void(0)">{{ date('d/m/Y, h:i a', strtotime($order['created_at'])) }}</a>
                                             <!-- Button trigger modal -->
                                             <!-- Modal -->
                                             <div class="modal fade" id="order_modal_{{$order['id']}}" tabindex="-1" role="dialog" aria-labelledby="MyOrders">
