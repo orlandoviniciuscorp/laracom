@@ -79,6 +79,15 @@ class FairController extends Controller
         return view ('admin.fairs.create');
     }
 
+    public function show($fair_id)
+    {
+        //$fair = $this->fairRepo->find($fair_id);
+
+        dd($fair_id);
+        return view('admin.fairs.show')->with('fair',$fair);
+
+    }
+
     public function store(Request $request){
 
         $this->fairRepo->create($request->toArray());
