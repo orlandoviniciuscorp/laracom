@@ -79,6 +79,15 @@ class FairController extends Controller
         return view ('admin.fairs.create');
     }
 
+    public function show($fair_id)
+    {
+        //$fair = $this->fairRepo->find($fair_id);
+
+        dd($fair_id);
+        return view('admin.fairs.show')->with('fair',$fair);
+
+    }
+
     public function store(Request $request){
 
         $this->fairRepo->create($request->toArray());
@@ -92,7 +101,8 @@ class FairController extends Controller
 
         $orders = $this->orderRepo->paginateArrayResults($this->transFormOrder($list), 10);
 
-        return view('admin.orders.list', ['orders' => $orders]);
+        return view('admin.orders.list', ['orders' => $orders,
+                                                'fair_id'=>$fair_id]);
     }
 
     public function showHarvest($fair_id)
