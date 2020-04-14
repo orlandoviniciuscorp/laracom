@@ -25,8 +25,12 @@
                         <tbody>
                         @foreach ($fairs as $fair)
                             <tr>
-                                {{--<td><a title="Show order" href="{{ route('admin.orders.show', $order->id) }}">{{ date('M d, Y h:i a', strtotime($order->created_at)) }}</a></td>--}}
-                                <td>{{$fair->name}}</td>
+                                {{--<td>{{ date('M d, Y h:i a', strtotime($order->created_at)) }}</a></td>--}}
+                                <td>
+                                    <a title="Show order" href="{{ route('admin.fair.show', $fair->id) }}">
+                                        {{$fair->name}}
+                                    </a>
+                                </td>
                                 <td>{{$fair->start_at}}</td>
                                 <td>
                                     @if( $fair->status == 0)
