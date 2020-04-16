@@ -13,7 +13,7 @@
                 <div class="row">
                     <div class="col-lg-5 col-md-5"><b>Nome</b></div>
                     <div class="col-lg-2 col-md-2"><b>Quantidade</b></div>
-                    <div class="col-lg-1 col-md-1"><b>Remover</b></div>
+                    {{--<div class="col-lg-1 col-md-1"><b>Remover</b></div>--}}
                     <div class="col-lg-2 col-md-2"><b>Preço</b></div>
                     <div class="col-lg-2 col-md-2"><b>Total</b></div>
                 </div>
@@ -57,13 +57,13 @@
                                     </span>
                                 </div>
                         </div>
-                        <div class="col-lg-1 col-md-1 col-sm-8 col-xs-4">
-                            <form action="{{ route('cart.destroy', $cartItem->rowId) }}" method="post">
-                                {{ csrf_field() }}
-                                <input type="hidden" name="_method" value="delete">
-                                <button onclick="return confirm('Tem Certeza?')" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button>
-                            </form>
-                        </div>
+                        {{--<div class="col-lg-1 col-md-1 col-sm-8 col-xs-4">--}}
+                            {{--<form action="{{ route('cart.destroy', $cartItem->rowId) }}" method="post">--}}
+                                {{--{{ csrf_field() }}--}}
+                                {{--<input type="hidden" name="_method" value="delete">--}}
+                                {{--<button onclick="return confirm('Tem Certeza?')" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button>--}}
+                            {{--</form>--}}
+                        {{--</div>--}}
 
                         <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                             <span class="hidden-lg hidden-md"><small>Subtotal: </small></span>
