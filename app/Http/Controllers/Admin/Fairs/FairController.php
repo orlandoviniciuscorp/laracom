@@ -132,6 +132,15 @@ class FairController extends Controller
         // return view('admin.orders.labels')->with('orders',$this->transFormOrder($orders));
     }
 
+    public function getOrderPending($fair_id){
+        $list = app(Order::class)->where('fair_id','=',$fair_id)->whereNotIn('order_status_id',[1,4,7])->get();
+
+        $orders = $this->orderRepo->paginateArrayResults($this->transFormOrder($list), 10);
+        return view('admin.orders.list', ['orders' => $orders,
+            'fair_id'=>$fair_id]);
+
+    }
+
     public function generateDeliveryList($fair_id)
     {
         $deliveryAddrresses = $this->fairRepo->deliveryAddresses($fair_id);

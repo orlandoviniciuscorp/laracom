@@ -58,7 +58,12 @@
                                     </a>
 
                                     <a href="{{ route('admin.fair.delivery', $fair->id) }}" class="btn btn-primary btn-sm">
-                                        <i class="fa fa-tag" aria-hidden="true"></i> Pedidos e Entregas
+                                        <i class="fa fa-truck" aria-hidden="true"></i> Entregas
+                                    </a>
+                                    <br />
+
+                                    <a href="{{ route('admin.fair.pending', $fair->id) }}" class="btn btn-danger btn-sm">
+                                        <i class="fa fa-bomb" aria-hidden="true"></i> Pedidos Pendentes
                                     </a>
 
                                 </td>

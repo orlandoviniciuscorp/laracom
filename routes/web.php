@@ -52,11 +52,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
                 Route::get('/','Fairs\FairController@index')->name('fairs.index');
                 Route::get('/create','Fairs\FairController@create')->name('fairs.create');
                 Route::post('/store','Fairs\FairController@store')->name('fair.store');
-                Route::post('/show/{fair_id}','Fairs\FairController@show')->name('fair.show');
-                Route::get('/order/{fair_id}','Fairs\FairController@showOrders')->name('fair.orders-list');
-                Route::get('/harvest/{fair_id}','Fairs\FairController@showHarvest')->name('fair.harvest');
-                Route::get('/labels/{fair_id}', 'Fairs\FairController@generateLabel')->name('fair.labels');
-                Route::get('/delivery/{fair_id}', 'Fairs\FairController@generateDeliveryList')->name('fair.delivery');
+                Route::post('/{fair_id}/show/','Fairs\FairController@show')->name('fair.show');
+                Route::get('/{fair_id}order/','Fairs\FairController@showOrders')->name('fair.orders-list');
+                Route::get('/{fair_id}harvest/','Fairs\FairController@showHarvest')->name('fair.harvest');
+                Route::get('/{fair_id}labels/', 'Fairs\FairController@generateLabel')->name('fair.labels');
+                Route::get('/{fair_id}/pending', 'Fairs\FairController@getOrderPending')->name('fair.pending');
+                Route::get('/{fair_id}/delivery', 'Fairs\FairController@generateDeliveryList')->name('fair.delivery');
 
 
             });
