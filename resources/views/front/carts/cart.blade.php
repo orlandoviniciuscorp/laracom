@@ -98,7 +98,7 @@
                                             </form>
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                                            <span class="hidden-lg hidden-md"><small>Price: </span>
+                                            <span class="hidden-lg hidden-md"><small>Preço: </span>
                                             {{config('cart.currency')}} {{ number_format($cartItem->price, 2) }}</small>
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
@@ -143,8 +143,8 @@
                         </table>
                     </div>
                 </div>
-                <form action="{{route('cart.checkout')}}" method="post">
-                    {{ csrf_field() }}
+                <form action="{{route('cart.checkout')}}" method="get">
+                    {{--{{ csrf_field() }}--}}
                     <div class="row">
                         <div class="col-md-12">
                             <legend><i class="fa fa-truck"></i> Entrega</legend>
