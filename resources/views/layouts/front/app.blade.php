@@ -18,6 +18,13 @@
     <meta name="tags" content="modern, opensource, open-source, e-commerce, framework, free, laravel, php, php7, symfony, shop, shopping, responsive, fast, software, blade, cart, test driven, adminlte, storefront">
     <meta name="author" content="Jeff Simons Decena">
     <link href="{{ asset('css/style.min.css') }}" rel="stylesheet">
+    <style>
+        .vcenter {
+            display: inline-block;
+            vertical-align: middle;
+            float: none;
+        }
+    </style>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -56,7 +63,7 @@
     </p>
 </noscript>
 <section>
-    @if(env('SHOPPING_OPENED') == 1)
+    @if(env('SHOPPING_OPENED') == 12321)
     <div class="hidden-xs">
         <div class="container">
             <div class="clearfix"></div>
@@ -103,10 +110,22 @@
 </section>
 @yield('content')
 @else
-    <div class="container">
-        Estamos preparando os seus produtos... =)
-        <br>
-        Volte mais tarde! =)
+    <div class="container  text-center vcenter">
+        <br />
+        <div class="row" >
+            Estamos Prepando os seus produtos
+        </div>
+        <div class="row">
+
+            <div class="image-clean">
+                <img src="img/logo-feira-teresopolis-grande.jpg" />
+            </div>
+        </div>
+
+        <div class="row">
+            Pedidos de 3a até 5a feira. Entrega aos sábados.
+        </div>
+
     </div>
 @endif
 @include('layouts.front.footer')
