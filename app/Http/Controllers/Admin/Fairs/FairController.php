@@ -126,9 +126,10 @@ class FairController extends Controller
         $data = ['orders'=>$orders];
         $pdf = app()->make('dompdf.wrapper');
         $pdf->loadView('invoices.labels', $data)->stream();
+
         return $pdf->stream();
 
-        //return view('invoices.labels', $data);
+//        return view('invoices.labels', $data);
         // return view('admin.orders.labels')->with('orders',$this->transFormOrder($orders));
     }
 
