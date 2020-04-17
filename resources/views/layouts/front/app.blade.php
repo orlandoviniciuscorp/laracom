@@ -113,7 +113,7 @@
     <div class="container  text-center vcenter">
         <br />
         <div class="row" >
-            Estamos Prepando os seus produtos
+            Estamos Prepando os seus pedidos.
         </div>
         <div class="row">
 
