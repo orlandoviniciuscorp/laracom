@@ -27,45 +27,30 @@
                 @foreach ($orders as $order)
                 <table>
                     <tr>
-                        <th>
-                            <small> Número do Pedido</small>
-                        </th>
-                        <th>
-                            <small>Cliente</small>
-                        </th>
-                        <th>
-                            <small>Telefone</small>
-                        </th>
-
-                        <th>
-                           <small> Valor a Pagar</small>
-                        </th>
-
-                        <th>
-                            <small>Produtos</small>
-                        </th>
-                        <th>
-                            <small>Observação</small>
-                        </th>
-                    </tr>
-                    <tr>
                         <td>
+                            <small> Número do Pedido</small>
+                            <br />
                             <small>#{{$order->id}}</small>
                         </td>
                         <td>
+                            <small>Cliente</small>
+                            <br />
                             <small><strong>{{$order->customer->name}}</strong>
                             </small>
                         </td>
                         <td>
-                           <small> {{$order->address->phone}}</li>
+                            <small>Telefone</small> <br />
+                           <small> {{$order->address->phone}}
                            </small>
                         </td>
 
                         <td>
+                            <small> Valor a Pagar</small><br />
                             <small>R$ {{$order->total}}</li>
                             </small>
                         </td>
                         <td>
+                            <small>Produtos</small><br />
                            <small>
                                @foreach($order->products as $product)
                                 {{$product->name }} - {{$product->pivot->quantity }} <br />
@@ -73,6 +58,7 @@
                            </small>
                         </td>
                         <td>
+                            <small>Observação</small> <br />
                            <small> {{$order->obs}}</li>
                            </small>
                         </td>
