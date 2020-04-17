@@ -45,7 +45,7 @@
                             <br /><br/>
                             <strong>Valor a Pagar</strong>
                             <br />
-                            <small>R$ {{$order->total}}</li>
+                            <small>R$ {{$order->total}}
                             </small>
                             <br >
                             <br/>
