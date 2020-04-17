@@ -27,4 +27,9 @@ class Courier extends Model
      * @var array
      */
     protected $hidden = [];
+
+    public function orders(){
+        return $this->hasMany(Order::class);
+
+    }
 }
