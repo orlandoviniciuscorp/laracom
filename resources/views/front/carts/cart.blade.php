@@ -7,17 +7,24 @@
                     <div class="col-md-12">
                         <ol class="breadcrumb">
                             <li><a href="{{ route('home') }}"> <i class="fa fa-home"></i> Home</a></li>
-                            <li class="active">Cart</li>
+                            <li class="active">Carrinho de compras</li>
                         </ol>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-md-12 content">
-                        <div class="box-body">
-                            @include('layouts.errors-and-messages')
-                        </div>
+                    <div class="box-body">
+                        @include('layouts.errors-and-messages')
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 content">
                         <h3><i class="fa fa-cart-plus"></i> Carrinho de Compras</h3>
+
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <a href="{{ route('home') }}" class="btn btn-warning">Continuar Comprando</a>
                     </div>
                 </div>
 
