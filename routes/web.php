@@ -39,6 +39,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
                 Route::resource('customers.addresses', 'CustomerAddressController');
             });
             Route::namespace('Categories')->group(function () {
+                Route::post('rotate-farmers', 'CategoryController@rotateFarmers')->name('category.rotate-farmers');
                 Route::resource('categories', 'CategoryController');
                 Route::get('remove-image-category', 'CategoryController@removeImage')->name('category.remove.image');
             });

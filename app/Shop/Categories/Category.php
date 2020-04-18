@@ -21,7 +21,8 @@ class Category extends Model
         'description',
         'cover',
         'status',
-        'parent_id'
+        'parent_id',
+        'page_order'
     ];
 
     /**
