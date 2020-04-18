@@ -39,6 +39,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
                 Route::resource('customers.addresses', 'CustomerAddressController');
             });
             Route::namespace('Categories')->group(function () {
+                Route::post('rotate-farmers', 'CategoryController@rotateFarmers')->name('category.rotate-farmers');
                 Route::resource('categories', 'CategoryController');
                 Route::get('remove-image-category', 'CategoryController@removeImage')->name('category.remove.image');
             });
@@ -52,10 +53,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
                 Route::get('/','Fairs\FairController@index')->name('fairs.index');
                 Route::get('/create','Fairs\FairController@create')->name('fairs.create');
                 Route::post('/store','Fairs\FairController@store')->name('fair.store');
-                Route::get('/order/{fair_id}','Fairs\FairController@showOrders')->name('fair.orders-list');
-                Route::get('/harvest/{fair_id}','Fairs\FairController@showHarvest')->name('fair.harvest');
-                Route::get('/labels/{fair_id}', 'Fairs\FairController@generateLabel')->name('fair.labels');
-                Route::get('/delivery/{fair_id}', 'Fairs\FairController@generateDeliveryList')->name('fair.delivery');
+                Route::post('/{fair_id}/show/','Fairs\FairController@show')->name('fair.show');
+                Route::get('/{fair_id}/order/','Fairs\FairController@showOrders')->name('fair.orders-list');
+                Route::get('/{fair_id}/harvest/','Fairs\FairController@showHarvest')->name('fair.harvest');
+                Route::get('/{fair_id}/labels/', 'Fairs\FairController@generateLabel')->name('fair.labels');
+                Route::get('/{fair_id}/pending', 'Fairs\FairController@getOrderPending')->name('fair.pending');
+                Route::get('/{fair_id}/delivery', 'Fairs\FairController@generateDeliveryList')->name('fair.delivery');
 
 
             });
@@ -109,9 +112,9 @@ Route::namespace('Front')->group(function () {
         });
 
         Route::get('accounts', 'AccountsController@index')->name('accounts');
-        Route::get('checkout', 'CheckoutController@index')->name('checkout.index');
-        Route::post('checkout', 'CheckoutController@store')->name('checkout.store');
-        Route::post('checkout', 'CheckoutController@checkoutItens')->name('cart.checkout');
+        Route::get('checkout/{courier_id}', 'CheckoutController@index')->name('checkout.index');
+        Route::post('checkout/store', 'CheckoutController@store')->name('checkout.store');
+        Route::post('checkout/cart', 'CheckoutController@index')->name('cart.checkout');
         Route::get('checkout/execute', 'CheckoutController@executePayPalPayment')->name('checkout.execute');
         Route::post('checkout/execute', 'CheckoutController@charge')->name('checkout.execute');
         Route::get('checkout/cancel', 'CheckoutController@cancel')->name('checkout.cancel');

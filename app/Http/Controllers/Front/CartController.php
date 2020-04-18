@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Front;
 
-use App\Shop\Cart\Requests\CartDeliveryCheckoutRequest;
 use App\Shop\Carts\Requests\AddToCartRequest;
 use App\Shop\Carts\Requests\UpdateCartRequest;
 use App\Shop\Carts\Repositories\Interfaces\CartRepositoryInterface;
@@ -66,9 +65,6 @@ class CartController extends Controller
      */
     public function index()
     {
-
-        $courier = $this->courierRepo->findCourierById(request()->session()->get('courierId', 1));
-        $shippingFee = $this->cartRepo->getShippingFee($courier);
 
         $this->neededBag();
 

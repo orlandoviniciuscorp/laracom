@@ -153,7 +153,7 @@ class ProductController extends Controller
             $productRepo->detachCategories();
         }
 
-        return redirect()->route('admin.products.edit', $product->id)->with('message', 'Create successful');
+        return redirect()->route('admin.products.edit', $product->id)->with('message', $this->getSucessMesseger());
     }
 
     /**
@@ -190,7 +190,7 @@ class ProductController extends Controller
             $pa->attributesValues()->detach();
             $pa->delete();
 
-            request()->session()->flash('message', 'Delete successful');
+            request()->session()->flash('message', $this->getSucessMesseger());
             return redirect()->route('admin.products.edit', [$product->id, 'combination' => 1]);
         }
 
@@ -228,7 +228,7 @@ class ProductController extends Controller
         if ($request->has('attributeValue')) {
             $this->saveProductCombinations($request, $product);
             return redirect()->route('admin.products.edit', [$id, 'combination' => 1])
-                ->with('message', 'Attribute combination created successful');
+                ->with('message', $this->getSucessMesseger());
         }
 
         $data = $request->except(
@@ -278,9 +278,11 @@ class ProductController extends Controller
 
         $request->session()->flash('message', $this->getSucessMesseger());
 
-        return view('admin.products.list', [
-            'products' => $this->productRepo->paginateArrayResults($products, 25)
-        ]);
+//        return view('admin.products.list', [
+//            'products' => $this->productRepo->paginateArrayResults($products, 25)
+//        ]);
+
+        return redirect()->back()->with('message',$this->getSucessMesseger());
 
 
     }
@@ -321,7 +323,7 @@ class ProductController extends Controller
         $productRepo = new ProductRepository($product);
         $productRepo->removeProduct();
 
-        return redirect()->route('admin.products.index')->with('message', 'Delete successful');
+        return redirect()->route('admin.products.index')->with('message', $this->getSucessMesseger());
     }
 
     /**
@@ -332,7 +334,7 @@ class ProductController extends Controller
     public function removeImage(Request $request)
     {
         $this->productRepo->deleteFile($request->only('product', 'image'), 'uploads');
-        return redirect()->back()->with('message', 'Image delete successful');
+        return redirect()->back()->with('message', $this->getSucessMesseger());
     }
 
     /**
@@ -343,7 +345,7 @@ class ProductController extends Controller
     public function removeThumbnail(Request $request)
     {
         $this->productRepo->deleteThumb($request->input('src'));
-        return redirect()->back()->with('message', 'Image delete successful');
+        return redirect()->back()->with('message', $this->getSucessMesseger());
     }
 
     /**

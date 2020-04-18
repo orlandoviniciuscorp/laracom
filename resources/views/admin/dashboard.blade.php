@@ -58,7 +58,7 @@
                                         </a>
 
                                         <a href="{{ route('admin.fair.delivery', $fair->id) }}" class="btn btn-primary btn-sm">
-                                            <i class="fa fa-tag" aria-hidden="true"></i> Entregas
+                                            <i class="fa fa-truck" aria-hidden="true"></i> Entregas
                                         </a>
                                     </li>
 
@@ -81,7 +81,18 @@
                                     <li class="list-group-item bg-info">
                                         <form action="{{route('admin.products.empty-availability')}}" method="post"  class="form-horizontal">
                                             {{ csrf_field() }}
-                                        <button onclick="return confirm('Isso irá zerar de todos os produtores. Tem certeza?')" type="submit" class="btn btn-danger btn-sm">Zerar Disponibilidade</button>
+                                            <button onclick="return confirm('Isso irá zerar de todos os produtores. Tem certeza?')" type="submit" class="btn btn-danger btn-sm">
+                                                <i class="fa fa-eraser" aria-hidden="true"></i> Zerar Disponibilidade
+                                            </button>
+                                        </form>
+                                    </li>
+
+                                    <li class="list-group-item bg-info">
+                                        <form action="{{route('admin.category.rotate-farmers')}}" method="post"  class="form-horizontal">
+                                            {{ csrf_field() }}
+                                            <button onclick="return confirm('Isso irá zerar de todos os produtores. Tem certeza?')" type="submit" class="btn btn-warning btn-sm">
+                                                <i class="fa fa-refresh" aria-hidden="true"></i> Rotacionar Produtores
+                                            </button>
                                         </form>
                                     </li>
                                 @endif

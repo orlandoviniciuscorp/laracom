@@ -42,6 +42,12 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
         return $this->model->orderBy($order, $sort)->get()->except($except);
     }
 
+    public function pageOrder(){
+
+        return $this->model->orderBy('page_order')->get();
+
+    }
+
     /**
      * List all root categories
      * 
