@@ -110,10 +110,12 @@
 </section>
 @yield('content')
 @else
-    <div class="container  text-center vcenter">
+    <div class="container  text-center">
         <br />
         <div class="row" >
-            Estamos Prepando os seus pedidos.
+            <h1>
+                Estamos prepando os seus pedidos.
+            </h1>
         </div>
         <div class="row">
 
@@ -123,7 +125,21 @@
         </div>
 
         <div class="row">
-            Pedidos de 3a até 5a feira. Entrega aos sábados.
+            <h1>
+                Pedidos de 3a até 5a feira. Entrega aos sábados.
+                <br /> <br />
+                Obrigado pela visita.
+            </h1>
+        </div>
+
+        <div class="row">
+            Siga nossas redes sociais:
+            <ul class="footer-social text-success">
+                <li> <a href="https://www.facebook.com/OrganicosParaTodosAAT"> <i class="fa fa-facebook text-primary" aria-hidden="false"></i>  </a> </li>
+                {{--<li> <a href=""> <i class="fa fa-twitter" aria-hidden="true"></i>   </a> </li>--}}
+                <li> <a href="https://www.instagram.com/organicosparatodos/"> <i class="fa fa-instagram text-primary" aria-hidden="true"></i>  </a> </li>
+                {{--<li> <a href=""> <i class="fa fa-pinterest-p" aria-hidden="true"></i>  </a> </li>--}}
+            </ul>
         </div>
 
     </div>
