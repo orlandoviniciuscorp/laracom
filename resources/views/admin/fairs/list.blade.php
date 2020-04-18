@@ -25,8 +25,12 @@
                         <tbody>
                         @foreach ($fairs as $fair)
                             <tr>
-                                {{--<td><a title="Show order" href="{{ route('admin.orders.show', $order->id) }}">{{ date('M d, Y h:i a', strtotime($order->created_at)) }}</a></td>--}}
-                                <td>{{$fair->name}}</td>
+                                {{--<td>{{ date('M d, Y h:i a', strtotime($order->created_at)) }}</a></td>--}}
+                                <td>
+                                    <a title="Show order" href="{{ route('admin.fair.show', $fair->id) }}">
+                                        {{$fair->name}}
+                                    </a>
+                                </td>
                                 <td>{{$fair->start_at}}</td>
                                 <td>
                                     @if( $fair->status == 0)
@@ -54,7 +58,12 @@
                                     </a>
 
                                     <a href="{{ route('admin.fair.delivery', $fair->id) }}" class="btn btn-primary btn-sm">
-                                        <i class="fa fa-tag" aria-hidden="true"></i> Pedidos e Entregas
+                                        <i class="fa fa-truck" aria-hidden="true"></i> Entregas
+                                    </a>
+                                    <br />
+
+                                    <a href="{{ route('admin.fair.pending', $fair->id) }}" class="btn btn-danger btn-sm">
+                                        <i class="fa fa-bomb" aria-hidden="true"></i> Pedidos Pendentes
                                     </a>
 
                                 </td>

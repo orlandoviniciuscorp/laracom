@@ -8,11 +8,15 @@ use App\Shop\Cart\Requests\CartDeliveryCheckoutRequest;
 use App\Shop\Carts\Repositories\Interfaces\CartRepositoryInterface;
 use App\Shop\Carts\Requests\PayPalCheckoutExecutionRequest;
 use App\Shop\Carts\Requests\StripeExecutionRequest;
+use App\Shop\Checkout\CheckoutRepository;
+use App\Shop\Checkout\Requests\CheckoutRequest;
 use App\Shop\Couriers\Repositories\Interfaces\CourierRepositoryInterface;
 use App\Shop\Customers\Customer;
 use App\Shop\Customers\Repositories\CustomerRepository;
 use App\Shop\Customers\Repositories\Interfaces\CustomerRepositoryInterface;
 use App\Shop\Orders\Repositories\Interfaces\OrderRepositoryInterface;
+use App\Shop\OrderStatuses\OrderStatus;
+use App\Shop\OrderStatuses\Repositories\OrderStatusRepository;
 use App\Shop\PaymentMethods\Paypal\Exceptions\PaypalRequestError;
 use App\Shop\PaymentMethods\Paypal\Repositories\PayPalExpressCheckoutRepository;
 use App\Shop\PaymentMethods\Stripe\Exceptions\StripeChargingErrorException;
@@ -27,6 +31,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use PayPal\Exception\PayPalConnectionException;
+use Ramsey\Uuid\Uuid;
 
 class CheckoutController extends Controller
 {
@@ -98,40 +103,35 @@ class CheckoutController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(CartDeliveryCheckoutRequest $request)
     {
         $this->neededBag();
 
-        $carItens = $this->cartRepo->getCartItems();
+
         $customer = $request->user();
         $rates = null;
         $shipment_object_id = null;
 
-        $error = false;
+//        $error = false;
+//        $carItens = $this->cartRepo->getCartItems();
         $msgErros = [];
 
-        foreach($carItens as $carItem){
-            if($carItem->qty >$carItem->product->quantity){
-                $error = true;
-                $msg = ['O produto "'. $carItem->name . '" possui '. $carItem->product->quantity . ' no estoque. Por favor, atualize o seu pedido'];
-               $msgErros = array_merge($msgErros,$msg);
-            }
-        }
-
-        if($error){
 
 
-            $couriers = $this->courierRepo->allEnable();
-
-            return view('front.carts.cart', [
-                'cartItems' => $this->cartRepo->getCartItemsTransformed(),
-                'subtotal' => $this->cartRepo->getSubTotal(),
-                'tax' => $this->cartRepo->getTax(),
-                'couriers' => $couriers,
-                'total' => $this->cartRepo->getTotal(2)
-            ])->withErrors($msgErros);
-        }
-
+//        if($error){
+//
+//
+//            $couriers = $this->courierRepo->allEnable();
+//
+//            return view('front.carts.cart', [
+//                'cartItems' => $this->cartRepo->getCartItemsTransformed(),
+//                'subtotal' => $this->cartRepo->getSubTotal(),
+//                'tax' => $this->cartRepo->getTax(),
+//                'couriers' => $couriers,
+//                'total' => $this->cartRepo->getTotal(2)
+//            ])->withErrors($msgErros);
+//        }
+        //dd($request->input('courier_id'));
 
 
         // Get payment gateways
@@ -159,10 +159,11 @@ class CheckoutController extends Controller
         ]);
     }
 
-    public function checkoutItens(CartDeliveryCheckoutRequest $request)
-    {
-       return $this->index($request);
-    }
+//    public function checkoutItens(CartDeliveryCheckoutRequest $request)
+//    {
+//
+//     //  return $this->index($request);
+//    }
 
     /**
      * Checkout the items
@@ -174,27 +175,60 @@ class CheckoutController extends Controller
      * @throws \App\Shop\Customers\Exceptions\CustomerPaymentChargingErrorException
      * @codeCoverageIgnore
      */
-    public function store(CartCheckoutRequest $request)
+//    public function store(CartCheckoutRequest $request)
+//    {
+//        $shippingFee = 0;
+//
+//        switch ($request->input('payment')) {
+//            case 'paypal':
+//                return $this->payPal->process($shippingFee, $request);
+//                break;
+//            case 'stripe':
+//
+//                $details = [
+//                    'description' => 'Stripe payment',
+//                    'metadata' => $this->cartRepo->getCartItems()->all()
+//                ];
+//
+//                $customer = $this->customerRepo->findCustomerById(auth()->id());
+//                $customerRepo = new CustomerRepository($customer);
+//                $customerRepo->charge($this->cartRepo->getTotal(2, $shippingFee), $details);
+//                break;
+//            default:
+//        }
+//    }
+
+
+    public function store(CheckoutRequest $request)
     {
-        $shippingFee = 0;
+        $checkoutRepo = new CheckoutRepository;
+        $orderStatusRepo = new OrderStatusRepository(new OrderStatus);
+        $os = $orderStatusRepo->findByName('Pedido Feito');
+        $courier = $this->courierRepo->findCourierById(intval(request()->get('courier_id')));
 
-        switch ($request->input('payment')) {
-            case 'paypal':
-                return $this->payPal->process($shippingFee, $request);
-                break;
-            case 'stripe':
-
-                $details = [
-                    'description' => 'Stripe payment',
-                    'metadata' => $this->cartRepo->getCartItems()->all()
-                ];
-
-                $customer = $this->customerRepo->findCustomerById(auth()->id());
-                $customerRepo = new CustomerRepository($customer);
-                $customerRepo->charge($this->cartRepo->getTotal(2, $shippingFee), $details);
-                break;
-            default:
+        if($request->input('payment_method') == config('pay-on-delivery.name')
+        ||$request->input('payment_method') == config('debit.name')){
+            $os = $orderStatusRepo->findByName('Pagar na Entrega');
         }
+//
+        $order = $checkoutRepo->buildCheckoutItems([
+            'reference' => Uuid::uuid4()->toString(),
+            'courier_id' => $request->input('courier_id'),
+            'customer_id' => $request->user()->id,
+            'address_id' => $request->input('billingAddress_id'),
+            'order_status_id' => $os->id,
+            'payment' => $request->input('payment_method'),
+            'discounts' => 0,
+            'total_products' => $this->cartRepo->getSubTotal(),
+            'total' => $this->cartRepo->getTotal(2, $courier->cost),
+            'total_shipping' => $courier->cost,
+            'total_paid' => 0,
+            'tax' => $this->cartRepo->getTax()
+        ]);
+
+        Cart::destroy();
+
+        return redirect()->route('accounts', ['tab' => 'orders'])->with('message', 'Pedido Cadastrado com Sucesso, Aguarde a aprovação do Pagamento');
     }
 
     /**

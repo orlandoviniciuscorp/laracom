@@ -15,6 +15,7 @@
                         @include('layouts.errors-and-messages')
                     </div>
                     @if(count($addresses) > 0)
+
                         <div class="row">
                             <div class="col-md-12">
                                 @include('front.products.product-list-table', compact('products'))
@@ -153,25 +154,74 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <legend><i class="fa fa-credit-card"></i> Pagamento</legend>
-                                <p><strong><small class="text-danger text">Em virtude do surto do Corona virus - Covid-19, dêem preferência para o pagamento por Transferência Bancária.</small></strong></p>
+                                <p><strong><small class="text">Em virtude do surto do Corona virus - Covid-19, dêem preferência para o pagamento por Transferência Bancária.</small></strong></p>
+                                <p><strong><small class="text-danger text">ATENÇÃO! Sua compra ainda não foi confirmada. Após escolher o método de pagamento, clicar no botão Confirmar Compra.</small></strong></p>
+                                <form action="{{ route('checkout.store') }}" method="post">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="courier_id" value="{{$courier->id}}" />
+                                    <input type="hidden" name="billingAddress_id" value="{{$billingAddress->id}}" />
+
                                 @if(isset($payments) && !empty($payments))
                                     <table class="table table-striped">
                                         <thead>
-                                        <th class="col-md-4">Nome</th>
-                                        <th class="col-md-4">Descrição</th>
-                                        <th class="col-md-4 text-left">Método de Pagamento</th>
+                                            <th class="col-md-3">Método de Pagamento</th>
+                                            <th class="col-md-3">Observação</th>
+                                            <th class="col-md-3 text-left">Detalhes</th>
                                         </thead>
                                         <tbody>
                                         @foreach($payments as $payment)
-                                            @include('layouts.front.payment-options', compact('payment', 'total', 'shipment_object_id'))
+                                           <tr>
+                                               <td>
+                                                   <label class="radio">
+                                                    <input type="radio" name="payment_method" value="{{$payment['name']}}"/>
+                                                   {{$payment['name']}}
+                                                   </label>
+                                               </td>
+                                               <td>
+                                                    {{$payment['note']}}
+                                               </td>
+                                               <td>
+                                                   @if($payment['name'] =='Transferência Bancária')
+                                                       <button type="button" class="btn btn-warning"
+                                                               data-toggle="modal"
+                                                               data-target="#bank_details">
+                                                           <i class="fa fa-eye"></i> Dados Bancários</button>
+                                                   @endif
+                                               </td>
+
+                                           </tr>
                                         @endforeach
                                         </tbody>
                                     </table>
                                 @else
                                     <p class="alert alert-danger">No payment method set</p>
                                 @endif
+                                    <a href="{{ route('cart.index') }}" class="btn btn-default">Voltar</a>
+                                    <button type="submit" onclick="return confirm('Tem Certeza?')" class="btn btn-danger">Confirmar Compra</button>
+                                </form>
                             </div>
                         </div>
+
+                        <div class="modal fade" id="bank_details" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                            <hr />
+                                            <h3>Banco: Banco do Brasil</h3>
+                                            <hr>
+                                            <p>Código do Banco: <strong>001</strong></p>
+                                            <p>Tipo de Conta: <strong>Conta Corrente</strong></p>
+                                            <p>Beneficiário: <strong>Sarita De Cassia C. Marques </strong></p>
+                                            <p>Agência: <strong>1252-1</strong></p>
+                                            <p>Número da Conta: <strong> 21529-5</strong></p>
+                                            <p>CPF: <strong>126.853.717-96</strong></p>
+                                            <p>Valor: <strong> {{ config('cart.currency_symbol') }} {{ $total }}</strong></p>
+                                            <p><strong><small class="text-danger text">* {{ config('bank-transfer.note') }}</small></strong></p>
+                                            <p><strong><small class="text-danger text">*Enviar o comprovante de depósito para o  número: (21) 96618-9093 - Jenifer</small></strong></p>
+
+                                </div>
+                            </div>
+                        </div>
+
                     @else
                         <p class="alert alert-danger"><a href="{{ route('customer.address.create', [$customer->id]) }}">Nenhum endereço de entrega cadastrado. Cadastre aqui o seu endereço de entrega.</a></p>
                     @endif

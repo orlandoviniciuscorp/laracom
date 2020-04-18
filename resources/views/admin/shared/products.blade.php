@@ -12,7 +12,7 @@
         </thead>
         <tbody>
         @foreach ($products as $product)
-            <tr>
+            <tr class="tab-content">
                 <td>{{ $product->id }}</td>
                 <td>
                     @if($admin->hasPermission('view-product'))
@@ -29,14 +29,18 @@
                         {{ csrf_field() }}
                         <input type="hidden" name="_method" value="delete">
                         <div class="btn-group">
-                            @if($admin->hasPermission('update-product'))<a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Editar</a>@endif
-                            @if($admin->hasPermission('delete-product'))<button onclick="return confirm('Tem certeza?')" type="submit" class="btn btn-danger btn-sm"><i class="fa fa-times"></i> Apagar</button>@endif
+                            @if($admin->hasPermission('update-product'))
+                                <a href="{{ route('admin.products.edit', $product->id) }}"
+                                   class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Editar</a>@endif
+                            @if($admin->hasPermission('delete-product'))
+                                <button onclick="return confirm('Tem certeza?')" type="submit"
+                                        class="btn btn-danger btn-sm"><i class="fa fa-times"></i> Apagar</button>@endif
                         </div>
                     </form>
                     <br />
                     <form action="{{route('admin.products.update-quantity')}}" method="post"  class="form-horizontal">
                         {{ csrf_field() }}
-                        <div class="col-xs-4">
+                        <div class="col-sm-4">
                             <input type="hidden" name="id" id="id" value="{{$product->id}}" />
                             <input type="number" name="quantity" id="quantity" value="{{$product->quantity}}" class="form-control">
                         </div>
