@@ -114,7 +114,7 @@
         <br />
         <div class="row" >
             <h1>
-                Estamos prepando os seus pedidos.
+                Estamos preparando os seus pedidos.
             </h1>
         </div>
         <div class="row">
@@ -128,7 +128,7 @@
             <h1>
                 Pedidos de 3a até 5a feira. Entrega aos sábados.
                 <br /> <br />
-                Obrigado pela visita.
+                Agradecemos pela visita.
             </h1>
         </div>
 
