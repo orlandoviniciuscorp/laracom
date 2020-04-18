@@ -142,4 +142,28 @@ class CategoryController extends Controller
         request()->session()->flash('message', 'Image delete successful');
         return redirect()->route('admin.categories.edit', $request->input('category'));
     }
+
+    public function rotateFarmers(Request $request)
+    {
+        $categories = $this->categoryRepo->listCategories('page_order', 'desc',null);
+
+        $count = $categories->count();
+
+        foreach ($categories as $category){
+
+            if($category->page_order == 1) {
+                $category->page_order = $count;
+            }else{
+                $category->page_order = $category->page_order - 1;
+            }
+
+            $category->save();
+
+        }
+
+        request()->session()->flash('message','Ordem dos Produtores alterada!');
+        return redirect()->back();
+
+
+    }
 }

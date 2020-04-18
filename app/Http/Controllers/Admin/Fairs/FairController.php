@@ -79,6 +79,15 @@ class FairController extends Controller
         return view ('admin.fairs.create');
     }
 
+    public function show($fair_id)
+    {
+        //$fair = $this->fairRepo->find($fair_id);
+
+        dd($fair_id);
+        return view('admin.fairs.show')->with('fair',$fair);
+
+    }
+
     public function store(Request $request){
 
         $this->fairRepo->create($request->toArray());
@@ -117,10 +126,20 @@ class FairController extends Controller
         $data = ['orders'=>$orders];
         $pdf = app()->make('dompdf.wrapper');
         $pdf->loadView('invoices.labels', $data)->stream();
+
         return $pdf->stream();
 
-        //return view('invoices.labels', $data);
+//        return view('invoices.labels', $data);
         // return view('admin.orders.labels')->with('orders',$this->transFormOrder($orders));
+    }
+
+    public function getOrderPending($fair_id){
+        $list = app(Order::class)->where('fair_id','=',$fair_id)->whereNotIn('order_status_id',[1,4,7])->get();
+
+        $orders = $this->orderRepo->paginateArrayResults($this->transFormOrder($list), 10);
+        return view('admin.orders.list', ['orders' => $orders,
+            'fair_id'=>$fair_id]);
+
     }
 
     public function generateDeliveryList($fair_id)

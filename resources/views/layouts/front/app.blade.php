@@ -18,6 +18,13 @@
     <meta name="tags" content="modern, opensource, open-source, e-commerce, framework, free, laravel, php, php7, symfony, shop, shopping, responsive, fast, software, blade, cart, test driven, adminlte, storefront">
     <meta name="author" content="Jeff Simons Decena">
     <link href="{{ asset('css/style.min.css') }}" rel="stylesheet">
+    <style>
+        .vcenter {
+            display: inline-block;
+            vertical-align: middle;
+            float: none;
+        }
+    </style>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -103,10 +110,38 @@
 </section>
 @yield('content')
 @else
-    <div class="container">
-        Estamos preparando os seus produtos... =)
-        <br>
-        Volte mais tarde! =)
+    <div class="container  text-center">
+        <br />
+        <div class="row" >
+            <h1>
+                Estamos preparando os seus pedidos.
+            </h1>
+        </div>
+        <div class="row">
+
+            <div class="image-clean">
+                <img src="img/logo-feira-teresopolis-grande.jpg" />
+            </div>
+        </div>
+
+        <div class="row">
+            <h1>
+                Pedidos de 3a até 5a feira. Entrega aos sábados.
+                <br /> <br />
+                Agradecemos pela visita.
+            </h1>
+        </div>
+
+        <div class="row">
+            Siga nossas redes sociais:
+            <ul class="footer-social text-success">
+                <li> <a href="https://www.facebook.com/OrganicosParaTodosAAT"> <i class="fa fa-facebook text-primary" aria-hidden="false"></i>  </a> </li>
+                {{--<li> <a href=""> <i class="fa fa-twitter" aria-hidden="true"></i>   </a> </li>--}}
+                <li> <a href="https://www.instagram.com/organicosparatodos/"> <i class="fa fa-instagram text-primary" aria-hidden="true"></i>  </a> </li>
+                {{--<li> <a href=""> <i class="fa fa-pinterest-p" aria-hidden="true"></i>  </a> </li>--}}
+            </ul>
+        </div>
+
     </div>
 @endif
 @include('layouts.front.footer')
