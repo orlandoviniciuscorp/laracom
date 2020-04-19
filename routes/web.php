@@ -121,6 +121,7 @@ Route::namespace('Front')->group(function () {
         Route::get('checkout/success', 'CheckoutController@success')->name('checkout.success');
         Route::resource('customer.address', 'CustomerAddressController');
     });
+    Route::post('cart/add-at-cart','CartController@storeAtCart')->name('cart.add-at-cart');
     Route::resource('cart', 'CartController');
     Route::get("category/{slug}", 'CategoryController@getCategory')->name('front.category.slug');
     Route::get("search", 'ProductController@search')->name('search.product');
