@@ -22,12 +22,12 @@ class CartController extends Controller
     /**
      * @var CartRepositoryInterface
      */
-    private $cartRepo;
+
 
     /**
      * @var ProductRepositoryInterface
      */
-    private $productRepo;
+
 
     /**
      * @var CourierRepositoryInterface
@@ -69,14 +69,18 @@ class CartController extends Controller
         $this->neededBag();
 
         $couriers = $this->courierRepo->allEnable();
+        $product = $this->productRepo->findByProductName('Sacola Retornável');
 
+        //dd($this->hasbag());
 
         return view('front.carts.cart', [
             'cartItems' => $this->cartRepo->getCartItemsTransformed(),
             'subtotal' => $this->cartRepo->getSubTotal(),
             'tax' => $this->cartRepo->getTax(),
             'couriers' => $couriers,
-            'total' => $this->cartRepo->getTotal(2)
+            'total' => $this->cartRepo->getTotal(2),
+            'product'=>$product,
+            'hasBag'=>$this->hasbag(),
         ]);
     }
 
@@ -114,8 +118,10 @@ class CartController extends Controller
 
         $this->cartRepo->addToCart($product, $request->input('quantity'), $options);
 
-        return redirect()->to(route('home').'#'.$request->input('category_slug'))
-            ->with('message', $product->name .' adicionado ao carrinho');
+        return redirect()->back()->with('message', $product->name .' adicionado ao carrinho');
+
+//        return redirect()->to(route('home').'#'.$request->input('category_slug'))
+//            ->with('message', $product->name .' adicionado ao carrinho');
     }
 
     /**
@@ -130,7 +136,7 @@ class CartController extends Controller
         $this->cartRepo->updateQuantityInCart($id, $request->input('quantity'));
 
         request()->session()->flash('message', 'Update cart successful');
-        return redirect()->route('cart.index');
+        //return redirect()->route('cart.index');
     }
 
     /**
@@ -147,25 +153,4 @@ class CartController extends Controller
         return redirect()->route('cart.index');
     }
 
-    public function neededBag()
-    {
-        if (env('NEEDED_BAG') == 1) {
-            $carItens = $this->cartRepo->getCartItemsTransformed();
-            $hasBag = false;
-            foreach ($carItens as $carItem) {
-                if ($carItem->name == 'Sacola Retornável') {
-                    $hasBag = true;
-
-                }
-            }
-
-            if ((!is_null(auth()->user())) && auth()->user()->countBought() < 1 && !$hasBag) {
-
-                $product = $this->productRepo->findByProductName('Sacola Retornável');
-                $options = [];
-                $this->cartRepo->addToCart($product, 1, $options);
-            }
-        }
-
-    }
 }

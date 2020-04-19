@@ -18,16 +18,70 @@
                     </div>
                 </div>
 
+                @if(!$hasBag)
+                    <div class="row">
+                        <div class="col-lg-10 col-md-2 col-sm-3 col-xs-10" >
+                            Gostaria de Adicionar esse produto na sua compra?
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+
+                        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4" >
+
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                                    <a href="{{ route('front.get.product', [$product->slug]) }}" class="hover-border">
+                                        @if(isset($product->cover))
+                                            <img src="{{asset("storage/$product->cover")}}" alt="{{ $product->name }}" class="img-responsive img-thumbnail">
+                                        @else
+                                            <img src="https://placehold.it/120x120" alt="" class="img-responsive img-thumbnail">
+                                        @endif
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-7">
+                            <p>
+                                    {{ $product->name }} -
+
+                                        {{ config('cart.currency') }} {{ number_format($product->price, 2) }}
+
+
+
+                                <form action="{{ route('cart.store') }}" class="form-inline" method="post">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="quantity" value="1" />
+                                    <input type="hidden" name="product" value="{{ $product->id }}">
+                                    <div class="row">
+                                        <button id="add-to-cart-btn" type="submit" class="btn btn-warning"
+                                                @if($product->quantity < 1)
+                                                disabled
+                                                @endif
+                                                data-toggle="modal" data-target="#cart-modal"> <i class="fa fa-cart-plus"></i>
+                                            @if($product->quantity < 1)
+                                                ESGOTADO
+                                            @else
+                                                Adicionar ao carrinho
+                                            @endif
+                                        </button>
+                                        <a class="btn btn-primary product-info"
+                                           href="{{ route('front.get.product', str_slug($product->slug)) }}">
+                                            <i class="fa fa-link"></i> Detalhes</a> </li>
+                                    </div>
+                                </form>
+                        </div>
+
+                    </div>
+                    <hr />
+                @endif
+
                 <div class="row">
                     <div class="col-md-6 content">
                         <h3><i class="fa fa-cart-plus"></i> Carrinho de Compras</h3>
 
                     </div>
-                    <div class="col-md-6 text-right">
-                        <a href="{{ route('home') }}" class="btn btn-warning">Continuar Comprando</a>
-                    </div>
                 </div>
-
 
                 <div class="row">
                     <div class="col-md-12">

@@ -112,28 +112,6 @@ class CheckoutController extends Controller
         $rates = null;
         $shipment_object_id = null;
 
-//        $error = false;
-//        $carItens = $this->cartRepo->getCartItems();
-        $msgErros = [];
-
-
-
-//        if($error){
-//
-//
-//            $couriers = $this->courierRepo->allEnable();
-//
-//            return view('front.carts.cart', [
-//                'cartItems' => $this->cartRepo->getCartItemsTransformed(),
-//                'subtotal' => $this->cartRepo->getSubTotal(),
-//                'tax' => $this->cartRepo->getTax(),
-//                'couriers' => $couriers,
-//                'total' => $this->cartRepo->getTotal(2)
-//            ])->withErrors($msgErros);
-//        }
-        //dd($request->input('courier_id'));
-
-
         // Get payment gateways
         $paymentGateways = collect(explode(',', config('payees.name')))->transform(function ($name) {
             return config($name);
@@ -142,7 +120,7 @@ class CheckoutController extends Controller
         $billingAddress = $customer->addresses()->first();
 
         $courier = $this->courierRepo->findCourierById($request->input('courier_id'));
-        //$shippingFee = $this->cartRepo->getShippingFee($courier);
+
 
         return view('front.checkout', [
             'customer' => $customer,
@@ -315,26 +293,5 @@ class CheckoutController extends Controller
         }
     }
 
-    public function neededBag()
-    {
 
-        if (env('NEEDED_BAG') == 1){
-            $carItens = $this->cartRepo->getCartItemsTransformed();
-            $hasBag = false;
-            foreach ($carItens as $carItem) {
-                if ($carItem->name == 'Sacola Retornável') {
-                    $hasBag = true;
-
-                }
-            }
-
-            if ((!is_null(auth()->user())) && auth()->user()->countBought() < 1 && !$hasBag) {
-
-                $product = $this->productRepo->findByProductName('Sacola Retornável');
-                $options = [];
-                $this->cartRepo->addToCart($product, 1, $options);
-            }
-        }
-
-    }
 }
