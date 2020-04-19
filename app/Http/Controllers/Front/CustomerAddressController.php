@@ -87,7 +87,7 @@ class CustomerAddressController extends Controller
 
         $this->addressRepo->createAddress($request->except('_token', '_method'));
 
-        return redirect()->route('cart.index')
+        return redirect()->route('home')
             ->with('message', 'Endereço cadastrado com Sucesso');
     }
 
