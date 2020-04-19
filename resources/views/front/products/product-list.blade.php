@@ -21,7 +21,7 @@
                         @endif
                     </div>
 
-                    <div class="product-text">
+                    <div class="product-text" border>
                         <h4>{{ $product->name }}</h4>
                         <p>
                             {{ config('cart.currency') }}
