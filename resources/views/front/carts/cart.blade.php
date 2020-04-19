@@ -49,7 +49,7 @@
 
 
 
-                                <form action="{{ route('cart.store') }}" class="form-inline" method="post">
+                                <form action="{{ route('cart.add-at-cart') }}" class="form-inline" method="post">
                                     {{ csrf_field() }}
                                     <input type="hidden" name="quantity" value="1" />
                                     <input type="hidden" name="product" value="{{ $product->id }}">

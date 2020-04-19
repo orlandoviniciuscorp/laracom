@@ -38,11 +38,6 @@ class CheckoutController extends Controller
     use ProductTransformable;
 
     /**
-     * @var CartRepositoryInterface
-     */
-    private $cartRepo;
-
-    /**
      * @var CourierRepositoryInterface
      */
     private $courierRepo;
@@ -56,11 +51,6 @@ class CheckoutController extends Controller
      * @var CustomerRepositoryInterface
      */
     private $customerRepo;
-
-    /**
-     * @var ProductRepositoryInterface
-     */
-    private $productRepo;
 
     /**
      * @var OrderRepositoryInterface

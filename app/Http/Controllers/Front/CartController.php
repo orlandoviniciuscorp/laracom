@@ -92,6 +92,21 @@ class CartController extends Controller
      */
     public function store(AddToCartRequest $request)
     {
+
+        $product = $this->addToCart($request);
+
+        return redirect()->to(route('home').'#'.$request->input('category_slug'))
+            ->with('message', $product->name .' adicionado ao carrinho');
+    }
+
+    public function storeAtCart(AddToCartRequest $request){
+
+        $product = $this->addToCart($request);
+        return redirect()->back()->with('message', $product->name .' adicionado ao carrinho');
+    }
+
+    public function addToCart(AddToCartRequest $request)
+    {
         $product = $this->productRepo->findProductById($request->input('product'));
 
         if ($product->attributes()->count() > 0) {
@@ -117,11 +132,7 @@ class CartController extends Controller
         }
 
         $this->cartRepo->addToCart($product, $request->input('quantity'), $options);
-
-        return redirect()->back()->with('message', $product->name .' adicionado ao carrinho');
-
-//        return redirect()->to(route('home').'#'.$request->input('category_slug'))
-//            ->with('message', $product->name .' adicionado ao carrinho');
+        return $product;
     }
 
     /**
