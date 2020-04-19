@@ -317,22 +317,24 @@ class CheckoutController extends Controller
 
     public function neededBag()
     {
-        $carItens = $this->cartRepo->getCartItemsTransformed();
-        $hasBag = false;
-        foreach($carItens as $carItem){
-            if($carItem->name == 'Sacola Retornável'){
-                $hasBag = true;
 
+        if (env('NEEDED_BAG') == 1){
+            $carItens = $this->cartRepo->getCartItemsTransformed();
+            $hasBag = false;
+            foreach ($carItens as $carItem) {
+                if ($carItem->name == 'Sacola Retornável') {
+                    $hasBag = true;
+
+                }
+            }
+
+            if ((!is_null(auth()->user())) && auth()->user()->countBought() < 1 && !$hasBag) {
+
+                $product = $this->productRepo->findByProductName('Sacola Retornável');
+                $options = [];
+                $this->cartRepo->addToCart($product, 1, $options);
             }
         }
-
-        if ((!is_null(auth()->user())) && auth()->user()->countBought() < 1 && !$hasBag) {
-
-            $product = $this->productRepo->findByProductName('Sacola Retornável');
-            $options = [];
-            $this->cartRepo->addToCart($product,1,$options);
-        }
-
 
     }
 }
