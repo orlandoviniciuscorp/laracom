@@ -12,11 +12,6 @@ class ProductController extends Controller
     use ProductTransformable;
 
     /**
-     * @var ProductRepositoryInterface
-     */
-    private $productRepo;
-
-    /**
      * ProductController constructor.
      * @param ProductRepositoryInterface $productRepository
      */
