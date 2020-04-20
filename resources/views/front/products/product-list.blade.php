@@ -40,7 +40,9 @@
                                     {{ csrf_field() }}
                                     <input type="hidden" name="quantity" value="1" />
                                     <input type="hidden" name="product" value="{{ $product->id }}">
-                                    <input type="hidden" name="category_slug" value="{{ $category_slug }}">
+                                    @isset($category_slug)
+                                        <input type="hidden" name="category_slug" value="{{ $category_slug }}">
+                                    @endif
                                     <button id="add-to-cart-btn" type="submit" class="btn btn-warning"
                                             @if($product->quantity < 1)
                                             disabled
