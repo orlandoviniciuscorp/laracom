@@ -45,8 +45,7 @@ class Order extends Model
      */
     protected $fillable = [
         'reference',
-        'courier_id', // @deprecated
-        'courier',
+        'courier_id',
         'customer_id',
         'address_id',
         'order_status_id',

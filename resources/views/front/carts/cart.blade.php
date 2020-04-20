@@ -7,17 +7,24 @@
                     <div class="col-md-12">
                         <ol class="breadcrumb">
                             <li><a href="{{ route('home') }}"> <i class="fa fa-home"></i> Home</a></li>
-                            <li class="active">Cart</li>
+                            <li class="active">Carrinho de compras</li>
                         </ol>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-md-12 content">
-                        <div class="box-body">
-                            @include('layouts.errors-and-messages')
-                        </div>
+                    <div class="box-body">
+                        @include('layouts.errors-and-messages')
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 content">
                         <h3><i class="fa fa-cart-plus"></i> Carrinho de Compras</h3>
+
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <a href="{{ route('home') }}" class="btn btn-warning">Continuar Comprando</a>
                     </div>
                 </div>
 
@@ -98,7 +105,7 @@
                                             </form>
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                                            <span class="hidden-lg hidden-md"><small>Price: </span>
+                                            <span class="hidden-lg hidden-md"><small>Preço: </span>
                                             {{config('cart.currency')}} {{ number_format($cartItem->price, 2) }}</small>
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
@@ -143,8 +150,8 @@
                         </table>
                     </div>
                 </div>
-                <form action="{{route('cart.checkout')}}" method="post">
-                    {{ csrf_field() }}
+                <form action="{{route('cart.checkout')}}" method="get">
+                    {{--{{ csrf_field() }}--}}
                     <div class="row">
                         <div class="col-md-12">
                             <legend><i class="fa fa-truck"></i> Entrega</legend>

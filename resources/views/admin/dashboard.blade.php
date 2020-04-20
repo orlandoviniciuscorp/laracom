@@ -88,12 +88,12 @@
                                     </li>
 
                                     <li class="list-group-item bg-info">
-                                        {{--<form action="{{route('admin.products.empty-availability')}}" method="post"  class="form-horizontal">--}}
+                                        <form action="{{route('admin.category.rotate-farmers')}}" method="post"  class="form-horizontal">
                                             {{ csrf_field() }}
                                             <button onclick="return confirm('Isso irá zerar de todos os produtores. Tem certeza?')" type="submit" class="btn btn-warning btn-sm">
                                                 <i class="fa fa-refresh" aria-hidden="true"></i> Rotacionar Produtores
                                             </button>
-                                        {{--</form>--}}
+                                        </form>
                                     </li>
                                 @endif
 

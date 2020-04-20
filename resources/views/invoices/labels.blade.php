@@ -27,59 +27,57 @@
                 @foreach ($orders as $order)
                 <table>
                     <tr>
-                        <th>
-                            <small> Número do Pedido</small>
-                        </th>
-                        <th>
-                            <small>Cliente</small>
-                        </th>
-                        <th>
-                            <small>Telefone</small>
-                        </th>
+                        <td>
+                            <strong>Número do Pedido</strong>
+                            <br />
+                        #{{$order->id}}
+                            <br />
+                            <br />
 
-                        <th>
-                           <small> Valor a Pagar</small>
-                        </th>
-
-                        <th>
-                            <small>Produtos</small>
-                        </th>
-                        <th>
-                            <small>Observação</small>
-                        </th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <small>#{{$order->id}}</small>
-                        </td>
-                        <td>
-                            <small><strong>{{$order->customer->name}}</strong>
-                            </small>
-                        </td>
-                        <td>
-                           <small> {{$order->address->phone}}</li>
+                            <strong>Cliente</strong>
+                            <br />
+                            {{$order->customer->name}}
+                            <br /><br />
+                            <strong>Telefone</strong>
+                            <br />
+                           <small> {{$order->address->phone}}
                            </small>
+                            <br /><br/>
+                            <strong>Valor a Pagar</strong>
+                            <br />
+                            <small>R$ {{$order->total}}
+                            </small>
+                            <br >
+                            <br/>
+                            Forma de Pagamento:
+                            {{$order->payment}}
                         </td>
 
                         <td>
-                            <small>R$ {{$order->total}}</li>
-                            </small>
+                            <strong>Zona:</strong>
+                            {{$order->courier->name}}
+
+                            <br />
+                            <br />
+
+                            <strong>Endereço:</strong> <br/>
+                            {{$order->address->address_1}} - {{$order->address->address_2}}
                         </td>
                         <td>
-                           <small>
+                            <strong>Produtos:</strong><br />
                                @foreach($order->products as $product)
                                 {{$product->name }} - {{$product->pivot->quantity }} <br />
                                 @endforeach
-                           </small>
                         </td>
                         <td>
+                            Observação: <br />
                            <small> {{$order->obs}}</li>
                            </small>
                         </td>
                     </tr>
                 </table>
         <br />
-            <hr>
+            <br/>
                 @endforeach
 
         <!-- /.box-body -->
