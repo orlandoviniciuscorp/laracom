@@ -19,10 +19,6 @@ use Shippo_Transaction;
 
 class BankTransferController extends Controller
 {
-    /**
-     * @var CartRepositoryInterface
-     */
-    private $cartRepo;
 
     /**
      * @var CourierRepositoryInterface
