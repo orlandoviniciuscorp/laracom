@@ -205,6 +205,7 @@
                         <div class="modal fade" id="bank_details" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
+                                    <div class="row">
                                             <hr />
                                             <h3>Banco: Banco do Brasil</h3>
                                             <hr>

@@ -43,7 +43,7 @@ class AddressRepository extends BaseRepository implements AddressRepositoryInter
         try {
             return $this->create($data);
         } catch (QueryException $e) {
-            throw new CreateAddressErrorException('Address creation error');
+            throw new CreateAddressErrorException($e);
         }
     }
 
