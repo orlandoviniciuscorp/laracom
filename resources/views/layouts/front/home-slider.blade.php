@@ -12,7 +12,16 @@
             {{--<div class="col-md-4"></div>--}}
         {{--</div>--}}
     {{--</div>--}}
+
 {{--</section>--}}
-{{--<marquee>--}}
-    {{--Organicos da Associação Agroecológica de Teresópolis--}}
-{{--</marquee>--}}
+<section id="hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 text-left">
+                    <h3>Pedidos até 4a feira - Entrega aos Sábados</h3>
+                    <p><h4>Apoio: <a href="http://organicosparatodos.com.br/">Associação Agroecológica de Teresópolis (AAT)</h4></a></p>
+
+            </div>
+        </div>
+    </div>
+</section>

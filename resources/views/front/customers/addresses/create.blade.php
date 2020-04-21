@@ -6,38 +6,74 @@
         @include('layouts.errors-and-messages')
         <div class="box">
             <form action="{{ route('customer.address.store', $customer->id) }}" method="post" class="form" enctype="multipart/form-data">
+                {{ csrf_field() }}
                 <input type="hidden" name="status" value="1">
                 <div class="box-body">
-                    {{ csrf_field() }}
-                    <div class="form-group">
-                        <label for="alias">Tipo de Endereço <span class="text-danger">*</span></label>
-                        <input type="text" name="alias" id="alias" placeholder="Casa ou Trabalho" class="form-control" value="{{ old('alias') }}">
+
+                    <div class="row">
+                        <div class="col-xs-12 col-md-4">
+                            <div class="form-group">
+                                <label for="alias">Tipo de Endereço <span class="text-danger">*</span></label>
+                                <input type="text" name="alias" id="alias" placeholder="Casa ou Trabalho" class="form-control" value="{{ old('alias') }}">
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="address_1">Endereço <span class="text-danger">*</span></label>
-                        <input type="text" name="address_1" id="address_1" placeholder="Address 1" class="form-control" value="{{ old('address_1') }}">
+
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <div class="form-group">
+                                <label for="address_1">Endereço <span class="text-danger">*</span></label>
+                                <input type="text" name="address_1" id="address_1" placeholder="Endereço" class="form-control" value="{{ old('address_1') }}">
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 col-md-3">
+                            <div class="form-group">
+                                <label for="address_2">Complemento</label>
+                                <input type="text" name="address_2" id="address_2" placeholder="Address 2" class="form-control" value="{{ old('address_2') }}">
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="address_2">Complemento</label>
-                        <input type="text" name="address_2" id="address_2" placeholder="Address 2" class="form-control" value="{{ old('address_2') }}">
+
+                    <div class="row">
+                        <div class="col-xs-12 col-md-3">
+                            <div class="form-group">
+                                <label for="neighborhoods">Bairro <span class="text-danger">*</span></label>
+                                <input type="text" name="neighborhoods" id="neighborhoods" placeholder="Bairro" class="form-control" value="{{ old('neighborhoods') }}">
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 col-md-3">
+                            <div class="form-group">
+                                <label for="zip">CEP: </label>
+                                <input type="text" name="zip" id="zip" placeholder="Zip code" class="form-control" value="{{ old('zip') }}">
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="country_id">País </label>
-                        <select name="country_id" id="country_id" class="form-control select2">
-                            @foreach($countries as $country)
-                                <option @if(env('SHOP_COUNTRY_ID') == $country->id) selected="selected" @endif value="{{ $country->id }}">{{ $country->name }}</option>
-                            @endforeach
-                        </select>
+
+                    <div class="row">
+                        <div class="col-xs-12 col-md-3">
+
+                        <div class="form-group">
+                            <label for="country_id">País </label>
+                            <select name="country_id" id="country_id" class="form-control select2">
+                                @foreach($countries as $country)
+                                    <option @if(env('SHOP_COUNTRY_ID') == $country->id) selected="selected" @endif value="{{ $country->id }}">{{ $country->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        </div>
                     </div>
                     <div id="provinces" class="form-group" style="display: none;"></div>
                     <div id="cities" class="form-group" style="display: none;"></div>
-                    <div class="form-group">
-                        <label for="zip">CEP: </label>
-                        <input type="text" name="zip" id="zip" placeholder="Zip code" class="form-control" value="{{ old('zip') }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Telefone para contato: </label>
-                        <input type="text" name="phone" id="phone" placeholder="Phone number" class="form-control" value="{{ old('phone') }}">
+
+                    <div class="row">
+                        <div class="col-xs-12 col-md-3">
+                            <div class="form-group">
+                                <label for="phone">Telefone para contato: </label>
+                                <input type="text" name="phone" id="phone" placeholder="Phone number" class="form-control" value="{{ old('phone') }}">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- /.box-body -->
