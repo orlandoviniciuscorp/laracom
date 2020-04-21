@@ -22,7 +22,7 @@
                 <div class="container">
                     <div class="row">
 
-                        <div class="col col-md-5">
+                        <div class="col col-md-6">
                             <div class="card">
                                 @isset($fair)
                                 <ul class="list-group list-group-flush">
@@ -46,7 +46,7 @@
                                     <li class="list-group-item">Cestas: {{$totalOrders}}</li>
                                     <li class="list-group-item">
                                         <a href="{{ route('admin.fair.orders-list', $fair->id) }}" class="btn btn-primary btn-sm">
-                                            <i class="fa fa-money"></i> Pedidos
+                                            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Pedidos
                                         </a>
                                         @if(auth()->guard('employee')->user()->hasRole('admin|superadmin'))
                                         <a href="{{ route('admin.fair.harvest', $fair->id) }}" class="btn btn-success btn-sm">
@@ -60,6 +60,10 @@
                                         <a href="{{ route('admin.fair.delivery', $fair->id) }}" class="btn btn-primary btn-sm">
                                             <i class="fa fa-truck" aria-hidden="true"></i> Entregas
                                         </a>
+
+                                        <a href="{{ route('admin.fair.delivery', $fair->id) }}" class="btn btn-primary btn-sm">
+                                            <i class="fa fa-usd" aria-hidden="true"></i> Financeiro
+                                        </a>
                                     </li>
 
                                 </ul>
@@ -72,7 +76,7 @@
 
                         </div>
 
-                        <div class="col col-md-5">
+                        <div class="col col-md-4">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item bg-info"><strong>Opções</strong></li>
 

@@ -85,6 +85,8 @@ class CustomerAddressController extends Controller
     {
         $request['customer_id'] = auth()->user()->id;
 
+        //dd($request->except('_token', '_method'));
+
         $this->addressRepo->createAddress($request->except('_token', '_method'));
 
         return redirect()->route('home')
