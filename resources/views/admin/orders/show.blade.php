@@ -79,6 +79,14 @@
             </div>
             <!-- /.box-body -->
         </div>
+        <div class="box">
+            <div class="box-body">
+                <div class="form-group">
+                    <label for="obs" >Observação:</label>
+                        {!! $order['obs']  !!}
+                </div>
+            </div>
+        </div>
         @if($order)
             @if($order->total != $order->total_paid)
                 <p class="alert alert-danger">
