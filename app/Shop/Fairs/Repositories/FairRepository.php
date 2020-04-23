@@ -187,7 +187,7 @@ class FairRepository extends BaseRepository
                 '	 products p, ' .
                 '     category_product cp, ' .
                 '     categories c ' .
-                'where o.fair_id = ? and o.order_status_id not in (3,6) ' .
+                'where o.fair_id = ? and o.order_status_id not in (3,7) ' .
                 'and o.id = op.order_id and p.id = op.product_id ' .
                 'and cp.category_id = c.id and cp.product_id = p.id ' .
                 'group by c.name, p.name', [$id]);
