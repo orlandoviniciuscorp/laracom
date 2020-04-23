@@ -54,14 +54,14 @@
                         </td>
 
                         <td>
-                            <strong>Zona:</strong>
+                            <strong>Tipo de Entrega:</strong>
                             {{$order->courier->name}}
 
                             <br />
                             <br />
 
                             <strong>Endereço:</strong> <br/>
-                            {{$order->address->address_1}} - {{$order->address->address_2}}
+                            {{$order->address->address_1}} - {{$order->address->address_2}} - {{$order->address->neighborhoods}}
                         </td>
                         <td>
                             <strong>Produtos:</strong><br />

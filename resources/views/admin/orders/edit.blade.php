@@ -99,8 +99,7 @@
                 <div class="box-body">
                     <div class="form-group">
                         <label for="obs" >Observação:</label>
-                        <textarea class="form-control" name="obs" id="obs" rows="5" placeholder="Observação">
-                            {!! $order['obs'] ?: old('obs')  !!}
+                        <textarea class="form-control" name="obs" id="obs" rows="5" placeholder="Observação">{!! $order['obs'] ?: old('obs')  !!}
                         </textarea>
                     </div>
                 </div>
