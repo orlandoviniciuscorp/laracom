@@ -5,6 +5,8 @@
     <section class="content">
     @include('layouts.errors-and-messages')
     <!-- Default box -->
+        <form action="{{ route('admin.orders.update', $order->id) }}" method="post">
+            {{ csrf_field() }}
         <div class="box">
             <div class="box-header">
                 <div class="row">
@@ -39,8 +41,7 @@
                         <td><a href="{{ route('admin.customers.show', $customer->id) }}">{{ $customer->name }}</a></td>
                         <td><strong>{{ $order['payment'] }}</strong></td>
                         <td>
-                            <form action="{{ route('admin.orders.update', $order->id) }}" method="post">
-                                {{ csrf_field() }}
+
                                 <input type="hidden" name="_method" value="put">
                                 <label for="order_status_id" class="hidden">Update status</label>
                                 <input type="text" name="total_paid" class="form-control" placeholder="Total paid" style="margin-bottom: 5px; display: none" value="{{ old('total_paid') ?? $order->total_paid }}" />
@@ -52,7 +53,7 @@
                                     </select>
                                     <span class="input-group-btn"><button onclick="return confirm('Tem Certeza?')" type="submit" class="btn btn-primary">Update</button></span>
                                 </div>
-                            </form>
+
                         </td>
                     </tr>
                     </tbody>
@@ -93,6 +94,16 @@
                 </table>
             </div>
             <!-- /.box-body -->
+        </div>
+        <div class="box">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="obs" >Observação:</label>
+                        <textarea class="form-control ckeditor" name="obs" id="obs" rows="5" placeholder="Observação">
+                            {!! $order['obs'] ?: old('obs')  !!}
+                        </textarea>
+                    </div>
+                </div>
         </div>
         @if($order)
             @if($order->total != $order->total_paid)
@@ -186,6 +197,7 @@
                     <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-default">Back</a>
                 </div>
             </div>
+        </form>
         @endif
 
     </section>
