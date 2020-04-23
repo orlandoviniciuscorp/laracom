@@ -120,9 +120,7 @@ class FairController extends Controller
 
     public function generateLabel($fair_id)   {
 
-
-
-        $orders = app(Order::class)->where('fair_id','=',$fair_id)->whereNotIn('order_status_id',[6,3])->get();
+        $orders = app(Order::class)->where('fair_id','=',$fair_id)->whereNotIn('order_status_id',[7,3])->get();
         $data = ['orders'=>$orders];
         $pdf = app()->make('dompdf.wrapper');
         $pdf->loadView('invoices.labels', $data)->stream();
