@@ -10,9 +10,9 @@
                 </ul>
 
                 <ul class="footer-social text-success">
-                    <li> <a href="https://www.facebook.com/OrganicosParaTodosAAT"> <i class="fa fa-facebook text-primary" aria-hidden="false"></i>  </a> </li>
+                    <li> <a href="https://www.facebook.com/demedeiros.organico.3"> <i class="fa fa-facebook text-primary" aria-hidden="false"></i>  </a> </li>
                     {{--<li> <a href=""> <i class="fa fa-twitter" aria-hidden="true"></i>   </a> </li>--}}
-                    <li> <a href="https://www.instagram.com/organicosparatodos/"> <i class="fa fa-instagram text-primary" aria-hidden="true"></i>  </a> </li>
+                    <li> <a href="https://www.instagram.com/sitio.demedeiros"> <i class="fa fa-instagram text-primary" aria-hidden="true"></i>  </a> </li>
                     {{--<li> <a href=""> <i class="fa fa-pinterest-p" aria-hidden="true"></i>  </a> </li>--}}
                 </ul>
 
