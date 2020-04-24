@@ -44,7 +44,7 @@
                     Total
                 </th>
                 <th>
-                    Zonas
+                    Entrega
                 </th>
                 <th>
                     Itens
@@ -85,7 +85,7 @@
                             {{$deliveryAddrress->itens}}
                         </td>
                         <td>
-                            {{$deliveryAddrress->end_1}} -  {{$deliveryAddrress->end_2}}
+                            {{$deliveryAddrress->end_1}} -  {{$deliveryAddrress->end_2}} - {{$deliveryAddrress->bairro}}
                         </td>
                         <td>
                             {{$deliveryAddrress->observacao}}
