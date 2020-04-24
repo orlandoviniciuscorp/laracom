@@ -25,7 +25,29 @@
                     <!-- Tab panes -->
                     <div class="tab-content customer-order-list">
                         <div role="tabpanel" class="tab-pane @if(request()->input('tab') == 'profile')active @endif" id="profile">
-                            {{$customer->name}} <br /><small>{{$customer->email}}</small>
+                            <div class="container">
+                                <div class="row">
+                                    <strong>Nome:</strong> {{$customer->name}} <br />
+                                    <strong>E-mail:</strong> {{$customer->email}}
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <h4>
+                                        <i class="fa fa-credit-card"></i> Dados para Pagamento:
+                                    </h4>
+
+                                    <button type="button" class="btn btn-success"
+                                            data-toggle="modal"
+                                            data-target="#banco_do_brasil">
+                                        <i class="fa fa-university" aria-hidden="true"></i>
+                                        Banco do Brasil</button>
+                                    <br /><br />
+                                    <button type="button" class="btn btn-success"
+                                            data-toggle="modal"
+                                            data-target="#nubank">
+                                        <i class="fa fa-university" aria-hidden="true"></i> Nubank</button>
+                                </div>
+                            </div>
                         </div>
                         <div role="tabpanel" class="tab-pane @if(request()->input('tab') == 'orders')active @endif" id="orders">
                             @if(!$orders->isEmpty())
@@ -174,6 +196,7 @@
                 </div>
             </div>
         </div>
+        @include('front.debit-modal')
     </section>
     <!-- /.content -->
 @endsection
