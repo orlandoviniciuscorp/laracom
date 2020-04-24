@@ -208,42 +208,7 @@
                             </div>
                         </div>
 
-                        <div class="modal fade" id="banco_do_brasil" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                            <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <hr />
-                                        <h3>Banco: Banco do Brasil</h3>
-                                        <hr>
-                                        <p>Código do Banco: <strong>001</strong></p>
-                                        <p>Tipo de Conta: <strong>Conta Corrente</strong></p>
-                                        <p>Beneficiário: <strong>Jenifer Soares Medeiros</strong></p>
-                                        <p>Agência: <strong>0315-8</strong></p>
-                                        <p>Número da Conta: <strong> 51095-5</strong></p>
-                                        <p>CPF: <strong>150.557.347-52</strong></p>
-                                        <p>Valor: <strong> {{ config('cart.currency_symbol') }} {{ $total }}</strong></p>
-                                        <p><strong><small class="text-danger text">* {{ config('bank-transfer.note') }}</small></strong></p>
-                                        <p><strong><small class="text-danger text">*Enviar o comprovante de depósito para o  número: (21) 99698-2844 - Sarita Marques</small></strong></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal fade" id="nubank" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                            <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <hr />
-                                        <h3>Banco: Nubank</h3>
-                                        <hr>
-                                        <p>Código do Banco: <strong>260</strong></p>
-                                        <p>Tipo de Conta: <strong>Conta Corrente</strong></p>
-                                        <p>Beneficiário: <strong>Sarita de Cássia Coelho Marques</strong></p>
-                                        <p>Agência: <strong>0001</strong></p>
-                                        <p>Número da Conta: <strong> 35644330-6</strong></p>
-                                        <p>CPF: <strong>126.853.717-96</strong></p>
-                                        <p>Valor: <strong> {{ config('cart.currency_symbol') }} {{ $total }}</strong></p>
-                                        <p><strong><small class="text-danger text">* {{ config('bank-transfer.note') }}</small></strong></p>
-                                        <p><strong><small class="text-danger text">*Enviar o comprovante de depósito para o  número: (21) 99698-2844 - Sarita Marques</small></strong></p>
-                                </div>
-                            </div>
-                        </div>
+                       @include('front.debit-modal')
 
                     @else
                         <p class="alert alert-danger"><a href="{{ route('customer.address.create', [$customer->id]) }}">Nenhum endereço de entrega cadastrado. Cadastre aqui o seu endereço de entrega.</a></p>
@@ -253,7 +218,7 @@
         @else
             <div class="row">
                 <div class="col-md-12">
-                    <p class="alert alert-warning">No products in cart yet. <a href="{{ route('home') }}">Show now!</a></p>
+                    <p class="alert alert-warning">Não há produtos no carrinho<a href="{{ route('home') }}">Compre agora</a></p>
                 </div>
             </div>
         @endif
