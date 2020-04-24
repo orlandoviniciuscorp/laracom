@@ -120,7 +120,7 @@
         <div class="row">
 
             <div class="image-clean">
-                <img src="img/logo-feira-teresopolis-grande.jpg" />
+                <img src="img/logo-demedeiros.jpeg" />
             </div>
         </div>
 
