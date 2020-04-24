@@ -206,6 +206,7 @@ class FairRepository extends BaseRepository
             ' sum(op.quantity) as itens,	                                        ' .
             ' ad.address_1 as end_1, 												' .
             ' ad.address_2 as end_2,              									' .
+            ' ad.neighborhoods as bairro,              									' .
             ' o.obs as observacao                                                   ' .
             ' from orders o,                                                        ' .
             ' 	 customers c,                                                       ' .
@@ -220,7 +221,7 @@ class FairRepository extends BaseRepository
             ' and op.order_id = o.id                                                ' .
             ' and o.address_id = ad.id                                              ' .
             ' and op.product_id = p.id                                              ' .
-            ' and o.order_status_id not in(3,6)                                     ' .
+            ' and o.order_status_id not in(3,7)                                     ' .
             ' group by o.id,c.name, c.email, ad.phone, o.payment, o.total,co.name   ' .
             ' order by co.id, o.payment                                             ',[$fair_id]);
 

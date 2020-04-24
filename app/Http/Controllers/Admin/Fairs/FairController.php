@@ -81,7 +81,7 @@ class FairController extends Controller
 
     public function show($fair_id)
     {
-        //$fair = $this->fairRepo->find($fair_id);
+        $fair = $this->fairRepo->find($fair_id);
 
         dd($fair_id);
         return view('admin.fairs.show')->with('fair',$fair);
