@@ -35,9 +35,6 @@
                     {{--Email--}}
                 {{--</th>--}}
                 <th>
-                    Telefone
-                </th>
-                <th>
                     Pagamento
 
                 </th>
@@ -62,8 +59,9 @@
                             {{$deliveryAddrress->pedido}}
                         </td>
                         <td>
-                            {{$deliveryAddrress->cliente}} <br />
+                            {{$deliveryAddrress->cliente}} <br /> <br />
 
+                            <strong>Telefone:</strong>
                             {{$deliveryAddrress->telefone}}
                         </td>
                         <td>
