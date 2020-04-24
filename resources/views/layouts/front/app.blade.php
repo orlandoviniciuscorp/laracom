@@ -63,7 +63,7 @@
     </p>
 </noscript>
 <section>
-    @if(env('SHOPPING_OPENED') == 1231)
+    @if(env('SHOPPING_OPENED') == 1)
     <div class="hidden-xs">
         <div class="container">
             <div class="clearfix"></div>
