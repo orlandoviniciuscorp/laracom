@@ -39,9 +39,7 @@
                 </th>
                 <th>
                     Pagamento
-                </th>
-                <th>
-                    Total
+
                 </th>
                 <th>
                     Entrega
@@ -64,18 +62,14 @@
                             {{$deliveryAddrress->pedido}}
                         </td>
                         <td>
-                            {{$deliveryAddrress->cliente}}
-                        </td>
-                        {{--<td>--}}
-                            {{--{{$deliveryAddrress->email}}--}}
-                        {{--</td>--}}
-                        <td>
+                            {{$deliveryAddrress->cliente}} <br />
+
                             {{$deliveryAddrress->telefone}}
                         </td>
                         <td>
                             {{$deliveryAddrress->pagamento}}
-                        </td>
-                        <td>
+                            <br />
+                            <br />
                             R$ {{$deliveryAddrress->total}}
                         </td>
                         <td>
