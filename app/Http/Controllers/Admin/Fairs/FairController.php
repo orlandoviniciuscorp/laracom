@@ -83,7 +83,7 @@ class FairController extends Controller
     {
         $fair = $this->fairRepo->find($fair_id);
 
-        dd($fair_id);
+
         return view('admin.fairs.show')->with('fair',$fair);
 
     }
@@ -154,6 +154,16 @@ class FairController extends Controller
         return $pdf->stream();
 //                return view('invoices.delivery', $data);
 
+    }
+
+    public function financial($fair_id)
+    {
+         $data = ['financial'=>$this->fairRepo->getExtract($fair_id)];
+         $data = array_merge($data,['productors'=>$this->fairRepo->getHarverstPayment($fair_id)]);
+         $data = array_merge($data,['fair'=>$this->fairRepo->find($fair_id)]);
+
+
+         return view('admin.fairs.financial', $data);
     }
 
     /**

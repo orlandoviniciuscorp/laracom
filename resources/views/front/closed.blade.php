@@ -8,7 +8,7 @@
     <div class="row">
 
         <div class="image-clean">
-            <img src="{{asset('img/logo-demedeiros.jpeg')}}" />
+            <img src="{{asset('img/logo-demedeiros.jpeg')}}" class="img-thumbnail" />
         </div>
     </div>
 
