@@ -1,7 +1,7 @@
 @extends('layouts.front.app')
 
 @section('content')
-    @if(env('SHOPPING_OPENED' == 213121))
+    @if(env('SHOPPING_OPENED' == 1))
         <div class="container product-in-cart-list">
             @if(!$cartItems->isEmpty())
                 <div class="row">

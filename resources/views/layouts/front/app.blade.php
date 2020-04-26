@@ -19,10 +19,8 @@
     <meta name="author" content="Jeff Simons Decena">
     <link href="{{ asset('css/style.min.css') }}" rel="stylesheet">
     <style>
-        .vcenter {
-            display: inline-block;
-            vertical-align: middle;
-            float: none;
+        body{
+            /*background-color: #f2ede9;*/
         }
     </style>
 
