@@ -15,9 +15,8 @@
                 <div class="single-product">
                     <div class="product">
                         @if(isset($product->cover))
-                            <img src="{{ asset("storage/$product->cover") }}" alt="{{ $product->name }}" class="img-bordered img-responsive">
-                        @else
-                            <img src="https://placehold.it/263x330" alt="{{ $product->name }}" class="img-bordered img-responsive" />
+                            <img src="{{ asset("storage/$product->cover") }}" alt="{{ $product->name }}"
+                                 class="img-thumbnail">
                         @endif
                     </div>
 
