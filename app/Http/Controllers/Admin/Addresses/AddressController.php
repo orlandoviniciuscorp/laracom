@@ -137,7 +137,7 @@ class AddressController extends Controller
             'countries' => $countries,
             'countryId' => $address->country->id,
             'provinces' => $countryRepo->findProvinces(),
-            'provinceId' => $address->province->id,
+            'provinceId' => 0,
             'cities' => $this->cityRepo->listCities(),
             'cityId' => $address->city_id,
             'customers' => $this->customerRepo->listCustomers(),
