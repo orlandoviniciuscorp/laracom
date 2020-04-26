@@ -61,7 +61,7 @@
                                             <i class="fa fa-truck" aria-hidden="true"></i> Entregas
                                         </a>
 
-                                        <a href="{{ route('admin.fair.delivery', $fair->id) }}" class="btn btn-primary btn-sm">
+                                        <a href="{{ route('admin.fair.financial', $fair->id) }}" class="btn btn-primary btn-sm">
                                             <i class="fa fa-usd" aria-hidden="true"></i> Financeiro
                                         </a>
                                     </li>
