@@ -1,6 +1,7 @@
 @extends('layouts.front.app')
 
 @section('content')
+    @if(env('SHOPPING_OPENED' == 213121))
         <div class="container product-in-cart-list">
             @if(!$cartItems->isEmpty())
                 <div class="row">
@@ -190,6 +191,9 @@
                 </div>
             @endif
         </div>
+    @else
+        @include('front.closed')
+    @endif
 @endsection
 @section('css')
     <style type="text/css">
