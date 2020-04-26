@@ -239,7 +239,7 @@ class FairRepository extends BaseRepository
         ' where o.courier_id = co.id                           '.
         ' 	  and o.order_status_id not in (3,7)               '.
         ' 	  and o.fair_id = ?                                '.
-        ' group by co.name                                     ',[$fair_id]);
+        ' group by co.name, o.payment                                    ',[$fair_id]);
     }
 
     public function getHarverstPayment($fair_id)
