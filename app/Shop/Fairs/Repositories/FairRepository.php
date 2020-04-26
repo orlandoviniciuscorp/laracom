@@ -226,5 +226,38 @@ class FairRepository extends BaseRepository
 
     }
 
+    public function getExtract($fair_id)
+    {
+        return DB::select(' select co.name Entrega,                              '.
+        ' 	   o.payment as "tipo_pagamento",                  '.
+        '        sum(o.total_products) as "total_produtos",    '.
+        '        sum(o.total_shipping) as "total_entrega",           '.
+        '        sum(o.total) as "total",                      '.
+        '        count(o.id) as "total_cestas"                 '.
+        ' from orders o,                                       '.
+        ' couriers co                                          '.
+        ' where o.courier_id = co.id                           '.
+        ' 	  and o.order_status_id not in (3,7)               '.
+        ' 	  and o.fair_id = ?                                '.
+        ' group by co.name                                     ',[$fair_id]);
+    }
+
+    public function getHarverstPayment($fair_id)
+    {
+        return DB::select('	select c.name as produtor,                              '.
+            '		   p.name as produto,                               '.
+            '		   sum(op.quantity) as quantidade,                  '.
+            '		   sum(op.quantity*p.price) as valor_vendido        '.
+            '	 from orders o,                                         '.
+            '		 order_product op,                                  '.
+            '		 products p,                                        '.
+            '		 category_product cp,                               '.
+            '		 categories c                                       '.
+            '	where o.fair_id = ? and o.order_status_id not in (3,7)  '.
+            '	and o.id = op.order_id and p.id = op.product_id         '.
+            '	and cp.category_id = c.id and cp.product_id = p.id      '.
+            '	group by c.name, p.name                                 ',[$fair_id]);
+    }
+
 
 }
