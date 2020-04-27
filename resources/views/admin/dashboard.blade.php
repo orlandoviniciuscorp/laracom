@@ -48,11 +48,6 @@
                                         <a href="{{ route('admin.fair.orders-list', $fair->id) }}" class="btn btn-primary btn-sm">
                                             <i class="fa fa-shopping-cart" aria-hidden="true"></i> Pedidos
                                         </a>
-                                        @if(auth()->guard('employee')->user()->hasRole('admin|superadmin'))
-                                        <a href="{{ route('admin.fair.harvest', $fair->id) }}" class="btn btn-success btn-sm">
-                                            <i class="fa fa-leaf" aria-hidden="true"></i> Colheita
-                                        </a>
-                                        @endif
                                         <a href="{{ route('admin.fair.labels', $fair->id) }}" class="btn btn-primary btn-sm">
                                             <i class="fa fa-tag" aria-hidden="true"></i> Etiquetas
                                         </a>
@@ -61,9 +56,16 @@
                                             <i class="fa fa-truck" aria-hidden="true"></i> Entregas
                                         </a>
 
-                                        <a href="{{ route('admin.fair.financial', $fair->id) }}" class="btn btn-primary btn-sm">
-                                            <i class="fa fa-usd" aria-hidden="true"></i> Financeiro
-                                        </a>
+                                        @if(auth()->guard('employee')->user()->hasRole('admin|superadmin'))
+                                            <a href="{{ route('admin.fair.harvest', $fair->id) }}" class="btn btn-success btn-sm">
+                                                <i class="fa fa-leaf" aria-hidden="true"></i> Colheita
+                                            </a>
+
+                                            <a href="{{ route('admin.fair.financial', $fair->id) }}" class="btn btn-success btn-sm">
+                                                <i class="fa fa-usd" aria-hidden="true"></i> Financeiro
+                                            </a>
+                                        @endif
+
                                     </li>
 
                                 </ul>
