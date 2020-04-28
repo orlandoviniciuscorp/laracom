@@ -14,36 +14,44 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <td class="col-md-2">Pedido</td>
-                                <td class="col-md-2">Cliente</td>
-                                <td class="col-md-2">Tipo de Pagamento</td>
-                                <td class="col-md-2">Total</td>
-                                <td class="col-md-2">Total dos produtos</td>
-                                <td class="col-md-2">Total das Entregas</td>
-                                <td class="col-md-2">Status</td>
+                                <td>Pedido</td>
+                                <td>Cliente</td>
+                                <td>Telefone</td>
+                                <td>e-mail</td>
+                                <td>Tipo de Pagamento</td>
+                                <td>Produtos</td>
+                                <td>Entrega</td>
+                                <td>Total</td>
+                                <td>Status</td>
                             </tr>
                         </thead>
                         <tbody>
                         @foreach ($orders as $order)
 
-                            <tr>
+                            <tr @if($order->orderStatus->name == 'Cancelado')class="danger"@endif >
                                 <td>
-                                    {{$order->id}}
+                                    #{{$order->id}}
                                 </td>
                                 <td>
                                     {{$order->customer->name}}
                                 </td>
                                 <td>
+                                    {{$order->address->phone}}
+                                </td>
+                                <td>
+                                    {{$order->customer->email}}
+                                </td>
+                                <td>
                                     {{$order->payment}}
                                 </td>
                                 <td>
-                                    {{$order->total}}
+                                    R$ {{$order->total_products}}
                                 </td>
                                 <td>
-                                    {{$order->total_shipping}}
+                                    R$ {{$order->total_shipping}}
                                 </td>
                                 <td>
-                                    {{$order->total_products}}
+                                    R$ {{$order->total}}
                                 </td>
                                 <td>
                                     {{$order->orderStatus->name}}
