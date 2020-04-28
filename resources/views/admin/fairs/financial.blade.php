@@ -10,7 +10,7 @@
                 <div class="box-body">
                     <h3>{{$fair->name}}</h3>
                     <br />
-
+                    <div class="box-tools">
                     <table class="table">
                         <thead>
                             <tr>
@@ -50,9 +50,17 @@
                         @endforeach
                         </tbody>
                     </table>
+                    </div>
+                    <hr>
+                    <div class="box-tools">
+                        <a href="{{ route('admin.fair.detail-report', $fair->id) }}">
+                            <button name="report" class="btn btn-success">Relatório Detalhado</button>
+                        </a>
+
+                    </div>
 
                     <hr/>
-
+                    <div class="box-tools">
                     <h3>Pagamento por Produtor/Catergoria</h3>
 
                     <table class="table">
@@ -85,6 +93,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    </div>
 
                 </div>
                 <!-- /.box-body -->
