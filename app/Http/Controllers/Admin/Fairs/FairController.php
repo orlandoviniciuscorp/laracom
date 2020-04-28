@@ -166,6 +166,15 @@ class FairController extends Controller
          return view('admin.fairs.financial', $data);
     }
 
+    public function detailReport($fair_id)
+    {
+        $orders = $this->orderRepo->findByFairId($fair_id);
+
+        return view('admin.fairs.report-details')
+            ->with('orders',$orders)
+            ->with('fair',$this->fairRepo->find($fair_id));
+    }
+
     /**
      * @param Collection $list
      * @return array
