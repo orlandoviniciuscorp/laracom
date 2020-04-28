@@ -36,78 +36,35 @@
                                     <td>Data</td>
                                     <td>Total</td>
                                     <td>Status</td>
+                                    <td>Ações</td>
                                 </tr>
                                 </tbody>
                                 <tbody>
                                 @foreach ($orders as $order)
                                     <tr>
                                         <td>
-                                            #{{$order['id']}}
+                                            <a data-toggle="modal" data-target="#order_modal_{{$order['id']}}" title="Pedido" href="javascript: void(0)">#{{$order['id']}}</a>
+                                            @include('front.modal-accounts-orders',['order'=>$order])
                                         </td>
                                         <td>
-                                            <a data-toggle="modal" data-target="#order_modal_{{$order['id']}}" title="Show order" href="javascript: void(0)">{{ date('d/m/Y, h:i a', strtotime($order['created_at'])) }}</a>
-                                            <!-- Button trigger modal -->
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="order_modal_{{$order['id']}}" tabindex="-1" role="dialog" aria-labelledby="MyOrders">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                            <h4 class="modal-title" id="myModalLabel">Reference #{{$order['reference']}}</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <table class="table">
-                                                                <thead>
-                                                                    <th>Endereço</th>
-                                                                    <th>Forma de Pagamento</th>
-                                                                    <th>Total</th>
-                                                                    <th>Status</th>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <address>
-                                                                                <strong>{{$order['address']->alias}}</strong><br />
-                                                                                {{$order['address']->address_1}} {{$order['address']->address_2}}<br>
-                                                                            </address>
-                                                                        </td>
-                                                                        <td>{{$order['payment']}}</td>
-                                                                        <td>{{ config('cart.currency_symbol') }} {{$order['total']}}</td>
-                                                                        <td><p class="text-center" style="color: #ffffff; background-color: {{ $order['status']->color }}">{{ $order['status']->name }}</p></td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                            <hr>
-                                                            <p>Detalhes do Pedido:</p>
-                                                            <table class="table">
-                                                              <thead>
-                                                                  <th>Produto</th>
-                                                                  <th>Quatidade</th>
-                                                                  <th>Preço</th>
-                                                                  <th>Foto</th>
-                                                              </thead>
-                                                              <tbody>
-                                                              @foreach ($order['products'] as $product)
-                                                                  <tr>
-                                                                      <td>{{$product['name']}}</td>
-                                                                      <td>{{$product['pivot']['quantity']}}</td>
-                                                                      <td>{{$product['price']}}</td>
-                                                                      <td><img src="{{ asset("storage/".$product['cover']) }}" width=50px height=50px alt="{{ $product['name'] }}" class="img-orderDetail"></td>
-                                                                  </tr>
-                                                              @endforeach
-                                                              </tbody>
-                                                            </table>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            {{ date('d/m/Y, h:i a', strtotime($order['created_at'])) }}
                                         </td>
                                         <td><span class="label @if($order['total'] != $order['total_paid']) label-danger @else label-success @endif">{{ config('cart.currency') }} {{ $order['total'] }}</span></td>
                                         <td><p class="text-center" style="color: #ffffff; background-color: {{ $order['status']->color }}">{{ $order['status']->name }}</p></td>
+                                        <td>
+                                            @if($order['fair']->status == 1)
+                                                <form action="{{route('accounts.cancel-order')}}" method="post">
+                                                    {{csrf_field()}}
+                                                    <input type="hidden" name="order_id" value="{{$order['id']}}" />
+                                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Essa operação não pode ser desfeita. Tem Certeza?')" >
+                                                        <i class="fa fa-ban" aria-hidden="true"></i> Cancelar
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        </td>
                                     </tr>
+                                    <!-- Button trigger modal -->
+
                                 @endforeach
                                 </tbody>
                             </table>
