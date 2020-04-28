@@ -239,4 +239,9 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
             ->whereNotIn('order_status_id',[3,6])
             ->sum('total');
     }
+
+    public function findByFairId($fair_id)
+    {
+        return $this->model->where('fair_id',$fair_id)->get();
+    }
 }
