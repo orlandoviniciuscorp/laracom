@@ -28,25 +28,14 @@
     <hr>
     <section class="row">
         <div class="pull-left">
-            <p><strong>Banco: Banco do Brasil</strong></p>
-
-            <p>Código do Banco: <strong>001</strong></p>
-            <p>Tipo de Conta: <strong>Conta Corrente</strong></p>
-            <p>Beneficiário: <strong>Jenifer Soares Medeiros</strong></p>
-            <p>Agência: <strong>0315-8</strong></p>
-            <p>Número da Conta: <strong> 51095-5</strong></p>
-            <p>CPF: <strong>150.557.347-52</strong></p>
-        </div>
-    </section>
-    <section class="row">
-        <div class="pull-left">
-            <p><strong>Banco: Nubank</strong></p>
-            <p>Código do Banco: <strong>260</strong></p>
-            <p>Tipo de Conta: <strong>Conta Corrente</strong></p>
-            <p>Beneficiário: <strong>Sarita de Cássia Coelho Marques</strong></p>
-            <p>Agência: <strong>0001</strong></p>
-            <p>Número da Conta: <strong> 35644330-6</strong></p>
-            <p>CPF: <strong>126.853.717-96</strong></p>
+            <div class="row">
+                <p><strong>Banco: Banco do Brasil</strong></p>
+                <p>Código do Banco: <strong>001</strong></p>
+                <p>Tipo de Conta: <strong>Conta Corrente</strong></p>
+                <p>Beneficiário: <strong>Sarita De Cassia C. Marques </strong></p>
+                <p>Agência: <strong>1252-1</strong></p>
+                <p>Número da Conta: <strong> 21529-5</strong></p>
+                <p>CPF: <strong>126.853.717-96</strong></p>
         </div>
     </section>
     <hr>
