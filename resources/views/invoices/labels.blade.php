@@ -6,7 +6,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Etiquetas</title>
+    <title>{{env('APP_NAME')}} - Etiquetas</title>
     {{--<link rel="stylesheet" href="{{asset('css/style.min.css')}}">--}}
     <style>
 
@@ -21,13 +21,14 @@
 
 <section class="container">
 <!-- Default box -->
-    <h2>Etiquetas</h2>
+    <h2>{{env('APP_NAME')}} - Etiquetas</h2>
     @if($orders)
 
                 @foreach ($orders as $order)
                 <table>
                     <tr>
                         <td>
+                            {{env('APP_NAME')}}<br /><br />
                             <strong>Número do Pedido</strong>
                             <br />
                         #{{$order->id}}
