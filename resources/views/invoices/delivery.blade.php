@@ -21,7 +21,7 @@
 
 <section class="container">
 <!-- Default box -->
-    <h2>Pedidos dos Clientes</h2>
+    <h3>{{env('APP_NAME')}} - Pedidos dos Clientes</h3>
     @if($deliveryAddrresses)
         <table border="0" style="border: 1px solid black">
             <tr>
