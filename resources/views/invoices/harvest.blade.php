@@ -6,7 +6,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Colheita</title>
+    <title>{{env('APP_NAME')}} - Colheita</title>
     {{--<link rel="stylesheet" href="{{asset('css/style.min.css')}}">--}}
     <style>
         table {
@@ -21,7 +21,7 @@
 
 <section class="container">
 <!-- Default box -->
-    <h2>Colheita</h2>
+    <h2>{{env('APP_NAME')}} - Colheita</h2>
     @if($harvest)
         <table border="0" style="border: 1px solid black">
             <tr>

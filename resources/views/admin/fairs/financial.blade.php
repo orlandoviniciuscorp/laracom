@@ -8,7 +8,7 @@
     <!-- Default box -->
             <div class="box">
                 <div class="box-body">
-                    <h3>{{$fair->name}}</h3>
+                    <h3>{{env('APP_NAME')}} - {{$fair->name}}</h3>
                     <br />
                     <div class="box-tools">
                     <table class="table">

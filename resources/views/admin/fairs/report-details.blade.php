@@ -8,7 +8,7 @@
     <!-- Default box -->
             <div class="box">
                 <div class="box-body">
-                    <h3>{{$fair->name}}</h3>
+                    <h3>{{env('APP_NAME')}} - {{$fair->name}}</h3>
                     <br />
                     <div class="box-tools">
                     <table class="table">
@@ -25,7 +25,6 @@
                         </thead>
                         <tbody>
                         @foreach ($orders as $order)
-
                             <tr>
                                 <td>
                                     {{$order->id}}
@@ -48,7 +47,6 @@
                                 <td>
                                     {{$order->orderStatus->name}}
                                 </td>
-
                             </tr>
                         @endforeach
                         </tbody>
