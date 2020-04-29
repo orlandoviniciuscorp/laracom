@@ -81,10 +81,10 @@ class FairController extends Controller
 
     public function show($fair_id)
     {
-        //$fair = $this->fairRepo->find($fair_id);
+        //$fair = dd($this->fairRepo->find($fair_id));
 
 
-        return view('admin.fairs.show')->with('fair',$fair);
+        return view('admin.fairs.edit')->with('fair',$fair);
 
     }
 
@@ -120,9 +120,7 @@ class FairController extends Controller
 
     public function generateLabel($fair_id)   {
 
-
-
-        $orders = app(Order::class)->where('fair_id','=',$fair_id)->whereNotIn('order_status_id',[6,3])->get();
+        $orders = app(Order::class)->where('fair_id','=',$fair_id)->whereNotIn('order_status_id',[env('ORDER_ERROR'),env('ORDER_CANCELED')])->get();
         $data = ['orders'=>$orders];
         $pdf = app()->make('dompdf.wrapper');
         $pdf->loadView('invoices.labels', $data)->stream();
@@ -163,6 +161,9 @@ class FairController extends Controller
          $data = ['financial'=>$this->fairRepo->getExtract($fair_id)];
          $data = array_merge($data,['productors'=>$this->fairRepo->getHarverstPayment($fair_id)]);
          $data = array_merge($data,['fair'=>$this->fairRepo->find($fair_id)]);
+         $data = array_merge($data,['totalOrders'=>$this->orderRepo->totalOrders($fair_id)]);
+        $data = array_merge($data,['totalAmount'=>$this->orderRepo->totalAmount($fair_id)]);
+
 
 
          return view('admin.fairs.financial', $data);

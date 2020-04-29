@@ -14,12 +14,12 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <td class="col-md-2">Tipo de Entrega</td>
-                                <td class="col-md-2">Tipo de Pagamento</td>
-                                <td class="col-md-2">Total de Produtos</td>
-                                <td class="col-md-6">Total de Entregas</td>
-                                <td class="col-md-6">Total</td>
-                                <td class="col-md-6">Quantidade de Cestas</td>
+                                <td>Tipo de Entrega</td>
+                                <td>Tipo de Pagamento</td>
+                                <td>Total de Produtos</td>
+                                <td>Total de Entregas</td>
+                                <td>Total</td>
+                                <td>Quantidade de Cestas</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -31,23 +31,33 @@
                                     {{$f->Entrega}}
                                 </td>
                                 <td>
-                                    {{$f->tipo_pagamento}}
+                                     {{$f->tipo_pagamento}}
                                 </td>
                                 <td>
-                                    {{$f->total_produtos}}
+                                    R$ {{$f->total_produtos}}
                                 </td>
                                 <td>
-                                    {{$f->total_entrega}}
+                                    R$ {{$f->total_entrega}}
                                 </td>
                                 <td>
-                                    {{$f->total}}
+                                    R$ {{$f->total}}
                                 </td>
                                 <td>
-                                    {{$f->total_cestas}}
+                                    R$ {{$f->total_cestas}}
                                 </td>
 
                             </tr>
                         @endforeach
+                        <tr>
+                            <td colspan="6">
+                                Cestas : {{$totalOrders}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                Arrecadado: R${{$totalAmount}}
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                     </div>
