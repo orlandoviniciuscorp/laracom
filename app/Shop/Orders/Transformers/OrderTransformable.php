@@ -8,7 +8,9 @@ use App\Shop\Couriers\Courier;
 use App\Shop\Couriers\Repositories\CourierRepository;
 use App\Shop\Customers\Customer;
 use App\Shop\Customers\Repositories\CustomerRepository;
+use App\Shop\Fairs\Repositories\FairRepository;
 use App\Shop\Orders\Order;
+use App\Shop\Fairs\Fair;
 use App\Shop\OrderStatuses\OrderStatus;
 use App\Shop\OrderStatuses\Repositories\OrderStatusRepository;
 
@@ -33,6 +35,9 @@ trait OrderTransformable
 
         $orderStatusRepo = new OrderStatusRepository(new OrderStatus());
         $order->status = $orderStatusRepo->findOrderStatusById($order->order_status_id);
+
+        $fairRepo = new FairRepository(new Fair());
+        $order->fair = $fairRepo->findFairById($order->fair_id);
 
         return $order;
     }
