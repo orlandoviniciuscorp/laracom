@@ -40,7 +40,7 @@
                                     </li>
                                     <li class="list-group-item">Inicio: {{$fair->start_at}}</li>
                                     <li class="list-group-item">Fim: {{$fair->end_at}}</li>
-                                    <li class="list-group-item">Arrecadado: R$ {{$amount}}</li>
+                                    <li class="list-group-item">Arrecadado: {{currency_format($amount)}}</li>
                                     {{--<li class="list-group-item">Conferido: R$ {{$amount}}</li>--}}
 
                                     <li class="list-group-item">Cestas: {{$totalOrders}}</li>

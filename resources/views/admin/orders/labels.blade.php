@@ -25,7 +25,7 @@
                                             <li class="list-group-item"><strong>{{$order->customer->name}}</strong></li>
                                             <li class="list-group-item">{{$order->customer->email}}</li>
                                             <li class="list-group-item">{{$order->address->phone}}</li>
-                                            <li class="list-group-item">R$ {{$order->total}}</li>
+                                            <li class="list-group-item">{{currency_format($order->total)}}</li>
                                             @foreach($order->products as $product)
                                                 <li class="list-group-item">{{$product->name }} - {{$product->pivot->quantity }}</li>
                                             @endforeach

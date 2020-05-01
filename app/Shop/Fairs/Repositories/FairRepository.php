@@ -82,7 +82,7 @@ class FairRepository extends BaseRepository
 
     public function findLastFair(){
 
-        return $this->model->max('id');
+        return $this->model->where('status','=',1)->max('id');
     }
 
 

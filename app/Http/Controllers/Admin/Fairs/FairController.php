@@ -81,18 +81,33 @@ class FairController extends Controller
 
     public function show($fair_id)
     {
-        //$fair = dd($this->fairRepo->find($fair_id));
+        $fair = $this->fairRepo->find($fair_id);
 
 
         return view('admin.fairs.edit')->with('fair',$fair);
 
     }
 
+//    public function store(Request $request){
+//
+//        $this->fairRepo->create($request->toArray());
+//
+//        return view('admin.fairs.list', ['fairs' => $this->fairRepo->all()])->with('message',$this->getSucessMesseger());
+//    }
+
     public function store(Request $request){
 
-        $this->fairRepo->create($request->toArray());
+        if(is_null($request->input('id'))){
+            $this->fairRepo->create($request->toArray());
+        }else{
+            $fair = $this->fairRepo->findFairById($request->input('id'));
 
-        return view('admin.fairs.list', ['fairs' => $this->fairRepo->all()])->with('message',$this->getSucessMesseger());
+            $update = new FairRepository($fair);
+
+            $update->update($request->all());
+        }
+
+        return redirect()->route('admin.fairs.index')->with('fairs',$this->fairRepo->all())->with('message',$this->getSucessMesseger());
     }
 
     public function showOrders($fair_id)

@@ -44,13 +44,13 @@
                                     {{$order->payment}}
                                 </td>
                                 <td>
-                                    R$ {{$order->total_products}}
+                                     {{currency_format($order->total_products)}}
                                 </td>
                                 <td>
-                                    R$ {{$order->total_shipping}}
+                                     {{currency_format($order->total_shipping)}}
                                 </td>
                                 <td>
-                                    R$ {{$order->total}}
+                                     {{currency_format($order->total)}}
                                 </td>
                                 <td>
                                     {{$order->orderStatus->name}}

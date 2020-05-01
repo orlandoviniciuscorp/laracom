@@ -46,7 +46,7 @@
                             <br /><br/>
                             <strong>Valor a Pagar</strong>
                             <br />
-                            <small>R$ {{$order->total}}
+                            <small>{{currency_format($order->total)}}
                             </small>
                             <br >
                             <br/>
