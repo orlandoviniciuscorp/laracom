@@ -68,7 +68,7 @@
                             {{$deliveryAddrress->pagamento}}
                             <br />
                             <br />
-                            R$ {{$deliveryAddrress->total}}
+                            {{currency_format($deliveryAddrress->total)}}
                         </td>
                         <td>
                             {{$deliveryAddrress->zona}}

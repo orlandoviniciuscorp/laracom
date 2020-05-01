@@ -34,16 +34,16 @@
                                      {{$f->tipo_pagamento}}
                                 </td>
                                 <td>
-                                    R$ {{$f->total_produtos}}
+                                    {{currency_format($f->total_produtos)}}
                                 </td>
                                 <td>
-                                    R$ {{$f->total_entrega}}
+                                    {{currency_format($f->total_entrega)}}
                                 </td>
                                 <td>
-                                    R$ {{$f->total}}
+                                    {{currency_format($f->total)}}
                                 </td>
                                 <td>
-                                    R$ {{$f->total_cestas}}
+                                    {{$f->total_cestas}}
                                 </td>
 
                             </tr>
@@ -55,7 +55,7 @@
                         </tr>
                         <tr>
                             <td colspan="6">
-                                Arrecadado: R${{$totalAmount}}
+                                Arrecadado: {{currency_format($totalAmount)}}
                             </td>
                         </tr>
                         </tbody>
@@ -76,10 +76,10 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <td class="col-md-2">Produtor/Categoria</td>
-                            <td class="col-md-2">Produto</td>
-                            <td class="col-md-2">Quantidade</td>
-                            <td class="col-md-2">Valor Vendido</td>
+                            <td>Produtor/Categoria</td>
+                            <td>Produto</td>
+                            <td>Quantidade</td>
+                            <td>Valor Vendido</td>
                         </tr>
                         </thead>
                         <tbody>
@@ -97,7 +97,7 @@
                                         {{$productor->quantidade}}
                                     </td>
                                     <td>
-                                        {{$productor->valor_vendido}}
+                                        {{currency_format($productor->valor_vendido)}}
                                     </td>
                                 </tr>
                             @endforeach
