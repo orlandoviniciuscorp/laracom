@@ -85,3 +85,8 @@ if (!function_exists('validate_breadcumb')) {
         return ["errors" => $errors, "valid" => $validated];
     }
 }
+
+
+function currency_format($value){
+     return env('CURRENCY_SYMBOL').' '.number_format ($value,2,',','.');
+}
