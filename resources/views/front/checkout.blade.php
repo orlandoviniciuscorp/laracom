@@ -106,7 +106,7 @@
                                             <tr>
                                                 <td>{{$courier->name}}</td>
                                                 <td>{!! $courier->description !!}</td>
-                                                <td>R$ {{$courier->cost}}</td>
+                                                <td>{{currency_format($courier->cost)}}</td>
                                             </tr>
                                         </tbody>
                                     </table>

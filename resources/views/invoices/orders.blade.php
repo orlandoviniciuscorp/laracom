@@ -71,8 +71,8 @@
                         <td>{{$product->name}}</td>
                         <td>{!! $product->description !!}</td>
                         <td>{{$product->pivot->quantity}}</td>
-                        <td>R$ {{$product->price}}</td>
-                        <td>R$ {{number_format($product->price * $product->pivot->quantity, 2)}}</td>
+                        <td> {{currency_format($product->price)}}</td>
+                        <td> {{currency_format(number_format($product->price * $product->pivot->quantity, 2))}}</td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -82,8 +82,8 @@
                     <td>{{$order->courier->name}}</td>
                     <td>{{$order->courier->description}}</td>
                     <td>1</td>
-                    <td>R$ {{$order->courier->cost}}</td>
-                    <td>R$ {{$order->courier->cost}}</td>
+                    <td> {{currency_format($order->courier->cost)}}</td>
+                    <td> {{currency_format($order->courier->cost)}}</td>
                 </tr>
                     <tr>
                         <td></td>
