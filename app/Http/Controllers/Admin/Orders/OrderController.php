@@ -155,8 +155,8 @@ class OrderController extends Controller
         }
 
         $orderRepo->updateOrder($orderData);
-
-        return redirect()->route('admin.orders.edit', $orderId);
+        $request->session()->flash('message',$this->getSucessMesseger());
+        return redirect()->route('admin.fair.orders-list', $order->fair_id);
     }
 
     /**
