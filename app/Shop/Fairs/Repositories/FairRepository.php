@@ -82,7 +82,7 @@ class FairRepository extends BaseRepository
 
     public function findLastFair(){
 
-        return $this->model->max('id');
+        return $this->model->where('status','=',1)->max('id');
     }
 
 
@@ -187,10 +187,10 @@ class FairRepository extends BaseRepository
                 '	 products p, ' .
                 '     category_product cp, ' .
                 '     categories c ' .
-                'where o.fair_id = ? and o.order_status_id not in (3,6) ' .
+                'where o.fair_id = ? and o.order_status_id not in (?,?) ' .
                 'and o.id = op.order_id and p.id = op.product_id ' .
                 'and cp.category_id = c.id and cp.product_id = p.id ' .
-                'group by c.name, p.name', [$id]);
+                'group by c.name, p.name', [env('ORDER_ERROR'),env('ORDER_CANCELED'),$id]);
     }
 
     public function deliveryAddresses($fair_id){
@@ -206,6 +206,7 @@ class FairRepository extends BaseRepository
             ' sum(op.quantity) as itens,	                                        ' .
             ' ad.address_1 as end_1, 												' .
             ' ad.address_2 as end_2,              									' .
+            ' ad.neighborhoods as bairro,              									' .
             ' o.obs as observacao                                                   ' .
             ' from orders o,                                                        ' .
             ' 	 customers c,                                                       ' .
@@ -220,9 +221,9 @@ class FairRepository extends BaseRepository
             ' and op.order_id = o.id                                                ' .
             ' and o.address_id = ad.id                                              ' .
             ' and op.product_id = p.id                                              ' .
-            ' and o.order_status_id not in(3,6)                                     ' .
+            ' and o.order_status_id not in(?,?)                                     ' .
             ' group by o.id,c.name, c.email, ad.phone, o.payment, o.total,co.name   ' .
-            ' order by co.id, o.payment                                             ',[$fair_id]);
+            ' order by co.id, o.payment                                             ',[$fair_id,env('ORDER_ERROR'),env('ORDER_CANCELED')]);
 
     }
 
@@ -237,9 +238,9 @@ class FairRepository extends BaseRepository
         ' from orders o,                                       '.
         ' couriers co                                          '.
         ' where o.courier_id = co.id                           '.
-        ' 	  and o.order_status_id not in (3,6)               '.
+        ' 	  and o.order_status_id not in (?,?)               '.
         ' 	  and o.fair_id = ?                                '.
-        ' group by co.name, o.payment                                    ',[$fair_id]);
+        ' group by co.name, o.payment                                     ',[env('ORDER_ERROR'),env('ORDER_CANCELED'),$fair_id]);
     }
 
     public function getHarverstPayment($fair_id)
@@ -253,10 +254,10 @@ class FairRepository extends BaseRepository
             '		 products p,                                        '.
             '		 category_product cp,                               '.
             '		 categories c                                       '.
-            '	where o.fair_id = ? and o.order_status_id not in (3,6)  '.
+            '	where o.fair_id = ? and o.order_status_id not in (?,?)  '.
             '	and o.id = op.order_id and p.id = op.product_id         '.
             '	and cp.category_id = c.id and cp.product_id = p.id      '.
-            '	group by c.name, p.name                                 ',[$fair_id]);
+            '	group by c.name, p.name                                 ',[$fair_id,env('ORDER_ERROR'),env('ORDER_CANCELED')]);
     }
 
 

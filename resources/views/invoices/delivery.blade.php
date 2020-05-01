@@ -64,19 +64,16 @@
                             {{$deliveryAddrress->pedido}}
                         </td>
                         <td>
-                            {{$deliveryAddrress->cliente}}
-                        </td>
-                        {{--<td>--}}
-                            {{--{{$deliveryAddrress->email}}--}}
-                        {{--</td>--}}
-                        <td>
+                            {{$deliveryAddrress->cliente}} <br /> <br />
+
+                            <strong>Telefone:</strong>
                             {{$deliveryAddrress->telefone}}
                         </td>
                         <td>
                             {{$deliveryAddrress->pagamento}}
-                        </td>
-                        <td>
-                            R$ {{$deliveryAddrress->total}}
+                            <br />
+                            <br />
+                            {{currency_format($deliveryAddrress->total)}}
                         </td>
                         <td>
                             {{$deliveryAddrress->zona}}
@@ -85,7 +82,7 @@
                             {{$deliveryAddrress->itens}}
                         </td>
                         <td>
-                            {{$deliveryAddrress->end_1}} -  {{$deliveryAddrress->end_2}}
+                            {{$deliveryAddrress->end_1}} -  {{$deliveryAddrress->end_2}} - {{$deliveryAddrress->bairro}}
                         </td>
                         <td>
                             {{$deliveryAddrress->observacao}}
