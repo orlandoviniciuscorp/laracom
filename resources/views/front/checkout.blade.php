@@ -149,14 +149,23 @@
                                 </tfoot>
                             </table>
                         </div>
-                    <br />
+
+                        <form action="{{ route('checkout.store') }}" method="post">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <legend><i class="fa fa-commenting" aria-hidden="true"></i> Observação</legend>
+                                <textarea name="obs" class="form-control"
+                                          placeholder="Gostaria de Acrescentar alguma observação?">{{old('obs')}}</textarea>
+                                <br />
+                            </div>
+                        </div>
 
                         <div class="row">
                             <div class="col-md-12">
                                 <legend><i class="fa fa-credit-card"></i> Pagamento</legend>
                                 <p><strong><small class="text">Em virtude do surto do Corona virus - Covid-19, dêem preferência para o pagamento por Transferência Bancária.</small></strong></p>
                                 <p><strong><small class="text-danger text">ATENÇÃO! Sua compra ainda não foi confirmada. Após escolher o método de pagamento, clicar no botão Confirmar Compra.</small></strong></p>
-                                <form action="{{ route('checkout.store') }}" method="post">
+
                                     {{ csrf_field() }}
                                     <input type="hidden" name="courier_id" value="{{$courier->id}}" />
                                     <input type="hidden" name="billingAddress_id" value="{{$billingAddress->id}}" />
@@ -204,10 +213,10 @@
                                 @endif
                                     <a href="{{ route('cart.index') }}" class="btn btn-default">Voltar</a>
                                     <button type="submit" onclick="return confirm('Tem Certeza?')" class="btn btn-danger">Confirmar Compra</button>
-                                </form>
+
                             </div>
                         </div>
-
+                        </form>
                        @include('front.debit-modal')
 
                     @else
