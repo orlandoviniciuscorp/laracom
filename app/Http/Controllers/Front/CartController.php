@@ -147,7 +147,7 @@ class CartController extends Controller
         $this->cartRepo->updateQuantityInCart($id, $request->input('quantity'));
 
         request()->session()->flash('message', 'Update cart successful');
-        //return redirect()->route('cart.index');
+        return redirect()->route('cart.index');
     }
 
     /**
