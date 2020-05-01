@@ -44,14 +44,14 @@
 
                                 <input type="hidden" name="_method" value="put">
                                 <label for="order_status_id" class="hidden">Update status</label>
-                                <input type="text" name="total_paid" class="form-control" placeholder="Total paid" style="margin-bottom: 5px; display: none" value="{{ old('total_paid') ?? $order->total_paid }}" />
+                                <input type="text" name="total_paid" class="form-control" placeholder="Total Pago. Para centavos utilize ponto." pattern="[\d.]*" style="margin-bottom: 5px; display: none" value="{{ old('total_paid') ?? $order->total_paid }}" />
                                 <div class="input-group">
                                     <select name="order_status_id" id="order_status_id" class="form-control select2">
                                         @foreach($statuses as $status)
                                             <option @if($currentStatus->id == $status->id) selected="selected" @endif value="{{ $status->id }}">{{ $status->name }}</option>
                                         @endforeach
                                     </select>
-                                    <span class="input-group-btn"><button onclick="return confirm('Tem Certeza?')" type="submit" class="btn btn-primary">Update</button></span>
+                                    <span class="input-group-btn"><button onclick="return confirm('Tem Certeza?')" type="submit" class="btn btn-primary">Atualizar</button></span>
                                 </div>
 
                         </td>
@@ -99,8 +99,10 @@
                 <div class="box-body">
                     <div class="form-group">
                         <label for="obs" >Observação:</label>
-                        <textarea class="form-control" name="obs" id="obs" rows="5" placeholder="Observação">{!! $order['obs'] ?: old('obs')  !!}
-                        </textarea>
+                        <textarea class="form-control" name="obs" id="obs" rows="5" placeholder="Observação">{!! $order['obs'] ?: old('obs')  !!}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <span class="input-group-btn"><button onclick="return confirm('Tem Certeza?')" type="submit" class="btn btn-primary">Atualizar</button></span>
                     </div>
                 </div>
         </div>
