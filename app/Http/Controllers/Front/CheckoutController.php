@@ -223,7 +223,8 @@ class CheckoutController extends Controller
             'total' => $this->cartRepo->getTotal(2, $courier->cost),
             'total_shipping' => $courier->cost,
             'total_paid' => 0,
-            'tax' => $this->cartRepo->getTax()
+            'tax' => $this->cartRepo->getTax(),
+            'obs' =>$request->input('obs')
         ]);
 
         Cart::destroy();
