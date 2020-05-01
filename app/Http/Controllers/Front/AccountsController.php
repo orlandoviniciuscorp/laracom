@@ -7,7 +7,9 @@ use App\Shop\Customers\Repositories\CustomerRepository;
 use App\Shop\Customers\Repositories\Interfaces\CustomerRepositoryInterface;
 use App\Http\Controllers\Controller;
 use App\Shop\Orders\Order;
+use App\Shop\Orders\Repositories\OrderRepository;
 use App\Shop\Orders\Transformers\OrderTransformable;
+use Illuminate\Http\Request;
 
 class AccountsController extends Controller
 {
@@ -23,18 +25,22 @@ class AccountsController extends Controller
      */
     private $courierRepo;
 
+    private $orderRepo;
     /**
      * AccountsController constructor.
      *
      * @param CourierRepositoryInterface $courierRepository
      * @param CustomerRepositoryInterface $customerRepository
+     * @param OrderRepository $orderRepository
      */
     public function __construct(
         CourierRepositoryInterface $courierRepository,
-        CustomerRepositoryInterface $customerRepository
+        CustomerRepositoryInterface $customerRepository,
+        OrderRepository $orderRepository
     ) {
         $this->customerRepo = $customerRepository;
         $this->courierRepo = $courierRepository;
+        $this->orderRepo = $orderRepository;
     }
 
     public function index()
@@ -57,5 +63,16 @@ class AccountsController extends Controller
             'orders' => $this->customerRepo->paginateArrayResults($orders->toArray(), 15),
             'addresses' => $addresses
         ]);
+    }
+
+    public function cancelOrder(Request $request)
+    {
+        $order = $this->orderRepo->findOrderById($request->input('order_id'));
+        $order->order_status_id = 7;
+        $order->save();
+        $request->session()->flash('message','Pedido Cancelado');
+
+        return redirect()->back();
+
     }
 }

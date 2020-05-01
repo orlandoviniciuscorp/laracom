@@ -1,7 +1,7 @@
 @extends('layouts.front.app')
 
 @section('content')
-    @if(env('SHOPPING_OPENED' == 1))
+    @if(env('SHOPPING_OPENED') == 1)
         <div class="container product-in-cart-list">
             @if(!$cartItems->isEmpty())
                 <div class="row">
@@ -160,7 +160,7 @@
                                 @foreach($couriers as $courier)
                                     <li class="col-md-4">
                                         <label class="radio">
-                                            <input type="radio" name="courier_id" data-fee="{{ $courier->name }}" value="{{ $courier->id }}"> {{$courier->name}} - R${{$courier->cost}}
+                                            <input type="radio" name="courier_id" data-fee="{{ $courier->name }}" value="{{ $courier->id }}"> {{$courier->name}} - {{currency_format($courier->cost)}}
                                         </label>
                                         {{$courier->description}}
                                     </li>

@@ -53,13 +53,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
                 Route::get('/','Fairs\FairController@index')->name('fairs.index');
                 Route::get('/create','Fairs\FairController@create')->name('fairs.create');
                 Route::post('/store','Fairs\FairController@store')->name('fair.store');
-                Route::post('/{fair_id}/show/','Fairs\FairController@show')->name('fair.show');
+                Route::get('/{fair_id}/show/','Fairs\FairController@show')->name('fair.show');
                 Route::get('/{fair_id}/order/','Fairs\FairController@showOrders')->name('fair.orders-list');
                 Route::get('/{fair_id}/harvest/','Fairs\FairController@showHarvest')->name('fair.harvest');
                 Route::get('/{fair_id}/labels/', 'Fairs\FairController@generateLabel')->name('fair.labels');
                 Route::get('/{fair_id}/pending', 'Fairs\FairController@getOrderPending')->name('fair.pending');
                 Route::get('/{fair_id}/delivery', 'Fairs\FairController@generateDeliveryList')->name('fair.delivery');
                 Route::get('/{fair_id}/financial', 'Fairs\FairController@financial')->name('fair.financial');
+                Route::get('/{fair_id}/detail-report', 'Fairs\FairController@detailReport')->name('fair.detail-report');
 
 
             });
@@ -113,6 +114,7 @@ Route::namespace('Front')->group(function () {
         });
 
         Route::get('accounts', 'AccountsController@index')->name('accounts');
+        Route::post('cancel-order', 'AccountsController@cancelOrder')->name('accounts.cancel-order');
         Route::get('checkout/{courier_id}', 'CheckoutController@index')->name('checkout.index');
         Route::post('checkout/store', 'CheckoutController@store')->name('checkout.store');
         Route::post('checkout/cart', 'CheckoutController@index')->name('cart.checkout');

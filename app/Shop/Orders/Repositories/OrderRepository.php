@@ -229,14 +229,19 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     public function totalOrders($fair_id)
     {
         return $this->model->where('fair_id',$fair_id)
-            ->whereNotIn('order_status_id',[3,6])
+            ->whereNotIn('order_status_id',[env('ORDER_ERROR'),env('ORDER_CANCELED')])
             ->count();
     }
 
     public function totalAmount($fair_id)
     {
         return $this->model->where('fair_id',$fair_id)
-            ->whereNotIn('order_status_id',[3,6])
+            ->whereNotIn('order_status_id',[env('ORDER_ERROR'),env('ORDER_CANCELED')])
             ->sum('total');
+    }
+
+    public function findByFairId($fair_id)
+    {
+        return $this->model->where('fair_id',$fair_id)->get();
     }
 }
