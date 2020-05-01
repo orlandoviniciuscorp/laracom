@@ -85,6 +85,13 @@
                     <label for="obs" >Observação:</label>
                         {!! $order['obs']  !!}
                 </div>
+
+                <div class="box-footer">
+                    <div class="btn-group">
+                        <a href="{{ route('admin.orders.index') }}" class="btn btn-default">Voltar</a>
+                        @if($user->hasPermission('update-order'))<a href="{{ route('admin.orders.edit', $order->id) }}" class="btn btn-primary">Editar</a>@endif
+                    </div>
+                </div>
             </div>
         </div>
         @if($order)
@@ -167,8 +174,8 @@
             <!-- /.box -->
             <div class="box-footer">
                 <div class="btn-group">
-                    <a href="{{ route('admin.orders.index') }}" class="btn btn-default">Back</a>
-                    @if($user->hasPermission('update-order'))<a href="{{ route('admin.orders.edit', $order->id) }}" class="btn btn-primary">Edit</a>@endif
+                    <a href="{{ route('admin.orders.index') }}" class="btn btn-default">Voltar</a>
+                    @if($user->hasPermission('update-order'))<a href="{{ route('admin.orders.edit', $order->id) }}" class="btn btn-primary">Editar</a>@endif
                 </div>
             </div>
         @endif
