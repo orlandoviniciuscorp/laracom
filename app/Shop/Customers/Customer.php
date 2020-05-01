@@ -67,7 +67,7 @@ class Customer extends Authenticatable
     }
 
     public function countBought(){
-        return $this->hasMany(Order::class)->whereNotIn('order_status_id',[3,6])->count('*');
+        return $this->hasMany(Order::class)->whereNotIn('order_status_id',[env('ORDER_ERROR'),env('ORDER_CANCELED')])->count('*');
     }
 
     /**
