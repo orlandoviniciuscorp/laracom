@@ -52,7 +52,8 @@
                                         <td><span class="label @if($order['total'] != $order['total_paid']) label-danger @else label-success @endif">{{ config('cart.currency') }} {{ $order['total'] }}</span></td>
                                         <td><p class="text-center" style="color: #ffffff; background-color: {{ $order['status']->color }}">{{ $order['status']->name }}</p></td>
                                         <td>
-                                            @if($order['fair']->status == 1)
+                                            @if($order['fair']->status == 1 && ($order['order_status_id'] != 1
+                                            && $order['order_status_id'] != 7))
                                                 <form action="{{route('accounts.cancel-order')}}" method="post">
                                                     {{csrf_field()}}
                                                     <input type="hidden" name="order_id" value="{{$order['id']}}" />
