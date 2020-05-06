@@ -190,7 +190,7 @@ class FairRepository extends BaseRepository
                 'where o.fair_id = ? and o.order_status_id not in (?,?) ' .
                 'and o.id = op.order_id and p.id = op.product_id ' .
                 'and cp.category_id = c.id and cp.product_id = p.id ' .
-                'group by c.name, p.name', [env('ORDER_ERROR'),env('ORDER_CANCELED'),$id]);
+                'group by c.name, p.name', [$id,env('ORDER_ERROR'),env('ORDER_CANCELED')]);
     }
 
     public function deliveryAddresses($fair_id){
