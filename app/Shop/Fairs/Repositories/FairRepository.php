@@ -224,7 +224,7 @@ class FairRepository extends BaseRepository
             ' and op.product_id = p.id                                              ' .
             ' and o.order_status_id not in(?,?)                                     ' .
             ' group by o.id,c.name, c.email, ad.phone, o.payment, o.total,co.name   ' .
-            ' order by co.id, o.payment                                             ',[$fair_id,env('ORDER_ERROR'),env('ORDER_CANCELED')]);
+            ' order by co.name, co.id, o.payment                                             ',[$fair_id,env('ORDER_ERROR'),env('ORDER_CANCELED')]);
 
     }
 
