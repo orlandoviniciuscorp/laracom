@@ -203,6 +203,7 @@ class FairRepository extends BaseRepository
             ' o.payment as pagamento,                                               ' .
             ' o.total as total,                                                     ' .
             ' co.name as zona,                                                      ' .
+            ' co.is_pick_up_location as ponto_retirada,                             ' .
             ' sum(op.quantity) as itens,	                                        ' .
             ' ad.address_1 as end_1, 												' .
             ' ad.address_2 as end_2,              									' .

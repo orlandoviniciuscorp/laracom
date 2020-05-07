@@ -62,7 +62,11 @@
                             <br />
 
                             <strong>Endereço:</strong> <br/>
-                            {{$order->address->address_1}} - {{$order->address->address_2}}
+                            @if(!$order->courier->is_pick_up_location)
+                                {{$order->address->address_1}} - {{$order->address->address_2}}
+                            @else
+                                {{$order->courier->name}}
+                            @endif
                         </td>
                         <td>
                             <strong>Produtos:</strong><br />

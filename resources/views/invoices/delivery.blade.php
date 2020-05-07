@@ -77,7 +77,11 @@
                             {{$deliveryAddrress->itens}}
                         </td>
                         <td>
-                            {{$deliveryAddrress->end_1}} -  {{$deliveryAddrress->end_2}} - {{$deliveryAddrress->bairro}}
+                            @if(!$deliveryAddrress->ponto_retirada)
+                                {{$deliveryAddrress->end_1}} -  {{$deliveryAddrress->end_2}} - {{$deliveryAddrress->bairro}}
+                            @else
+                                {{$deliveryAddrress->zona}}
+                            @endif
                         </td>
                         <td>
                             {{$deliveryAddrress->observacao}}
