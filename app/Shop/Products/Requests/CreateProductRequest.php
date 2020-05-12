@@ -21,4 +21,17 @@ class CreateProductRequest extends BaseFormRequest
             'cover' => ['required', 'file', 'image:png,jpeg,jpg,gif']
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'sku.required' => 'O Código é obrigatório',
+            'name.required' => 'O Nome do produto é obrigatório',
+            'name.unique'=>'Já existe um produto com esse nome',
+            'quantity.required' => 'Por favor informe a quantidade',
+            'quantity.numeric' =>'O valor da quantidade tem que ser um número',
+            'price.required'=> 'Por favor informe o preço do produto',
+            'cover.required'=>'Por favor preencha a foto de capa'
+        ];
+    }
 }
