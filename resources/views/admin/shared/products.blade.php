@@ -1,4 +1,7 @@
 @if(!$products->isEmpty())
+    <div class="table-responsive-sm table-responsive-md">
+        Lista de Produtos
+    </div>
     <div class="table-responsive">
     <table class="table">
         <thead>
@@ -13,7 +16,7 @@
         </thead>
         <tbody>
         @foreach ($products as $product)
-            <tr class="tab-content">
+            <tr >
                 <td>{{ $product->id }}</td>
                 <td>
                     @if($admin->hasPermission('view-product'))
