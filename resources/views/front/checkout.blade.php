@@ -201,6 +201,16 @@
                                                                data-toggle="modal"
                                                                data-target="#nubank">
                                                            <i class="fa fa-university" aria-hidden="true"></i> Nubank</button>
+
+                                                       <button type="button" class="btn btn-success"
+                                                               data-toggle="modal"
+                                                               data-target="#bradesco">
+                                                           <i class="fa fa-university" aria-hidden="true"></i> Bradesco</button>
+
+                                                       <button type="button" class="btn btn-success"
+                                                               data-toggle="modal"
+                                                               data-target="#itau">
+                                                           <i class="fa fa-university" aria-hidden="true"></i> Itau</button>
                                                    @endif
                                                </td>
 
