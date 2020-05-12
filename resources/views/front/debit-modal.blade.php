@@ -110,7 +110,7 @@
             <p>Tipo de Conta: <strong>Conta Corrente</strong></p>
             <p>Beneficiário: <strong>Jenifer Soares Medeiros</strong></p>
             <p>Agência: <strong>0807</strong></p>
-            <p>Número da Conta: <strong> 35644330-6</strong></p>
+            <p>Número da Conta: <strong> 75197-9</strong></p>
             <p>CPF: <strong>150.557.347-52</strong></p>
             @isset($total)
                 <p>Valor: <strong> {{ config('cart.currency_symbol') }} {{ $total }}</strong></p>

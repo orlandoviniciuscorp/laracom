@@ -230,7 +230,11 @@
                        @include('front.debit-modal')
 
                     @else
-                        <p class="alert alert-danger"><a href="{{ route('customer.address.create', [$customer->id]) }}">Nenhum endereço de entrega cadastrado. Cadastre aqui o seu endereço de entrega.</a></p>
+                        <p class="alert alert-danger">
+                            <a href="{{ route('customer.address.create', [$customer->id]) }}">
+                                Nenhum endereço de entrega cadastrado. Cadastre aqui o seu endereço de entrega.
+                            </a>
+                        </p>
                     @endif
                 </div>
             </div>
