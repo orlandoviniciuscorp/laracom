@@ -26,11 +26,11 @@
                             <label for="cover">Foto de Capa </label>
                             <input type="file" name="cover" id="cover" class="form-control" {{old('cover')}}>
                         </div>
-                        <div class="form-group">
-                            <label for="image">Imagens</label>
-                            <input type="file" name="image[]" id="image" class="form-control" multiple {{old('image[]')}}>
-                            <small class="text-warning">Você pode usar o ctr (cmd) para selecionar mais de uma imagem</small>
-                        </div>
+                        {{--<div class="form-group">--}}
+                            {{--<label for="image">Imagens</label>--}}
+                            {{--<input type="file" name="image[]" id="image" class="form-control" multiple {{old('image[]')}}>--}}
+                            {{--<small class="text-warning">Você pode usar o ctr (cmd) para selecionar mais de uma imagem</small>--}}
+                        {{--</div>--}}
                         <div class="form-group">
                             <label for="quantity">Quantidade disponível <span class="text-danger">*</span></label>
                             <input type="text" name="quantity" id="quantity" placeholder="Quantidade" class="form-control" value="{{ old('quantity') }}">
