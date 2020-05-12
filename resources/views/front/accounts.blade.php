@@ -30,26 +30,55 @@
                                     <strong>Nome:</strong> {{$customer->name}} <br />
                                     <strong>E-mail:</strong> {{$customer->email}}
                                 </div>
-                                <hr>
+
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane @if(request()->input('tab') == 'orders')active @endif" id="orders">
+                            <div class="container">
                                 <div class="row">
                                     <h4>
                                         <i class="fa fa-credit-card"></i> Dados para Pagamento:
                                     </h4>
-
-                                    <button type="button" class="btn btn-success"
-                                            data-toggle="modal"
-                                            data-target="#banco_do_brasil">
-                                        <i class="fa fa-university" aria-hidden="true"></i>
-                                        Banco do Brasil</button>
-                                    <br /><br />
-                                    <button type="button" class="btn btn-success"
-                                            data-toggle="modal"
-                                            data-target="#nubank">
-                                        <i class="fa fa-university" aria-hidden="true"></i> Nubank</button>
                                 </div>
-                            </div>
-                        </div>
-                        <div role="tabpanel" class="tab-pane @if(request()->input('tab') == 'orders')active @endif" id="orders">
+                                <div class="row">
+
+                                    <table class="table">
+                                        <tr>
+                                            <td>
+
+                                                    <button type="button" class="btn btn-success"
+                                                            data-toggle="modal"
+                                                            data-target="#banco_do_brasil">
+                                                        <i class="fa fa-university" aria-hidden="true"></i>
+                                                        Banco do Brasil</button>
+
+                                            </td>
+                                            <td>
+
+                                                    <button type="button" class="btn btn-success"
+                                                            data-toggle="modal"
+                                                            data-target="#nubank">
+                                                        <i class="fa fa-university" aria-hidden="true"></i> Nubank</button>
+
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-success"
+                                                        data-toggle="modal"
+                                                        data-target="#bradesco">
+                                                    <i class="fa fa-university" aria-hidden="true"></i>
+                                                    Bradesco</button>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-success"
+                                                        data-toggle="modal"
+                                                        data-target="#itau">
+                                                    <i class="fa fa-university" aria-hidden="true"></i>
+                                                    Itaú</button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            <div class="row">
                             @if(!$orders->isEmpty())
                                 <table class="table">
                                 <tbody>
@@ -94,6 +123,8 @@
                             @else
                                 <p class="alert alert-warning">Nenhum pedido encontrado <a href="{{ route('home') }}">Comece a comprar agora</a></p>
                             @endif
+                            </div>
+                            </div>
                         </div>
                         <div role="tabpanel" class="tab-pane @if(request()->input('tab') == 'address')active @endif" id="address">
                             <div class="row">
