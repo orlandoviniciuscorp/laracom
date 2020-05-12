@@ -153,7 +153,9 @@ class ProductController extends Controller
             $productRepo->detachCategories();
         }
 
-        return redirect()->route('admin.products.edit', $product->id)->with('message', $this->getSucessMesseger());
+        $request->session()->flash('message', $this->getSucessMesseger());
+
+        return redirect()->route('admin.products.index');
     }
 
     /**
