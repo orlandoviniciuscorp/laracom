@@ -16,17 +16,13 @@ class CreateTablePercentProduct extends Migration
         Schema::create('product_percents', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('product_id');
-            $table->float('farmer')->nullable();
-            $table->float('plataform')->nullable();
-            $table->float('separation')->nullable();
-            $table->float('fund')->nullable();
-            $table->float('payments_transfer')->nullable();
-            $table->float('client_contact')->nullable();
-            $table->float('accounting_close')->nullable();
-            $table->float('seeller')->nullable();
-            $table->float('logistic')->nullable();
-
-
+            $table->float('farmer');
+            $table->float('plataform');
+            $table->float('separation');
+            $table->float('marketplace');
+            $table->float('logistic');
+            $table->float('accounting_close');
+            $table->float('fund');
             $table->timestamps();
         });
     }
