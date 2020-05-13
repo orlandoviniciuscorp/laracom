@@ -125,6 +125,83 @@
                                                 </div>
                                                 </label>
                                             </div>
+
+                                            <div class="form-group">
+                                                <label for="table_percent">Tabela de Porcentagem</label>
+                                                <div class="input-group">
+                                                    @isset($product->percents)
+                                                    <table class="table table-bordered">
+                                                        <tr>
+                                                            <th>
+                                                                Produtor
+                                                            </th>
+                                                            <th>
+                                                                Plataforma
+                                                            </th>
+                                                            <th>
+                                                                Separação
+                                                            </th>
+                                                            <th>
+                                                                Caixinha
+                                                            </th>
+                                                            <th>
+                                                                Contas e Repasse de Pagamentos
+                                                            </th>
+                                                            <th>
+                                                                Contato Cliente
+                                                            </th>
+                                                            <th>
+                                                                Conferência Pagamento
+                                                            </th>
+                                                            <th>
+                                                                Vendedor
+                                                            </th>
+                                                            <th>
+                                                                Logistica
+                                                            </th>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                {{$product->percents->farmer}}%
+                                                            </td>
+                                                            <td>
+
+                                                                {{$product->percents->plataform}}%
+
+                                                            </td>
+                                                            <td>
+                                                                {{$product->percents->separation}}%
+                                                            </td>
+                                                            <td>
+                                                                {{$product->percents->fund}}%
+                                                            </td>
+                                                            <td>
+                                                                {{$product->percents->payments_transfer}}%
+                                                            </td>
+                                                            <td>
+                                                                {{$product->percents->client_contact}}%
+                                                            </td>
+                                                            <td>
+                                                                {{$product->percents->accounting_close}}%
+                                                            </td>
+                                                            <td>
+                                                                {{$product->percents->seeller}}%
+                                                            </td>
+                                                            <td>
+                                                                {{$product->percents->logistic}}%
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    @endif
+                                                    <br />
+                                                    <a href="{{route('admin.percents.index',$product->id)}}"
+                                                       class="btn btn-primary">Cadastrar Porcentagem</a>
+                                                </div>
+
+
+                                            </div>
+
                                             @if(!$brands->isEmpty())
                                                 <div class="form-group">
                                                     <label for="brand_id">Marca </label>

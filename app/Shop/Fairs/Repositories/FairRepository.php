@@ -246,19 +246,28 @@ class FairRepository extends BaseRepository
 
     public function getHarverstPayment($fair_id)
     {
-        return DB::select('	select c.name as produtor,                              '.
-            '		   p.name as produto,                               '.
-            '		   sum(op.quantity) as quantidade,                  '.
-            '		   sum(op.quantity*p.price) as valor_vendido        '.
-            '	 from orders o,                                         '.
-            '		 order_product op,                                  '.
-            '		 products p,                                        '.
-            '		 category_product cp,                               '.
-            '		 categories c                                       '.
-            '	where o.fair_id = ? and o.order_status_id not in (?,?)  '.
-            '	and o.id = op.order_id and p.id = op.product_id         '.
-            '	and cp.category_id = c.id and cp.product_id = p.id      '.
-            '	group by c.name, p.name                                 ',[$fair_id,env('ORDER_ERROR'),env('ORDER_CANCELED')]);
+        return DB::select('	select c.name as produtor,                                                    '.
+            '		   p.name as produto,                                                     '.
+            '		   sum(op.quantity) as quantidade,                                        '.
+            '		   sum(op.quantity*p.price) as valor_vendido,                             '.
+            '           sum(op.quantity*p.price*pp.farmer/100) as valor_produtor,                    '.
+            '		   sum(op.quantity*p.price*pp.plataform/100) as plataforma,                    '.
+            '   		   sum(op.quantity*p.price*pp.separation/100) as separacao,                '.
+            '		   sum(op.quantity*p.price*pp.fund/100) as caixinha,                           '.
+            '		   sum(op.quantity*p.price*pp.payments_transfer/100) as pagamentos,            '.
+            '		   sum(op.quantity*p.price*pp.client_contact/100) as contato_cliente,          '.
+            '		   sum(op.quantity*p.price*pp.accounting_close/100) as contas,                 '.
+            '		   sum(op.quantity*p.price*pp.seeller/100) as vendedores,                      '.
+            '		   sum(op.quantity*p.price*pp.logistic/100) as logistica                      '.
+            '	 from orders o,                                                               '.
+            '		 order_product op,                                                        '.
+            '		 products p left join product_percents pp on p.id = pp.product_id,        '.
+            '		 category_product cp,                                                     '.
+            '		 categories c                                                             '.
+            '	where o.fair_id = ? and o.order_status_id not in (?,?)                        '.
+            '	and o.id = op.order_id and p.id = op.product_id                               '.
+            '	and cp.category_id = c.id and cp.product_id = p.id                            '.
+            '	group by c.name, p.name                                                       ',[$fair_id,env('ORDER_ERROR'),env('ORDER_CANCELED')]);
     }
 
 
