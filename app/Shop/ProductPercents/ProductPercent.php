@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Shop\ProductPercent;
+namespace App\Shop\ProductPercents;
 
 use App\Shop\Brands\Brand;
 use App\Shop\Categories\Category;
@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Nicolaslopezj\Searchable\SearchableTrait;
 
-class Product extends Model
+class ProductPercent extends Model
 {
     use SearchableTrait;
 
@@ -48,14 +48,16 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'id',
         'product_id',
         'farmer',
         'plataform',
         'separation',
-        'marketplace',
-        'logistic',
+        'fund',
+        'payments_transfer',
+        'client_contact',
         'accounting_close',
+        'seeller',
+        'logistic'
     ];
 
     /**

@@ -76,10 +76,19 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <td>Produtor/Categoria</td>
+                            <td>Categoria</td>
                             <td>Produto</td>
-                            <td>Quantidade</td>
+                            <td>Qtd</td>
                             <td>Valor Vendido</td>
+                            <td>Valor Produtor</td>
+                            <td>Plataforma</td>
+                            <td>Separação</td>
+                            <td>Caixinha</td>
+                            <td>Pagamentos</td>
+                            <td>Contato Clientes</td>
+                            <td>Contas</td>
+                            <td>Vendedores</td>
+                            <td>Logística</td>
                         </tr>
                         </thead>
                         <tbody>
@@ -99,6 +108,25 @@
                                     <td>
                                         {{currency_format($productor->valor_vendido)}}
                                     </td>
+                                    <td>{{currency_format($productor->valor_produtor)}}</td>
+                                    <td>{{currency_format($productor->plataforma)}}</td>
+                                    <td>{{currency_format($productor->separacao)}}</td>
+                                    <td>{{currency_format($productor->caixinha)}}</td>
+                                    <td>{{currency_format($productor->pagamentos)}}</td>
+                                    <td>{{currency_format($productor->contato_cliente)}}</td>
+                                    <td>{{currency_format($productor->contas)}}</td>
+                                    <td>{{currency_format($productor->vendedores)}}</td>
+                                    <td>{{currency_format($productor->logistica)}}</td>
+
+
+
+
+
+
+
+
+
+
                                 </tr>
                             @endforeach
                         </tbody>

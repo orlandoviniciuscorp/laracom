@@ -7,11 +7,14 @@ use App\Shop\AttributeValues\Repositories\AttributeValueRepositoryInterface;
 use App\Shop\Brands\Repositories\BrandRepositoryInterface;
 use App\Shop\Categories\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Shop\ProductAttributes\ProductAttribute;
+use App\Shop\ProductPercents\ProductPercent;
+use App\Shop\ProductPercents\Repositories\ProductPercentRepository;
 use App\Shop\Products\Exceptions\ProductInvalidArgumentException;
 use App\Shop\Products\Exceptions\ProductNotFoundException;
 use App\Shop\Products\Product;
 use App\Shop\Products\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Shop\Products\Repositories\ProductRepository;
+use App\Shop\ProductPercents\Requests\CreateProductPercentRequest;
 use App\Shop\Products\Requests\CreateProductRequest;
 use App\Shop\Products\Requests\UpdateProductRequest;
 use App\Http\Controllers\Controller;
@@ -32,6 +35,8 @@ class ProductController extends Controller
      * @var CategoryRepositoryInterface
      */
     private $categoryRepo;
+
+    private $productPercentRepo;
 
     /**
      * @var AttributeRepositoryInterface
@@ -69,7 +74,8 @@ class ProductController extends Controller
         AttributeRepositoryInterface $attributeRepository,
         AttributeValueRepositoryInterface $attributeValueRepository,
         ProductAttribute $productAttribute,
-        BrandRepositoryInterface $brandRepository
+        BrandRepositoryInterface $brandRepository,
+        ProductPercentRepository $productPercentRepository
     ) {
         $this->productRepo = $productRepository;
         $this->categoryRepo = $categoryRepository;
@@ -77,6 +83,7 @@ class ProductController extends Controller
         $this->attributeValueRepository = $attributeValueRepository;
         $this->productAttribute = $productAttribute;
         $this->brandRepo = $brandRepository;
+        $this->productPercentRepo = $productPercentRepository;
 
         $this->middleware(['permission:create-product, guard:employee'], ['only' => ['create', 'store']]);
         $this->middleware(['permission:update-product, guard:employee'], ['only' => ['edit', 'update']]);
@@ -281,6 +288,23 @@ class ProductController extends Controller
         return redirect()->back()->with('message',$this->getSucessMesseger());
 
 
+    }
+
+    public function indexPercent(Request $request, int $product_id)
+    {
+        $product = $this->productRepo->findProductById($product_id);
+
+        return view('admin.percents.create')->with('product',$product);
+    }
+
+    public function percentStore(CreateProductPercentRequest $request, int $product_id)
+    {
+
+
+        $data = $request->except('_token', '_method');
+        $this->productPercentRepo->createProductPercent($data);
+        $product = $this->productRepo->findProductById($product_id);
+        return redirect()->route('admin.products.edit', $product_id);
     }
 
     public function emptyAvailability()
