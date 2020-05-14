@@ -94,20 +94,10 @@
                         <tbody>
                             @foreach($productors as $productor)
                                 <tr>
-                                    <td>
-                                        {{$productor->produtor}}
-                                    </td>
-
-                                    <td>
-                                        {{$productor->produto}}
-                                    </td>
-
-                                    <td>
-                                        {{$productor->quantidade}}
-                                    </td>
-                                    <td>
-                                        {{currency_format($productor->valor_vendido)}}
-                                    </td>
+                                    <td>{{$productor->produtor}}</td>
+                                    <td>{{$productor->produto}}</td>
+                                    <td>{{$productor->quantidade}}</td>
+                                    <td>{{currency_format($productor->valor_vendido)}}</td>
                                     <td>{{currency_format($productor->valor_produtor)}}</td>
                                     <td>{{currency_format($productor->plataforma)}}</td>
                                     <td>{{currency_format($productor->separacao)}}</td>
@@ -117,16 +107,6 @@
                                     <td>{{currency_format($productor->contas)}}</td>
                                     <td>{{currency_format($productor->vendedores)}}</td>
                                     <td>{{currency_format($productor->logistica)}}</td>
-
-
-
-
-
-
-
-
-
-
                                 </tr>
                             @endforeach
                         </tbody>

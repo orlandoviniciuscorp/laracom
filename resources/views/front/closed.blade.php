@@ -18,9 +18,6 @@
             <br /> <br />
             Agradecemos pela visita.
             <br /><br />
-            Dúvidas entre em contato pelo Whatsapp:
-            <a href="https://api.whatsapp.com/send?phone=5521996982844&text=Ol%C3%A1!%20Estou%20entrando%20em%20contato%20para%20saber%20mais%20inforna%C3%A7%C3%B5es%20sobre%20as%20compras%20no%20Sitio%20Demedeiros">
-                (21)99698-2844</a>
         </h1>
     </div>
 
