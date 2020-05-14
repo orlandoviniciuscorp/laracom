@@ -40,7 +40,7 @@ class CheckoutController extends Controller
     /**
      * @var CartRepositoryInterface
      */
-    private $cartRepo;
+    protected $cartRepo;
 
     /**
      * @var CourierRepositoryInterface
@@ -60,7 +60,7 @@ class CheckoutController extends Controller
     /**
      * @var ProductRepositoryInterface
      */
-    private $productRepo;
+    protected $productRepo;
 
     /**
      * @var OrderRepositoryInterface

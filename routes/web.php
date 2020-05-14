@@ -26,6 +26,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
     Route::namespace('Admin')->group(function () {
         Route::group(['middleware' => ['role:admin|superadmin|clerk, guard:employee']], function () {
             Route::get('/', 'DashboardController@index')->name('dashboard');
+            Route::post('/open-site', 'DashboardController@open')->name('config.open');
+
             Route::namespace('Products')->group(function () {
 
                 Route::post('/update-quantity', 'ProductController@updateQuantity')->name('products.update-quantity');
