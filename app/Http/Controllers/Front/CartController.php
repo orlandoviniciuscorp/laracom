@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Shop\Carts\Requests\AddToCartRequest;
 use App\Shop\Carts\Requests\UpdateCartRequest;
 use App\Shop\Carts\Repositories\Interfaces\CartRepositoryInterface;
+use App\Shop\Configurations\Repositories\ConfigurationRepository;
 use App\Shop\Couriers\Repositories\Interfaces\CourierRepositoryInterface;
 use App\Shop\ProductAttributes\Repositories\ProductAttributeRepositoryInterface;
 use App\Shop\Products\Product;
@@ -50,12 +51,14 @@ class CartController extends Controller
         CartRepositoryInterface $cartRepository,
         ProductRepositoryInterface $productRepository,
         CourierRepositoryInterface $courierRepository,
-        ProductAttributeRepositoryInterface $productAttributeRepository
+        ProductAttributeRepositoryInterface $productAttributeRepository,
+        ConfigurationRepository $configurationRepository
     ) {
         $this->cartRepo = $cartRepository;
         $this->productRepo = $productRepository;
         $this->courierRepo = $courierRepository;
         $this->productAttributeRepo = $productAttributeRepository;
+        $this->configRepo = $configurationRepository;
     }
 
     /**
@@ -81,6 +84,7 @@ class CartController extends Controller
             'total' => $this->cartRepo->getTotal(2),
             'product'=>$product,
             'hasBag'=>$this->hasbag(),
+            'config'=>$this->getConfig()
         ]);
     }
 
