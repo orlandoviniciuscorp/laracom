@@ -15,6 +15,8 @@ class Controller extends BaseController
 
     protected $productRepo;
 
+    protected $configRepo;
+
     protected function loggedUser()
     {
         return auth()->user();
@@ -51,6 +53,12 @@ class Controller extends BaseController
             }
         }
         return false;
+    }
+
+
+    public function getConfig()
+    {
+        return $this->configRepo->getConfig();
     }
 
 
