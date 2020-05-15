@@ -35,6 +35,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
                 Route::get('remove-image-thumb', 'ProductController@removeThumbnail')->name('product.remove.thumb');
             });
             Route::namespace('Customers')->group(function () {
+                Route::get('customers/history','CustomerController@history')->name('customers.history');
                 Route::resource('customers', 'CustomerController');
                 Route::resource('customers.addresses', 'CustomerAddressController');
             });
