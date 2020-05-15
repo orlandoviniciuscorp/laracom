@@ -76,6 +76,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="{{ route('admin.customers.index') }}"><i class="fa fa-circle-o"></i> Listas de Clientes</a></li>
+                    <li><a href="{{ route('admin.customers.history') }}"><i class="fa fa-history" ></i> Histórico de Compras</a></li>
                     <li><a href="{{ route('admin.customers.create') }}"><i class="fa fa-plus"></i> Criar Cliente</a></li>
                     <li class="@if(request()->segment(2) == 'addresses') active @endif">
                         <a href="#"><i class="fa fa-map-marker"></i> Addresses
