@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Http\Controllers\Controller;
 use App\Shop\Categories\Repositories\Interfaces\CategoryRepositoryInterface;
+use App\Shop\Configurations\Repositories\ConfigurationRepository;
 
-class HomeController
+class HomeController extends Controller
 {
     /**
      * @var CategoryRepositoryInterface
@@ -15,9 +17,12 @@ class HomeController
      * HomeController constructor.
      * @param CategoryRepositoryInterface $categoryRepository
      */
-    public function __construct(CategoryRepositoryInterface $categoryRepository)
+    public function __construct(CategoryRepositoryInterface $categoryRepository,
+    ConfigurationRepository $configurationRepository)
     {
         $this->categoryRepo = $categoryRepository;
+        $this->configRepo = $configurationRepository;
+
     }
 
     /**
@@ -27,6 +32,7 @@ class HomeController
     {
         $cats = $this->categoryRepo->pageOrder();
 
-        return view('front.index')->with('cats',$cats);
+        return view('front.index')->with('cats',$cats)
+            ->with('config',$this->getConfig());
     }
 }
