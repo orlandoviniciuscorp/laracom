@@ -163,11 +163,11 @@ class FairController extends Controller
 
 //        dd($data);
 //
-        $pdf = app()->make('dompdf.wrapper');
-        $pdf->loadView('invoices.delivery', $data)->stream();
+//        $pdf = app()->make('dompdf.wrapper');
+//        $pdf->loadView('invoices.delivery', $data)->stream();
 
-        return $pdf->stream();
-//                return view('invoices.delivery', $data);
+//        return $pdf->stream();
+                return view('invoices.delivery', $data);
 
     }
 

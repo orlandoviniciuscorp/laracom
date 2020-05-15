@@ -11,6 +11,12 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    protected $cartRepo;
+
+    protected $productRepo;
+
+    protected $configRepo;
+
     protected function loggedUser()
     {
         return auth()->user();
@@ -18,6 +24,12 @@ class Controller extends BaseController
 
     public function getSucessMesseger(){
         return "Atualizado com Sucesso!";
+    }
+
+
+    public function getConfig()
+    {
+        return $this->configRepo->getConfig();
     }
 
 
