@@ -142,4 +142,9 @@ class CustomerController extends Controller
 
         return redirect()->route('admin.customers.index')->with('message', 'Delete successful');
     }
+
+    public function history()
+    {
+        return view('admin.customers.history')->with('customers',$this->customerRepo->listCustomers());
+    }
 }
