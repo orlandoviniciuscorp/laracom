@@ -30,7 +30,7 @@
                                 <td>{{ $customer->email }}</td>
                                 <td>
                                     @if($customer->orders->count()> 0)
-                                        {{$customer->orders[0]->address->phone}}
+                                        {{$customer->address[0]->phone}}
                                     @endisset
                                 </td>
                             </tr>
