@@ -35,13 +35,7 @@
                     {{--Email--}}
                 {{--</th>--}}
                 <th>
-                    Telefone
-                </th>
-                <th>
                     Pagamento
-                </th>
-                <th>
-                    Total
                 </th>
                 <th>
                     Zonas
