@@ -23,14 +23,15 @@
                             </tr>
                         </thead>
                         <tbody>
+
                         @foreach ($customers as $customer)
                             <tr>
                                 <td>{{ $customer->name }}</td>
                                 <td>{{$customer->orders->count()}}</td>
                                 <td>{{ $customer->email }}</td>
                                 <td>
-                                    @if($customer->orders->count()> 0)
-                                        {{$customer->address[0]->phone}}
+                                    @if($customer->addresses->count()> 0)
+                                        {{$customer->addresses[0]->phone}}
                                     @endisset
                                 </td>
                             </tr>
