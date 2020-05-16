@@ -68,7 +68,7 @@ class AccountsController extends Controller
     public function cancelOrder(Request $request)
     {
         $order = $this->orderRepo->findOrderById($request->input('order_id'));
-        $order->order_status_id = 7;
+        $order->order_status_id = env('ORDER_CANCELED');
         $order->save();
         $request->session()->flash('message','Pedido Cancelado');
 

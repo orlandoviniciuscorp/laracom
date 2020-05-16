@@ -26,15 +26,20 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
     Route::namespace('Admin')->group(function () {
         Route::group(['middleware' => ['role:admin|superadmin|clerk, guard:employee']], function () {
             Route::get('/', 'DashboardController@index')->name('dashboard');
+            Route::post('/open-site', 'DashboardController@open')->name('config.open');
+
             Route::namespace('Products')->group(function () {
 
                 Route::post('/update-quantity', 'ProductController@updateQuantity')->name('products.update-quantity');
                 Route::post('/empty-availability', 'ProductController@emptyAvailability')->name('products.empty-availability');
+                Route::get('/{product_id}/percents','ProductController@indexPercent')->name('percents.index');
+                Route::post('/{product_id}/percents/store','ProductController@percentStore')->name('percents.store');
                 Route::resource('products', 'ProductController');
                 Route::get('remove-image-product', 'ProductController@removeImage')->name('product.remove.image');
                 Route::get('remove-image-thumb', 'ProductController@removeThumbnail')->name('product.remove.thumb');
             });
             Route::namespace('Customers')->group(function () {
+                Route::get('customers/history','CustomerController@history')->name('customers.history');
                 Route::resource('customers', 'CustomerController');
                 Route::resource('customers.addresses', 'CustomerAddressController');
             });

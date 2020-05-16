@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Shop\Carts\Requests\AddToCartRequest;
 use App\Shop\Carts\Requests\UpdateCartRequest;
 use App\Shop\Carts\Repositories\Interfaces\CartRepositoryInterface;
+use App\Shop\Configurations\Repositories\ConfigurationRepository;
 use App\Shop\Couriers\Repositories\Interfaces\CourierRepositoryInterface;
 use App\Shop\ProductAttributes\Repositories\ProductAttributeRepositoryInterface;
 use App\Shop\Products\Product;
@@ -22,12 +23,12 @@ class CartController extends Controller
     /**
      * @var CartRepositoryInterface
      */
-    private $cartRepo;
+    protected $cartRepo;
 
     /**
      * @var ProductRepositoryInterface
      */
-    private $productRepo;
+    protected $productRepo;
 
     /**
      * @var CourierRepositoryInterface
@@ -50,12 +51,14 @@ class CartController extends Controller
         CartRepositoryInterface $cartRepository,
         ProductRepositoryInterface $productRepository,
         CourierRepositoryInterface $courierRepository,
-        ProductAttributeRepositoryInterface $productAttributeRepository
+        ProductAttributeRepositoryInterface $productAttributeRepository,
+        ConfigurationRepository $configurationRepository
     ) {
         $this->cartRepo = $cartRepository;
         $this->productRepo = $productRepository;
         $this->courierRepo = $courierRepository;
         $this->productAttributeRepo = $productAttributeRepository;
+        $this->configRepo = $configurationRepository;
     }
 
     /**
@@ -76,7 +79,8 @@ class CartController extends Controller
             'subtotal' => $this->cartRepo->getSubTotal(),
             'tax' => $this->cartRepo->getTax(),
             'couriers' => $couriers,
-            'total' => $this->cartRepo->getTotal(2)
+            'total' => $this->cartRepo->getTotal(2),
+            'config'=>$this->getConfig()
         ]);
     }
 

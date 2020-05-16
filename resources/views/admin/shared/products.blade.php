@@ -1,4 +1,8 @@
 @if(!$products->isEmpty())
+    <div class="table-responsive-sm table-responsive-md">
+        Lista de Produtos
+    </div>
+    <div class="table-responsive">
     <table class="table">
         <thead>
         <tr>
@@ -12,7 +16,7 @@
         </thead>
         <tbody>
         @foreach ($products as $product)
-            <tr class="tab-content">
+            <tr >
                 <td>{{ $product->id }}</td>
                 <td>
                     @if($admin->hasPermission('view-product'))
@@ -40,7 +44,7 @@
                     <br />
                     <form action="{{route('admin.products.update-quantity')}}" method="post"  class="form-horizontal">
                         {{ csrf_field() }}
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <input type="hidden" name="id" id="id" value="{{$product->id}}" />
                             <input type="number" name="quantity" id="quantity" value="{{$product->quantity}}" class="form-control">
                         </div>
@@ -51,4 +55,5 @@
         @endforeach
         </tbody>
     </table>
+    </div>
 @endif

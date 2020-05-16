@@ -57,11 +57,11 @@
                                                 @endforeach
                                             </div>
                                             <div class="row"></div>
-                                            <div class="form-group">
-                                                <label for="image">Imagens </label>
-                                                <input type="file" name="image[]" id="image" class="form-control" multiple>
-                                                <span class="text-warning">You can use ctr (cmd) to select multiple images</span>
-                                            </div>
+                                            {{--<div class="form-group">--}}
+                                                {{--<label for="image">Imagens </label>--}}
+                                                {{--<input type="file" name="image[]" id="image" class="form-control" multiple>--}}
+                                                {{--<span class="text-warning">You can use ctr (cmd) to select multiple images</span>--}}
+                                            {{--</div>--}}
                                             <div class="form-group">
                                                 <label for="quantity">Quantidade disponível<span class="text-danger">*</span></label>
                                                 @if($productAttributes->isEmpty())
@@ -97,14 +97,14 @@
                                                 @endif
                                                 @if(!$productAttributes->isEmpty())<span class="text-danger">Note: Price is disabled. Price is derived based on the combination.</span> @endif
                                             </div>
-                                            <div class="form-group">
-                                                <label for="sale_price">Preço de Venda</label>
-                                                <div class="input-group">
-                                                    <span class="input-group-addon">{{ config('cart.currency') }}</span>
-                                                    <input type="text" pattern="[\d.]*"  name="sale_price" id="sale_price" placeholder="Preço de Venda" class="form-control" value="{{ $product->sale_price }}">
-                                                </div>
-                                                <small class="text-danger">Para valores com centavos utilize ponto</small>
-                                            </div>
+                                            {{--<div class="form-group">--}}
+                                                {{--<label for="sale_price">Preço de Venda</label>--}}
+                                                {{--<div class="input-group">--}}
+                                                    {{--<span class="input-group-addon">{{ config('cart.currency') }}</span>--}}
+                                                    {{--<input type="text" pattern="[\d.]*"  name="sale_price" id="sale_price" placeholder="Preço de Venda" class="form-control" value="{{ $product->sale_price }}">--}}
+                                                {{--</div>--}}
+                                                {{--<small class="text-danger">Para valores com centavos utilize ponto</small>--}}
+                                            {{--</div>--}}
 
                                             <div class="form-group">
                                                 <label for="is_distinct">Produto diferenciável <span class="text-danger">*</span></label>
@@ -125,6 +125,83 @@
                                                 </div>
                                                 </label>
                                             </div>
+
+                                            <div class="form-group">
+                                                <label for="table_percent">Tabela de Porcentagem</label>
+                                                <div class="input-group">
+                                                    @isset($product->percents)
+                                                    <table class="table table-bordered">
+                                                        <tr>
+                                                            <th>
+                                                                Produtor
+                                                            </th>
+                                                            <th>
+                                                                Plataforma
+                                                            </th>
+                                                            <th>
+                                                                Separação
+                                                            </th>
+                                                            <th>
+                                                                Caixinha
+                                                            </th>
+                                                            <th>
+                                                                Contas e Repasse de Pagamentos
+                                                            </th>
+                                                            <th>
+                                                                Contato Cliente
+                                                            </th>
+                                                            <th>
+                                                                Conferência Pagamento
+                                                            </th>
+                                                            <th>
+                                                                Vendedor
+                                                            </th>
+                                                            <th>
+                                                                Logistica
+                                                            </th>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                {{$product->percents->farmer}}%
+                                                            </td>
+                                                            <td>
+
+                                                                {{$product->percents->plataform}}%
+
+                                                            </td>
+                                                            <td>
+                                                                {{$product->percents->separation}}%
+                                                            </td>
+                                                            <td>
+                                                                {{$product->percents->fund}}%
+                                                            </td>
+                                                            <td>
+                                                                {{$product->percents->payments_transfer}}%
+                                                            </td>
+                                                            <td>
+                                                                {{$product->percents->client_contact}}%
+                                                            </td>
+                                                            <td>
+                                                                {{$product->percents->accounting_close}}%
+                                                            </td>
+                                                            <td>
+                                                                {{$product->percents->seeller}}%
+                                                            </td>
+                                                            <td>
+                                                                {{$product->percents->logistic}}%
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    @endif
+                                                    <br />
+                                                    <a href="{{route('admin.percents.index',$product->id)}}"
+                                                       class="btn btn-primary">Cadastrar Porcentagem</a>
+                                                </div>
+
+
+                                            </div>
+
                                             @if(!$brands->isEmpty())
                                                 <div class="form-group">
                                                     <label for="brand_id">Marca </label>
