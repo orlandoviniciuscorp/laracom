@@ -16,11 +16,9 @@ class UpdateProductRequest extends BaseFormRequest
     {
         return [
             'sku' => ['required'],
-            'name' => ['required', 'unique:products'],
-            'quantity' => ['required', 'numeric'],
-            'price' => ['required'],
-            'cover' => ['required', 'file', 'image:png,jpeg,jpg,gif'],
-            'categories' =>['required']
+            'name' => ['required', Rule::unique('products')->ignore($this->segment(3))],
+            'quantity' => ['required', 'integer'],
+            'price' => ['required']
         ];
     }
 
