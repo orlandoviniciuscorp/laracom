@@ -14,7 +14,7 @@ class ProductController extends Controller
     /**
      * @var ProductRepositoryInterface
      */
-    private $productRepo;
+    protected $productRepo;
 
     /**
      * ProductController constructor.
