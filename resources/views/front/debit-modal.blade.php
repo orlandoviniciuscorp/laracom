@@ -14,7 +14,8 @@
                     <p>Valor: <strong> {{ config('cart.currency_symbol') }} {{ $total }}</strong></p>
                 @endisset
                 <p><strong><small class="text-danger text">* {{ config('bank-transfer.note') }}</small></strong></p>
-                <p><strong><small class="text-danger text">*Enviar o comprovante de depósito para o  número: (21) 99698-2844 - Sarita Marques</small></strong></p>
+                <p><strong><small class="text-danger text">*Enviar o comprovante de depósito para o  <br />
+                            número: (21)98887-5830 - Sarita Marques</small></strong></p>
                 <div class="modal-footer text-left">
                     @isset($courier)
                         <form action="{{ route('checkout.store') }}" method="post">
@@ -48,7 +49,7 @@
                     <p>Valor: <strong> {{ config('cart.currency_symbol') }} {{ $total }}</strong></p>
                 @endisset
                 <p><strong><small class="text-danger text">* {{ config('bank-transfer.note') }}</small></strong></p>
-                <p><strong><small class="text-danger text">*Enviar o comprovante de depósito para o  número: (21) 99698-2844 - Sarita Marques</small></strong></p>
+                <p><strong><small class="text-danger text">*Enviar o comprovante de depósito para o  número: (21)98887-5830 - Sarita Marques</small></strong></p>
                     <div class="modal-footer text-left">
                         @isset($courier)
                             <form action="{{ route('checkout.store') }}" method="post">
@@ -82,7 +83,7 @@
                 <p>Valor: <strong> {{ config('cart.currency_symbol') }} {{ $total }}</strong></p>
             @endisset
             <p><strong><small class="text-danger text">* {{ config('bank-transfer.note') }}</small></strong></p>
-            <p><strong><small class="text-danger text">*Enviar o comprovante de depósito para o  número: (21) 99698-2844 - Sarita Marques</small></strong></p>
+            <p><strong><small class="text-danger text">*Enviar o comprovante de depósito para o  número: (21)98887-5830 - Sarita Marques</small></strong></p>
             <div class="modal-footer text-left">
                 @isset($courier)
                     <form action="{{ route('checkout.store') }}" method="post">
@@ -116,7 +117,7 @@
                 <p>Valor: <strong> {{ config('cart.currency_symbol') }} {{ $total }}</strong></p>
             @endisset
             <p><strong><small class="text-danger text">* {{ config('bank-transfer.note') }}</small></strong></p>
-            <p><strong><small class="text-danger text">*Enviar o comprovante de depósito para o  número: (21) 99698-2844 - Sarita Marques</small></strong></p>
+            <p><strong><small class="text-danger text">*Enviar o comprovante de depósito para o  número: (21)98887-5830 - Sarita Marques</small></strong></p>
             <div class="modal-footer text-left">
                 @isset($courier)
                     <form action="{{ route('checkout.store') }}" method="post">
