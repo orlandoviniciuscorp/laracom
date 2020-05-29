@@ -1,6 +1,7 @@
 @extends('layouts.front.app')
 
 @section('content')
+    <script type="text/javascript" src="{{ PagSeguro::getUrl()['javascript'] }}"></script>
     <div class="container product-in-cart-list">
         @if(!$products->isEmpty())
             <div class="row">

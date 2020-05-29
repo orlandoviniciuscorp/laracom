@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Front\Payments;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\VerifyPayment;
 use App\Shop\Carts\Repositories\Interfaces\CartRepositoryInterface;
 use App\Shop\Couriers\Repositories\Interfaces\CourierRepositoryInterface;
 use App\Shop\Checkout\CheckoutRepository;
+use App\Shop\Fairs\Fair;
+use App\Shop\Fairs\Repositories\FairRepository;
+use App\Shop\Orders\Order;
 use App\Shop\Orders\Repositories\OrderRepository;
 use App\Shop\OrderStatuses\OrderStatus;
 use App\Shop\OrderStatuses\Repositories\OrderStatusRepository;
@@ -22,7 +26,7 @@ class PayOnDeliveryController extends Controller
     /**
      * @var CartRepositoryInterface
      */
-    private $cartRepo;
+    protected $cartRepo;
 
     /**
      * @var CourierRepositoryInterface
@@ -89,18 +93,35 @@ class PayOnDeliveryController extends Controller
      */
     public function index()
     {
-        $courier = $this->courierRepo->findCourierById(intval(request()->get('courier_id')));
 
-        return view('front.pay-on-delivery-redirect', [
-            'subtotal' => $this->cartRepo->getSubTotal(),
-            'shipping' => $courier->cost,
-            'tax' => $this->cartRepo->getTax(),
-            'total' => $this->cartRepo->getTotal(2, $courier->cost),
-            'rateObjectId' => $this->rateObjectId,
-            'shipmentObjId' => $this->shipmentObjId,
-            'billingAddress' => $this->billingAddress,
-            'courier_id' =>$courier->id
-        ]);
+
+
+
+
+        /**
+         * Tabela do PagSeguro:
+         *  1 - Aguardando pagamento
+         *  2 - Em análise
+         *  3 - Paga
+         *  4 - Disponível
+         *  5 - Em disputa
+         *  6 - Devolvida
+         *  7 - Cancelada
+         *  8 - Debitado
+         *  9 - Retenção temporária
+         */
+
+        /**
+         * Tabela Demedeiros:
+         *
+         *
+            1	paid	green	2020-04-06 00:11:48	2020-04-06 00:11:48
+            2	pending	yellow	2020-04-06 00:11:48	2020-04-06 00:11:48
+            3	error	red	2020-04-06 00:11:48	2020-04-06 00:11:48
+            4	on-delivery	blue	2020-04-06 00:11:48	2020-04-06 00:11:48
+            5	Pedido Feito	violet	2020-04-06 00:11:48	2020-04-19 21:20:17
+
+         */
     }
 
     /**

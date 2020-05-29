@@ -205,8 +205,17 @@
                         </table>
                     </div>
                 </div>
-                <form action="{{route('cart.checkout')}}" method="get">
-                    {{--{{ csrf_field() }}--}}
+                <form action="{{route('cart.checkout')}}" method="post">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <legend><i class="fa fa-commenting" aria-hidden="true"></i> Observação</legend>
+                            <textarea name="obs" class="form-control"
+                                      placeholder="Gostaria de Acrescentar alguma observação?">{{old('obs')}}</textarea>
+                            <br />
+                        </div>
+                    </div>
+                    {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-12">
                             <legend><i class="fa fa-truck"></i> Entrega</legend>
@@ -230,8 +239,12 @@
                                 <div class="col-md-12">
                                     <div class="btn-group pull-right">
                                         <a href="{{ route('home') }}" class="btn btn-default">Continuar Comprando</a>
-
                                         <button type="submit" class="btn btn-primary">Revisão e Forma de Pagamento</button>
+                                        <!-- INICIO DO BOTAO PAGSEGURO -->
+                                        <a href="https://pag.ae/7W2MkRkpm/button" target="_blank" title="Pagar com PagSeguro">
+                                            <img src="//assets.pagseguro.com.br/ps-integration-assets/botoes/pagamentos/205x30-pagar.gif"
+                                                 alt="Pague com PagSeguro - é rápido, grátis e seguro!" />
+                                        </a><!-- FIM DO BOTAO PAGSEGURO -->
                                     </div>
                                 </div>
                             </div>
