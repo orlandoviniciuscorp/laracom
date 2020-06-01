@@ -8,10 +8,7 @@ use App\Http\Controllers\Controller;
 
 class CategoryController extends Controller
 {
-    /**
-     * @var CategoryRepositoryInterface
-     */
-    private $categoryRepo;
+
 
     /**
      * CategoryController constructor.
@@ -38,6 +35,7 @@ class CategoryController extends Controller
         $products = $repo->findProducts()->where('status', 1)->all();
 
         return view('front.categories.category', [
+            'cats'=>$this->getCategoryOrder(),
             'category' => $category,
             'products' => $repo->paginateArrayResults($products, 20)
         ]);

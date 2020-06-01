@@ -31,10 +31,8 @@ class ProductController extends Controller
     use ProductTransformable, UploadableTrait;
 
 
-    /**
-     * @var CategoryRepositoryInterface
-     */
-    private $categoryRepo;
+
+
 
     private $productPercentRepo;
 

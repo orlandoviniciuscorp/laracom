@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Shop\Categories\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Shop\Products\Product;
 use App\Shop\Products\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Http\Controllers\Controller;
@@ -14,14 +15,16 @@ class ProductController extends Controller
     /**
      * @var ProductRepositoryInterface
      */
-    private $productRepo;
+    protected $productRepo;
 
     /**
      * ProductController constructor.
      * @param ProductRepositoryInterface $productRepository
      */
-    public function __construct(ProductRepositoryInterface $productRepository)
+    public function __construct(ProductRepositoryInterface $productRepository,
+                                CategoryRepositoryInterface $categoryRepository)
     {
+        $this->categoryRepo = $categoryRepository;
         $this->productRepo = $productRepository;
     }
 
@@ -64,5 +67,18 @@ class ProductController extends Controller
             'productAttributes',
             'category'
         ));
+    }
+
+    public function listProducts(){
+
+        $list = $this->productRepo->listProducts();
+        $products = $list->where('status', 1)->map(function (Product $item) {
+            return $this->transformProduct($item);
+        });
+        return view('front.products.product-list', [
+            'cats'=>$this->getCategoryOrder(),
+            'products' => $this->productRepo->paginateArrayResults($products->all(), 10)
+        ]);
+
     }
 }
