@@ -34,98 +34,54 @@
                             </div>
                         </div>
                         <div role="tabpanel" class="tab-pane @if(request()->input('tab') == 'orders')active @endif" id="orders">
-                            <div class="container">
-                                <div class="row">
-                                    <h4>
-                                        <i class="fa fa-credit-card"></i> Dados para Pagamento:
-                                    </h4>
-                                </div>
-                                <div class="row">
-
+                            <div class="row">
+                                @if(!$orders->isEmpty())
                                     <table class="table">
+                                    <tbody>
+                                    <tr>
+                                        <td>Número do Pedido</td>
+                                        <td>Data</td>
+                                        <td>Total</td>
+                                        <td>Status</td>
+                                        <td>Ações</td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody>
+                                    @foreach ($orders as $order)
                                         <tr>
                                             <td>
-
-                                                    <button type="button" class="btn btn-success"
-                                                            data-toggle="modal"
-                                                            data-target="#banco_do_brasil">
-                                                        <i class="fa fa-university" aria-hidden="true"></i>
-                                                        Banco do Brasil</button>
-
+                                                <a data-toggle="modal" data-target="#order_modal_{{$order['id']}}" title="Pedido" href="javascript: void(0)">#{{$order['id']}}</a>
+                                                @include('front.modal-accounts-orders',['order'=>$order])
                                             </td>
                                             <td>
-
-                                                    <button type="button" class="btn btn-success"
-                                                            data-toggle="modal"
-                                                            data-target="#nubank">
-                                                        <i class="fa fa-university" aria-hidden="true"></i> Nubank</button>
-
+                                                {{ date('d/m/Y, h:i a', strtotime($order['created_at'])) }}
                                             </td>
+                                            <td><span class="label @if($order['total'] != $order['total_paid']) label-danger @else label-success @endif">{{ config('cart.currency') }} {{ $order['total'] }}</span></td>
+                                            <td><p class="text-center" style="color: #ffffff; background-color: {{ $order['status']->color }}">{{ $order['status']->name }}</p></td>
                                             <td>
-                                                <button type="button" class="btn btn-success"
-                                                        data-toggle="modal"
-                                                        data-target="#bradesco">
-                                                    <i class="fa fa-university" aria-hidden="true"></i>
-                                                    Bradesco</button>
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn btn-success"
-                                                        data-toggle="modal"
-                                                        data-target="#itau">
-                                                    <i class="fa fa-university" aria-hidden="true"></i>
-                                                    Itaú</button>
+                                                @if($order['fair']->status == 1 && $order['order_status_id'] != 1)
+                                                    <form action="{{route('accounts.cancel-order')}}" method="post">
+                                                        {{csrf_field()}}
+                                                        <input type="hidden" name="order_id" value="{{$order['id']}}" />
+                                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Essa operação não pode ser desfeita. Tem Certeza?')" >
+                                                            <i class="fa fa-ban" aria-hidden="true"></i> Cancelar
+                                                        </button>
+                                                    </form>
+                                                @endif
                                             </td>
                                         </tr>
-                                    </table>
-                                </div>
-                            <div class="row">
-                            @if(!$orders->isEmpty())
-                                <table class="table">
-                                <tbody>
-                                <tr>
-                                    <td>Número do Pedido</td>
-                                    <td>Data</td>
-                                    <td>Total</td>
-                                    <td>Status</td>
-                                    <td>Ações</td>
-                                </tr>
-                                </tbody>
-                                <tbody>
-                                @foreach ($orders as $order)
-                                    <tr>
-                                        <td>
-                                            <a data-toggle="modal" data-target="#order_modal_{{$order['id']}}" title="Pedido" href="javascript: void(0)">#{{$order['id']}}</a>
-                                            @include('front.modal-accounts-orders',['order'=>$order])
-                                        </td>
-                                        <td>
-                                            {{ date('d/m/Y, h:i a', strtotime($order['created_at'])) }}
-                                        </td>
-                                        <td><span class="label @if($order['total'] != $order['total_paid']) label-danger @else label-success @endif">{{ config('cart.currency') }} {{ $order['total'] }}</span></td>
-                                        <td><p class="text-center" style="color: #ffffff; background-color: {{ $order['status']->color }}">{{ $order['status']->name }}</p></td>
-                                        <td>
-                                            @if($order['fair']->status == 1)
-                                                <form action="{{route('accounts.cancel-order')}}" method="post">
-                                                    {{csrf_field()}}
-                                                    <input type="hidden" name="order_id" value="{{$order['id']}}" />
-                                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Essa operação não pode ser desfeita. Tem Certeza?')" >
-                                                        <i class="fa fa-ban" aria-hidden="true"></i> Cancelar
-                                                    </button>
-                                                </form>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    <!-- Button trigger modal -->
+                                        <!-- Button trigger modal -->
 
-                                @endforeach
-                                </tbody>
-                            </table>
-                                {{ $orders->links() }}
-                            @else
-                                <p class="alert alert-warning">Nenhum pedido encontrado <a href="{{ route('home') }}">Comece a comprar agora</a></p>
-                            @endif
-                            </div>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                                    {{ $orders->links() }}
+                                @else
+                                    <p class="alert alert-warning">Nenhum pedido encontrado <a href="{{ route('home') }}">Comece a comprar agora</a></p>
+                                @endif
                             </div>
                         </div>
+
                         <div role="tabpanel" class="tab-pane @if(request()->input('tab') == 'address')active @endif" id="address">
                             <div class="row">
                                 <div class="col-md-6">

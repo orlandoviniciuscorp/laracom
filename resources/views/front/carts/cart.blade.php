@@ -239,11 +239,13 @@
                                 <div class="col-md-12">
                                     <div class="btn-group pull-right">
                                         <a href="{{ route('home') }}" class="btn btn-default">Continuar Comprando</a>
-                                        <button type="submit" class="btn btn-primary">Revisão e Forma de Pagamento</button>
+                                            <input type="image" img src="//assets.pagseguro.com.br/ps-integration-assets/botoes/pagamentos/205x30-pagar.gif"
+                                                 alt="Pague com PagSeguro - é rápido, grátis e seguro!" />
+
+
                                         <!-- INICIO DO BOTAO PAGSEGURO -->
                                         <a href="https://pag.ae/7W2MkRkpm/button" target="_blank" title="Pagar com PagSeguro">
-                                            <img src="//assets.pagseguro.com.br/ps-integration-assets/botoes/pagamentos/205x30-pagar.gif"
-                                                 alt="Pague com PagSeguro - é rápido, grátis e seguro!" />
+
                                         </a><!-- FIM DO BOTAO PAGSEGURO -->
                                     </div>
                                 </div>

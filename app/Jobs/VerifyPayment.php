@@ -37,37 +37,66 @@ class VerifyPayment implements ShouldQueue
         $fairRepo = new FairRepository(new Fair);
         $fair = $fairRepo->findFairById($fairRepo->findLastFair());
 
+        /**
+         * Tabela do PagSeguro:
+         *  1 - Aguardando pagamento
+         *  2 - Em análise
+         *  3 - Paga
+         *  4 - Disponível
+         *  5 - Em disputa
+         *  6 - Devolvida
+         *  7 - Cancelada
+         *  8 - Debitado
+         *  9 - Retenção temporária
+         */
+
+        /**
+         * Tabela Demedeiros:
+         *
+         *
+        1	paid	green	2020-04-06 00:11:48	2020-04-06 00:11:48
+        2	pending	yellow	2020-04-06 00:11:48	2020-04-06 00:11:48
+        3	error	red	2020-04-06 00:11:48	2020-04-06 00:11:48
+        4	on-delivery	blue	2020-04-06 00:11:48	2020-04-06 00:11:48
+        5	Pedido Feito	violet	2020-04-06 00:11:48	2020-04-19 21:20:17
+
+         */
+
         foreach($fair->orders as $order) {
-            $Url = env('PAGSEGURO_TRANSACTIONS') . "?email=" .
-                env('PAGSEGURO_EMAIL') .
-                "&token=" . env('PAGSEGURO_TOKEN') .
-                "&reference=" . $order->reference;
 
-            $Curl = curl_init($Url);
-            curl_setopt($Curl, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($Curl, CURLOPT_RETURNTRANSFER, true);
-            $retorno = curl_exec($Curl);
-            curl_close($Curl);
+            if($order->order_status_id != 1){
 
-            $xml = simplexml_load_string($retorno);
-            if ($xml->resultsInThisPage->__toString() == "1") {
-                $status = $xml->transactions->transaction->status->__toString();
+                $Url = env('PAGSEGURO_TRANSACTIONS') . "?email=" .
+                    env('PAGSEGURO_EMAIL') .
+                    "&token=" . env('PAGSEGURO_TOKEN') .
+                    "&reference=" . $order->reference;
 
-                switch ($status) {
-                    case 1 || 2:
-                        $order->order_status_id = 2;
-                        break;
-                    case 1 || 4:
-                        $order->order_status_id = 1;
-                        break;
-                    case 3:
-                        $order->order_status_id = 2;
-                        break;
+                $Curl = curl_init($Url);
+                curl_setopt($Curl, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($Curl, CURLOPT_RETURNTRANSFER, true);
+                $retorno = curl_exec($Curl);
+                curl_close($Curl);
+
+                $xml = simplexml_load_string($retorno);
+                if ($xml->resultsInThisPage->__toString() == "1") {
+                    $status = $xml->transactions->transaction->status->__toString();
+
+                    switch ($status) {
+                        case 1 || 2:
+                            $order->order_status_id = 2;
+                            break;
+                        case 1 || 4:
+                            $order->order_status_id = 1;
+                            break;
+                        case 3:
+                            $order->order_status_id = 2;
+                            break;
+                    }
+    //            }else{
+
+                    //$order->status = env('ORDER_CANCELED');
+                    $order->save();
                 }
-//            }else{
-
-                //$order->status = env('ORDER_CANCELED');
-                $order->save();
             }
         }
     }

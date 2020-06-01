@@ -113,6 +113,8 @@ class CheckoutController extends Controller
         $pagseguroCode = $this->getDataPagSeguro($this->cartRepo->getCartItemsTransformed(),
             $courier,$customer, $billingAddress, $order);
 
+        Cart::destroy();
+
         return Redirect::to(env('URL_PAGSEGURO_PAYMENT').'?code='.$pagseguroCode);
 
 
@@ -225,8 +227,8 @@ class CheckoutController extends Controller
      $data['senderName'] = $customer->name;
      $data['senderAreaCode'] = "37";
      $data['senderphone'] = $billingAddress->phone;
-//     $data['senderEmail'] = $customer->email;
-     $data['senderEmail'] = 'c46115569010996377409@sandbox.pagseguro.com.br';
+     $data['senderEmail'] = $customer->email;
+
      $data['shippingType'] = "3";
         $data['shippingCost'] = $courier->cost;
         if(!$courier->is_pick_up_location){
@@ -236,10 +238,10 @@ class CheckoutController extends Controller
             $data['shippingAddressDistrict'] = $billingAddress->neighborhoods;
             $data['shippingAddressPostalCode'] = $billingAddress->zip;
         }else{
-            $data['shippingAddressStreet'] = $courier->name;
-            $data['shippingAddressPostalCode'] ='20260-050';
+            //$data['shippingAddressStreet'] = $courier->name;
+            $data['shippingAddressPostalCode'] =$courier->cep;
             $data['shippingAddressComplement'] = 'PONTO DE RETIRADA';
-            $data['shippingAddressNumber'] = '400';
+            $data['shippingAddressNumber'] = $courier->number;
 
 
 
@@ -253,9 +255,9 @@ class CheckoutController extends Controller
 //     dd($data);
 //
      $buildQuery = http_build_query($data);
-     dump($buildQuery);
+//     dump($buildQuery);
      $url = env('URL_PAGSEGURO_CHECKOUT');
-     dump($url);
+//     dump($url);
      $curl = curl_init($url);
      curl_setopt($curl,CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded; charset=ISO-8859-1'));
      curl_setopt($curl,CURLOPT_POST,true);
@@ -366,7 +368,7 @@ class CheckoutController extends Controller
      */
     public function success()
     {
-        return view('front.checkout-success');
+        return redirect()->route('accounts', ['tab' => 'orders'])->with('message', 'Pedido Cadastrado com Sucesso, Aguarde a aprovação do Pagamento');
     }
 
     /**
