@@ -4,13 +4,8 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterTableCouriersAddWithdrawalLocationAndOrdersCollumn extends Migration
+class AlterCourierTableAddCepAndNumberCollumns extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::table('couriers', function (Blueprint $table){

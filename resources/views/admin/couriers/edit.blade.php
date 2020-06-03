@@ -39,6 +39,29 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="is_free">Ponto de Retirada? </label>
+                        <select name="is_pick_up_location" id="is_free" class="form-control">
+                            <option value="0" @if($courier->is_pick_up_location == 0)selected="selected" @endif>Não</option>
+                            <option value="1" @if($courier->is_pick_up_location == 1)selected="selected" @endif>Sim</option>
+                        </select>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="cost">CEP (somente para Pontos de Retirada) <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <input class="form-control" type="text" id="cep" name="cep" placeholder="{{config('cep')}}"
+                                   value="{{$courier->cep}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cost">Número (somente para Pontos de Retirada) <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <input class="form-control" type="text" id="number" name="number"
+                                   placeholder="{{config('number')}}" value="{{$courier->number}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
                         @include('admin.shared.status-select', ['status' => $courier->status])
                     </div>
                 </div>

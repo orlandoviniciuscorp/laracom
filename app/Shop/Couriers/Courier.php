@@ -21,6 +21,8 @@ class Courier extends Model
         'status',
         'is_pick_up_location',
         'page_order',
+        'number',
+        'cep',
     ];
 
     /**
