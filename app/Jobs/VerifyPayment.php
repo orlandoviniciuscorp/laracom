@@ -89,7 +89,7 @@ class VerifyPayment implements ShouldQueue
                             $order->order_status_id = 1;
                             break;
                         case 6 || 7:
-                            $order->order_status_id = 6;
+                            $order->order_status_id = 7;
                             break;
                     }
     //            }else{
