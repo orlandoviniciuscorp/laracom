@@ -120,13 +120,13 @@ Route::namespace('Front')->group(function () {
 
         Route::get('accounts', 'AccountsController@index')->name('accounts');
         Route::post('cancel-order', 'AccountsController@cancelOrder')->name('accounts.cancel-order');
-        Route::get('checkout/{courier_id}', 'CheckoutController@index')->name('checkout.index');
         Route::post('checkout/store', 'CheckoutController@store')->name('checkout.store');
-        Route::post('checkout/cart', 'CheckoutController@index')->name('cart.checkout');
+        Route::post('store-pag-seguro', 'CheckoutController@index')->name('cart.checkout');
         Route::get('checkout/execute', 'CheckoutController@executePayPalPayment')->name('checkout.execute');
         Route::post('checkout/execute', 'CheckoutController@charge')->name('checkout.execute');
         Route::get('checkout/cancel', 'CheckoutController@cancel')->name('checkout.cancel');
         Route::get('checkout/success', 'CheckoutController@success')->name('checkout.success');
+        Route::get('retorno-pagamento', 'CheckoutController@success')->name('checkout.success');
         Route::resource('customer.address', 'CustomerAddressController');
     });
     Route::post('cart/add-at-cart','CartController@storeAtCart')->name('cart.add-at-cart');

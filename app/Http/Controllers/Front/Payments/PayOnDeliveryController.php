@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Front\Payments;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\VerifyPayment;
 use App\Shop\Carts\Repositories\Interfaces\CartRepositoryInterface;
 use App\Shop\Couriers\Repositories\Interfaces\CourierRepositoryInterface;
 use App\Shop\Checkout\CheckoutRepository;
+use App\Shop\Fairs\Fair;
+use App\Shop\Fairs\Repositories\FairRepository;
+use App\Shop\Orders\Order;
 use App\Shop\Orders\Repositories\OrderRepository;
 use App\Shop\OrderStatuses\OrderStatus;
 use App\Shop\OrderStatuses\Repositories\OrderStatusRepository;
@@ -22,7 +26,7 @@ class PayOnDeliveryController extends Controller
     /**
      * @var CartRepositoryInterface
      */
-    private $cartRepo;
+    protected $cartRepo;
 
     /**
      * @var CourierRepositoryInterface
@@ -89,18 +93,46 @@ class PayOnDeliveryController extends Controller
      */
     public function index()
     {
-        $courier = $this->courierRepo->findCourierById(intval(request()->get('courier_id')));
+        $fairRepo = new FairRepository(new Fair);
+        $fair = $fairRepo->findFairById($fairRepo->findLastFair());
 
-        return view('front.pay-on-delivery-redirect', [
-            'subtotal' => $this->cartRepo->getSubTotal(),
-            'shipping' => $courier->cost,
-            'tax' => $this->cartRepo->getTax(),
-            'total' => $this->cartRepo->getTotal(2, $courier->cost),
-            'rateObjectId' => $this->rateObjectId,
-            'shipmentObjId' => $this->shipmentObjId,
-            'billingAddress' => $this->billingAddress,
-            'courier_id' =>$courier->id
-        ]);
+        foreach($fair->orders as $order) {
+
+            if($order->order_status_id != 1){
+
+                $Url = env('PAGSEGURO_TRANSACTIONS') . "?email=" .
+                    env('PAGSEGURO_EMAIL') .
+                    "&token=" . env('PAGSEGURO_TOKEN') .
+                    "&reference=" . $order->reference;
+
+                $Curl = curl_init($Url);
+                curl_setopt($Curl, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($Curl, CURLOPT_RETURNTRANSFER, true);
+                $retorno = curl_exec($Curl);
+                curl_close($Curl);
+                $xml = simplexml_load_string($retorno);
+                dump($xml);
+                if ($xml->resultsInThisPage->__toString() == "1") {
+                    $status = $xml->transactions->transaction->status->__toString();
+
+                    switch ($status) {
+                        case 1 || 2:
+                            $order->order_status_id = 2;
+                            break;
+                        case 1 || 4:
+                            $order->order_status_id = 1;
+                            break;
+                        case 3:
+                            $order->order_status_id = 2;
+                            break;
+                    }
+                    //            }else{
+
+                    //$order->status = env('ORDER_CANCELED');
+                    $order->save();
+                }
+            }
+        }
     }
 
     /**
