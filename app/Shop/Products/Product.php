@@ -9,12 +9,13 @@ use App\Shop\ProductImages\ProductImage;
 use App\Shop\ProductPercents\ProductPercent;
 use Gloudemans\Shoppingcart\Contracts\Buyable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 use Nicolaslopezj\Searchable\SearchableTrait;
 
 class Product extends Model implements Buyable
 {
-    use SearchableTrait;
+    use SearchableTrait, SoftDeletes;
 
     public const MASS_UNIT = [
         'OUNCES' => 'oz',
