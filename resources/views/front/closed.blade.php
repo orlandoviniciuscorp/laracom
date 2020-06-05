@@ -18,6 +18,14 @@
             <br /> <br />
             Agradecemos pela visita.
         </h1>
+        <br />
+        <h3>
+        Receba as atualizações pelo Whatsapp.
+            <br ><br >
+        <button onclick="location.href='{{env('GROUP_LINK')}}'" type="button" class="btn-success">
+            <i class="fa fa-whatsapp" aria-hidden="true"></i>
+            Participar</button>
+        </h3>
     </div>
 
     <div class="row">
