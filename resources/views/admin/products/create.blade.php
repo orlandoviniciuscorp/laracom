@@ -45,28 +45,14 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="is_distinct">Produto diferenciável <span class="text-danger">*</span></label>
+                            <input type="hidden" name="is_distinct" value="0" />
+                            <label for="is_distinct">Percentual <span class="text-danger">*</span></label>
                                 <div class="input-group">
-                                    <input
-                                            type="radio"
-                                            name="is_distinct"
-                                            id="is_distinct"
-                                            @if(is_null(old('is_distinct')) || old('is_distinct') == 0)
-                                            checked="checked"
-                                            @endif
-                                            value="0"> Não
-                                    <br/>
-                                    <input
-                                            type="radio"
-                                            name="is_distinct"
-                                            id="is_distinct"
-                                            @if(old('is_distinct') == 1)
-                                            checked="checked"
-                                            @endif
-                                            value="1"> Sim
-
-
-
+                                    <select name="percentage_id" id="percentage_id" class="form-control select2">
+                                        @foreach($percentages as $percentage)
+                                            <option @if(old('percentage_id') == $percentage->id) selected="selected" @endif value="{{ $percentage->id }}">{{ $percentage->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </label>
                         </div>

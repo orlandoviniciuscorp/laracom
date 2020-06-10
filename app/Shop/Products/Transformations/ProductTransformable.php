@@ -30,6 +30,7 @@ trait ProductTransformable
         $prod->sale_price = $product->sale_price;
         $prod->brand_id = (int) $product->brand_id;
         $prod->is_distinct = $product->is_distinct;
+        $prod->percentage_id = (int)$product->percentage_id;
 
         return $prod;
     }
