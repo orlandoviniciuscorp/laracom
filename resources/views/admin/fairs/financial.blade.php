@@ -87,8 +87,7 @@
                             <td>Pagamentos</td>
                             <td>Contato Clientes</td>
                             <td>Contas</td>
-                            <td>Vendedores</td>
-                            <td>Logística</td>
+                            <td>Conferencia</td>
                         </tr>
                         </thead>
                         <tbody>
@@ -105,8 +104,7 @@
                                     <td>{{currency_format($productor->pagamentos)}}</td>
                                     <td>{{currency_format($productor->contato_cliente)}}</td>
                                     <td>{{currency_format($productor->contas)}}</td>
-                                    <td>{{currency_format($productor->vendedores)}}</td>
-                                    <td>{{currency_format($productor->logistica)}}</td>
+                                    <td>{{currency_format($productor->conferencia_pagamento)}}</td>
                                 </tr>
                             @endforeach
                         </tbody>
