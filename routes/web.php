@@ -28,12 +28,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
             Route::get('/', 'DashboardController@index')->name('dashboard');
             Route::post('/open-site', 'DashboardController@open')->name('config.open');
 
+            Route::group(['prefix'=>'percentages'],function(){
+               Route::get('/create','Percentages\PercentageController@create')->name('percentages.create');
+               Route::get('/','Percentages\PercentageController@index')->name('percentages.index');
+               Route::post('/store','Percentages\PercentageController@store')->name('percentages.store');
+            });
+
             Route::namespace('Products')->group(function () {
 
                 Route::post('/update-quantity', 'ProductController@updateQuantity')->name('products.update-quantity');
                 Route::post('/empty-availability', 'ProductController@emptyAvailability')->name('products.empty-availability');
-                Route::get('/{product_id}/percents','ProductController@indexPercent')->name('percents.index');
-                Route::post('/{product_id}/percents/store','ProductController@percentStore')->name('percents.store');
                 Route::resource('products', 'ProductController');
                 Route::get('remove-image-product', 'ProductController@removeImage')->name('product.remove.image');
                 Route::get('remove-image-thumb', 'ProductController@removeThumbnail')->name('product.remove.thumb');

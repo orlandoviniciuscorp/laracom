@@ -60,11 +60,11 @@
                                             <a href="{{ route('admin.fair.harvest', $fair->id) }}" class="btn btn-success btn-sm">
                                                 <i class="fa fa-leaf" aria-hidden="true"></i> Colheita
                                             </a>
-
-                                            <a href="{{ route('admin.fair.financial', $fair->id) }}" class="btn btn-sucess btn-sm">
+                                        @endif
+                                            <a href="{{ route('admin.fair.financial', $fair->id) }}" class="btn btn-success btn-sm">
                                                 <i class="fa fa-usd" aria-hidden="true"></i> Financeiro
                                             </a>
-                                        @endif
+
 
                                     </li>
 
