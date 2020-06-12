@@ -49,8 +49,15 @@
                     </tbody>
                 </table>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <div class="panel-footer text-left">
+                <div class="row">
+                    <div class="col-2">
+
+                    </div>
+                    <div class="col-2">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

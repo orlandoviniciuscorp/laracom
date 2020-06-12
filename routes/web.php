@@ -127,6 +127,7 @@ Route::namespace('Front')->group(function () {
         Route::get('checkout/cancel', 'CheckoutController@cancel')->name('checkout.cancel');
         Route::get('checkout/success', 'CheckoutController@success')->name('checkout.success');
         Route::get('retorno-pagamento', 'CheckoutController@success')->name('checkout.success');
+        Route::post('checkout/reprocess', 'CheckoutController@reprocessPagSeguro')->name('checkout.reprocess');
         Route::resource('customer.address', 'CustomerAddressController');
     });
     Route::post('cart/add-at-cart','CartController@storeAtCart')->name('cart.add-at-cart');
