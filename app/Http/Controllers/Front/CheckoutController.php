@@ -101,39 +101,24 @@ class CheckoutController extends Controller
      */
     public function index(CartDeliveryCheckoutRequest $request)
     {
-        $courier = $this->courierRepo->findCourierById($request->input('courier_id'));
         $customer = $request->user();
         $billingAddress = $customer->addresses()->first();
 
 
+        if(env('PAGSEGURO_OPEN')){
 
+           $courier = $this->courierRepo->findCourierById($request->input('courier_id'));
+           $order = $this->createOrder($courier,$customer,$billingAddress,$request->input('obs'));
+           $pagseguroCode = $this->getDataPagSeguro($this->cartRepo->getCartItemsTransformed(),
+           $courier,$customer, $billingAddress, $order);
+           Cart::destroy();
+           return Redirect::to(env('URL_PAGSEGURO_PAYMENT').'?code='.$pagseguroCode);
 
-       $order = $this->createOrder($courier,$customer,$billingAddress,$request->input('obs'));
+       }else{
 
-        $pagseguroCode = $this->getDataPagSeguro($this->cartRepo->getCartItemsTransformed(),
-            $courier,$customer, $billingAddress, $order);
+            return $this->checkoutSite($request);
 
-        Cart::destroy();
-
-        return Redirect::to(env('URL_PAGSEGURO_PAYMENT').'?code='.$pagseguroCode);
-
-
-
-
-//        return view('front.checkout', [
-//            'customer' => $customer,
-//            'billingAddress' => $billingAddress,
-//            'addresses' => $customer->addresses()->get(),
-//            'products' => $this->cartRepo->getCartItems(),
-//            'subtotal' => $this->cartRepo->getSubTotal(),
-//            'tax' => $this->cartRepo->getTax(),
-//            'total' => $this->cartRepo->getTotal(2,$courier->cost),
-//            'payments' => $paymentGateways,
-//            'cartItems' => $this->cartRepo->getCartItemsTransformed(),
-//            'shipment_object_id' => $shipment_object_id,
-//            'courier'=>$courier,
-//            'pagseguroCode'=>$pagseguroCode
-//        ]);
+        }
     }
 
 
@@ -202,34 +187,57 @@ class CheckoutController extends Controller
 //    }
 
 
+    public function reprocessPagSeguro(Request $request)
+    {
+        if($request->has('order_id')){
+            $order = $this->orderRepo->find($request->get('order_id'));
+
+            $data = $this->preparedata();
+            $count = 1;
+            foreach($order->products as $product){
+                $data['itemId'.$count] = $product->sku;
+                $data['itemDescription'.$count] = $product->name;
+                //     $data['produto'] = "";
+                $data['itemAmount'.$count] = number_format($product->pivot->product_price,2);
+                $data['itemQuantity'.$count] = $product->pivot->quantity;
+                $data['itemWeight'.$count] = "0";
+                $count++;
+            }
+            $data = $this->feedData($order,$order->customer,$order->address,$order->courier,$data);
+            //dd($data);
+            $pagseguroCode = $this->callCurl($data);
+            return Redirect::to(env('URL_PAGSEGURO_PAYMENT').'?code='.$pagseguroCode);
+        }
+    }
+
     public function getDataPagSeguro($cartitems, $courier,$customer, $billingAddress,$order){
-     $data = [];
-     $data['email'] = env('PAGSEGURO_EMAIL');
-     $data['token'] = env('PAGSEGURO_TOKEN');
-     $data['currency'] = "BRL";
-
-     $count = 1;
-     foreach($cartitems as $item){
-         $data['itemId'.$count] = $item->product->sku;
-         $data['itemDescription'.$count] = $item->name;
-//     $data['produto'] = "";
-         $data['itemAmount'.$count] = number_format($item->price,2);
-         $data['itemQuantity'.$count] = $item->qty;
-         $data['itemWeight'.$count] = "0";
-         $count++;
-     }
-     //dump($data);
-
-//        dd($billingAddress->address_1);
+         $data = $this->preparedata();
 
 
-     $data['reference'] = $order->reference;
-     $data['senderName'] = $customer->name;
-     $data['senderAreaCode'] = "37";
-     $data['senderphone'] = $billingAddress->phone;
-     $data['senderEmail'] = $customer->email;
+         $count = 1;
 
-     $data['shippingType'] = "3";
+         foreach($cartitems as $item){
+             $data['itemId'.$count] = $item->product->sku;
+             $data['itemDescription'.$count] = $item->name;
+    //     $data['produto'] = "";
+             $data['itemAmount'.$count] = number_format($item->price,2);
+             $data['itemQuantity'.$count] = $item->qty;
+             $data['itemWeight'.$count] = "0";
+             $count++;
+         }
+        $data = $this->feedData($order,$customer,$billingAddress,$courier,$data);
+        return $this->callCurl($data);
+    }
+
+    public function feedData($order,$customer,$billingAddress,$courier,$data){
+        
+        $data['reference'] = $order->reference;
+        $data['senderName'] = $customer->name;
+        $data['senderAreaCode'] = "37";
+        $data['senderphone'] = $billingAddress->phone;
+        $data['senderEmail'] = $customer->email;
+
+        $data['shippingType'] = "3";
         $data['shippingCost'] = $courier->cost;
         if(!$courier->is_pick_up_location){
             $data['shippingAddressStreet'] = $billingAddress->address_1;
@@ -246,33 +254,39 @@ class CheckoutController extends Controller
 
 
         }
+        $data['shippingAddressCity'] = "Rio de Janeiro";
+        $data['shippingAddressState'] = "RJ";
+        $data['shippingAddressContry'] = "ATA";
 
+        return $data;
+    }
 
-     $data['shippingAddressCity'] = "Rio de Janeiro";
-     $data['shippingAddressState'] = "RJ";
-     $data['shippingAddressContry'] = "ATA";
+    public function preparedata(){
 
-//     dd($data);
-//
-     $buildQuery = http_build_query($data);
-//     dump($buildQuery);
-     $url = env('URL_PAGSEGURO_CHECKOUT');
-//     dump($url);
-     $curl = curl_init($url);
-     curl_setopt($curl,CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded; charset=ISO-8859-1'));
-     curl_setopt($curl,CURLOPT_POST,true);
-     curl_setopt($curl,CURLOPT_SSL_VERIFYPEER,false);
-     curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
-     curl_setopt($curl,CURLOPT_POSTFIELDS,$buildQuery);
+        $data = [];
+        $data['email'] = env('PAGSEGURO_EMAIL');
+        $data['token'] = env('PAGSEGURO_TOKEN');
+        $data['currency'] = "BRL";
 
-     $return = curl_exec($curl);
-     curl_close($curl);
-     $xml = simplexml_load_string($return);
+        return $data;
+    }
 
-    return $xml->code;
+    public function callCurl($data)
+    {
+        $buildQuery = http_build_query($data);
+        $url = env('URL_PAGSEGURO_CHECKOUT');
+        $curl = curl_init($url);
+        curl_setopt($curl,CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded; charset=ISO-8859-1'));
+        curl_setopt($curl,CURLOPT_POST,true);
+        curl_setopt($curl,CURLOPT_SSL_VERIFYPEER,false);
+        curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
+        curl_setopt($curl,CURLOPT_POSTFIELDS,$buildQuery);
 
+        $return = curl_exec($curl);
+        curl_close($curl);
+        $xml = simplexml_load_string($return);
 
-
+        return $xml->code;
     }
 
     public function store(CheckoutRequest $request)
@@ -390,6 +404,67 @@ class CheckoutController extends Controller
 
             return $this->shippingRepo->readyShipment();
         }
+    }
+
+    public function checkoutSite($request){
+
+        $this->neededBag();
+
+        $carItens = $this->cartRepo->getCartItems();
+        $customer = $request->user();
+        $rates = null;
+        $shipment_object_id = null;
+
+        $error = false;
+        $msgErros = [];
+
+        foreach($carItens as $carItem){
+            if($carItem->qty >$carItem->product->quantity){
+                $error = true;
+                $msg = ['O produto "'. $carItem->name . '" possui '. $carItem->product->quantity . ' no estoque. Por favor, atualize o seu pedido'];
+                $msgErros = array_merge($msgErros,$msg);
+            }
+        }
+
+        if($error){
+
+
+            $couriers = $this->courierRepo->allEnable();
+
+            return view('front.carts.cart', [
+                'cartItems' => $this->cartRepo->getCartItemsTransformed(),
+                'subtotal' => $this->cartRepo->getSubTotal(),
+                'tax' => $this->cartRepo->getTax(),
+                'couriers' => $couriers,
+                'total' => $this->cartRepo->getTotal(2)
+            ])->withErrors($msgErros);
+        }
+
+
+
+        // Get payment gateways
+        $paymentGateways = collect(explode(',', config('payees.name')))->transform(function ($name) {
+            return config($name);
+        })->all();
+
+        $billingAddress = $customer->addresses()->first();
+
+        $courier = $this->courierRepo->findCourierById($request->input('courier_id'));
+        //$shippingFee = $this->cartRepo->getShippingFee($courier);
+
+        return view('front.checkout', [
+            'customer' => $customer,
+            'billingAddress' => $billingAddress,
+            'addresses' => $customer->addresses()->get(),
+            'products' => $this->cartRepo->getCartItems(),
+            'subtotal' => $this->cartRepo->getSubTotal(),
+            'tax' => $this->cartRepo->getTax(),
+            'total' => $this->cartRepo->getTotal(2,$courier->cost),
+            'payments' => $paymentGateways,
+            'cartItems' => $this->cartRepo->getCartItemsTransformed(),
+            'shipment_object_id' => $shipment_object_id,
+            'courier'=>$courier
+        ]);
     }
 
 
