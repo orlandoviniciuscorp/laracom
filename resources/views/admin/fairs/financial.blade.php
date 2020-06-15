@@ -72,22 +72,26 @@
                     <hr/>
                     <div class="box-tools">
                     <h3>Pagamento por Produtor/Catergoria</h3>
-
+                    <small>
                     <table class="table">
                         <thead>
                         <tr>
                             <td>Categoria</td>
                             <td>Produto</td>
                             <td>Qtd</td>
-                            <td>Valor Vendido</td>
-                            <td>Valor Produtor</td>
-                            <td>Plataforma</td>
-                            <td>Separação</td>
-                            <td>Caixinha</td>
-                            <td>Pagamentos</td>
-                            <td>Contato Clientes</td>
-                            <td>Contas</td>
-                            <td>Conferencia</td>
+                            <td> Produtor </td>
+                            <td> Plataforma </td>
+                            <td> Separação </td>
+                            <td> Caixinha </td>
+                            <td> Sacolas e Embalagens </td>
+                            <td> Pagamento online </td>
+                            <td> Fechamento do Caixa </td>
+                            <td> Marketing / Divulgação </td>
+                            <td> Administração </td>
+                            <td> Venda </td>
+                            <td> Ponto de Retirada </td>
+                            <td> Logística </td>
+                            <td> Sac - Contato Cliente </td>
                         </tr>
                         </thead>
                         <tbody>
@@ -96,19 +100,24 @@
                                     <td>{{$productor->produtor}}</td>
                                     <td>{{$productor->produto}}</td>
                                     <td>{{$productor->quantidade}}</td>
-                                    <td>{{currency_format($productor->valor_vendido)}}</td>
                                     <td>{{currency_format($productor->valor_produtor)}}</td>
                                     <td>{{currency_format($productor->plataforma)}}</td>
                                     <td>{{currency_format($productor->separacao)}}</td>
                                     <td>{{currency_format($productor->caixinha)}}</td>
-                                    <td>{{currency_format($productor->pagamentos)}}</td>
-                                    <td>{{currency_format($productor->contato_cliente)}}</td>
+                                    <td>{{currency_format($productor->sacolas)}}</td>
+                                    <td>{{currency_format($productor->pagamento_online)}}</td>
                                     <td>{{currency_format($productor->contas)}}</td>
-                                    <td>{{currency_format($productor->conferencia_pagamento)}}</td>
+                                    <td>{{currency_format($productor->marketing)}}</td>
+                                    <td>{{currency_format($productor->administracao)}}</td>
+                                    <td>{{currency_format($productor->vendas)}}</td>
+                                    <td>{{currency_format($productor->ponto_retirada)}}</td>
+                                    <td>{{currency_format($productor->logistica)}}</td>
+                                    <td>{{currency_format($productor->contato_cliente)}}</td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
+                    </small>
                     </div>
 
                 </div>
