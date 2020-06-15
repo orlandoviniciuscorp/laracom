@@ -344,6 +344,26 @@ class ProductController extends Controller
         return redirect()->route('admin.dashboard');
     }
 
+    public function disabledProduct($id)
+    {
+        $product = $this->productRepo->find($id);
+
+        $product->status = 0;
+        $product->save();
+
+        return redirect()->back();
+    }
+
+    public function enabledProduct($id)
+    {
+        $product = $this->productRepo->find($id);
+
+        $product->status = 1;
+        $product->save();
+
+        return redirect()->back();
+    }
+
     /**
      * Remove the specified resource from storage.
      *
