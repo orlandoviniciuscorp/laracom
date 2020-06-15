@@ -58,7 +58,7 @@
                                             </div>
                                             <div class="row"></div>
                                             <div class="form-group">
-                                                <label for="image">Imagens </label>
+                                                <label for="image">Imagens Adicionais</label>
                                                 <input type="file" name="image[]" id="image" class="form-control" multiple>
                                                 <span class="text-warning">You can use ctr (cmd) to select multiple images</span>
                                             </div>
@@ -97,88 +97,106 @@
                                                 @endif
                                                 @if(!$productAttributes->isEmpty())<span class="text-danger">Note: Price is disabled. Price is derived based on the combination.</span> @endif
                                             </div>
+                                            {{--<div class="form-group">--}}
+                                                {{--<label for="sale_price">Preço de Venda</label>--}}
+                                                {{--<div class="input-group">--}}
+                                                    {{--<span class="input-group-addon">{{ config('cart.currency') }}</span>--}}
+                                                    {{--<input type="text" pattern="[\d.]*"  name="sale_price" id="sale_price" placeholder="Preço de Venda" class="form-control" value="{{ $product->sale_price }}">--}}
+                                                {{--</div>--}}
+                                                {{--<small class="text-danger">Para valores com centavos utilize ponto</small>--}}
+                                            {{--</div>--}}
+
                                             <div class="form-group">
-                                                <label for="sale_price">Preço de Venda</label>
+                                                <label for="is_distinct">Produto diferenciável <span class="text-danger">*</span></label>
                                                 <div class="input-group">
-                                                    <span class="input-group-addon">{{ config('cart.currency') }}</span>
-                                                    <input type="text" pattern="[\d.]*"  name="sale_price" id="sale_price" placeholder="Preço de Venda" class="form-control" value="{{ $product->sale_price }}">
+                                                    <input
+                                                            type="radio"
+                                                            name="is_distinct"
+                                                            id="is_distinct"
+                                                            @if(isset($product->is_distinct) && $product->is_distinct == 0)   checked ='checked' @endif
+                                                            value="0"> Não
+                                                    <br/>
+                                                    <input
+                                                            type="radio"
+                                                            name="is_distinct"
+                                                            id="is_distinct"
+                                                            @if(isset($product->is_distinct) && $product->is_distinct == 1)   checked ='checked' @endif
+                                                            value="1"> Sim
                                                 </div>
-                                                <small class="text-danger">Para valores com centavos utilize ponto</small>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <input type="hidden" name="is_distinct" value="{{$product->is_distinct}}" />
-                                                <label for="is_distinct">Percentual <span class="text-danger">*</span></label>
-
-                                                <select name="percentage_id" id="percentage_id" class="form-control select2">
-                                                    <option value=""></option>
-                                                    @foreach($percentages as $percentage)
-                                                        <option @if($percentage->id == $product->percentage_id) selected="selected" @endif value="{{ $percentage->id }}">{{ $percentage->name }}</option>
-                                                    @endforeach
-                                                </select>
+                                                </label>
                                             </div>
 
                                             <div class="form-group">
                                                 <label for="table_percent">Tabela de Porcentagem</label>
                                                 <div class="input-group">
-
-                                                    @isset($product->percentage)
-                                                    <small>
+                                                    @isset($product->percents)
                                                     <table class="table table-bordered">
                                                         <tr>
-                                                        <tr>
-                                                            <td> Produtor </td>
-                                                            <td> Plataforma </td>
-                                                            <td> Separação </td>
-                                                            <td> Caixinha </td>
-                                                            <td> Sacolas e Embalagens </td>
-                                                            <td> Pagamento online </td>
-                                                            <td> Fechamento do Caixa </td>
-                                                            <td> Marketing / Divulgação </td>
-                                                            <td> Administração </td>
-                                                            <td> Venda </td>
-                                                            <td> Ponto de Retirada </td>
-                                                            <td> Logística </td>
-                                                            <td> Sac - Contato Cliente </td>
+                                                            <th>
+                                                                Produtor
+                                                            </th>
+                                                            <th>
+                                                                Plataforma
+                                                            </th>
+                                                            <th>
+                                                                Separação
+                                                            </th>
+                                                            <th>
+                                                                Caixinha
+                                                            </th>
+                                                            <th>
+                                                                Contas e Repasse de Pagamentos
+                                                            </th>
+                                                            <th>
+                                                                Contato Cliente
+                                                            </th>
+                                                            <th>
+                                                                Conferência Pagamento
+                                                            </th>
+                                                            <th>
+                                                                Vendedor
+                                                            </th>
+                                                            <th>
+                                                                Logistica
+                                                            </th>
                                                         </tr>
-                                                        </thead>
-                                                            <tr >
-                                                                <td> {{is_null($product->percentage->farmer) ? 0 : $product->percentage->farmer }}%</td>
-                                                                <td> {{is_null($product->percentage->plataform) ? 0 : $product->percentage->plataform }}%</td>
-                                                                <td> {{is_null($product->percentage->separation) ? 0 : $product->percentage->separation }}%</td>
-                                                                <td> {{is_null($product->percentage->fund) ? 0 : $product->percentage->fund }}%</td>
-                                                                <td> {{is_null($product->percentage->bags) ? 0 : $product->percentage->bags }}%</td>
-                                                                <td> {{is_null($product->percentage->payment_online) ? 0 : $product->percentage->payment_online }}%</td>
-                                                                <td> {{is_null($product->percentage->accounting_close) ? 0 : $product->percentage->accounting_close }}%</td>
-                                                                <td> {{is_null($product->percentage->marketing) ? 0 : $product->percentage->marketing }}%</td>
-                                                                <td> {{is_null($product->percentage->administration) ? 0 : $product->percentage->administration }}%</td>
-                                                                <td> {{is_null($product->percentage->seeller) ? 0 : $product->percentage->seeller }}%</td>
-                                                                <td> {{is_null($product->percentage->pickup_location) ? 0 : $product->percentage->pickup_location }}%</td>
-                                                                <td> {{is_null($product->percentage->logistic) ? 0 : $product->percentage->logistic }}%</td>
-                                                                <td> {{is_null($product->percentage->client_contact) ? 0 : $product->percentage->client_contact }}%</td>
-                                                            </tr>
-                                                        </tr>
+
                                                         <tr>
-                                                            <td>{{ currency_format($product->percentage->farmer /100 * $product->price)}} </td>
-                                                            <td>{{ currency_format($product->percentage->plataform /100 * $product->price)}} </td>
-                                                            <td>{{ currency_format($product->percentage->separation /100 * $product->price)}} </td>
-                                                            <td>{{ currency_format($product->percentage->fund /100 * $product->price)}} </td>
-                                                            <td>{{ currency_format($product->percentage->bags /100 * $product->price)}} </td>
-                                                            <td>{{ currency_format($product->percentage->payment_online /100 * $product->price)}} </td>
-                                                            <td>{{ currency_format($product->percentage->accounting_close /100 * $product->price)}} </td>
-                                                            <td>{{ currency_format($product->percentage->marketing /100 * $product->price)}} </td>
-                                                            <td>{{ currency_format($product->percentage->administration /100 * $product->price)}} </td>
-                                                            <td>{{ currency_format($product->percentage->seeller /100 * $product->price)}} </td>
-                                                            <td>{{ currency_format($product->percentage->pickup_location /100 * $product->price)}} </td>
-                                                            <td>{{ currency_format($product->percentage->logistic /100 * $product->price)}} </td>
-                                                            <td>{{ currency_format($product->percentage->client_contact /100 * $product->price)}} </td>
+                                                            <td>
+                                                                {{$product->percents->farmer}}%
+                                                            </td>
+                                                            <td>
+
+                                                                {{$product->percents->plataform}}%
+
+                                                            </td>
+                                                            <td>
+                                                                {{$product->percents->separation}}%
+                                                            </td>
+                                                            <td>
+                                                                {{$product->percents->fund}}%
+                                                            </td>
+                                                            <td>
+                                                                {{$product->percents->payments_transfer}}%
+                                                            </td>
+                                                            <td>
+                                                                {{$product->percents->client_contact}}%
+                                                            </td>
+                                                            <td>
+                                                                {{$product->percents->accounting_close}}%
+                                                            </td>
+                                                            <td>
+                                                                {{$product->percents->seeller}}%
+                                                            </td>
+                                                            <td>
+                                                                {{$product->percents->logistic}}%
+                                                            </td>
                                                         </tr>
                                                     </table>
-                                                    </small>
                                                     @endif
                                                     <br />
-                                                    {{--<a href="{{route('admin.percents.index',$product->id)}}"--}}
-                                                       {{--class="btn btn-primary">Cadastrar Porcentagem</a>--}}
+                                                    <a href="{{route('admin.percents.index',$product->id)}}"
+                                                       class="btn btn-primary">Cadastrar Porcentagem</a>
                                                 </div>
 
 

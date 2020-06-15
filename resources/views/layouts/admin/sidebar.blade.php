@@ -55,6 +55,18 @@
                     </li>
                 </ul>
             </li>
+            <li class="treeview @if(request()->segment(2) == 'products' || request()->segment(2) == 'attributes' || request()->segment(2) == 'brands') active @endif">
+                <a href="#">
+                    <i class="fa fa-percent" aria-hidden="true"></i> <span>Percentuais</span>
+                    <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ route('admin.percentages.index') }}"><i class="fa fa-circle-o"></i> Lista de Percentuais</a></li>
+                    <li><a href="{{ route('admin.percentages.create') }}"><i class="fa fa-plus"></i> Criar Percentual</a></li>
+                </ul>
+            </li>
             <li class="treeview @if(request()->segment(2) == 'categories') active @endif">
                 <a href="#">
                     <i class="fa fa-users" aria-hidden="true"></i> <span>Categoria</span>
@@ -150,14 +162,18 @@
                         request()->segment(2) == 'permissions') active
                     @endif">
             <a href="#">
-                <i class="fa fa-star"></i> <span>Produtores e Administradores</span>
+                <i class="fa fa-star"></i> <span>Produtores e Admin</span>
                 <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                 </span>
             </a>
             <ul class="treeview-menu">
-                <li><a href="{{ route('admin.employees.index') }}"><i class="fa fa-circle-o"></i> Lista de Produtores e Administradores</a></li>
-                <li><a href="{{ route('admin.employees.create') }}"><i class="fa fa-plus"></i> Criar</a></li>
+                <li><a href="{{ route('admin.employees.index') }}">
+                        <i class="fa fa-circle-o"></i> Lista de Produtores e Admin</a>
+                </li>
+                <li><a href="{{ route('admin.employees.create') }}">
+                        <i class="fa fa-plus"></i> Criar</a>
+                </li>
                 <li class="@if(request()->segment(2) == 'roles') active @endif">
                     <a href="#">
                         <i class="fa fa-star-o"></i> <span>Roles</span>

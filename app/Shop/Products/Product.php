@@ -6,7 +6,7 @@ use App\Shop\Brands\Brand;
 use App\Shop\Categories\Category;
 use App\Shop\ProductAttributes\ProductAttribute;
 use App\Shop\ProductImages\ProductImage;
-use App\Shop\ProductPercents\ProductPercent;
+use App\Shop\Percentages\Percentage;
 use Gloudemans\Shoppingcart\Contracts\Buyable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -66,8 +66,11 @@ class Product extends Model implements Buyable
         'height',
         'distance_unit',
         'slug',
-        'is_distinct'
+        'is_distinct',
+        'percentage_id'
     ];
+
+    protected $with = ['percentage'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -81,8 +84,8 @@ class Product extends Model implements Buyable
         return $this->belongsToMany(Category::class);
     }
 
-    public function percents(){
-        return $this->hasOne(ProductPercent::class);
+    public function percentage(){
+        return $this->belongsTo(Percentage::class);
     }
 
     /**
