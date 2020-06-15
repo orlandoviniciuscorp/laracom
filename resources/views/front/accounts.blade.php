@@ -70,7 +70,8 @@
                                                     <br />
 
                                                     @if($order['order_status_id'] !=2 &&
-                                                        $order['order_status_id'] !=1)
+                                                        $order['order_status_id'] !=1 &&
+                                                        $order['order_status_id'] != env('ORDER_CANCELED'))
                                                             <form action="{{route('checkout.reprocess')}}" method="post">
                                                                 {{csrf_field()}}
                                                                 <input type="hidden" name="order_id" value="{{$order['id']}}" />
