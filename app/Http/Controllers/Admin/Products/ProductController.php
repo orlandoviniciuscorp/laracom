@@ -141,13 +141,12 @@ class ProductController extends Controller
         if ($request->hasFile('cover') && $request->file('cover') instanceof UploadedFile) {
             $data['cover'] = $this->productRepo->saveCoverImage($request->file('cover'));
         }
+        $percentage_id = 1;
+        if($request->get('is_distinct') == 1) {
+            $percentage_id = 2;
+        }
 
-//        if($request->is_distinct){
-//
-//        }
-
-
-
+        $data['percentage_id']  = $percentage_id;
 
         $product = $this->productRepo->createProduct($data);
 
