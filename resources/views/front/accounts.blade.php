@@ -69,17 +69,19 @@
                                                     </form>
                                                     <br />
 
-                                                    @if($order['order_status_id'] !=2 &&
-                                                        $order['order_status_id'] !=1 &&
-                                                        $order['order_status_id'] != env('ORDER_CANCELED'))
-                                                            <form action="{{route('checkout.reprocess')}}" method="post">
-                                                                {{csrf_field()}}
-                                                                <input type="hidden" name="order_id" value="{{$order['id']}}" />
-                                                                <button type="submit" class="btn btn-primary" onclick="return confirm('Deseja Reprocessar o Pagamento?')">
-                                                                    <i class="fa fa-spinner" aria-hidden="true"> Reprocessar Pagamento</i>
-                                                                </button>
-                                                            </form>
+                                                    @if(env('PAGSEGURO_OPEN')){
+                                                        @if($order['order_status_id'] !=2 &&
+                                                            $order['order_status_id'] !=1 &&
+                                                            $order['order_status_id'] != env('ORDER_CANCELED'))
+                                                                <form action="{{route('checkout.reprocess')}}" method="post">
+                                                                    {{csrf_field()}}
+                                                                    <input type="hidden" name="order_id" value="{{$order['id']}}" />
+                                                                    <button type="submit" class="btn btn-primary" onclick="return confirm('Deseja Reprocessar o Pagamento?')">
+                                                                        <i class="fa fa-spinner" aria-hidden="true"> Reprocessar Pagamento</i>
+                                                                    </button>
+                                                                </form>
                                                         @endif
+                                                     @endif
                                                 @endif
                                             </td>
                                         </tr>

@@ -206,16 +206,19 @@
                     </div>
                 </div>
                 <form action="{{route('cart.checkout')}}" method="post">
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <legend><i class="fa fa-commenting" aria-hidden="true"></i> Observação</legend>
-                            <textarea name="obs" class="form-control"
-                                      placeholder="Gostaria de Acrescentar alguma observação?">{{old('obs')}}</textarea>
-                            <br />
-                        </div>
-                    </div>
                     {{ csrf_field() }}
+
+                    @if(env('PAGSEGURO_OPEN'))
+                        <div class="row">
+                            <div class="col-md-12">
+                                <legend><i class="fa fa-commenting" aria-hidden="true"></i> Observação</legend>
+                                <textarea name="obs" class="form-control"
+                                          placeholder="Gostaria de Acrescentar alguma observação?">{{old('obs')}}</textarea>
+                                <br />
+                            </div>
+                        </div>
+                    @endif
+
                     <div class="row">
                         <div class="col-md-12">
                             <legend><i class="fa fa-truck"></i> Entrega</legend>

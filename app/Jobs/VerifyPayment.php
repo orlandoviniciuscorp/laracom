@@ -64,38 +64,41 @@ class VerifyPayment implements ShouldQueue
 
         foreach($fair->orders as $order) {
 
-            if($order->order_status_id != 1){
+            if(env('PAGSEGURO_OPEN')) {
 
-                $Url = env('PAGSEGURO_TRANSACTIONS') . "?email=" .
-                    env('PAGSEGURO_EMAIL') .
-                    "&token=" . env('PAGSEGURO_TOKEN') .
-                    "&reference=" . $order->reference;
+                if ($order->order_status_id != 1) {
 
-                $Curl = curl_init($Url);
-                curl_setopt($Curl, CURLOPT_SSL_VERIFYPEER, false);
-                curl_setopt($Curl, CURLOPT_RETURNTRANSFER, true);
-                $retorno = curl_exec($Curl);
-                curl_close($Curl);
+                    $Url = env('PAGSEGURO_TRANSACTIONS') . "?email=" .
+                        env('PAGSEGURO_EMAIL') .
+                        "&token=" . env('PAGSEGURO_TOKEN') .
+                        "&reference=" . $order->reference;
 
-                $xml = simplexml_load_string($retorno);
-                if ($xml->resultsInThisPage->__toString() == "1") {
-                    $status = $xml->transactions->transaction->status->__toString();
+                    $Curl = curl_init($Url);
+                    curl_setopt($Curl, CURLOPT_SSL_VERIFYPEER, false);
+                    curl_setopt($Curl, CURLOPT_RETURNTRANSFER, true);
+                    $retorno = curl_exec($Curl);
+                    curl_close($Curl);
 
-                    switch ($status) {
-                        case 1 || 2:
-                            $order->order_status_id = 2;
-                            break;
-                        case 3 || 4:
-                            $order->order_status_id = 1;
-                            break;
-                        case 6 || 7:
-                            $order->order_status_id = 7;
-                            break;
+                    $xml = simplexml_load_string($retorno);
+                    if ($xml->resultsInThisPage->__toString() == "1") {
+                        $status = $xml->transactions->transaction->status->__toString();
+
+                        switch ($status) {
+                            case 1 || 2:
+                                $order->order_status_id = 2;
+                                break;
+                            case 3 || 4:
+                                $order->order_status_id = 1;
+                                break;
+                            case 6 || 7:
+                                $order->order_status_id = 7;
+                                break;
+                        }
+                        //            }else{
+
+                        //$order->status = env('ORDER_CANCELED');
+                        $order->save();
                     }
-    //            }else{
-
-                    //$order->status = env('ORDER_CANCELED');
-                    $order->save();
                 }
             }
         }
