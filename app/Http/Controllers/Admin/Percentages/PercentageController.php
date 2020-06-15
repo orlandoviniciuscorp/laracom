@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Products;
+namespace App\Http\Controllers\Admin\Percentages;
 
 use App\Shop\Attributes\Repositories\AttributeRepositoryInterface;
 use App\Shop\AttributeValues\Repositories\AttributeValueRepositoryInterface;
 use App\Shop\Brands\Repositories\BrandRepositoryInterface;
 use App\Shop\Categories\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Shop\Percentages\Repositories\PercentageRepository;
+use App\Shop\Percentages\Requests\CreatePercentageRequest;
 use App\Shop\ProductAttributes\ProductAttribute;
 use App\Shop\ProductPercents\ProductPercent;
 use App\Shop\ProductPercents\Repositories\ProductPercentRepository;
@@ -19,7 +20,6 @@ use App\Shop\ProductPercents\Requests\CreateProductPercentRequest;
 use App\Shop\Products\Requests\CreateProductRequest;
 use App\Shop\Products\Requests\UpdateProductRequest;
 use App\Http\Controllers\Controller;
-use App\Shop\Products\Transformations\ProductTransformable;
 use App\Shop\Tools\UploadableTrait;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
@@ -27,9 +27,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
-class ProductController extends Controller
+class PercentageController extends Controller
 {
-    use ProductTransformable, UploadableTrait;
+    use UploadableTrait;
 
 
     /**
@@ -59,7 +59,7 @@ class ProductController extends Controller
      */
     private $brandRepo;
 
-    protected $percentageRepo;
+    private $percentageRepository;
 
     /**
      * ProductController constructor.
@@ -73,13 +73,13 @@ class ProductController extends Controller
      */
     public function __construct(
         ProductRepositoryInterface $productRepository,
+        PercentageRepository $percentageRepository,
         CategoryRepositoryInterface $categoryRepository,
         AttributeRepositoryInterface $attributeRepository,
         AttributeValueRepositoryInterface $attributeValueRepository,
         ProductAttribute $productAttribute,
         BrandRepositoryInterface $brandRepository,
-        ProductPercentRepository $productPercentRepository,
-        PercentageRepository $percentageRepository
+        ProductPercentRepository $productPercentRepository
     ) {
         $this->productRepo = $productRepository;
         $this->categoryRepo = $categoryRepository;
@@ -88,7 +88,7 @@ class ProductController extends Controller
         $this->productAttribute = $productAttribute;
         $this->brandRepo = $brandRepository;
         $this->productPercentRepo = $productPercentRepository;
-        $this->percentageRepo = $percentageRepository;
+        $this->percentageRepository = $percentageRepository;
 
         $this->middleware(['permission:create-product, guard:employee'], ['only' => ['create', 'store']]);
         $this->middleware(['permission:update-product, guard:employee'], ['only' => ['edit', 'update']]);
@@ -103,10 +103,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = $this->getAllProducts();
+        $percentages = $this->getAllPercentages();
 
-        return view('admin.products.list', [
-            'products' => $this->productRepo->paginateArrayResults($products, 25)
+        return view('admin.percentages.list', [
+            'percentages' => $percentages
         ]);
     }
 
@@ -117,21 +117,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = $this->categoryRepo->listCategories('name', 'asc');
-        $nextSKU = $this->productRepo->countProducts() + 1;
-
-        $percentages = $this->percentageRepo->listPercentages();
-
-
-        return view('admin.products.create', [
-            'categories' => $categories,
-            'brands' => $this->brandRepo->listBrands(['*'], 'name', 'asc'),
-            'default_weight' => env('SHOP_WEIGHT'),
-            'weight_units' => Product::MASS_UNIT,
-            'product' => new Product,
-            'nextSKU' => $nextSKU,
-            'percentages'=>$percentages
-        ]);
+        return view('admin.percentages.create');
     }
 
     /**
@@ -141,39 +127,18 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateProductRequest $request)
+    public function store(CreatePercentageRequest $request)
     {
         $data = $request->except('_token', '_method');
-        $data['slug'] = str_slug($request->input('name'));
-
-        if ($request->hasFile('cover') && $request->file('cover') instanceof UploadedFile) {
-            $data['cover'] = $this->productRepo->saveCoverImage($request->file('cover'));
-        }
-
-//        if($request->is_distinct){
-//
-//        }
 
 
 
-
-        $product = $this->productRepo->createProduct($data);
-
+        $product = $this->percentageRepository->store($data);
 
 
-        $productRepo = new ProductRepository($product);
+        $request->session()->flash('message', $this->getSucessMesseger());
 
-        if ($request->hasFile('image')) {
-            $productRepo->saveProductImages(collect($request->file('image')));
-        }
-
-        if ($request->has('categories')) {
-            $productRepo->syncCategories($request->input('categories'));
-        } else {
-            $productRepo->detachCategories();
-        }
-
-        return redirect()->route('admin.products.edit', $product->id)->with('message', $this->getSucessMesseger());
+        return redirect()->route('admin.percentages.index');
     }
 
     /**
@@ -198,9 +163,6 @@ class ProductController extends Controller
      */
     public function edit(int $id)
     {
-
-        //dd(request()->has('is_distinct'));
-
         $product = $this->productRepo->findProductById($id);
         $productAttributes = $product->attributes()->get();
 
@@ -218,8 +180,6 @@ class ProductController extends Controller
         }
 
         $categories = $this->categoryRepo->listCategories('name', 'asc')->toTree();
-
-        $percentages = $this->percentageRepo->listPercentages();
 	
         return view('admin.products.edit', [
             'product' => $product,
@@ -232,8 +192,7 @@ class ProductController extends Controller
             'brands' => $this->brandRepo->listBrands(['*'], 'name', 'asc'),
             'weight' => $product->weight,
             'default_weight' => $product->mass_unit,
-            'weight_units' => Product::MASS_UNIT,
-            'percentages' =>$percentages
+            'weight_units' => Product::MASS_UNIT
         ]);
     }
 
@@ -248,9 +207,7 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, int $id)
     {
-
         $product = $this->productRepo->findProductById($id);
-
         $productRepo = new ProductRepository($product);
 
         if ($request->has('attributeValue')) {
@@ -270,7 +227,6 @@ class ProductController extends Controller
             'attributeValue',
             'combination'
         );
-
 
         $data['slug'] = str_slug($request->input('name'));
 
@@ -344,26 +300,6 @@ class ProductController extends Controller
         }
 
         return redirect()->route('admin.dashboard');
-    }
-
-    public function disabledProduct($id)
-    {
-        $product = $this->productRepo->find($id);
-
-        $product->status = 0;
-        $product->save();
-
-        return redirect()->back();
-    }
-
-    public function enabledProduct($id)
-    {
-        $product = $this->productRepo->find($id);
-
-        $product->status = 1;
-        $product->save();
-
-        return redirect()->back();
     }
 
     /**
@@ -482,18 +418,16 @@ class ProductController extends Controller
         }
     }
 
-    public function getAllProducts()
+    public function getAllPercentages()
     {
-        $list = $this->productRepo->listProducts('id');
+        $list = $this->percentageRepository->listPercentages('id');
 
         if (request()->has('q') && request()->input('q') != '') {
-            $list = $this->productRepo->searchProduct(request()->input('q'));
+            $list = $this->percentageRepository->searchProduct(request()->input('q'));
         }
 
-        $products = $list->map(function (Product $item) {
-            return $this->transformProduct($item);
-        })->all();
 
-        return $products;
+
+        return $list;
     }
 }
