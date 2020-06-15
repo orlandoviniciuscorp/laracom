@@ -250,16 +250,19 @@ class FairRepository extends BaseRepository
             '		   p.name as produto,                                                     '.
             '		   sum(op.quantity) as quantidade,                                        '.
             '		   sum(op.quantity*p.price) as valor_vendido,                             '.
-            '           sum(op.quantity*p.price*pp.farmer/100) as valor_produtor,                    '.
+            '          sum(op.quantity*p.price*pp.farmer/100) as valor_produtor,                    '.
             '		   sum(op.quantity*p.price*pp.plataform/100) as plataforma,                    '.
-            '   		   sum(op.quantity*p.price*pp.separation/100) as separacao,                '.
+            '   	   sum(op.quantity*p.price*pp.separation/100) as separacao,                '.
             '		   sum(op.quantity*p.price*pp.fund/100) as caixinha,                           '.
-            '		   sum(op.quantity*p.price*pp.payments_transfer/100) as pagamentos,            '.
-            '		   sum(op.quantity*p.price*pp.client_contact/100) as contato_cliente,          '.
+            '		   sum(op.quantity*p.price*pp.bags/100) as sacolas,            '.
+            '		   sum(op.quantity*p.price*pp.payment_online/100) as pagamento_online,          '.
             '		   sum(op.quantity*p.price*pp.accounting_close/100) as contas,                 '.
-            '		   sum(op.quantity*p.price*pp.seeller/100) as vendedores,                      '.
+            '		   sum(op.quantity*p.price*pp.marketing/100) as marketing,                      '.
+            '		   sum(op.quantity*p.price*pp.administration/100) as administracao,                      '.
+            '		   sum(op.quantity*p.price*pp.seeller/100) as vendas,                      '.
+            '		   sum(op.quantity*p.price*pp.pickup_location/100) as ponto_retirada,                      '.
             '		   sum(op.quantity*p.price*pp.logistic/100) as logistica,                      '.
-            '		   sum(op.quantity*p.price*pp.payment_conference/100) as conferencia_pagamento                      '.
+            '		   sum(op.quantity*p.price*pp.client_contact/100) as contato_cliente                      '.
             '	 from orders o,                                                               '.
             '		 order_product op,                                                        '.
             '		 products p left join percentages pp on p.percentage_id = pp.id,        '.
