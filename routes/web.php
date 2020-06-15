@@ -38,6 +38,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
 
                 Route::post('/update-quantity', 'ProductController@updateQuantity')->name('products.update-quantity');
                 Route::post('/empty-availability', 'ProductController@emptyAvailability')->name('products.empty-availability');
+                Route::post('/{product_id}/disabled','ProductController@disabledProduct')->name('products.disabled');
+                Route::post('/{product_id}/enabled','ProductController@enabledProduct')->name('products.enabled');
+                Route::get('/{product_id}/percents','ProductController@indexPercent')->name('percents.index');
+                Route::post('/{product_id}/percents/store','ProductController@percentStore')->name('percents.store');
                 Route::resource('products', 'ProductController');
                 Route::get('remove-image-product', 'ProductController@removeImage')->name('product.remove.image');
                 Route::get('remove-image-thumb', 'ProductController@removeThumbnail')->name('product.remove.thumb');
