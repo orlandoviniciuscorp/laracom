@@ -46,10 +46,13 @@
                             <br /><br/>
                             <strong>Valor a Pagar</strong>
                             <br />
-                            <small>{{currency_format($order->total)}}
+                            <small><strong>Dinheiro:</strong> {{currency_format($order->total)}}
                             </small>
                             <br >
                             <br/>
+                            <small><strong>Cartão:</strong> {{currency_format($order->total * 1.025)}}</small>
+                            <br />
+                            <br />
                             Forma de Pagamento:
                             {{$order->payment}}
                         </td>

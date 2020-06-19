@@ -9,6 +9,8 @@
                 <div class="box-body">
                     <div class="row">
                         {{ csrf_field() }}
+
+                        <input type="hidden" name="origin" value="{{URL::previous()}}" />
                         <input type="hidden" name="_method" value="put">
                         <div class="col-md-12">
                             <!-- Nav tabs -->
