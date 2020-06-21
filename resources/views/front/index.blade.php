@@ -10,7 +10,7 @@
 
 @section('content')
     @include('layouts.front.home-slider')
-    @if($config->is_open == 1)
+    @if(env('SHOPPING_OPENED') && $config->is_open == 1)
         @foreach($cats as $cat)
             @if($cat->products->isNotEmpty() && $cat->status == 1)
                 <section class="new-product t100 home">
