@@ -40,7 +40,12 @@
                                     {{currency_format($f->total_entrega)}}
                                 </td>
                                 <td>
-                                    {{currency_format($f->total)}}
+                                    @if($f->tipo_pagamento == 'Cartão - Pagamento na Entrega')
+                                        {{currency_format($f->total*1.025)}}
+                                        {{--{{currency_format($f->total)}}--}}
+                                    @else
+                                        {{currency_format($f->total)}}
+                                    @endif
                                 </td>
                                 <td>
                                     {{$f->total_cestas}}

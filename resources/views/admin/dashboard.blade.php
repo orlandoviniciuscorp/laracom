@@ -96,7 +96,7 @@
                                     <li class="list-group-item bg-info">
                                         <form action="{{route('admin.category.rotate-farmers')}}" method="post"  class="form-horizontal">
                                             {{ csrf_field() }}
-                                            <button onclick="return confirm('Isso irá zerar de todos os produtores. Tem certeza?')" type="submit" class="btn btn-warning btn-sm">
+                                            <button onclick="return confirm('Tem certeza?')" type="submit" class="btn btn-warning btn-sm">
                                                 <i class="fa fa-refresh" aria-hidden="true"></i> Rotacionar Produtores
                                             </button>
                                         </form>
@@ -107,7 +107,7 @@
                                             <form action="{{route('admin.config.open')}}" method="post"  class="form-horizontal">
                                                 {{ csrf_field() }}
                                                 <input type="hidden" name="is_open" value="1">
-                                                <button onclick="return confirm('Isso irá zerar de todos os produtores. Tem certeza?')" type="submit" class="btn btn-success btn-sm">
+                                                <button onclick="return confirm('Tem certeza?')" type="submit" class="btn btn-success btn-sm">
                                                     <i class="fa fa-play" aria-hidden="true"></i> Abrir Vendas
                                                 </button>
                                             </form>
@@ -115,7 +115,7 @@
                                             <form action="{{route('admin.config.open')}}" method="post"  class="form-horizontal">
                                                 {{ csrf_field() }}
                                                 <input type="hidden" name="is_open" value="0">
-                                                <button onclick="return confirm('Isso irá zerar de todos os produtores. Tem certeza?')" type="submit" class="btn btn-danger btn-sm">
+                                                <button onclick="return confirm('Tem certeza?')" type="submit" class="btn btn-danger btn-sm">
                                                     <i class="fa fa-ban" aria-hidden="true"></i> Fechar Vendas
                                                 </button>
                                             </form>
