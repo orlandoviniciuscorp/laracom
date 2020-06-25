@@ -143,7 +143,7 @@ class FairController extends Controller
         return $pdf->stream();
 
 //        return view('invoices.labels', $data);
-        // return view('admin.orders.labels')->with('orders',$this->transFormOrder($orders));
+//         return view('admin.orders.labels')->with('orders',$this->transFormOrder($orders));
     }
 
     public function getOrderPending($fair_id){
@@ -167,9 +167,9 @@ class FairController extends Controller
 //
         $pdf = app()->make('dompdf.wrapper');
         $pdf->loadView('invoices.delivery', $data)->stream();
-
+//
         return $pdf->stream();
-//                return view('invoices.delivery', $data);
+                return view('invoices.delivery', $data);
 
     }
 
