@@ -21,7 +21,7 @@
 
 <section class="container">
 <!-- Default box -->
-    <h3>{{env('APP_NAME')}} - Pedidos dos Clientes</h3>
+    <h3>{{env('APP_NAME')}} - Pedidos dos Clientes - {{$fair->name}}</h3>
     @if($deliveryAddrresses)
         <table border="0" style="border: 1px solid black">
             <tr>
