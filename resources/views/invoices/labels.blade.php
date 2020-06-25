@@ -27,7 +27,7 @@
                 @foreach ($orders as $order)
                 <table>
                     <tr>
-                        <td>
+                        <td width="40%">
                             {{env('APP_NAME')}}<br /><br />
                             <strong>Número do Pedido</strong>
                             <br />
@@ -61,17 +61,16 @@
 
                             <strong>Endereço:</strong> <br/>
                             {{$order->address->address_1}} - {{$order->address->address_2}} - {{$order->address->neighborhoods}}
+                            <br /><br/>
+                            Observação: <br />
+                            <small> <strong>{{$order->obs}}</strong>
+                            </small>
                         </td>
-                        <td>
+                        <td width="60%">
                             <strong>Produtos:</strong><br />
                                @foreach($order->products as $product)
                                 &nbsp;<strong>{{$product->pivot->quantity }}</strong> - {{$product->name }} <br />
                                 @endforeach
-                        </td>
-                        <td>
-                            Observação: <br />
-                          <small> {{$order->obs}}
-                           </small>
                         </td>
                     </tr>
                 </table>
