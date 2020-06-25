@@ -35,26 +35,24 @@
                             <br />
                             <br />
 
-                            <strong>Cliente</strong>
+                            <strong>Cliente - Telefone</strong>
                             <br />
-                            {{$order->customer->name}}
-                            <br /><br />
-                            <strong>Telefone</strong>
-                            <br />
+                            {{$order->customer->name}} -
                            <small> {{$order->address->phone}}
                            </small>
                             <br /><br/>
                             <strong>Valor a Pagar</strong>
                             <br />
-                            <small>{{currency_format($order->total)}}
+                            <small><strong>Dinheiro:</strong> {{currency_format($order->total)}}
                             </small>
                             <br >
                             <br/>
+                            <small><strong>Cartão:</strong> {{currency_format($order->total * 1.025)}}</small>
+                            <br />
+                            <br />
                             Forma de Pagamento:
                             {{$order->payment}}
-                        </td>
-
-                        <td>
+                            <br />
                             <strong>Tipo de Entrega:</strong>
                             {{$order->courier->name}}
 
@@ -67,12 +65,12 @@
                         <td>
                             <strong>Produtos:</strong><br />
                                @foreach($order->products as $product)
-                                {{$product->name }} - {{$product->pivot->quantity }} <br />
+                                &nbsp;<strong>{{$product->pivot->quantity }}</strong> - {{$product->name }} <br />
                                 @endforeach
                         </td>
                         <td>
                             Observação: <br />
-                           <small> {{$order->obs}}</li>
+                          <small> {{$order->obs}}
                            </small>
                         </td>
                     </tr>

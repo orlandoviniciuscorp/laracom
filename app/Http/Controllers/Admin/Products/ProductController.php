@@ -24,6 +24,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
@@ -258,7 +259,8 @@ class ProductController extends Controller
             'productAttributeQuantity',
             'productAttributePrice',
             'attributeValue',
-            'combination'
+            'combination',
+            'origin'
         );
 
         if($request->get('is_distinct') == 1){
@@ -287,8 +289,12 @@ class ProductController extends Controller
         }
 
         $productRepo->updateProduct($data);
+        if($request->has('origin')){
+            $page = $request->input('origin');
 
-        return redirect()->route('admin.products.edit', $id)
+            return Redirect::to($page)->with('message', $this->getSucessMesseger());
+        }
+        return redirect()->back()
             ->with('message', $this->getSucessMesseger());
     }
 
@@ -336,9 +342,12 @@ class ProductController extends Controller
         $products = $this->getAllProducts();
 
         foreach($products as $product){
-            $p = $this->productRepo->find($product->id);
-            $p->quantity = 0;
-            $p->save();
+
+            if($product->name!='Sacola Retornável') {
+                $p = $this->productRepo->find($product->id);
+                $p->quantity = 0;
+                $p->save();
+            }
         }
 
         return redirect()->route('admin.dashboard');
