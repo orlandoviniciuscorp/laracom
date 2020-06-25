@@ -158,16 +158,18 @@ class FairController extends Controller
     public function generateDeliveryList($fair_id)
     {
         $deliveryAddrresses = $this->fairRepo->deliveryAddresses($fair_id);
+        $fair = $this->fairRepo->find($fair_id);
 
         $data = ['deliveryAddrresses'=>$deliveryAddrresses];
+        $data = array_merge($data,['fair'=>$fair]);
 
 //        dd($data);
 //
-//        $pdf = app()->make('dompdf.wrapper');
-//        $pdf->loadView('invoices.delivery', $data)->stream();
+        $pdf = app()->make('dompdf.wrapper');
+        $pdf->loadView('invoices.delivery', $data)->stream();
 
-//        return $pdf->stream();
-                return view('invoices.delivery', $data);
+        return $pdf->stream();
+//                return view('invoices.delivery', $data);
 
     }
 
