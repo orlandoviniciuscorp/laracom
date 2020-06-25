@@ -342,9 +342,12 @@ class ProductController extends Controller
         $products = $this->getAllProducts();
 
         foreach($products as $product){
-            $p = $this->productRepo->find($product->id);
-            $p->quantity = 0;
-            $p->save();
+
+            if($product->name!='Sacola Retornável') {
+                $p = $this->productRepo->find($product->id);
+                $p->quantity = 0;
+                $p->save();
+            }
         }
 
         return redirect()->route('admin.dashboard');
