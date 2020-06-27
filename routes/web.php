@@ -60,6 +60,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
                 Route::resource('orders', 'OrderController');
                 Route::resource('order-statuses', 'OrderStatusController');
                 Route::get('orders/{id}/invoice', 'OrderController@generateInvoice')->name('orders.invoice.generate');
+                Route::post('orders/{id}/mark-as-payed', 'OrderController@markAsPayed')->name('orders.mark-as-payed');
             });
 
             Route::group(['prefix'=>'fairs'],function () {
