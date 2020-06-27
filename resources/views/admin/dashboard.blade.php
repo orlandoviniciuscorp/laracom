@@ -28,7 +28,7 @@
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item bg-info"><strong>{{$fair->name}}</strong></li>
                                     <li class="list-group-item">
-                                        @if( $fair->status == 0)
+                                        @if( !$config->is_open)
                                             <span class="label  label-danger">
                                             Fechada
                                         </span>

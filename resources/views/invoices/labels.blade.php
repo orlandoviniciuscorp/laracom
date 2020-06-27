@@ -27,11 +27,9 @@
                 @foreach ($orders as $order)
                 <table>
                     <tr>
-                        <td width="40%">
-                            {{env('APP_NAME')}}<br /><br />
-                            <strong>Número do Pedido</strong>
-                            <br />
-                        #{{$order->id}}
+                        <td width="40%" style="padding-left: 5px">
+                            {{env('APP_NAME')}} - {{$order->fair->name}}<br /><br />
+                            <strong>Número do Pedido</strong>: #{{$order->id}}
                             <br />
                             <br />
 
@@ -45,18 +43,15 @@
                             <br />
                             <small><strong>Dinheiro:</strong> {{currency_format($order->total)}}
                             </small>
-                            <br >
                             <br/>
                             <small><strong>Cartão:</strong> {{currency_format($order->total * 1.025)}}</small>
                             <br />
                             <br />
-                            Forma de Pagamento:
+                            <strong>Forma de Pagamento:</strong>
                             {{$order->payment}}
                             <br />
                             <strong>Tipo de Entrega:</strong>
                             {{$order->courier->name}}
-
-                            <br />
                             <br />
 
                             <strong>Endereço:</strong> <br/>
