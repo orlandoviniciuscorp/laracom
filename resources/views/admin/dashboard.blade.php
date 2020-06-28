@@ -94,6 +94,16 @@
                                     </li>
 
                                     <li class="list-group-item bg-info">
+                                        <form action="{{route('admin.products.disable-empty-products')}}" method="post"  class="form-horizontal">
+                                            {{ csrf_field() }}
+                                            <button onclick="return confirm('Isso irá desabilitar de todos os produtos zerados. Tem certeza?')"
+                                                    type="submit" class="btn btn-danger btn-sm">
+                                                <i class="fa fa-eraser" aria-hidden="true"></i> Desabilitar Zerados
+                                            </button>
+                                        </form>
+                                    </li>
+
+                                    <li class="list-group-item bg-info">
                                         <form action="{{route('admin.category.rotate-farmers')}}" method="post"  class="form-horizontal">
                                             {{ csrf_field() }}
                                             <button onclick="return confirm('Tem certeza?')" type="submit" class="btn btn-warning btn-sm">
