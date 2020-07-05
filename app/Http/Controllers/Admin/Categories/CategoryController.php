@@ -166,4 +166,20 @@ class CategoryController extends Controller
 
 
     }
+
+    public function listCategories()
+    {
+        $categories = $this->categoryRepo->listCategories('page_order', 'desc',null);
+
+        return view('admin.categories.list-categories-batch')->with('categories',$categories);
+    }
+
+    public function listProductsBatch($id)
+    {
+        $category = $this->categoryRepo->findCategoryById($id);
+        $products = $category->products()->get();
+
+        return view('admin.categories.list-products-batch')->with(['products'=>$products,
+        'category'=>$category->name]);
+    }
 }
