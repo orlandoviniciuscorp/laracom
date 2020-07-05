@@ -26,6 +26,7 @@
                     <div class="tab-content customer-order-list">
                         <div role="tabpanel" class="tab-pane @if(request()->input('tab') == 'profile')active @endif" id="profile">
                             {{$customer->name}} <br /><small>{{$customer->email}}</small>
+                            
                         </div>
                         <div role="tabpanel" class="tab-pane @if(request()->input('tab') == 'orders')active @endif" id="orders">
                             @if(!$orders->isEmpty())

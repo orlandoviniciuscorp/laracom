@@ -320,6 +320,21 @@ class ProductController extends Controller
 
     }
 
+    public function updateQuantityBatch(Request $request)
+    {
+        $data = $request->except('_token');
+
+        foreach ($data as $id => $quantity) {
+//            dump($id);
+            $product = $this->productRepo->find($id);
+            $product->quantity = $quantity;
+            $product->save();
+
+        }
+        $request->session()->flash('message', $this->getSucessMesseger());
+        return redirect()->route('admin.categories.list.products')->with('message',$this->getSucessMesseger());
+    }
+
     public function indexPercent(Request $request, int $product_id)
     {
         $product = $this->productRepo->findProductById($product_id);
@@ -349,7 +364,22 @@ class ProductController extends Controller
                 $p->save();
             }
         }
+        request()->session()->flash('message', $this->getSucessMesseger());
+        return redirect()->route('admin.dashboard');
+    }
 
+    public function disableEmptyProducts(Request $request)
+    {
+        $products = $this->getAllProducts();
+
+        foreach ($products as $product){
+            if($product->quantity == 0){
+                $p = $this->productRepo->find($product->id);
+                $p->status = 0;
+                $p->save();
+            }
+        }
+        request()->session()->flash('message', $this->getSucessMesseger());
         return redirect()->route('admin.dashboard');
     }
 
@@ -360,6 +390,7 @@ class ProductController extends Controller
         $product->status = 0;
         $product->save();
 
+        request()->session()->flash('message', $this->getSucessMesseger());
         return redirect()->back();
     }
 
