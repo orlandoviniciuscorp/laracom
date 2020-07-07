@@ -165,6 +165,7 @@
                                 <legend><i class="fa fa-credit-card"></i> Pagamento</legend>
                                 <p><strong><small class="text">Em virtude do surto do Corona virus - Covid-19, dêem preferência para o pagamento por Transferência Bancária.</small></strong></p>
                                 <p><strong><small class="text-danger text">ATENÇÃO! Sua compra ainda não foi confirmada. Após escolher o método de pagamento, clicar no botão Confirmar Compra.</small></strong></p>
+                                <p><strong class="text-danger">ATENÇÃO! Verifique a nova conta de pagamento</strong></p>
 
                                     {{ csrf_field() }}
                                     <input type="hidden" name="courier_id" value="{{$courier->id}}" />
@@ -191,10 +192,17 @@
                                                </td>
                                                <td>
                                                    @if($payment['name'] =='Transferência Bancária')
-                                                       <button type="button" class="btn btn-warning"
+                                                       <button type="button" class="btn btn-success"
                                                                data-toggle="modal"
-                                                               data-target="#bank_details">
-                                                           <i class="fa fa-eye"></i> Dados Bancários</button>
+                                                               data-target="#banco_do_brasil">
+                                                           <i class="fa fa-university" aria-hidden="true"></i>
+                                                           Banco do Brasil</button>
+
+                                                       <button type="button" class="btn btn-success"
+                                                               data-toggle="modal"
+                                                               data-target="#nubank">
+                                                           <i class="fa fa-university" aria-hidden="true">
+                                                           </i> Nubank</button>
                                                    @endif
                                                </td>
 
@@ -211,26 +219,7 @@
                             </div>
                         </div>
                         </form>
-                        <div class="modal fade" id="bank_details" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="row">
-                                            <hr />
-                                            <h3>Banco: Banco do Brasil</h3>
-                                            <hr>
-                                            <p>Código do Banco: <strong>001</strong></p>
-                                            <p>Tipo de Conta: <strong>Conta Corrente</strong></p>
-                                            <p>Beneficiário: <strong>Sarita De Cassia C. Marques </strong></p>
-                                            <p>Agência: <strong>1252-1</strong></p>
-                                            <p>Número da Conta: <strong> 21529-5</strong></p>
-                                            <p>CPF: <strong>126.853.717-96</strong></p>
-                                            <p>Valor: <strong> {{ config('cart.currency_symbol') }} {{ $total }}</strong></p>
-                                            <p><strong><small class="text-danger text">* {{ config('bank-transfer.note') }}</small></strong></p>
-                                            <p><strong><small class="text-danger text">*Enviar o comprovante de depósito para o  número: (21) 96618-9093 - Jenifer</small></strong></p>
-
-                                </div>
-                            </div>
-                        </div>
+                        @include('front.debit-modal')
 
                     @else
                         <p class="alert alert-danger"><a href="{{ route('customer.address.create', [$customer->id]) }}">Nenhum endereço de entrega cadastrado. Cadastre aqui o seu endereço de entrega.</a></p>

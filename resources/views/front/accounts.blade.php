@@ -26,6 +26,20 @@
                     <div class="tab-content customer-order-list">
                         <div role="tabpanel" class="tab-pane @if(request()->input('tab') == 'profile')active @endif" id="profile">
                             {{$customer->name}} <br /><small>{{$customer->email}}</small>
+
+                            <hr />
+                            Dados para Pagamentos:
+                            <br />
+                            <button type="button" class="btn btn-success"
+                                    data-toggle="modal"
+                                    data-target="#banco_do_brasil">
+                                <i class="fa fa-university" aria-hidden="true"></i>
+                                Banco do Brasil</button>
+
+                            <button type="button" class="btn btn-success"
+                                    data-toggle="modal"
+                                    data-target="#nubank">
+                                <i class="fa fa-university" aria-hidden="true"></i> Nubank</button>
                             
                         </div>
                         <div role="tabpanel" class="tab-pane @if(request()->input('tab') == 'orders')active @endif" id="orders">
@@ -133,6 +147,7 @@
                 </div>
             </div>
         </div>
+        @include('front.debit-modal')
     </section>
     <!-- /.content -->
 @endsection
