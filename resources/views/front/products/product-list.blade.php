@@ -53,7 +53,6 @@
                                             Comprar
                                         @endif
                                     </button>
-                                    <a class="btn btn-primary product-info" href="{{ route('front.get.product', str_slug($product->slug)) }}"> <i class="fa fa-link"></i> Detalhes</a> </li>
                                 </form>
 
 
