@@ -22,7 +22,7 @@
                         <tbody>
                             <tr>
                                 <td>{{ $product->name }}</td>
-                                <td>{{ $product->description }}</td>
+                                <td> {!! $product->description !!} </td>
                                 <td>
                                     @if(isset($product->cover))
                                         <img src="{{ asset("storage/$product->cover") }}" class="img-responsive" alt="">
