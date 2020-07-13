@@ -21,7 +21,7 @@
                         <tbody>
                             <tr>
                                 <td>{{ $category->name }}</td>
-                                <td>{{ $category->description }}</td>
+                                <td>{!! $category->description !!} </td>
                                 <td>
                                     @if(isset($category->cover))
                                         <img src="{{asset("storage/$category->cover")}}" alt="category image" class="img-thumbnail">
@@ -48,7 +48,7 @@
                                 @foreach($categories as $cat)
                                     <tr>
                                         <td><a href="{{route('admin.categories.show', $cat->id)}}">{{ $cat->name }}</a></td>
-                                        <td>{{ $cat->description }}</td>
+                                        <td>{!! $cat->description !!} </td>
                                         <td>@if(isset($cat->cover))<img src="{{asset("storage/$cat->cover")}}" alt="category image" class="img-thumbnail">@endif</td>
                                         <td><a class="btn btn-primary" href="{{route('admin.categories.edit', $cat->id)}}"><i class="fa fa-edit"></i> Edit</a></td>
                                     </tr>
@@ -59,7 +59,7 @@
                 @endif
                 @if(!$products->isEmpty())
                     <div class="box-body">
-                        <h2>Products</h2>
+                        <h2>Produtos</h2>
                         @include('admin.shared.products', ['products' => $products])
                     </div>
                 @endif
