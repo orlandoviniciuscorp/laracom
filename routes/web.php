@@ -28,10 +28,19 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
             Route::get('/', 'DashboardController@index')->name('dashboard');
             Route::post('/open-site', 'DashboardController@open')->name('config.open');
 
+            Route::group(['prefix'=>'percentages'],function(){
+               Route::get('/create','Percentages\PercentageController@create')->name('percentages.create');
+               Route::get('/','Percentages\PercentageController@index')->name('percentages.index');
+               Route::post('/store','Percentages\PercentageController@store')->name('percentages.store');
+            });
+
             Route::namespace('Products')->group(function () {
 
                 Route::post('/update-quantity', 'ProductController@updateQuantity')->name('products.update-quantity');
                 Route::post('/empty-availability', 'ProductController@emptyAvailability')->name('products.empty-availability');
+                Route::post('/disable-empty-products', 'ProductController@disableEmptyProducts')->name('products.disable-empty-products');
+                Route::post('/{product_id}/disabled','ProductController@disabledProduct')->name('products.disabled');
+                Route::post('/{product_id}/enabled','ProductController@enabledProduct')->name('products.enabled');
                 Route::get('/{product_id}/percents','ProductController@indexPercent')->name('percents.index');
                 Route::post('/{product_id}/percents/store','ProductController@percentStore')->name('percents.store');
                 Route::resource('products', 'ProductController');
@@ -52,6 +61,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
                 Route::resource('orders', 'OrderController');
                 Route::resource('order-statuses', 'OrderStatusController');
                 Route::get('orders/{id}/invoice', 'OrderController@generateInvoice')->name('orders.invoice.generate');
+                Route::post('orders/{id}/mark-as-payed', 'OrderController@markAsPayed')->name('orders.mark-as-payed');
             });
 
             Route::group(['prefix'=>'fairs'],function () {

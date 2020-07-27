@@ -9,8 +9,6 @@
                 <div class="box-body">
                     <div class="row">
                         {{ csrf_field() }}
-
-                        <input type="hidden" name="origin" value="{{URL::previous()}}" />
                         <input type="hidden" name="_method" value="put">
                         <div class="col-md-12">
                             <!-- Nav tabs -->
@@ -131,9 +129,7 @@
                                             <div class="form-group">
                                                 <label for="table_percent">Tabela de Porcentagem</label>
                                                 <div class="input-group">
-
-                                                    @isset($product->percentage)
-
+                                                    @isset($product->percents)
                                                     <table class="table table-bordered">
                                                         <tr>
                                                             <th>
@@ -149,10 +145,7 @@
                                                                 Caixinha
                                                             </th>
                                                             <th>
-                                                                Contas
-                                                            </th>
-                                                            <th>
-                                                                Repasse de Pagamentos
+                                                                Contas e Repasse de Pagamentos
                                                             </th>
                                                             <th>
                                                                 Contato Cliente
@@ -160,78 +153,50 @@
                                                             <th>
                                                                 Conferência Pagamento
                                                             </th>
+                                                            <th>
+                                                                Vendedor
+                                                            </th>
+                                                            <th>
+                                                                Logistica
+                                                            </th>
                                                         </tr>
 
                                                         <tr>
-
                                                             <td>
-                                                                {{is_null($product->percentage->farmer)
-                                                                 ? 0 : $product->percentage->farmer}}%
+                                                                {{$product->percents->farmer}}%
                                                             </td>
                                                             <td>
 
-                                                                {{is_null($product->percentage->plataform)
-                                                                 ? 0 : $product->percentage->plataform}}%
+                                                                {{$product->percents->plataform}}%
 
                                                             </td>
                                                             <td>
-                                                                {{is_null($product->percentage->separation)
-                                                                 ? 0 : $product->percentage->separation}}%
+                                                                {{$product->percents->separation}}%
                                                             </td>
                                                             <td>
-                                                                {{is_null($product->percentage->fund)
-                                                                 ? 0 : $product->percentage->fund}}%
+                                                                {{$product->percents->fund}}%
                                                             </td>
                                                             <td>
-                                                                {{is_null($product->percentage->payments_transfer)
-                                                                 ? 0 : $product->percentage->payments_transfer}}%
+                                                                {{$product->percents->payments_transfer}}%
                                                             </td>
                                                             <td>
-                                                                {{is_null($product->percentage->accounting_close)
-                                                                 ? 0 : $product->percentage->accounting_close}}%
+                                                                {{$product->percents->client_contact}}%
                                                             </td>
                                                             <td>
-                                                                {{is_null($product->percentage->client_contact)
-                                                                 ? 0 : $product->percentage->client_contact}}%
+                                                                {{$product->percents->accounting_close}}%
                                                             </td>
                                                             <td>
-                                                                {{is_null($product->percentage->payment_conference)
-                                                                 ? 0 : $product->percentage->payment_conference}}%
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                {{currency_format(($product->percentage->farmer)/100 *$product->price)}}
+                                                                {{$product->percents->seeller}}%
                                                             </td>
                                                             <td>
-                                                                {{currency_format(($product->percentage->plataform)/100 *$product->price)}}
+                                                                {{$product->percents->logistic}}%
                                                             </td>
-                                                            <td>
-                                                                {{currency_format(($product->percentage->separation)/100 *$product->price)}}
-                                                            </td>
-                                                            <td>
-                                                                {{currency_format(($product->percentage->fund)/100 *$product->price)}}
-                                                            </td>
-                                                            <td>
-                                                                {{currency_format(($product->percentage->payments_transfer)/100 *$product->price)}}
-                                                            </td>
-                                                            <td>
-                                                                {{currency_format(($product->percentage->accounting_close)/100 *$product->price)}}
-                                                            </td>
-                                                            <td>
-                                                                {{currency_format(($product->percentage->client_contact)/100 *$product->price)}}
-                                                            </td>
-                                                            <td>
-                                                                {{currency_format(($product->percentage->payment_conference)/100 *$product->price)}}
-                                                            </td>
-
                                                         </tr>
                                                     </table>
                                                     @endif
                                                     <br />
-                                                    {{--<a href="{{route('admin.percents.index',$product->id)}}"--}}
-                                                       {{--class="btn btn-primary">Cadastrar Porcentagem</a>--}}
+                                                    <a href="{{route('admin.percents.index',$product->id)}}"
+                                                       class="btn btn-primary">Cadastrar Porcentagem</a>
                                                 </div>
 
 

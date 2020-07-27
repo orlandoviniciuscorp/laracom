@@ -27,7 +27,22 @@
                 </td>
                 <td>{{ $product->quantity }}</td>
                 <td>{{ config('cart.currency') }} {{ $product->price }}</td>
-                <td>@include('layouts.status', ['status' => $product->status])</td>
+                <td>
+                    @if($product->status == 1)
+                        <span style="display: none; visibility: hidden">1</span>
+                        <form action="{{route('admin.products.disabled',$product->id)}}" method="post">
+                            {{ csrf_field() }}
+                            <button type="submit" class="btn btn-success btn-sm">
+                                <i class="fa fa-check"></i></button>
+                        </form>
+                    @else
+                        <span style="display: none; visibility: hidden">0</span>
+                        <form action="{{route('admin.products.enabled', $product->id)}}" method="post">
+                            {{ csrf_field() }}
+                            <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button>
+                        </form>
+                    @endif
+                </td>
                 <td>
                     <form action="{{ route('admin.products.destroy', $product->id) }}" method="post" class="form-horizontal">
                         {{ csrf_field() }}

@@ -28,7 +28,7 @@
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item bg-info"><strong>{{$fair->name}}</strong></li>
                                     <li class="list-group-item">
-                                        @if( $fair->status == 0)
+                                        @if( !$config->is_open)
                                             <span class="label  label-danger">
                                             Fechada
                                         </span>
@@ -60,11 +60,11 @@
                                             <a href="{{ route('admin.fair.harvest', $fair->id) }}" class="btn btn-success btn-sm">
                                                 <i class="fa fa-leaf" aria-hidden="true"></i> Colheita
                                             </a>
-
-                                            <a href="{{ route('admin.fair.financial', $fair->id) }}" class="btn btn-sucess btn-sm">
+                                        @endif
+                                            <a href="{{ route('admin.fair.financial', $fair->id) }}" class="btn btn-success btn-sm">
                                                 <i class="fa fa-usd" aria-hidden="true"></i> Financeiro
                                             </a>
-                                        @endif
+
 
                                     </li>
 
@@ -94,9 +94,19 @@
                                     </li>
 
                                     <li class="list-group-item bg-info">
+                                        <form action="{{route('admin.products.disable-empty-products')}}" method="post"  class="form-horizontal">
+                                            {{ csrf_field() }}
+                                            <button onclick="return confirm('Isso irá desabilitar de todos os produtos zerados. Tem certeza?')"
+                                                    type="submit" class="btn btn-danger btn-sm">
+                                                <i class="fa fa-eraser" aria-hidden="true"></i> Desabilitar Zerados
+                                            </button>
+                                        </form>
+                                    </li>
+
+                                    <li class="list-group-item bg-info">
                                         <form action="{{route('admin.category.rotate-farmers')}}" method="post"  class="form-horizontal">
                                             {{ csrf_field() }}
-                                            <button onclick="return confirm('Isso irá zerar de todos os produtores. Tem certeza?')" type="submit" class="btn btn-warning btn-sm">
+                                            <button onclick="return confirm('Tem certeza?')" type="submit" class="btn btn-warning btn-sm">
                                                 <i class="fa fa-refresh" aria-hidden="true"></i> Rotacionar Produtores
                                             </button>
                                         </form>
@@ -107,7 +117,7 @@
                                             <form action="{{route('admin.config.open')}}" method="post"  class="form-horizontal">
                                                 {{ csrf_field() }}
                                                 <input type="hidden" name="is_open" value="1">
-                                                <button onclick="return confirm('Isso irá zerar de todos os produtores. Tem certeza?')" type="submit" class="btn btn-success btn-sm">
+                                                <button onclick="return confirm('Tem certeza?')" type="submit" class="btn btn-success btn-sm">
                                                     <i class="fa fa-play" aria-hidden="true"></i> Abrir Vendas
                                                 </button>
                                             </form>
@@ -115,7 +125,7 @@
                                             <form action="{{route('admin.config.open')}}" method="post"  class="form-horizontal">
                                                 {{ csrf_field() }}
                                                 <input type="hidden" name="is_open" value="0">
-                                                <button onclick="return confirm('Isso irá zerar de todos os produtores. Tem certeza?')" type="submit" class="btn btn-danger btn-sm">
+                                                <button onclick="return confirm('Tem certeza?')" type="submit" class="btn btn-danger btn-sm">
                                                     <i class="fa fa-ban" aria-hidden="true"></i> Fechar Vendas
                                                 </button>
                                             </form>

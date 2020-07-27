@@ -20,6 +20,7 @@
                                 <td>Entrega</td>
                                 <td>Total</td>
                                 <td>Status</td>
+                                <td>Ações</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -33,6 +34,15 @@
                                     <span class="label @if($order->total != $order->total_paid) label-danger @else label-success @endif">{{ currency_format($order->total) }}</span>
                                 </td>
                                 <td><p class="text-center" style="color: #ffffff; background-color: {{ $order->status->color }}">{{ $order->status->name }}</p></td>
+                                <td>
+                                    <form method="post" action="{{route('admin.orders.mark-as-payed',$order->id)}}" >
+                                        {{ csrf_field() }}
+                                        <button type="submit" class="btn btn-success btn-sm">
+                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                            Marcar como Pago
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>

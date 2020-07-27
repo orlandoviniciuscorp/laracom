@@ -40,7 +40,12 @@
                                     {{currency_format($f->total_entrega)}}
                                 </td>
                                 <td>
-                                    {{currency_format($f->total)}}
+                                    @if($f->tipo_pagamento == 'Cartão - Pagamento na Entrega')
+                                        {{currency_format($f->total*1.025)}}
+                                        {{--{{currency_format($f->total)}}--}}
+                                    @else
+                                        {{currency_format($f->total)}}
+                                    @endif
                                 </td>
                                 <td>
                                     {{$f->total_cestas}}
@@ -87,8 +92,7 @@
                             <td>Pagamentos</td>
                             <td>Contato Clientes</td>
                             <td>Contas</td>
-                            <td>Vendedores</td>
-                            <td>Logística</td>
+                            <td>Conferencia</td>
                         </tr>
                         </thead>
                         <tbody>
@@ -105,8 +109,7 @@
                                     <td>{{currency_format($productor->pagamentos)}}</td>
                                     <td>{{currency_format($productor->contato_cliente)}}</td>
                                     <td>{{currency_format($productor->contas)}}</td>
-                                    <td>{{currency_format($productor->vendedores)}}</td>
-                                    <td>{{currency_format($productor->logistica)}}</td>
+                                    <td>{{currency_format($productor->conferencia_pagamento)}}</td>
                                 </tr>
                             @endforeach
                         </tbody>

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTablePercentProduct extends Migration
+class CreatePercentualsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateTablePercentProduct extends Migration
      */
     public function up()
     {
-        Schema::create('product_percents', function (Blueprint $table) {
+        Schema::create('percentages', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('product_id');
+            $table->text('name');
             $table->float('farmer')->nullable();
             $table->float('plataform')->nullable();
             $table->float('separation')->nullable();
@@ -25,12 +25,10 @@ class CreateTablePercentProduct extends Migration
             $table->float('accounting_close')->nullable();
             $table->float('seeller')->nullable();
             $table->float('logistic')->nullable();
-
-
+            $table->float('payment_conference')->nullable();
             $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.
@@ -39,6 +37,6 @@ class CreateTablePercentProduct extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_percents');
+        Schema::dropIfExists('percentages');
     }
 }
