@@ -120,6 +120,8 @@ Route::namespace('Front')->group(function () {
         });
 
         Route::get('accounts', 'AccountsController@index')->name('accounts');
+        Route::get('orders', 'AccountsController@orders')->name('orders');
+        Route::get('addresses', 'AccountsController@addresses')->name('addresses');
         Route::post('cancel-order', 'AccountsController@cancelOrder')->name('accounts.cancel-order');
         Route::get('checkout/{courier_id}', 'CheckoutController@index')->name('checkout.index');
         Route::post('checkout/store', 'CheckoutController@store')->name('checkout.store');
@@ -131,6 +133,7 @@ Route::namespace('Front')->group(function () {
         Route::resource('customer.address', 'CustomerAddressController');
     });
     Route::resource('cart', 'CartController');
+    Route::post("/add-to-cart", 'CartController@addToCartAjax')->name('front.add.cart');
     Route::get("category/{slug}", 'CategoryController@getCategory')->name('front.category.slug');
     Route::get("search", 'ProductController@search')->name('search.product');
     Route::get("{product}", 'ProductController@show')->name('front.get.product');

@@ -1,10 +1,3 @@
-try {
-    window.$ = window.jQuery = require('jquery');
-    window.Popper = require('popper.js').default;
-
-    require('bootstrap');
-} catch (e) {}
-
 $(document).ready(function () {
     $("#brand-logo").owlCarousel({
         autoPlay: 3000, //Set AutoPlay to 3 seconds

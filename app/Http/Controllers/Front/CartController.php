@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Shop\Carts\Requests\AddToCartRequest;
 use App\Shop\Carts\Requests\UpdateCartRequest;
 use App\Shop\Carts\Repositories\Interfaces\CartRepositoryInterface;
+use App\Shop\Categories\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Shop\Configurations\Repositories\ConfigurationRepository;
 use App\Shop\Couriers\Repositories\Interfaces\CourierRepositoryInterface;
 use App\Shop\ProductAttributes\Repositories\ProductAttributeRepositoryInterface;
@@ -15,6 +16,7 @@ use App\Shop\Products\Transformations\ProductTransformable;
 use Gloudemans\Shoppingcart\CartItem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Response;
 
 class CartController extends Controller
 {
@@ -40,6 +42,8 @@ class CartController extends Controller
      */
     private $productAttributeRepo;
 
+    protected $categoryRepo;
+
     /**
      * CartController constructor.
      * @param CartRepositoryInterface $cartRepository
@@ -52,13 +56,15 @@ class CartController extends Controller
         ProductRepositoryInterface $productRepository,
         CourierRepositoryInterface $courierRepository,
         ProductAttributeRepositoryInterface $productAttributeRepository,
-        ConfigurationRepository $configurationRepository
+        ConfigurationRepository $configurationRepository,
+        CategoryRepositoryInterface $categoryRepository
     ) {
         $this->cartRepo = $cartRepository;
         $this->productRepo = $productRepository;
         $this->courierRepo = $courierRepository;
         $this->productAttributeRepo = $productAttributeRepository;
         $this->configRepo = $configurationRepository;
+        $this->categoryRepo = $categoryRepository;
     }
 
     /**
@@ -68,7 +74,6 @@ class CartController extends Controller
      */
     public function index()
     {
-
         $this->neededBag();
 
         $couriers = $this->courierRepo->allEnable();
@@ -118,8 +123,43 @@ class CartController extends Controller
 
         $this->cartRepo->addToCart($product, $request->input('quantity'), $options);
 
-        return redirect()->to(route('home').'#'.$request->input('category_slug'))
-            ->with('message', $product->name .' adicionado ao carrinho');
+//        return redirect()->to(route('home').'#'.$request->input('category_slug'))
+//            ->with('message', $product->name .' adicionado ao carrinho');
+        return redirect()->back()->with('message', $product->name .' adicionado ao carrinho');
+    }
+
+    public function addToCartAjax(AddToCartRequest $request)
+    {
+        $product = $this->productRepo->findProductById($request->input('product'));
+
+        if ($product->attributes()->count() > 0) {
+            $productAttr = $product->attributes()->where('default', 1)->first();
+
+            if (isset($productAttr->sale_price)) {
+                $product->price = $productAttr->price;
+
+                if (!is_null($productAttr->sale_price)) {
+                    $product->price = $productAttr->sale_price;
+                }
+            }
+        }
+
+        $options = [];
+        if ($request->has('productAttribute')) {
+
+            $attr = $this->productAttributeRepo->findProductAttributeById($request->input('productAttribute'));
+            $product->price = $attr->price;
+
+            $options['product_attribute_id'] = $request->input('productAttribute');
+            $options['combination'] = $attr->attributesValues->toArray();
+        }
+
+        $this->cartRepo->addToCart($product, $request->input('quantity'), $options);
+
+//        return redirect()->to(route('home').'#'.$request->input('category_slug'))
+//            ->with('message', $product->name .' adicionado ao carrinho');
+        //return redirect()->back()->with('message', $product->name .' adicionado ao carrinho');
+        return Response::json($product->name . ' '. $this->getSucessMesseger());
     }
 
     /**

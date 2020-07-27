@@ -48,6 +48,21 @@ class AccountsController extends Controller
         $customer = $this->customerRepo->findCustomerById(auth()->user()->id);
 
         $customerRepo = new CustomerRepository($customer);
+
+        $addresses = $customerRepo->findAddresses();
+
+
+        return view('front.accounts', [
+            'customer' => $customer,
+            'addresses' => $addresses
+        ]);
+    }
+
+    public function orders()
+    {
+        $customer = $this->customerRepo->findCustomerById(auth()->user()->id);
+
+        $customerRepo = new CustomerRepository($customer);
         $orders = $customerRepo->findOrders(['*'], 'created_at');
 
         $orders->transform(function (Order $order) {
@@ -56,11 +71,21 @@ class AccountsController extends Controller
 
         $orders->load('products');
 
+
+        return view('front.orders', [
+            'orders' => $this->customerRepo->paginateArrayResults($orders->toArray(), 15),
+        ]);
+    }
+
+    public function addresses()
+    {
+        $customer = $this->customerRepo->findCustomerById(auth()->user()->id);
+
+        $customerRepo = new CustomerRepository($customer);
+
         $addresses = $customerRepo->findAddresses();
 
-        return view('front.accounts', [
-            'customer' => $customer,
-            'orders' => $this->customerRepo->paginateArrayResults($orders->toArray(), 15),
+        return view('front.addresses', [
             'addresses' => $addresses
         ]);
     }
