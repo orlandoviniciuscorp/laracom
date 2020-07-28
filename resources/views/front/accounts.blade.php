@@ -26,6 +26,12 @@
                     <div class="tab-content customer-order-list">
                         <div role="tabpanel" class="tab-pane @if(request()->input('tab') == 'profile')active @endif" id="profile">
                             {{$customer->name}} <br /><small>{{$customer->email}}</small>
+                            <br />
+                            <br />
+                            Formulário Como reconhecer Produtos Orgâncos: <a href="https://lnkd.in/dBgbUBB">Clique aqui</a>
+                            <br />
+                            <br />
+                            Simpósio Virtual Saiba como reconhecer Orgânico:  <a href="https://youtu.be/jYCMam79BXw" target="_blank"> Clique aqui. </a>
 
                             <hr />
                             Dados para Pagamentos:
@@ -40,8 +46,12 @@
                                     data-toggle="modal"
                                     data-target="#nubank">
                                 <i class="fa fa-university" aria-hidden="true"></i> Nubank</button>
-                            
+
+
+
+
                         </div>
+
                         <div role="tabpanel" class="tab-pane @if(request()->input('tab') == 'orders')active @endif" id="orders">
                             @if(!$orders->isEmpty())
                                 <table class="table">

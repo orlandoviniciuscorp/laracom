@@ -152,7 +152,7 @@
                     </div>
                 </div>
                 <form action="{{route('cart.checkout')}}" method="get">
-                    {{--{{ csrf_field() }}--}}
+                    {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-12">
                             <legend><i class="fa fa-truck"></i> Entrega</legend>
