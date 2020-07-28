@@ -133,6 +133,7 @@ Route::namespace('Front')->group(function () {
         });
 
         Route::get('accounts', 'AccountsController@index')->name('accounts');
+        Route::get('notices', 'AccountsController@notices')->name('notices');
         Route::post('cancel-order', 'AccountsController@cancelOrder')->name('accounts.cancel-order');
         Route::get('checkout/{courier_id}', 'CheckoutController@index')->name('checkout.index');
         Route::post('checkout/store', 'CheckoutController@store')->name('checkout.store');
