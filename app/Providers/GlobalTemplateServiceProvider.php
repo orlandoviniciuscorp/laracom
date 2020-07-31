@@ -32,10 +32,11 @@ class GlobalTemplateServiceProvider extends ServiceProvider
         ], function ($view) {
             $view->with('admin', Auth::guard('employee')->user());
         });
-
-        view()->composer(['layouts.front.app', 'front.categories.sidebar-category'], function ($view) {
+        //dd($this->getCategories());
+        view()->composer(['layouts.front.app', 'front.categories.sidebar-category','front.index'], function ($view) {
             $view->with('categories', $this->getCategories());
             $view->with('cartCount', $this->getCartCount());
+            $view->with('totalCartItens',$this->getTotalItems());
         });
 
         /**
@@ -76,7 +77,8 @@ class GlobalTemplateServiceProvider extends ServiceProvider
     private function getCategories()
     {
         $categoryRepo = new CategoryRepository(new Category);
-        return $categoryRepo->listCategories('name', 'asc', 1)->whereIn('parent_id', [1]);
+        return $categoryRepo->listCategories('name', 'asc', 1);
+
     }
 
     /**
@@ -86,6 +88,11 @@ class GlobalTemplateServiceProvider extends ServiceProvider
     {
         $cartRepo = new CartRepository(new ShoppingCart);
         return $cartRepo->countItems();
+    }
+
+    private function getTotalItems(){
+        $cartRepo = new CartRepository(new ShoppingCart);
+        return $cartRepo->getTotal();
     }
 
     /**

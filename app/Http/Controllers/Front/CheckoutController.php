@@ -229,7 +229,7 @@ class CheckoutController extends Controller
 
         Cart::destroy();
 
-        return redirect()->route('accounts', ['tab' => 'orders'])->with('message', 'Pedido Cadastrado com Sucesso, Aguarde a aprovação do Pagamento');
+        return redirect()->route('orders')->with('message', 'Pedido Cadastrado com Sucesso, Aguarde a aprovação do Pagamento');
     }
 
     /**

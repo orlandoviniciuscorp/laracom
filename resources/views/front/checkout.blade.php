@@ -115,38 +115,38 @@
 
                         <div>
                             <table class="table table-striped">
-                                <tfoot>
+                                <tbody>
                                 <tr>
-                                    <td class="bg-warning">Subtotal</td>
-                                    <td class="bg-warning"></td>
-                                    <td class="bg-warning"></td>
-                                    <td class="bg-warning"></td>
-                                    <td class="bg-warning">{{config('cart.currency')}} {{ number_format($subtotal, 2, '.', ',') }}</td>
+                                    <td>Subtotal</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>{{config('cart.currency')}} {{ number_format($subtotal, 2, '.', ',') }}</td>
                                 </tr>
                                 @if(isset($courier))
                                     <tr>
-                                        <td class="bg-warning">Frete</td>
-                                        <td class="bg-warning"></td>
-                                        <td class="bg-warning"></td>
-                                        <td class="bg-warning"></td>
-                                        <td class="bg-warning">{{config('cart.currency')}} {{ $courier->cost }}</td>
+                                        <td>Frete</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>{{config('cart.currency')}} {{ $courier->cost }}</td>
                                     </tr>
                                 @endif
                                 {{--<tr>--}}
-                                {{--<td class="bg-warning">Tax</td>--}}
-                                {{--<td class="bg-warning"></td>--}}
-                                {{--<td class="bg-warning"></td>--}}
-                                {{--<td class="bg-warning"></td>--}}
-                                {{--<td class="bg-warning">{{config('cart.currency')}} {{ number_format($tax, 2) }}</td>--}}
+                                {{--<td>Tax</td>--}}
+                                {{--<td></td>--}}
+                                {{--<td></td>--}}
+                                {{--<td></td>--}}
+                                {{--<td>{{config('cart.currency')}} {{ number_format($tax, 2) }}</td>--}}
                                 {{--</tr>--}}
                                 <tr>
-                                    <td class="bg-success">Total</td>
-                                    <td class="bg-success"></td>
-                                    <td class="bg-success"></td>
-                                    <td class="bg-success"></td>
-                                    <td class="bg-success">{{config('cart.currency')}} {{ number_format($total, 2, '.', ',') }}</td>
+                                    <td>Total</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>{{config('cart.currency')}} {{ number_format($total, 2, '.', ',') }}</td>
                                 </tr>
-                                </tfoot>
+                                </tbody>
                             </table>
                         </div>
 
@@ -174,9 +174,9 @@
                                 @if(isset($payments) && !empty($payments))
                                     <table class="table table-striped">
                                         <thead>
-                                            <th class="col-md-3">Método de Pagamento</th>
-                                            <th class="col-md-3">Observação</th>
-                                            <th class="col-md-3 text-left">Detalhes</th>
+                                            <th >Método de Pagamento</th>
+                                            <th >Observação</th>
+                                            <th class=" text-left">Detalhes</th>
                                         </thead>
                                         <tbody>
                                         @foreach($payments as $payment)
@@ -213,9 +213,10 @@
                                 @else
                                     <p class="alert alert-danger">No payment method set</p>
                                 @endif
-                                    <a href="{{ route('cart.index') }}" class="btn btn-default">Voltar</a>
+                                    <a href="{{ route('cart.index') }}" class="btn btn-dark">Voltar</a>
                                     <button type="submit" onclick="return confirm('Tem Certeza?')" class="btn btn-danger">Confirmar Compra</button>
-
+                                    <br />
+                                    <br />
                             </div>
                         </div>
                         </form>
