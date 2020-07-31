@@ -1,6 +1,7 @@
 @extends('layouts.front.app')
 @section('content')
 @include('layouts.front.category-nav')
+@if($config->is_open == 1)
 <section class="">
     <div class="container">
         <div class="row">
@@ -32,10 +33,12 @@
                                 <ul class="product__item__pic__hover">
                                     <li>
                                         <form name="form_{{$product->slug}}" id="form_{{$product->slug}}"
-                                              action="{{ route('cart.store') }}" class="form-inline" method="post"
-                                        onsubmit="sendAjax('form_{{$product->slug}}'); return false;">
+                                              action="{{ route('cart.store') }}" class="form-inline" method="post">
                                             {{ csrf_field() }}
-                                            <input type="number" id="quantity" name="quantity" min="1" value="1" class="form-inline"/>
+{{--                                            <input type="number" id="quantity" name="quantity" min="1" value="1" class="form-inline"/>--}}
+                                            <div class="pro-qty">
+                                                <input type="text" value="1" name="quantity" >
+                                            </div>
                                             <input type="hidden" name="product" value="{{ $product->id }}">
                                             <button id="add-to-cart-btn" name="add-to-cart-btn" type="submit" class="btn btn-success"
                                                     @if($product->quantity < 1)
@@ -75,37 +78,42 @@
 <!-- Product Section End -->
 @endsection
 @section('post-script')
-    <script type="text/javascript">
-        $(document).ready(function() {
-        });
-            function sendAjax(formId) {
-                // this is the id of the form
+    {{--<script type="text/javascript">--}}
+        {{--$(document).ready(function() {--}}
+        {{--});--}}
+            {{--function sendAjax(formId) {--}}
+                {{--// this is the id of the form--}}
 
-                    idf = "#" + formId;
+                    {{--idf = "#" + formId;--}}
 
-                    $(idf).ready(function () {
-                    });
+                    {{--$(idf).ready(function () {--}}
+                    {{--});--}}
 
-                    $(idf).submit(function (e) {
+                    {{--$(idf).submit(function (e) {--}}
 
-                        e.preventDefault(); // avoid to execute the actual submit of the form.
-
-
-                        var url = '{{route('front.add.cart')}}'
-
-                        $.ajax({
-                            type: "POST",
-                            url: url,
-                            data: $(idf).serialize(),
-                            success: function (data) {
-                                console.log(data);
-                                //alert(data); // show response from the php script.
-                            }
-                        });
+                        {{--e.preventDefault(); // avoid to execute the actual submit of the form.--}}
 
 
-                    });
-            }
+                        {{--var url = '{{route('front.add.cart')}}'--}}
 
-    </script>
+                        {{--$.ajax({--}}
+                            {{--type: "POST",--}}
+                            {{--url: url,--}}
+                            {{--data: $(idf).serialize(),--}}
+                            {{--success: function (data) {--}}
+                                {{--console.log(data);--}}
+                                {{--//alert(data); // show response from the php script.--}}
+                            {{--}--}}
+                        {{--});--}}
+
+
+                    {{--});--}}
+            {{--}--}}
+
+    {{--</script>--}}
+
+    @else
+        @include('front.closed')
+    @endif
 @endsection
+

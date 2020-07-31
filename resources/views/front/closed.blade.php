@@ -1,12 +1,12 @@
 <div class="container  text-center">
     <br />
-    <div class="row" >
-        <h1>
+    <div class="row justify-content-center">
+        <h2>
             Estamos preparando os seus pedidos.
-        </h1>
+        </h2>
     </div>
 
-    <div class="row">
+    <div class="row justify-content-center">
         <h3>
             Receba as atualizações pelo Whatsapp.
             <br ><br >
@@ -16,31 +16,25 @@
         </h3>
     </div>
 
-    <div class="row">
-        <h1>
+    <div class="row justify-content-center">
+        <h3>
             Pedidos de 3a das 17hs até 5a feira às 18hs. Entrega aos sábados.
-        </h1>
+        </h3>
     </div>
-    <div class="row">
+    <div class="row justify-content-center">
 
         <div class="image-clean">
-            <img src="img/logo-feira-teresopolis-grande.jpg" class="img-thumbnail"/>
+            <img src="{{asset('img/logo-feira-teresopolis-grande.jpg')}}" class="img-thumbnail"/>
         </div>
-        <br />
-        <h1>
-        Agradecemos pela visita.
-        </h1>
-
     </div>
+    <div class="row justify-content-center">
+        <br />
+        <h2>
+        Agradecemos pela visita.
+        </h2>
 
-    <div class="row">
-        Siga nossas redes sociais:
-        <ul class="footer-social text-success">
-            <li> <a href="https://www.facebook.com/OrganicosParaTodosAAT"> <i class="fa fa-facebook text-primary" aria-hidden="false"></i>  </a> </li>
-            {{--<li> <a href=""> <i class="fa fa-twitter" aria-hidden="true"></i>   </a> </li>--}}
-            <li> <a href="https://www.instagram.com/organicosparatodos/"> <i class="fa fa-instagram text-primary" aria-hidden="true"></i>  </a> </li>
-            {{--<li> <a href=""> <i class="fa fa-pinterest-p" aria-hidden="true"></i>  </a> </li>--}}
-        </ul>
     </div>
 
 </div>
+<br/>
+<br/>

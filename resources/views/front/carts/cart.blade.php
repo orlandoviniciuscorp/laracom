@@ -2,6 +2,7 @@
 
 @section('content')
     <!-- Shoping Cart Section Begin -->
+    @if($config->is_open == 1)
     <section class="shoping-cart spad">
         <div class="container">
             <div class="row">
@@ -28,11 +29,19 @@
                                         {{config('cart.currency')}} {{ number_format($cartItem->price, 2) }}
                                     </td>
                                     <td class="shoping__cart__quantity">
+                                        <form action="{{ route('cart.update', $cartItem->rowId) }}" class="form-inline" method="post">
+                                        {{ csrf_field() }}
+                                        <input type="hidden" name="_method" value="put">
                                         <div class="quantity">
                                             <div class="pro-qty">
-                                                <input type="text" value="{{ $cartItem->qty }}">
+                                                <input type="text" value="{{ $cartItem->qty }}" name="quantity" >
                                             </div>
                                         </div>
+
+                                            &nbsp;<button type="submit">
+                                                Atualizar</button>
+
+                                        </form>
                                     </td>
                                     <td class="shoping__cart__total">
                                         {{config('cart.currency')}} {{ number_format(($cartItem->qty*$cartItem->price), 2) }}
@@ -54,9 +63,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="shoping__cart__btns">
-                        <a href="{{route('home')}}" class="primary-btn cart-btn">Continuar Comprando</a>
-                        <a href="" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
-                            Atualizar Carrinho</a>
+                        <a href="{{route('product.list')}}" class="primary-btn cart-btn">Continuar Comprando</a>
                     </div>
                 </div>
                 <form action="{{route('cart.checkout')}}" method="get"
@@ -100,6 +107,10 @@
             </div>
         </div>
     </section>
+    @else
+        @include('front.closed')
+    @endif
+
 @endsection
 @section('post-script')
 <script>

@@ -14,7 +14,7 @@ class AddTrackingNumberAndLabelUrlToOrdersTable extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->string('courier')->nullable()->after('courier_id');
+            //$table->string('courier')->nullable()->after('courier_id');
             $table->string('label_url')->nullable()->after('invoice');
             $table->string('tracking_number')->nullable()->after('label_url');
         });

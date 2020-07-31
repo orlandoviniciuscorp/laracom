@@ -46,7 +46,7 @@
                             <p>CPF: <strong>126.853.717-96</strong></p>
                             <p>Valor: <strong> {{ config('cart.currency_symbol') }} {{ $total }}</strong></p>
                             <p><strong><small class="text-danger text">* {{ config('bank-transfer.note') }}</small></strong></p>
-                            <p><strong><small class="text-danger text">*Enviar o comprovante de depósito para o  número: (21) 96618-9093 - Jenifer</small></strong></p>
+                            <p><strong><small class="text-danger text">*Enviar o comprovante de depósito para o  número: </small></strong></p>
 
                         </div>
                     </div>

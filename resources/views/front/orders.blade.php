@@ -3,6 +3,7 @@
 @section('content')
     <!-- Main content -->
     <section class="container content">
+        @include('layouts.errors-and-messages')
         <div class="row">
             <div class="col-md-12">
                 {{--<div class="row">--}}
