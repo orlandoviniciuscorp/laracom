@@ -134,6 +134,7 @@ Route::namespace('Front')->group(function () {
         });
 
         Route::get('accounts', 'AccountsController@index')->name('accounts');
+        Route::get('notices', 'AccountsController@notices')->name('notices');
         Route::get('orders', 'AccountsController@orders')->name('orders');
         Route::get('addresses', 'AccountsController@addresses')->name('addresses');
         Route::post('cancel-order', 'AccountsController@cancelOrder')->name('accounts.cancel-order');

@@ -5,6 +5,7 @@
     @if($config->is_open == 1)
     <section class="shoping-cart spad">
         <div class="container">
+            @if($cartItems->count() > 0)
             <div class="row">
                 <div class="col-lg-12">
                     <div class="shoping__cart__table">
@@ -106,6 +107,9 @@
                 </form>
             </div>
         </div>
+        @else
+            Seu Carrinho está vazio, Comece a comprar clicando <a href="{{route('product.list')}}">aqui</a>.
+        @endif
     </section>
     @else
         @include('front.closed')

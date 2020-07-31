@@ -100,4 +100,9 @@ class AccountsController extends Controller
         return redirect()->back();
 
     }
+
+    public function notices(){
+
+        return view('front.shared.notices');
+    }
 }
