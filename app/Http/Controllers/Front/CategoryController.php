@@ -5,22 +5,22 @@ namespace App\Http\Controllers\Front;
 use App\Shop\Categories\Repositories\CategoryRepository;
 use App\Shop\Categories\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Http\Controllers\Controller;
+use App\Shop\Configurations\Repositories\ConfigurationRepository;
 
 class CategoryController extends Controller
 {
-    /**
-     * @var CategoryRepositoryInterface
-     */
-    private $categoryRepo;
+
 
     /**
      * CategoryController constructor.
      *
      * @param CategoryRepositoryInterface $categoryRepository
      */
-    public function __construct(CategoryRepositoryInterface $categoryRepository)
+    public function __construct(CategoryRepositoryInterface $categoryRepository,
+                                ConfigurationRepository $configurationRepository)
     {
         $this->categoryRepo = $categoryRepository;
+        $this->configRepo = $configurationRepository;
     }
 
     /**
@@ -38,8 +38,10 @@ class CategoryController extends Controller
         $products = $repo->findProducts()->where('status', 1)->all();
 
         return view('front.categories.category', [
+            'cats'=>$this->getCategoryOrder(),
             'category' => $category,
-            'products' => $repo->paginateArrayResults($products, 20)
+            'products' => $repo->paginateArrayResults($products, 20),
+            'config'=>$this->getConfig()
         ]);
     }
 }

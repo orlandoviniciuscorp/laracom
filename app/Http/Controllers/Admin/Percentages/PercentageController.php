@@ -35,31 +35,31 @@ class PercentageController extends Controller
     /**
      * @var CategoryRepositoryInterface
      */
-    private $categoryRepo;
+    protected $categoryRepo;
 
-    private $productPercentRepo;
+    protected $productPercentRepo;
 
     /**
      * @var AttributeRepositoryInterface
      */
-    private $attributeRepo;
+    protected $attributeRepo;
 
     /**
      * @var AttributeValueRepositoryInterface
      */
-    private $attributeValueRepository;
+    protected $attributeValueRepository;
 
     /**
      * @var ProductAttribute
      */
-    private $productAttribute;
+    protected $productAttribute;
 
     /**
      * @var BrandRepositoryInterface
      */
-    private $brandRepo;
+    protected $brandRepo;
 
-    private $percentageRepository;
+    protected $percentageRepository;
 
     /**
      * ProductController constructor.

@@ -1,199 +1,164 @@
 @extends('layouts.front.app')
 
 @section('content')
+    <!-- Shoping Cart Section Begin -->
     @if($config->is_open == 1)
-        <div class="container product-in-cart-list">
-            @if(!$cartItems->isEmpty())
-                <div class="row">
-                    <div class="col-md-12">
-                        <ol class="breadcrumb">
-                            <li><a href="{{ route('home') }}"> <i class="fa fa-home"></i> Home</a></li>
-                            <li class="active">Carrinho de compras</li>
-                        </ol>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="box-body">
-                        @include('layouts.errors-and-messages')
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 content">
-                        <h3><i class="fa fa-cart-plus"></i> Carrinho de Compras</h3>
-
-                    </div>
-                    <div class="col-md-6 text-right">
-                        <a href="{{ route('home') }}" class="btn btn-warning">Continuar Comprando</a>
-                    </div>
-                </div>
-
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <!-- <div class="row header hidden-xs hidden-sm"> -->
-                        <div class="row hidden-xs hidden-sm" style="height: 40px;">
-                            
-                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
-                                <div class="row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><b>Foto</b></div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8">
-                                <div class="row">
-                                    <div class="col-lg-5 col-md-5"><b>Produto</b></div>
-                                    <div class="col-lg-2 col-md-2"><b>Quantidade</b></div>
-                                    <div class="col-lg-1 col-md-1"><b>Remover</b></div>
-                                    <div class="col-lg-2 col-md-2"><b>Preço</b></div>
-                                    <div class="col-lg-2 col-md-2"><b>Total</b></div>
-                                </div>
-                            </div>
-
-							
-							
-                        </div>
-                        @foreach($cartItems as $cartItem)
-                            <div class="row">
-                                
-                                <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4">
-                                    <div class="row">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
-                                            <a href="{{ route('front.get.product', [$cartItem->product->slug]) }}" class="hover-border">
-                                                @if(isset($cartItem->cover))
-                                                    <img src="{{asset("storage/$cartItem->cover")}}" alt="{{ $cartItem->name }}" class="img-responsive img-thumbnail">
-                                                @else
-                                                    <img src="https://placehold.it/120x120" alt="" class="img-responsive img-thumbnail">
-                                                @endif
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-10 col-md-10 col-sm-9 col-xs-8">
-                                    <div class="row">
-                                        
-                                        
-                                        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                                            <h4 style="margin-bottom:5px;">{{ $cartItem->name }}</h4>
-                                            @if($cartItem->options->has('combination'))
-                                                <div style="margin-bottom:5px;">
-                                                @foreach($cartItem->options->combination as $option)
-                                                    <small class="label label-primary">{{$option['value']}}</small>
-                                                @endforeach
-                                                </div>
-                                            @endif
-                                            <!-- <div class="product-description"> -->
-                                                {!! $cartItem->product->description !!}
-                                            <!-- </div> -->
-                                        </div>
-                                        
-                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-8">
-                                            <form action="{{ route('cart.update', $cartItem->rowId) }}" class="form-inline" method="post">
-                                                {{ csrf_field() }}
-                                                <input type="hidden" name="_method" value="put">
-                                                <div class="input-group">
-                                                    <input type="text" name="quantity" value="{{ $cartItem->qty }}" class="form-control input-sm" />
-                                                    <span class="input-group-btn"><button class="btn btn-default btn-sm">Atualizar</button></span>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="col-lg-1 col-md-1 col-sm-8 col-xs-4"> 
-                                            <form action="{{ route('cart.destroy', $cartItem->rowId) }}" method="post">
-                                                {{ csrf_field() }}
-                                                <input type="hidden" name="_method" value="delete">
-                                                <button onclick="return confirm('Tem certeza que deseja remover o Item?')" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button>
-                                            </form>
-                                        </div>
-                                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                                            <span class="hidden-lg hidden-md"><small>Preço: </span>
-                                            {{config('cart.currency')}} {{ number_format($cartItem->price, 2) }}</small>
-                                        </div>
-                                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                                            <span class="hidden-lg hidden-md"><small>Total: </span>
-                                            {{config('cart.currency')}} {{ number_format(($cartItem->qty*$cartItem->price), 2) }}</small>
-                                        </div>
-
-                                    </div>
-                                </div>                       
-                                
-                            </div>
-                            <br>
-                        @endforeach
-
-
-                    </div>
-                    <div class="col-md-12 content">
-                        <table class="table table-striped">
-                            <tfoot>
+    <section class="shoping-cart spad">
+        <div class="container">
+            @if($cartItems->count() > 0)
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shoping__cart__table">
+                        <table>
+                            <thead>
                             <tr>
-                                <td class="bg-warning">Subtotal</td>
-                                <td class="bg-warning"></td>
-                                <td class="bg-warning"></td>
-                                <td class="bg-warning"></td>
-                                <td class="bg-warning">{{config('cart.currency')}} {{ number_format($subtotal, 2, '.', ',') }}</td>
+                                <th class="shoping__product">Produtos</th>
+                                <th>Preço</th>
+                                <th>Quantidade</th>
+                                <th>Total</th>
+                                <th></th>
                             </tr>
-                            {{--<tr>--}}
-                            {{--<td class="bg-warning">Tax</td>--}}
-                            {{--<td class="bg-warning"></td>--}}
-                            {{--<td class="bg-warning"></td>--}}
-                            {{--<td class="bg-warning"></td>--}}
-                            {{--<td class="bg-warning">{{config('cart.currency')}} {{ number_format($tax, 2) }}</td>--}}
-                            {{--</tr>--}}
-                            <tr>
-                                <td class="bg-success">Total</td>
-                                <td class="bg-success"></td>
-                                <td class="bg-success"></td>
-                                <td class="bg-success"></td>
-                                <td class="bg-success">{{config('cart.currency')}} {{ number_format($total, 2, '.', ',') }}</td>
-                            </tr>
-                            </tfoot>
+                            </thead>
+                            <tbody>
+                            @foreach($cartItems as $cartItem)
+                                <tr>
+                                    <td class="shoping__cart__item">
+                                        <img src="{{asset("storage/$cartItem->cover")}}" class="mh-100" style="width: 50px; height: 50px; alt="">
+                                        <h5>{{ $cartItem->name }}</h5>
+                                    </td>
+                                    <td class="shoping__cart__price">
+                                        {{config('cart.currency')}} {{ number_format($cartItem->price, 2) }}
+                                    </td>
+                                    <td class="shoping__cart__quantity">
+                                        <form action="{{ route('cart.update', $cartItem->rowId) }}" class="form-inline" method="post">
+                                        {{ csrf_field() }}
+                                        <input type="hidden" name="_method" value="put">
+                                        <div class="quantity">
+                                            <div class="pro-qty">
+                                                <input type="text" value="{{ $cartItem->qty }}" name="quantity" >
+                                            </div>
+                                        </div>
+
+                                            &nbsp;<button type="submit">
+                                                Atualizar</button>
+
+                                        </form>
+                                    </td>
+                                    <td class="shoping__cart__total">
+                                        {{config('cart.currency')}} {{ number_format(($cartItem->qty*$cartItem->price), 2) }}
+                                    </td>
+                                    <td class="shoping__cart__item__close">
+                                        <form action="{{ route('cart.destroy', $cartItem->rowId) }}" method="post">
+                                            {{ csrf_field() }}
+                                            <input type="hidden" name="_method" value="delete">
+                                            <button onclick="return confirm('Tem certeza que deseja remover o Item?')" class="btn btn-danger btn-sm"><span class="icon_close"></span></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
                         </table>
                     </div>
                 </div>
-                <form action="{{route('cart.checkout')}}" method="get">
-                    {{ csrf_field() }}
-                    <div class="row">
-                        <div class="col-md-12">
-                            <legend><i class="fa fa-truck"></i> Entrega</legend>
-                            <ul class="list-unstyled">
-                                @foreach($couriers as $courier)
-                                    <li class="col-md-4">
-                                        <label class="radio">
-                                            <input type="radio" name="courier_id" data-fee="{{ $courier->name }}" value="{{ $courier->id }}"> {{$courier->name}} - {{currency_format($courier->cost)}}
-                                        </label>
-                                        {{$courier->description}}
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div> <br>
-
-
-                    <div class="row">
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="btn-group pull-right">
-                                        <a href="{{ route('home') }}" class="btn btn-default">Continuar Comprando</a>
-
-                                        <button type="submit" class="btn btn-primary">Revisão e Forma de Pagamento</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                </form>
-            @else
-                <div class="row">
-                    <div class="col-md-12">
-                        <p class="alert alert-warning">Seu carrinho de compras está vazio.  <a href="{{ route('home') }}">Compre Agora</a></p>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shoping__cart__btns">
+                        <a href="{{route('product.list')}}" class="primary-btn cart-btn">Continuar Comprando</a>
                     </div>
                 </div>
-            @endif
+                <form action="{{route('cart.checkout')}}" method="get"
+                      class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="shoping__checkout">
+                                    <h5><i class="fa fa-truck"></i> Entrega</h5>
+                                    <ul>
+                                        @foreach($couriers as $courier)
+                                            <li><input type="radio" name="courier_id" data-fee="{{ $courier->name }}" value="{{ $courier->id }}" data-name="{{$courier->cost}}"> {{currency_format($courier->cost)}} - {{$courier->name}}
+                                            <br />
+                                            {{$courier->description}}
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                {{--<div class="shoping__discount">--}}
+                                    {{--<h5>Discount Codes</h5>--}}
+                                    {{--<form action="#">--}}
+                                        {{--<input type="text" placeholder="Enter your coupon code">--}}
+                                        {{--<button type="submit" class="site-btn">APPLY COUPON</button>--}}
+                                    {{--</form>--}}
+                                {{--</div>--}}
+
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="shoping__checkout">
+                                <h5>Total Carrinho</h5>
+                                <ul>
+                                    <li>Compras <span>R$ {{$total}}</span></li>
+                                    <li>Frete <span id="frete">R$ 0.00</span></li>
+                                    <li>Total <span id ="total">R$ {{$total}}</span></li>
+                                </ul>
+                                <button type="submit" class="btn btn-success">FORMA DE PAGAMENTO</button>
+                                {{--<a href="{{route('cart.checkout'}}" class="primary-btn">FORMA DE PAGAMENTO</a>--}}
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
+        @else
+            Seu Carrinho está vazio, Comece a comprar clicando <a href="{{route('product.list')}}">aqui</a>.
+        @endif
+    </section>
     @else
         @include('front.closed')
     @endif
+
+@endsection
+@section('post-script')
+<script>
+    // $(document).ready(function(){
+    //
+    //     var quantitiy=0;
+    //     $('.quantity-right-plus').click(function(e){
+    //
+    //         // Stop acting like a button
+    //         e.preventDefault();
+    //         // Get the field name
+    //         var quantity = parseInt($('#quantity').val());
+    //
+    //         // If is not undefined
+    //
+    //         $('#quantity').val(quantity + 1);
+    //
+    //
+    //         // Increment
+    //
+    //     });
+    //
+    //     $('.quantity-left-minus').click(function(e){
+    //         // Stop acting like a button
+    //         e.preventDefault();
+    //         // Get the field name
+    //         var quantity = parseInt($('#quantity').val());
+    //
+    //         // If is not undefined
+    //
+    //         // Increment
+    //         if(quantity>0){
+    //             $('#quantity').val(quantity - 1);
+    //         }
+    //     });
+    //
+    // });
+
+    $('input[name=courier_id]').change(function (e) {
+        $('#frete').text('R$ ' + $('input[name=courier_id]:checked').data('name'));
+        vlrTotal = parseFloat({{$total}}) + parseFloat($('input[name=courier_id]:checked').data('name'));
+        $('#total').text('R$ ' + vlrTotal.toFixed(2));
+    });
+</script>
 @endsection
 @section('css')
     <style type="text/css">

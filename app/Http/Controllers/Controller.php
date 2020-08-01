@@ -17,19 +17,26 @@ class Controller extends BaseController
 
     protected $configRepo;
 
+    protected $categoryRepo;
+
+
     protected function loggedUser()
     {
         return auth()->user();
     }
 
-    public function getSucessMesseger(){
-        return "Atualizado com Sucesso!";
+    public function getSucessMesseger($item = null){
+        return $item . " atualizado(a) com Sucesso!";
     }
 
 
     public function getConfig()
     {
         return $this->configRepo->getConfig();
+    }
+
+    public function getCategoryOrder(){
+        return $this->categoryRepo->pageOrder();
     }
 
 

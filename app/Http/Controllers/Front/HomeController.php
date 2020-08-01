@@ -8,10 +8,8 @@ use App\Shop\Configurations\Repositories\ConfigurationRepository;
 
 class HomeController extends Controller
 {
-    /**
-     * @var CategoryRepositoryInterface
-     */
-    private $categoryRepo;
+
+
 
     /**
      * HomeController constructor.
@@ -30,9 +28,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $cats = $this->categoryRepo->pageOrder();
 
-        return view('front.index')->with('cats',$cats)
+        return view('front.index')->with('cats',$this->getCategoryOrder())
             ->with('config',$this->getConfig());
     }
 }
