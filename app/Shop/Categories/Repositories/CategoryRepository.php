@@ -48,6 +48,12 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
 
     }
 
+    public function allActive()
+    {
+        return $this->model->where('status',1)->orderBy('page_order')->get();
+    }
+
+
     /**
      * List all root categories
      * 
