@@ -7,7 +7,7 @@
 <div class="humberger__menu__overlay"></div>
 <div class="humberger__menu__wrapper">
     <div class="humberger__menu__logo">
-        <a href="#"><img src="img/logo_feira.jpg" alt=""></a>
+        <a href="#"><img src="img/logo_feira.png" alt=""></a>
     </div>
     <div class="humberger__menu__cart">
         <ul>
@@ -30,7 +30,7 @@
         <ul>
             <li class="active"><a href="{{route('home')}}">Home</a></li>
             <li><a href="{{route('product.list')}}">Produtos</a></li>
-            <li><a href="{{route('cart.index')}}">Carrinho de Compas</a></li>
+            <li><a href="{{route('cart.index')}}">Carrinho</a></li>
             <li><a href="http://organicosparatodos.com.br/">Sobre a AAT</a></li>
             <li><a href="#">Usuário</a>
                 <ul class="header__menu__dropdown">
@@ -94,7 +94,9 @@
         <div class="row">
             <div class="col-lg-3">
                 <div class="header__logo">
-                    <a href="{{route('home')}}"><img src="{{asset('img/logo_feira.jpg')}}" alt=""></a>
+                    <a href="{{route('home')}}">
+                        <img src="{{asset('img/logo_feira.png')}}" alt="" width="25%">
+                    </a>
                 </div>
             </div>
             <div class="col-lg-6">
@@ -103,9 +105,9 @@
                     <ul>
                         <li class="active"><a href="{{route('home')}}">Home</a></li>
                         <li><a href="{{route('product.list')}}">Produtos</a></li>
-                        <li><a href="{{route('cart.index')}}">Carrinho de Compas</a></li>
                         <li><a href="#">Usuário</a>
                             <ul class="header__menu__dropdown">
+                                <li><a href="{{route('cart.index')}}">Carrinho</a></li>
                                 <li><a href="{{route('accounts')}}">Meu Perfil</a></li>
                                 <li><a href="{{route('orders')}}">Pedidos</a></li>
                             </ul>
