@@ -25,13 +25,15 @@
 
 
 <!-- Footer Section Begin -->
-<footer class="footer spad" style="background-color: white; border-top: 1px solid black">
+<footer class="footer spad" style="">
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="footer__about">
                     <div class="footer__about__logo">
-                        <a href="{{route('home')}}"><img src="img/logo_feira.jpg" alt=""></a>
+                        <a href="{{route('home')}}">
+                            <img src="img/logo_feira.png" alt="" width="25%">
+                        </a>
                     </div>
                     <ul>
                         <li>Endereço: R. Fritz Weber, 75 - Fazendinha, Teresópolis - RJ</li>
