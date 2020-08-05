@@ -5,6 +5,7 @@
     @if($config->is_open == 1)
     <section class="shoping-cart spad">
         <div class="container">
+            @include('layouts.errors-and-messages')
             @if($cartItems->count() > 0)
             <div class="row">
                 <div class="col-lg-12">
