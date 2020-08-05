@@ -164,8 +164,8 @@
                             <div class="col-md-12">
                                 <legend><i class="fa fa-credit-card"></i> Pagamento</legend>
                                 <p><strong><small class="text">Em virtude do surto do Corona virus - Covid-19, dêem preferência para o pagamento por Transferência Bancária.</small></strong></p>
-                                <p><strong><small class="text-danger text">ATENÇÃO! Sua compra ainda não foi confirmada. Após escolher o método de pagamento, clicar no botão Confirmar Compra.</small></strong></p>
-                                <p><strong class="text-danger">ATENÇÃO! Verifique a nova conta de pagamento</strong></p>
+                                <p><small class="text-danger text">ATENÇÃO! Sua compra ainda não foi confirmada. Após escolher o método de pagamento, clicar no botão Confirmar Compra.</strong></p>
+
 
                                     {{ csrf_field() }}
                                     <input type="hidden" name="courier_id" value="{{$courier->id}}" />
