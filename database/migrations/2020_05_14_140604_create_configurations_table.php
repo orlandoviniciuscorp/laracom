@@ -18,6 +18,11 @@ class CreateConfigurationsTable extends Migration
             $table->boolean('is_open');
             $table->timestamps();
         });
+
+        $config = new App\Shop\Configurations\Configuration();
+
+        $config->is_open = true;
+        $config->save();
     }
 
     /**

@@ -11,7 +11,7 @@ class CategoryController extends Controller
     /**
      * @var CategoryRepositoryInterface
      */
-    private $categoryRepo;
+
 
     /**
      * CategoryController constructor.

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Shop\Carts\Repositories\Interfaces\CartRepositoryInterface;
 use App\Shop\Couriers\Repositories\Interfaces\CourierRepositoryInterface;
 use App\Shop\Checkout\CheckoutRepository;
+use App\Shop\Fairs\Fair;
+use App\Shop\Fairs\Repositories\FairRepository;
 use App\Shop\Orders\Repositories\OrderRepository;
 use App\Shop\OrderStatuses\OrderStatus;
 use App\Shop\OrderStatuses\Repositories\OrderStatusRepository;
@@ -13,6 +15,7 @@ use App\Shop\Shipping\ShippingInterface;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use LivePixel\MercadoPago\MP;
 use Ramsey\Uuid\Uuid;
 use Shippo_Shipment;
 use Shippo_Transaction;
@@ -22,12 +25,12 @@ class PayOnDeliveryController extends Controller
     /**
      * @var CartRepositoryInterface
      */
-    private $cartRepo;
+    protected $cartRepo;
 
     /**
      * @var CourierRepositoryInterface
      */
-    private $courierRepo;
+    protected $courierRepo;
 
     /**
      * @var int $shipping
@@ -89,19 +92,86 @@ class PayOnDeliveryController extends Controller
      */
     public function index()
     {
-        $courier = $this->courierRepo->findCourierById(intval(request()->get('courier_id')));
+        $fairRepo = new FairRepository(new Fair);
+        $fair = $fairRepo->findFairById($fairRepo->findLastFair());
 
-        return view('front.pay-on-delivery-redirect', [
-            'subtotal' => $this->cartRepo->getSubTotal(),
-            'shipping' => $courier->cost,
-            'tax' => $this->cartRepo->getTax(),
-            'total' => $this->cartRepo->getTotal(2, $courier->cost),
-            'rateObjectId' => $this->rateObjectId,
-            'shipmentObjId' => $this->shipmentObjId,
-            'billingAddress' => $this->billingAddress,
-            'courier_id' =>$courier->id
-        ]);
-    }
+//        dd($fair->orders());
+        $mp = new MP(env('MP_APP_ID'), env('MP_APP_SECRET'));
+            foreach($fair->orders as $order) {
+
+//                //Verificar o pagamento dos pedidos feitos no mercado-pago
+                if(!is_null($order->mercado_pago_reference_id)){
+
+
+                    $retorno = $mp->get(
+                        "/v1/payments/search",
+                        array(
+                            "external_reference" => $order->reference
+                        )
+                    );
+//                    dump($retorno);
+                    $results = $retorno['response']['results'];
+                    if(!empty($results)){
+                        dump($order->id);
+                        $status = $results[0]['status_detail'];
+                        dump($status);
+
+                        if($status == "cc_rejected_bad_filled_card_number"
+                                ||$status ==  "cc_rejected_bad_filled_date"
+                                ||$status ==  "cc_rejected_bad_filled_other"
+                                ||$status ==  "cc_rejected_bad_filled_security_code"
+                                ||$status ==  "cc_rejected_blacklist"
+                                ||$status ==  "cc_rejected_call_for_authorize"
+                                ||$status ==  "cc_rejected_card_disabled"
+                                ||$status ==  "cc_rejected_card_error"
+                                ||$status ==  "cc_rejected_duplicated_payment"
+                                ||$status ==  "cc_rejected_high_risk"
+                                ||$status ==  "cc_rejected_insufficient_amount"
+                                ||$status ==  "cc_rejected_invalid_installments"
+                                ||$status ==  "cc_rejected_max_attempts"
+                                ||$status ==  "cc_rejected_other_reason") {
+                            dump('recusado');
+                            $order->order_status_id = 3;
+                        }
+                         if($status == 'pending_contingency' ||
+                               $status ==  'pending_review_manual' ||
+                               $status ==  'pending_waiting_payment') {
+                             dump('pendente');
+                             $order->order_status_id = 2;
+                         }
+
+                         if($status == 'accredited'){
+                                dump('aprovado');
+                                $order->order_status_id = 1;
+
+                        }
+                        $order->save();
+
+
+                                /*  approved - accredited
+                            *  in_process - pending_contingency
+                            *  in_process - pending_review_manual
+                            *  rejected - cc_rejected_bad_filled_card_number
+                            *  rejected - cc_rejected_bad_filled_date
+                            *  rejected - cc_rejected_bad_filled_other
+                            *  rejected - cc_rejected_bad_filled_security_code
+                            *  rejected - cc_rejected_blacklist
+                            *  rejected - cc_rejected_call_for_authorize
+                            *  rejected - cc_rejected_card_disabled
+                            *  rejected - cc_rejected_card_error
+                            *  rejected - cc_rejected_duplicated_payment
+                            *  rejected - cc_rejected_high_risk
+                            *  rejected - cc_rejected_insufficient_amount
+                            *  rejected - cc_rejected_invalid_installments
+                            *  rejected - cc_rejected_max_attempts
+                            *  rejected - cc_rejected_other_reason
+                                */
+                        }
+                    }
+//                    dd($order);
+                }
+            }
+
 
     /**
      * @param Request $request

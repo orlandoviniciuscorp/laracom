@@ -1,6 +1,7 @@
 @extends('layouts.front.app')
-
+@include('layouts.front.header-cart')
 @section('content')
+    @include('layouts.errors-and-messages')
     <hr>
     <!-- Main content -->
     <section class="container content">

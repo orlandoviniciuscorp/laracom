@@ -12,7 +12,7 @@ class ClosePlataform extends Command
      *
      * @var string
      */
-    protected $signature = 'organicosaat:close';
+    protected $signature = 'nadespensa:close';
 
     /**
      * The console command description.

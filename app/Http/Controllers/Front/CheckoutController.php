@@ -30,6 +30,7 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
+use LivePixel\MercadoPago\MP;
 use PayPal\Exception\PayPalConnectionException;
 use Ramsey\Uuid\Uuid;
 
@@ -105,7 +106,7 @@ class CheckoutController extends Controller
      */
     public function index(CartDeliveryCheckoutRequest $request)
     {
-        $this->neededBag();
+        //$this->neededBag();
 
 
         $customer = $request->user();
@@ -206,9 +207,11 @@ class CheckoutController extends Controller
         $os = $orderStatusRepo->findByName('Pedido Feito');
         $courier = $this->courierRepo->findCourierById(intval(request()->get('courier_id')));
 
-        if($request->input('payment_method') == config('pay-on-delivery.name')
-        ||$request->input('payment_method') == config('debit.name')){
-            $os = $orderStatusRepo->findByName('Pagar na Entrega');
+        if($request->input('payment_method') == config('pay-on-delivery.name'))
+        {
+            $os = $orderStatusRepo->findByName('Boleto Whatsapp');
+        }else if($request->input('payment_method') == config('debit.name')){
+            $os = $orderStatusRepo->findByName('Mercado Pago');
         }
 //
         $order = $checkoutRepo->buildCheckoutItems([
@@ -227,7 +230,20 @@ class CheckoutController extends Controller
             'obs' =>$request->input('obs')
         ]);
 
+
+        if($request->input('payment_method') == config('debit.name')){
+            $preference = $this->callMercadoPago($order);
+
+            Cart::destroy();
+
+            return redirect()->to($preference['response']['init_point']);
+        }
+
         Cart::destroy();
+
+
+
+
 
         return redirect()->route('accounts', ['tab' => 'orders'])->with('message', 'Pedido Cadastrado com Sucesso, Aguarde a aprovação do Pagamento');
     }
@@ -335,5 +351,46 @@ class CheckoutController extends Controller
         }
 
 
+    }
+
+    public function callMercadoPago($order)
+    {
+        $this->cartRepo->getCartItems();
+        $itens =[];
+        $count=0;
+        foreach ($this->cartRepo->getCartItems() as $item ) {
+
+            $itens = array_add($itens,$count++ ,[
+                'title' => $item->name,
+                'quantity' => $item->qty,
+                'currency_id' => 'BRL',
+                'unit_price' => $item->price
+
+            ]);
+        }
+        $itens= array_add($itens,$count++,[
+            'title' => $order->courier->name,
+            'quantity' => 1,
+            'currency_id' => 'BRL',
+            'unit_price' => floatval($order->total_shipping),
+        ]);
+//        dump($itens);
+        $preference_data = array (
+            ["items" => $itens,
+        "external_reference" => $order->reference]
+        );
+
+        dump($preference_data);
+
+        try {
+
+            $mp = new MP(env('MP_APP_ID'), env('MP_APP_SECRET'));
+            $preference = $mp->create_preference($preference_data);
+            $order->mercado_pago_reference_id = $preference['response']['id'];
+            $order->save();
+            return $preference;
+        } catch (Exception $e){
+            dd($e->getMessage());
+        }
     }
 }

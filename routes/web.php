@@ -112,6 +112,7 @@ Route::namespace('Auth')->group(function () {
 
 Route::namespace('Front')->group(function () {
     Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/products','ProductController@listProducts')->name('product.list');
     Route::group(['middleware' => ['auth', 'web']], function () {
 
 
@@ -129,6 +130,9 @@ Route::namespace('Front')->group(function () {
         });
 
         Route::get('accounts', 'AccountsController@index')->name('accounts');
+        Route::get('orders', 'AccountsController@orders')->name('orders');
+        Route::get('addresses', 'AccountsController@addresses')->name('addresses');
+
         Route::post('cancel-order', 'AccountsController@cancelOrder')->name('accounts.cancel-order');
         Route::get('checkout/{courier_id}', 'CheckoutController@index')->name('checkout.index');
         Route::post('checkout/store', 'CheckoutController@store')->name('checkout.store');

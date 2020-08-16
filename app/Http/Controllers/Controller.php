@@ -17,6 +17,8 @@ class Controller extends BaseController
 
     protected $configRepo;
 
+    protected $categoryRepo;
+
     protected function loggedUser()
     {
         return auth()->user();
@@ -30,6 +32,10 @@ class Controller extends BaseController
     public function getConfig()
     {
         return $this->configRepo->getConfig();
+    }
+
+    public function getCategoryOrder(){
+        return $this->categoryRepo->pageOrder();
     }
 
 

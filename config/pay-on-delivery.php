@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'name' => 'Dinheiro - Pagamento na Entrega',
-    'description' => 'Dinheiro - Pagamento na Entrega',
+    'name' => 'Boleto - Bancário',
+    'description' => 'Pagamento por Boleto - solicite o boleto pelo Whatsapp',
     'account_id' => env('PP_ACCOUNT_ID', 'xxxx'),
     'client_id' => env('PP_CLIENT_ID', 'xxxx'),
     'client_secret' => env('PP_CLIENT_SECRET', 'xxxx'),

@@ -35,9 +35,9 @@ class ProductController extends Controller
     /**
      * @var CategoryRepositoryInterface
      */
-    private $categoryRepo;
+    protected $categoryRepo;
 
-    private $productPercentRepo;
+    protected $productPercentRepo;
 
     /**
      * @var AttributeRepositoryInterface

@@ -60,7 +60,8 @@ class Order extends Model
         'tracking_number',
         'total_shipping',
         'obs',
-        'fair_id'
+        'fair_id',
+        'mercado_pago_reference_id',
     ];
 
     /**

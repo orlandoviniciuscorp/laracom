@@ -1,8 +1,14 @@
 @extends('layouts.front.app')
-
+@include('layouts.front.header-cart')
 @section('content')
+    <br />
 <div class="container">
     <div class="row">
+        <div class="col-md-12">
+            @include('layouts.errors-and-messages')
+        </div>
+    </div>
+    <div class="row justify-content-center align-content-center">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">Register</div>

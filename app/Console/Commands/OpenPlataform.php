@@ -12,7 +12,7 @@ class OpenPlataform extends Command
      *
      * @var string
      */
-    protected $signature = 'organicosaat:open';
+    protected $signature = 'nadespensa:open';
 
     /**
      * The console command description.

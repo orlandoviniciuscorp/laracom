@@ -11,7 +11,7 @@ class HomeController extends Controller
     /**
      * @var CategoryRepositoryInterface
      */
-    private $categoryRepo;
+
 
     /**
      * HomeController constructor.

@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'name' => 'Cartão - Pagamento na Entrega',
+    'name' => 'Pagamento Via Mercado-Pago',
     'description' => 'Débito -Pagamento na Entrega',
     'account_id' => env('PP_ACCOUNT_ID', 'xxxx'),
     'client_id' => env('PP_CLIENT_ID', 'xxxx'),

@@ -69,7 +69,7 @@ class CartController extends Controller
     public function index()
     {
 
-        $this->neededBag();
+        //$this->neededBag();
 
         $couriers = $this->courierRepo->allEnable();
 
@@ -118,7 +118,9 @@ class CartController extends Controller
 
         $this->cartRepo->addToCart($product, $request->input('quantity'), $options);
 
-        return redirect()->to(route('home').'#'.$request->input('category_slug'))
+//        return redirect()->to(route('home').'#'.$request->input('category_slug'))
+//            ->with('message', $product->name .' adicionado ao carrinho');
+        return redirect()->back()
             ->with('message', $product->name .' adicionado ao carrinho');
     }
 
@@ -153,21 +155,21 @@ class CartController extends Controller
 
     public function neededBag()
     {
-        $carItens = $this->cartRepo->getCartItemsTransformed();
-        $hasBag = false;
-        foreach($carItens as $carItem){
-            if($carItem->name == 'Sacola Retornável'){
-                $hasBag = true;
-
-            }
-        }
-
-        if ((!is_null(auth()->user())) && auth()->user()->countBought() < 1 && !$hasBag) {
-
-            $product = $this->productRepo->findByProductName('Sacola Retornável');
-            $options = [];
-            $this->cartRepo->addToCart($product,1,$options);
-        }
+//        $carItens = $this->cartRepo->getCartItemsTransformed();
+//        $hasBag = false;
+//        foreach($carItens as $carItem){
+//            if($carItem->name == 'Sacola Retornável'){
+//                $hasBag = true;
+//
+//            }
+//        }
+//
+//        if ((!is_null(auth()->user())) && auth()->user()->countBought() < 1 && !$hasBag) {
+//
+//            $product = $this->productRepo->findByProductName('Sacola Retornável');
+//            $options = [];
+//            $this->cartRepo->addToCart($product,1,$options);
+//        }
 
 
     }
