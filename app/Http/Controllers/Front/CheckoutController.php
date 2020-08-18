@@ -380,7 +380,7 @@ class CheckoutController extends Controller
         "external_reference" => $order->reference]
         );
 
-        dump($preference_data);
+//        dump($preference_data);
 
         try {
 

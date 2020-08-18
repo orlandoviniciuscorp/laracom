@@ -207,13 +207,14 @@
                                     <th>Produto</th>
                                     <th>Preço</th>
                                     <th>Quantidade</th>
+                                    <th></th>
                                     <th>Total</th>
                                     <th>Remover</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($cartItems as $cartItem)
-{{--                                        {{dd($cartItem)}}--}}
+
                                         <tr>
                                             <td class="thumbnail-img">
                                                 <a href="#">
@@ -228,18 +229,35 @@
                                             <td class="price-pr">
                                                 <p>R$ {{number_format($cartItem->price,2,',','.')}}</p>
                                             </td>
+                                            <form action="{{ route('cart.update', $cartItem->rowId) }}" class="form-inline" method="post">
                                             <td class="quantity-box">
-                                                <input type="number"
-                                                       size="4" min="0" step="1"
-                                                       class="c-input-text qty text"
-                                                    value="{{$cartItem->qty}}"></td>
+                                                <div class="col-sm-5">
+
+                                                        {{ csrf_field() }}
+                                                    <input type="hidden" name="_method" value="put">
+                                                    <input type="number"
+                                                           name="quantity"
+                                                           size="4" min="0" step="1"
+                                                           class="c-input-text qty text"
+                                                        value="{{$cartItem->qty}}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <button value="Atualizar" class="btn btn-xs hvr-hover" type="submit">Atualizar</button>
+                                            </td>
+                                            </form>
                                             <td class="total-pr">
                                                 <p>R$ {{number_format($cartItem->qty*$cartItem->price,2,',','.')}}</p>
                                             </td>
                                             <td class="remove-pr">
-                                                <a href="#">
-                                                    <i class="fas fa-times"></i>
-                                                </a>
+                                                <form action="{{ route('cart.destroy', $cartItem->rowId) }}" method="post">
+                                                    {{ csrf_field() }}
+                                                    <input type="hidden" name="_method" value="delete">
+                                                    <button onclick="return
+                                                    confirm('Tem certeza que deseja remover o Item?')"
+                                                            class="btn btn-danger btn-sm"><i class="fa fa-times"></i>
+                                                    </button>
+                                                </form>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -258,11 +276,6 @@
                                     <button class="btn btn-theme" type="button">Apply Coupon</button>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-6">
-                        <div class="update-box">
-                            <input value="Update Cart" type="submit">
                         </div>
                     </div>
                 </div>

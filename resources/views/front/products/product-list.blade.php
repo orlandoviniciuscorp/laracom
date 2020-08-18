@@ -147,16 +147,21 @@
                                                     <img src="{{asset("storage/$product->cover")}}" class="img-fluid" alt="Image">
                                                     <div class="mask-icon">
                                                         <ul>
-                                                            <li><a href="#" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
-                                                            <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li>
-                                                            <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
+                                                            <li><a href="{{$product->slug}}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
                                                         </ul>
                                                         <form action="{{ route('cart.store') }}" method="post">
                                                             {{ csrf_field() }}
-                                                            <input type="number" name="quantity" min="1" value="1" />
+
+                                                            <input type="number" name="quantity" id="input_quantity" class="" min="1" value="1" />
                                                             <input type="hidden" name="product" value="{{ $product->id }}">
                                                             <input type="submit" class="btn hvr-hover" id="btn_comprar"
-                                                                   value="Adicionar ao Carrinho">
+                                                                   @if($product->quantity < 1)
+                                                                           disabled
+                                                                        value="Esgotado"
+                                                                   @else
+                                                                        value="Comprar"
+                                                                   @endif
+                                                            >
                                                         </form>
                                                     </div>
                                                 </div>
@@ -183,7 +188,7 @@
                                                     <img src="{{asset("storage/$product->cover")}}" class="img-fluid" alt="Image">
                                                     <div class="mask-icon">
                                                         <ul>
-                                                            <li><a href="#" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
+                                                            <li><a href="{{$product->slug}}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
                                                             <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li>
                                                             <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
                                                         </ul>

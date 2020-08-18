@@ -124,6 +124,7 @@ class CartController extends Controller
             ->with('message', $product->name .' adicionado ao carrinho');
     }
 
+
     /**
      * Update the specified resource in storage.
      *
@@ -135,7 +136,7 @@ class CartController extends Controller
     {
         $this->cartRepo->updateQuantityInCart($id, $request->input('quantity'));
 
-        request()->session()->flash('message', 'Update cart successful');
+        request()->session()->flash('message', 'Carrinho Atualizado com Sucesso');
         return redirect()->route('cart.index');
     }
 
@@ -149,7 +150,7 @@ class CartController extends Controller
     {
         $this->cartRepo->removeToCart($id);
 
-        request()->session()->flash('message', 'Removed to cart successful');
+        request()->session()->flash('message', 'Item Removido do carrinho');
         return redirect()->route('cart.index');
     }
 
