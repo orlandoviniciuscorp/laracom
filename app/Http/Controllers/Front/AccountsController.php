@@ -77,7 +77,17 @@ class AccountsController extends Controller
 
     public function addresses()
     {
+        $customer = $this->customerRepo->findCustomerById(auth()->user()->id);
 
+        $customerRepo = new CustomerRepository($customer);
+
+        $addresses = $customerRepo->findAddresses();
+
+        return view('front.addresses', [
+            'customer' => $customer,
+
+            'addresses' => $addresses
+        ]);
     }
 
     public function cancelOrder(Request $request)

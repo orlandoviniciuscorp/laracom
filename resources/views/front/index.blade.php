@@ -1,4 +1,4 @@
-@include('layouts.front.header-cart')
+
 @extends('layouts.front.app')
 
 @section('og')
@@ -11,8 +11,8 @@
 
 @section('content')
     @include('layouts.front.home-slider')
-    @if($config->is_open == 1)
+        @if($config->is_open == 1)
     @else
-            @include('front.closed')
-        @endif
+        @include('front.closed')
+    @endif
 @endsection

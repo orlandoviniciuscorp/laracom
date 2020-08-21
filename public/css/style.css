@@ -2008,7 +2008,7 @@
  .product-item-filter li .nav-link {
      border: none;
      border-radius: 0px;
-     color: #FFFFFF;
+     color: #000000;
      font-size: 18px;
      padding: 4px 12px;
 }
@@ -2302,7 +2302,6 @@
      font-size: 0px;
      cursor: pointer;
      margin: 15px 0px;
-     padding-top: 25px;
      width: 90px;
      height: 90px;
      line-height: 110px;
@@ -2312,6 +2311,14 @@
      z-index: 1;
      color: #FFFFFF;
 }
+
+.img-sells {
+    max-width:200px;
+    max-height:150px;
+    width: auto;
+    height: auto;
+}
+
  .service-icon a::after {
      pointer-events: none;
      position: absolute;

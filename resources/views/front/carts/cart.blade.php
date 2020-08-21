@@ -1,5 +1,5 @@
 @extends('layouts.front.app')
-@include('layouts.front.header-cart')
+
 @section('content')
     @include('layouts.errors-and-messages')
     @if($config->is_open == 1)
@@ -317,7 +317,7 @@
                     </div>
                     <div class="col-lg-4 col-sm-12">
                         <div class="order-box">
-                            <h3>Order summary</h3>
+                            <h3>Resumo do Pedido</h3>
                             <div class="d-flex">
                                 <h4>Sub Total</h4>
                                 <div class="ml-auto font-weight-bold"> R$ {{number_format($subtotal, 2, '.', ',') }}</div>

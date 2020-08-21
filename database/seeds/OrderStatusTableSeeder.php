@@ -8,28 +8,38 @@ class OrderStatusTableSeeder extends Seeder
     public function run()
     {
         factory(OrderStatus::class)->create([
-            'name' => 'paid',
+            'name' => 'Pago',
             'color' => 'green'
         ]);
 
         factory(OrderStatus::class)->create([
-            'name' => 'pending',
+            'name' => 'Pendete',
             'color' => 'yellow'
         ]);
 
         factory(OrderStatus::class)->create([
-            'name' => 'error',
+            'name' => 'Erro',
             'color' => 'red'
         ]);
 
         factory(OrderStatus::class)->create([
-            'name' => 'on-delivery',
+            'name' => 'Entregue',
             'color' => 'blue'
         ]);
 
         factory(OrderStatus::class)->create([
-            'name' => 'ordered',
+            'name' => 'Pedito Feito',
             'color' => 'violet'
+        ]);
+
+        factory(OrderStatus::class)->create([
+            'name' => 'Mercado Pago',
+            'color' => 'brown'
+        ]);
+
+        factory(OrderStatus::class)->create([
+            'name' => 'Boleto Whatsapp',
+            'color' => 'purple'
         ]);
     }
 }

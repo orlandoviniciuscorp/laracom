@@ -39,7 +39,8 @@ class CategoryController extends Controller
 
         return view('front.categories.category', [
             'category' => $category,
-            'products' => $repo->paginateArrayResults($products, 20)
+            'products' => $repo->paginateArrayResults($products, 20),
+            'cats'=>$this->getCategoryOrder()
         ]);
     }
 }

@@ -1,5 +1,5 @@
 @extends('layouts.front.app')
-@include('layouts.front.header-cart')
+
 @section('content')
     <br />
 
@@ -66,7 +66,6 @@
                         </div>
                     </div>
                 </div>
-        </div>
     </section>
     <!-- /.content -->
 @endsection

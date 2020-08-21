@@ -35,4 +35,10 @@ class HomeController extends Controller
         return view('front.index')->with('cats',$cats)
             ->with('config',$this->getConfig());
     }
+
+    public function about()
+    {
+        return view('front.about')
+            ->with('config',$this->getConfig());
+    }
 }

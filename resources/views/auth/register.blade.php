@@ -1,5 +1,5 @@
 @extends('layouts.front.app')
-@include('layouts.front.header-cart')
+
 @section('content')
     <br />
 <div class="container">

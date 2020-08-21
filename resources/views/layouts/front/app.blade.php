@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Site Metas -->
-    <title>Freshshop - Ecommerce Bootstrap 4 HTML Template</title>
+    <title>{{env('APP_NAME')}}</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -36,7 +36,7 @@
 </head>
 
 <body>
-{{--@include('layouts.front.header-cart')--}}
+@include('layouts.front.header-cart')
 @yield('content')
 @include('layouts.front.footer')
 

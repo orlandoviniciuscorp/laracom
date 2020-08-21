@@ -1,5 +1,4 @@
 @extends('layouts.front.app')
-@include('layouts.front.header-cart')
 @section('content')
 
 {{--    <!-- Main content -->--}}
@@ -189,7 +188,7 @@
                         <div class="account-box">
                             <div class="service-box">
                                 <div class="service-icon">
-                                    <a href="#"> <i class="fa fa-location-arrow"></i> </a>
+                                    <a href="{{route('addresses')}}"> <i class="fa fa-location-arrow"></i> </a>
                                 </div>
                                 <div class="service-desc">
                                     <h4>Endereços Cadastrados</h4>

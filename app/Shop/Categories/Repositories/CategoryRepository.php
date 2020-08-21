@@ -116,11 +116,13 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
         $collection = collect($params)->except('_token');
         $slug = str_slug($collection->get('name'));
 
+        $merge = $collection->merge(compact('slug'));
+
         if (isset($params['cover']) && ($params['cover'] instanceof UploadedFile)) {
             $cover = $this->uploadOne($params['cover'], 'categories');
+            $merge = $collection->merge(compact('slug', 'cover'));
         }
 
-        $merge = $collection->merge(compact('slug', 'cover'));
 
         // set parent attribute default value if not set
         $params['parent'] = $params['parent'] ?? 0;
@@ -246,5 +248,12 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
     public function findChildren()
     {
         return $this->model->children;
+    }
+
+    public function getTopCatWithProducts()
+    {
+        return $this->listCategories('page_order','asc')->map(function($categories){
+            return $categories->setRelation('products',$categories->products->take(3));
+        });
     }
 }

@@ -112,6 +112,7 @@ Route::namespace('Auth')->group(function () {
 
 Route::namespace('Front')->group(function () {
     Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/about', 'HomeController@about')->name('about');
     Route::get('/products','ProductController@listProducts')->name('product.list');
     Route::group(['middleware' => ['auth', 'web']], function () {
 

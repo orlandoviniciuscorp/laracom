@@ -149,7 +149,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     public function sendEmailNotificationToAdmin()
     {
         $employeeRepo = new EmployeeRepository(new Employee);
-        $employee = $employeeRepo->findEmployeeById(1);
+        $employee = $employeeRepo->findEmployeeById(env('ADMIN_ID'));
 
         Mail::to($employee)
             ->send(new sendEmailNotificationToAdminMailable($this->findOrderById($this->model->id)));

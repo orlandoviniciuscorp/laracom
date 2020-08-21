@@ -65,7 +65,7 @@
             <div class="collapse navbar-collapse" id="navbar-menu">
                 <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
                     <li class="nav-item" id="teste"><a class="nav-link"  href="{{route('home')}}">Home</a></li>
-                    <li class="nav-item" id="teste"><a class="nav-link" href="about.html">Muito Prazer...</a></li>
+                    <li class="nav-item" id="teste"><a class="nav-link" href="{{route('about')}}">Muito Prazer...</a></li>
                     <li class="nav-item" id="teste">
                         <a href="{{route('product.list')}}" class="nav-link">Produtos</a>
                     </li>
@@ -91,34 +91,50 @@
             <!-- End Atribute Navigation -->
         </div>
         <!-- Start Side Menu -->
-        <div class="side">
-            <a href="#" class="close-side"><i class="fa fa-times"></i></a>
-            <li class="cart-box">
-                <ul class="cart-list">
-                    <li>
-                        <a href="#" class="photo"><img src="images/img-pro-01.jpg" class="cart-thumb" alt="" /></a>
-                        <h6><a href="#">Delica omtantur </a></h6>
-                        <p>1x - <span class="price">$80.00</span></p>
-                    </li>
-                    <li>
-                        <a href="#" class="photo"><img src="images/img-pro-02.jpg" class="cart-thumb" alt="" /></a>
-                        <h6><a href="#">Omnes ocurreret</a></h6>
-                        <p>1x - <span class="price">$60.00</span></p>
-                    </li>
-                    <li>
-                        <a href="#" class="photo"><img src="images/img-pro-03.jpg" class="cart-thumb" alt="" /></a>
-                        <h6><a href="#">Agam facilisis</a></h6>
-                        <p>1x - <span class="price">$40.00</span></p>
-                    </li>
-                    <li class="total">
-                        <a href="{{route('cart.index')}}" class="btn btn-default hvr-hover btn-cart">Ver Carrinho</a>
-                        <span class="float-right"><strong>Total</strong>: $180.00</span>
-                    </li>
-                </ul>
-            </li>
-        </div>
-        <!-- End Side Menu -->
+{{--        <div class="side">--}}
+{{--            <a href="#" class="close-side"><i class="fa fa-times"></i></a>--}}
+{{--            <li class="cart-box">--}}
+{{--                <ul class="cart-list">--}}
+{{--                    <li>--}}
+{{--                        <a href="#" class="photo"><img src="images/img-pro-01.jpg" class="cart-thumb" alt="" /></a>--}}
+{{--                        <h6><a href="#">Delica omtantur </a></h6>--}}
+{{--                        <p>1x - <span class="price">$80.00</span></p>--}}
+{{--                    </li>--}}
+{{--                    <li>--}}
+{{--                        <a href="#" class="photo"><img src="images/img-pro-02.jpg" class="cart-thumb" alt="" /></a>--}}
+{{--                        <h6><a href="#">Omnes ocurreret</a></h6>--}}
+{{--                        <p>1x - <span class="price">$60.00</span></p>--}}
+{{--                    </li>--}}
+{{--                    <li>--}}
+{{--                        <a href="#" class="photo"><img src="images/img-pro-03.jpg" class="cart-thumb" alt="" /></a>--}}
+{{--                        <h6><a href="#">Agam facilisis</a></h6>--}}
+{{--                        <p>1x - <span class="price">$40.00</span></p>--}}
+{{--                    </li>--}}
+{{--                    <li class="total">--}}
+{{--                        <a href="{{route('cart.index')}}" class="btn btn-default hvr-hover btn-cart">Ver Carrinho</a>--}}
+{{--                        <span class="float-right"><strong>Total</strong>: $180.00</span>--}}
+{{--                    </li>--}}
+{{--                </ul>--}}
+{{--            </li>--}}
+{{--        </div>--}}
+{{--        <!-- End Side Menu -->--}}
     </nav>
     <!-- End Navigation -->
 </header>
 <!-- End Main Top -->
+@include('layouts.errors-and-messages')
+<!-- Start Top Search -->
+<form action="{{route('search.product')}}">
+<div class="top-search">
+    <div class="container">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+            <input type="text" class="form-control" name="q" placeholder="Do que você Precisa?">
+            <button type="submit" class="btn btn-light" value="Pesquisar">Pesquisar</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="input-group-addon close-search"><i class="fa fa-times"></i></span>
+        </div>
+    </div>
+</div>
+</form>
+<!-- End Top Search -->
