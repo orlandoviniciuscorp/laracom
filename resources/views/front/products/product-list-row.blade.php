@@ -44,7 +44,9 @@
                 @endforeach
             </div>
                 @if(method_exists($products,'links'))
-                    {{ $products->links() }}
+                    <div class="row justify-content-center">
+                        {{ $products->links() }}
+                    </div>
                 @endif
                 @if(isset($catTop))
             <div class="row justify-content-center">
