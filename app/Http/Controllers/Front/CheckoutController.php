@@ -377,7 +377,11 @@ class CheckoutController extends Controller
 //        dump($itens);
         $preference_data = array (
             ["items" => $itens,
-        "external_reference" => $order->reference]
+                "payment_methods" => array(
+                    "excluded_payment_types" => array(
+                        array("id" => "ticket")
+                    )),
+                "external_reference" => $order->reference,]
         );
 
 //        dump($preference_data);
@@ -390,7 +394,7 @@ class CheckoutController extends Controller
             $order->save();
             return $preference;
         } catch (Exception $e){
-            dd($e->getMessage());
+            dd($e);
         }
     }
 }
