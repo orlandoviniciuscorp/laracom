@@ -18,13 +18,13 @@
 
     <div class="row">
         <h1>
-            Pedidos de 3a das 17hs até 5a feira às 18hs. Entrega aos sábados.
+            Pedidos de Sexta-Feira das 17hs até Terça-Feira. Entrega aos sábados.
         </h1>
     </div>
     <div class="row">
 
         <div class="image-clean">
-            <img src="img/logo-feira-teresopolis-grande.jpg" class="img-thumbnail"/>
+            <img src="{{asset('images/logo.png')}}" class="img-thumbnail"/>
         </div>
         <br />
         <h1>
