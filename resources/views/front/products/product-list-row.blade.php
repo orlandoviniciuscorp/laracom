@@ -42,10 +42,10 @@
                     </div>
 
                 @endforeach
-                @if(method_exists($products,'links'))
-                        {{ $products->links() }}
-                @endif
             </div>
+                @if(method_exists($products,'links'))
+                    {{ $products->links() }}
+                @endif
                 @if(isset($catTop))
             <div class="row justify-content-center">
                 <a href="{{route('front.category.slug',$catTop->slug)}}" class="btn hvr-hover"
