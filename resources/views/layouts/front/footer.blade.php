@@ -35,7 +35,7 @@
                     <div class="footer-top-box">
                         <h3>Funcionamento</h3>
                         <ul class="list-time">
-                            <li>Pedidos de Quinta-Feira Até Domingo: 12:00hs</li> <li>Entregas: Terça-Feira</li>
+                            <li>Pedidos de Sexta-feira Até Terça-feira</li> <li>Entregas: Quinta-Feira</li>
                         </ul>
                     </div>
                 </div>
