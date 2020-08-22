@@ -13,9 +13,6 @@
                     <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
                         <div class="products-single fix">
                             <div class="box-img-hover">
-                                <div class="type-lb">
-                                    <p class="sale">Aproveite</p>
-                                </div>
                                 <img src="{{asset("storage/$product->cover")}}" class="img-fluid img-sells" alt="Image">
                                 <div class="mask-icon">
                                     <ul>
@@ -45,6 +42,9 @@
                     </div>
 
                 @endforeach
+                @if(method_exists($products,'links'))
+                        {{ $products->links() }}
+                @endif
             </div>
                 @if(isset($catTop))
             <div class="row justify-content-center">
