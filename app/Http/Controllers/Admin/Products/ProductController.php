@@ -149,7 +149,7 @@ class ProductController extends Controller
 
         $data['percentage_id']  = $percentage_id;
 
-        dd($data);
+        //dd($data);
         $product = $this->productRepo->createProduct($data);
 
 
