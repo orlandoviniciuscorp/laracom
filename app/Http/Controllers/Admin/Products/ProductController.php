@@ -149,6 +149,7 @@ class ProductController extends Controller
 
         $data['percentage_id']  = $percentage_id;
 
+        dd($data);
         $product = $this->productRepo->createProduct($data);
 
 
@@ -262,6 +263,7 @@ class ProductController extends Controller
             'combination',
             'origin'
         );
+
 
         if($request->get('is_distinct') == 1){
             $percentage_id = 2;

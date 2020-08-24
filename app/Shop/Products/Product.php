@@ -68,7 +68,8 @@ class Product extends Model implements Buyable
         'distance_unit',
         'slug',
         'is_distinct',
-        'percentage_id'
+        'percentage_id',
+        'cost'
     ];
 
     protected $with = ['percentage'];

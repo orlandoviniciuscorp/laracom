@@ -45,31 +45,40 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="is_distinct">Produto diferenciável <span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <input
-                                            type="radio"
-                                            name="is_distinct"
-                                            id="is_distinct"
-                                            @if(is_null(old('is_distinct')) || old('is_distinct') == 0)
-                                            checked="checked"
-                                            @endif
-                                            value="0"> Não
-                                    <br/>
-                                    <input
-                                            type="radio"
-                                            name="is_distinct"
-                                            id="is_distinct"
-                                            @if(old('is_distinct') == 1)
-                                            checked="checked"
-                                            @endif
-                                            value="1"> Sim
-
-
-
-                                </div>
-                            </label>
+                            <label for="price">Preço de Custo <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-addon">R$</span>
+                                <input type="text" name="cost" id="cost" placeholder="Preço" pattern="[\d.]*" class="form-control" value="{{ old('cost') }}">
+                            </div>
+                            <small class="text-danger">Para valores com centavos utilize ponto</small>
                         </div>
+
+{{--                        <div class="form-group">--}}
+{{--                            <label for="is_distinct">Produto diferenciável <span class="text-danger">*</span></label>--}}
+{{--                                <div class="input-group">--}}
+{{--                                    <input--}}
+{{--                                            type="radio"--}}
+{{--                                            name="is_distinct"--}}
+{{--                                            id="is_distinct"--}}
+{{--                                            @if(is_null(old('is_distinct')) || old('is_distinct') == 0)--}}
+{{--                                            checked="checked"--}}
+{{--                                            @endif--}}
+{{--                                            value="0"> Não--}}
+{{--                                    <br/>--}}
+{{--                                    <input--}}
+{{--                                            type="radio"--}}
+{{--                                            name="is_distinct"--}}
+{{--                                            id="is_distinct"--}}
+{{--                                            @if(old('is_distinct') == 1)--}}
+{{--                                            checked="checked"--}}
+{{--                                            @endif--}}
+{{--                                            value="1"> Sim--}}
+{{----}}
+{{----}}
+{{----}}
+{{--                                </div>--}}
+{{--                            </label>--}}
+{{--                        </div>--}}
                         @if(!$brands->isEmpty())
                         <div class="form-group">
                             <label for="brand_id">Brand </label>
