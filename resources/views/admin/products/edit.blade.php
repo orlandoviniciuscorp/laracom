@@ -99,6 +99,17 @@
                                                 @endif
                                                 @if(!$productAttributes->isEmpty())<span class="text-danger">Note: Price is disabled. Price is derived based on the combination.</span> @endif
                                             </div>
+{{--                                            {{dd($product->cost)}}--}}
+{{--                                            Valor:::: {!! $product->cost !!}--}}
+{{--                                            {{dd('fim')}}--}}
+                                            <div class="form-group">
+                                                <label for="price">Preço de Custo <span class="text-danger">*</span></label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">R$</span>
+                                                    <input type="text" name="cost" id="cost" placeholder="Preço de custo" pattern="[\d.]*" class="form-control" value="{{ $product->cost }}">
+                                                </div>
+                                                <small class="text-danger">Para valores com centavos utilize ponto</small>
+                                            </div>
                                             {{--<div class="form-group">--}}
                                                 {{--<label for="sale_price">Preço de Venda</label>--}}
                                                 {{--<div class="input-group">--}}
