@@ -326,7 +326,7 @@
                         <div class="title-left">
                             <h3>Endereço de Entrega</h3>
                         </div>
-
+                            @if($addresses->count() > 0)
                             <div class="d-block my-3">
                                 @foreach($addresses as $key => $address)
                                     <div class="custom-control custom-radio">
@@ -339,7 +339,14 @@
                                 @endforeach
                                     <input type="hidden" name="billingAddress_id" value="{{$billingAddress->id}}" />
                             </div>
-
+                        @else
+                            <div class="d-block my-3">
+                                Nenhum endereço Cadastrado.
+                                <br />
+                                <br />
+                                <a href="{{ route('customer.address.create', auth()->user()->id) }}" class="btn btn-primary">Cadastrar Endereço</a>
+                            </div>
+                        @endif
 
 
                             <div class="title-left">
