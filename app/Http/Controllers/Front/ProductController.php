@@ -47,7 +47,7 @@ class ProductController extends Controller
         });
 
         return view('front.products.product-search', [
-            'products' => $this->productRepo->paginateArrayResults($products->all(), 10),
+            'products' => $this->productRepo->paginateArrayResults($products->all(), 100),
             'cats'=>$this->getCategoryOrder()
         ]);
     }
@@ -82,7 +82,7 @@ class ProductController extends Controller
         $catTopProducts = $this->categoryRepo->getTopCatWithProducts();
         return view('front.products.product-list', [
             'cats'=>$this->getCategoryOrder(),
-            'products' => $this->productRepo->paginateArrayResults($products->all(), 10),
+            'products' => $this->productRepo->paginateArrayResults($products->all(), 100),
             'config'=> $this->getConfig(),
             'catTopProducts' => $catTopProducts
         ]);
