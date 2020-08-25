@@ -36,7 +36,7 @@
                     <div id="offer-box" class="carouselTicker">
                         <ul class="offer-box">
                             <li>
-                                <i class="fab fa-opencart"></i> Compras de 5a até domingo. Entrega às 3a feira
+                                <i class="fab fa-opencart"></i> Compras de 6a feira até 3a terça. Entrega às 5a feira.
                             </li>
                         </ul>
                     </div>
