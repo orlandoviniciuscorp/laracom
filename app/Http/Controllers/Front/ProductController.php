@@ -42,12 +42,27 @@ class ProductController extends Controller
             $list = $this->productRepo->listProducts();
         }
 
+        if(request()->has('exclude_sold_out') && request()->input('exclude_sold_out') == 1){
+            $list = $list->where('quantity','>',0);
+        }
+
+
+        if(request()->has('order') && request()->input('order') == 1 ){
+            $list = $list->sortBy('name');
+        }
+
         $products = $list->where('status', 1)->map(function (Product $item) {
             return $this->transformProduct($item);
         });
 
+        $perPage = 20;
+
+        if(request()->has('page_itens') && request()->input('page_itens') != 0 ){
+            $perPage = request()->input('page_itens');
+        }
+
         return view('front.products.product-search', [
-            'products' => $this->productRepo->paginateArrayResults($products->all(), 30),
+            'products' => $this->productRepo->paginateArrayResults($products->all(), $perPage),
             'config'=>$this->getConfig()
         ]);
     }
