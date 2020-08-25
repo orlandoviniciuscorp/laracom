@@ -237,7 +237,7 @@
                                                     <input type="hidden" name="_method" value="put">
                                                     <input type="number"
                                                            name="quantity"
-                                                           size="4" min="0" step="1"
+                                                           size="5" min="0" step="1"
                                                            class="c-input-text qty text"
                                                         value="{{$cartItem->qty}}">
                                                 </div>
