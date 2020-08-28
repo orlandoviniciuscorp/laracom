@@ -66,7 +66,7 @@
                                @foreach($order->products as $key => $product)
                                 &nbsp;<strong>{{$product->pivot->quantity }}</strong> - {{$product->name }} <br />
 
-                                   @if($key > 0 && $key % 44 == 0)
+                                   @if($key > 0 && $key % 40 == 0)
 
                                                     </td>
                                                 </tr>
