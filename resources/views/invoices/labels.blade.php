@@ -63,8 +63,55 @@
                         </td>
                         <td width="60%">
                             <strong>Produtos:</strong><br />
-                               @foreach($order->products as $product)
+                               @foreach($order->products as $key => $product)
                                 &nbsp;<strong>{{$product->pivot->quantity }}</strong> - {{$product->name }} <br />
+
+                                   @if($key % 50 == 0)
+
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                    <br />
+                                    <br />
+                                    <table>
+                                        <tr>
+                                            <td width="40%" style="padding-left: 5px">
+                                                {{env('APP_NAME')}} - {{$order->fair->name}}<br /><br />
+                                                <strong>Número do Pedido</strong>: #{{$order->id}} - Etiqueta complementar
+                                                <br />
+                                                <br />
+
+                                                <strong>Cliente - Telefone</strong>
+                                                <br />
+                                                {{$order->customer->name}} -
+                                                <small> {{$order->address->phone}}
+                                                </small>
+                                                <br /><br/>
+                                                <strong>Valor a Pagar</strong>
+                                                <br />
+                                                <small><strong>Dinheiro:</strong> {{currency_format($order->total)}}
+                                                </small>
+                                                <br/>
+                                                <small><strong>Cartão:</strong> {{currency_format($order->total * 1.025)}}</small>
+                                                <br />
+                                                <br />
+                                                <strong>Forma de Pagamento:</strong>
+                                                {{$order->payment}}
+                                                <br />
+                                                <strong>Tipo de Entrega:</strong>
+                                                {{$order->courier->name}}
+                                                <br />
+
+                                                <strong>Endereço:</strong> <br/>
+                                                {{$order->address->address_1}} - {{$order->address->address_2}} - {{$order->address->neighborhoods}}
+                                                <br /><br/>
+                                                Observação: <br />
+                                                <small> <strong>{{$order->obs}}</strong>
+                                                </small>
+                                            </td>
+                                            <td width="60%">
+                                                <strong>Produtos:</strong><br />
+                                   @endif
                                 @endforeach
                         </td>
                     </tr>
