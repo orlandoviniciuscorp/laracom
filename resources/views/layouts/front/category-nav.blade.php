@@ -1,6 +1,6 @@
 <section class="hero hero-normal">
         <div class="container">
-                <form action="{{route('search.product')}}">
+                <form action="{{route('search.product')}}" name="form_search" id="form_search">
                 <div class="row">
 
                         <div class="col-lg-3">
@@ -28,7 +28,6 @@
                                                         <input type="text" name="q" placeholder="Do que você precisa?">
                                                         <button type="submit" class="site-btn">Buscar</button>
                                                         <br />
-                                                        <input type="text" placeholder="Do que você precisa?">
 
                                                         <button type="submit" class="site-btn">Buscar</button>
 
@@ -57,9 +56,10 @@
                         <div class="col-lg-2">
                         </div>
                         <div class="col-lg-2">
-                                <label for="exclude_sold_out" >Excluir esgotados: &nbsp;</label>
+                                <label for="exclude_sold_out" >Não exibir esgotados: &nbsp;</label>
                                 <input type="checkbox" id="exclude_sold_out"
                                        name="exclude_sold_out"
+                                       onclick="submitForm()"
                                        @if(app('request')->input('exclude_sold_out') != null)
                                         checked
                                        @endif
@@ -72,20 +72,41 @@
                                 <label for="order_id" >Ordenação: </label>
                         </div>
                         <div class="col-lg-2">
-                                <select id="order_id" name="order" >
+                                <select id="order_id" name="order" onchange="submitForm()">
                                         <option value="0">Padrão</option>
-                                        <option value="1">Alfabética</option>
+                                        <option value="1"
+                                        @if(app('request')->input('order') != null &&
+                                            app('request')->input('order') == 1)
+                                                selected
+                                        @endif
+                                                >Alfabética</option>
                                 </select>
                         </div>
                         <div class="col-lg-2">
-                                <label for="order_id" >Itens por Página: </label>
+                                <label for="page_itens" >Itens por Página: </label>
                         </div>
                         <div class="col-lg-2">
-                                <select id="page_itens" name="page_itens" >
-                                        <option value="0">Padrão</option>
-                                        <option value="10">10</option>
-                                        <option value="15">15</option>
-                                        <option value="50">50</option>
+                                <select id="page_itens" name="page_itens" onchange="submitForm()">
+                                        <option value="0"
+                                        @if(app('request')->input('page_itens') != null &&
+                                            app('request')->input('page_itens') == 0)
+                                                selected
+                                        @endif>Padrão</option>
+                                        <option value="10"
+                                                @if(app('request')->input('page_itens') != null &&
+                                                    app('request')->input('page_itens') == 10)
+                                                selected
+                                        @endif>10</option>
+                                        <option value="15"
+                                                @if(app('request')->input('page_itens') != null &&
+                                                    app('request')->input('page_itens') == 15)
+                                                selected
+                                        @endif>15</option>
+                                        <option value="50"
+                                                @if(app('request')->input('page_itens') != null &&
+                                                    app('request')->input('page_itens') == 50)
+                                                selected
+                                        @endif>50</option>
                                 </select>
                         </div>
 
@@ -98,3 +119,13 @@
         </div>
 
 </section>
+
+@section('post-script')
+        <script>
+                function submitForm(){
+
+                        document.getElementById("form_search").submit();
+                }
+
+        </script>
+@endsection
