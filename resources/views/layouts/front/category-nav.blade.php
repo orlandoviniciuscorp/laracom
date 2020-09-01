@@ -56,7 +56,7 @@
                         <div class="col-lg-2">
                         </div>
                         <div class="col-lg-2">
-                                <label for="exclude_sold_out" >Não exibir esgotados: &nbsp;</label>
+                                <label for="exclude_sold_out" >Esconder esgotados: &nbsp;</label>
                                 <input type="checkbox" id="exclude_sold_out"
                                        name="exclude_sold_out"
                                        onclick="submitForm()"
