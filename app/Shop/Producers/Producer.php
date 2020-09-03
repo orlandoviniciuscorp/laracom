@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Producer extends Model
 {
-    use NodeTrait;
+
     
     /**
      * The attributes that are mass assignable.

@@ -14,8 +14,6 @@ class CreateTableProductor extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('productors');
-        Schema::dropIfExists('producers');
 
         Schema::create('producers', function (Blueprint $table) {
             $table->increments('id');
@@ -39,11 +37,11 @@ class CreateTableProductor extends Migration
             $producer->cover = $category->cover;
             $producer->status = $category->status;
             $producer->description = $category->description;
-            dump($producer);
+            dump('Migrando o ' .$producer->name);
             $producer->save();
 
         }
-        dd('fim');
+
     }
 
     /**
