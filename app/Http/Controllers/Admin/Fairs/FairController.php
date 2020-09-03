@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Fairs;
 
+use App\Exports\HarverstExport;
 use App\Shop\Addresses\Repositories\Interfaces\AddressRepositoryInterface;
 use App\Shop\Addresses\Transformations\AddressTransformable;
 use App\Shop\Couriers\Courier;
@@ -21,6 +22,7 @@ use App\Shop\OrderStatuses\Repositories\OrderStatusRepository;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Facades\Excel;
 
 class FairController extends Controller
 {
@@ -122,15 +124,16 @@ class FairController extends Controller
 
     public function showHarvest($fair_id)
     {
-        $harvest = $this->fairRepo->harvest($fair_id);
+//        $harvest = $this->fairRepo->harvest($fair_id);
 
-        $data = ['harvest'=>$harvest];
+//        $data = ['harvest'=>$harvest];
 
 //        $pdf = app()->make('dompdf.wrapper');
 //        $pdf->loadView('invoices.harvest', $data)->stream();
 
 //        return $pdf->stream();
-        return view('invoices.harvest', $data);
+//        return view('invoices.harvest', $data);
+        return Excel::download(new HarverstExport($this->fairRepo,$this->orderRepo,$fair_id),'colheita.xlsx');
     }
 
     public function generateLabel($fair_id)   {
