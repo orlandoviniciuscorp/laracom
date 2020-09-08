@@ -22,14 +22,16 @@
                                         <div class="hero__search__form">
 
                                                         <div class="hero__search__categories">
-                                                                Todos os Produtores
+                                                                Buscar
 
                                                         </div>
-                                                        <input type="text" name="q" placeholder="Do que você precisa?">
+                                                        <input type="text" name="q" placeholder="Do que você precisa?"
+                                                        @if(request()->has("q"))
+                                                                value="{!! request()->get("q") !!}"
+                                                        @endif
+                                                        >
                                                         <button type="submit" class="site-btn">Buscar</button>
                                                         <br />
-
-                                                        <button type="submit" class="site-btn">Buscar</button>
 
 
                                         </div>
