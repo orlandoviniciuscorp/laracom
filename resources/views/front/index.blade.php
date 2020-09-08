@@ -36,7 +36,7 @@
                                     Buscar
                                     <span class="arrow_carrot-down"></span>
                                 </div>
-                                <input type="text" placeholder="Do que você precisa?">
+                                <input type="text" name="q" placeholder="Do que você precisa?">
                                 <button type="submit" class="site-btn">Buscar</button>
                             </form>
                         </div>
