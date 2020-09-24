@@ -198,6 +198,19 @@ class FairController extends Controller
             ->with('fair',$this->fairRepo->find($fair_id));
     }
 
+    public function markAllAssPayed($fair_id)
+    {
+        $orders = $this->orderRepo->findByFairId($fair_id);
+
+        $orderStatus = $this->orderStatusRepo->findByName('Pago');
+        foreach ($orders as $order) {
+            $this->orderRepo->markAsPayed($order->id,$orderStatus);
+        }
+
+
+        return redirect()->route('admin.dashboard');
+    }
+
     /**
      * @param Collection $list
      * @return array
