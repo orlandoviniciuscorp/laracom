@@ -19,6 +19,7 @@ class Controller extends BaseController
 
     protected $categoryRepo;
 
+    protected $producerRepo;
 
     protected function loggedUser()
     {
@@ -37,6 +38,10 @@ class Controller extends BaseController
 
     public function getCategoryOrder(){
         return $this->categoryRepo->pageOrder();
+    }
+
+    public function getProducerOrder(){
+        return $this->producerRepo->pageOrder();
     }
 
 

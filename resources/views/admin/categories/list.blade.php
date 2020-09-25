@@ -12,7 +12,7 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <td class="col-md-3">Produtor</td>
+                                <td class="col-md-3">Produtores</td>
                                 <td class="col-md-3">Logo</td>
                                 <td class="col-md-3">Status</td>
                                 <td class="col-md-3">Ações</td>

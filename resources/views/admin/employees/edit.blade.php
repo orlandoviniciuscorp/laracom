@@ -32,6 +32,17 @@
                             @endforeach
                         </select>
                     </div>
+
+                    <div class="form-group">
+                        <label for="roles">Sítio </label>
+                        <select name="producer_id" id="producer_id" class="form-control select2">
+                            <option value=""></option>
+                            @foreach($producers as $producer)
+                                <option @if($producer->id == $employee->producer_id) selected="selected" @endif value="{{ $producer->id }}">{{ $producer->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     @include('admin.shared.status-select', ['status' => $employee->status])
                 </div>
 

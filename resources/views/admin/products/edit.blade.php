@@ -99,14 +99,16 @@
                                                 @endif
                                                 @if(!$productAttributes->isEmpty())<span class="text-danger">Note: Price is disabled. Price is derived based on the combination.</span> @endif
                                             </div>
-                                            {{--<div class="form-group">--}}
-                                                {{--<label for="sale_price">Preço de Venda</label>--}}
-                                                {{--<div class="input-group">--}}
-                                                    {{--<span class="input-group-addon">{{ config('cart.currency') }}</span>--}}
-                                                    {{--<input type="text" pattern="[\d.]*"  name="sale_price" id="sale_price" placeholder="Preço de Venda" class="form-control" value="{{ $product->sale_price }}">--}}
-                                                {{--</div>--}}
-                                                {{--<small class="text-danger">Para valores com centavos utilize ponto</small>--}}
-                                            {{--</div>--}}
+
+                                            <div class="form-group">
+                                                <label for="producer_id">Produtor </label>
+                                                <select name="producer_id" id="producer_id" class="form-control select2">
+                                                    <option value=""></option>
+                                                    @foreach($producers as $producer)
+                                                        <option @if($producer->id == $product->producer_id) selected="selected" @endif value="{{ $producer->id }}">{{ $producer->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
 
                                             <div class="form-group">
                                                 <label for="is_distinct">Produto diferenciável <span class="text-danger">*</span></label>
@@ -125,8 +127,8 @@
                                                             @if(isset($product->is_distinct) && $product->is_distinct == 1)   checked ='checked' @endif
                                                             value="1"> Sim
                                                 </div>
-                                                </label>
                                             </div>
+
 
                                             <div class="form-group">
                                                 <label for="table_percent">Tabela de Porcentagem</label>
@@ -248,7 +250,7 @@
                                                     </select>
                                                 </div>
                                             @endif
-                                            <div class="form-group">
+                                                <div class="form-group">
                                                 @include('admin.shared.status-select', ['status' => $product->status])
                                             </div>
                                             {{--@include('admin.shared.attribute-select', [compact('default_weight')])--}}

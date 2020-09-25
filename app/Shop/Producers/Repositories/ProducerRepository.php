@@ -44,13 +44,13 @@ class ProducerRepository extends BaseRepository implements ProducerRepositoryInt
 
     public function pageOrder(){
 
-        return $this->model->orderBy('page_order')->get();
+        return $this->model->orderBy('id')->get();
 
     }
 
     public function allActive()
     {
-        return $this->model->where('status',1)->orderBy('page_order')->get();
+        return $this->model->where('status',1)->orderBy('id')->get();
     }
 
 

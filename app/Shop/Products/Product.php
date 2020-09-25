@@ -4,6 +4,7 @@ namespace App\Shop\Products;
 
 use App\Shop\Brands\Brand;
 use App\Shop\Categories\Category;
+use App\Shop\Producers\Producer;
 use App\Shop\ProductAttributes\ProductAttribute;
 use App\Shop\ProductImages\ProductImage;
 use App\Shop\Percentages\Percentage;
@@ -68,7 +69,8 @@ class Product extends Model implements Buyable
         'distance_unit',
         'slug',
         'is_distinct',
-        'percentage_id'
+        'percentage_id',
+        'producer_id'
     ];
 
     protected $with = ['percentage'];
@@ -87,6 +89,10 @@ class Product extends Model implements Buyable
 
     public function percentage(){
         return $this->belongsTo(Percentage::class);
+    }
+
+    public function producer(){
+        return $this->belongsTo(Producer::class);
     }
 
     /**

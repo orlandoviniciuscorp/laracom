@@ -20,9 +20,9 @@
                             <span>Produtores</span>
                         </div>
                         <ul>
-                            @foreach($categories as $category)
-                                <li><a href="{{route('front.category.slug',$category->slug)}}">
-                                        {{$category->name}}</a></li>
+                            @foreach($producers as $producer)
+                                <li><a href="{{route('front.producer.slug',$producer->slug)}}">
+                                        {{$producer->name}}</a></li>
                             @endforeach
 
                         </ul>

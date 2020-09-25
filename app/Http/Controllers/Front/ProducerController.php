@@ -2,44 +2,48 @@
 
 namespace App\Http\Controllers\Front;
 
-use App\Shop\Categories\Repositories\CategoryRepository;
-use App\Shop\Categories\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Http\Controllers\Controller;
+use App\Shop\Categories\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Shop\Configurations\Repositories\ConfigurationRepository;
+use App\Shop\Producers\Repositories\ProducerRepository;
 
-class CategoryController extends Controller
+class ProducerController extends Controller
 {
 
 
     /**
-     * CategoryController constructor.
+     * ProducerController constructor.
      *
-     * @param CategoryRepositoryInterface $categoryRepository
+     * @param ProducerRepositoryInterface $producerRepository
      */
-    public function __construct(CategoryRepositoryInterface $categoryRepository,
-                                ConfigurationRepository $configurationRepository)
+    public function __construct(ProducerRepository $producerRepository,
+                                ConfigurationRepository $configurationRepository,
+                                CategoryRepositoryInterface $categoryRepository)
     {
+        $this->producerRepo = $producerRepository;
         $this->categoryRepo = $categoryRepository;
         $this->configRepo = $configurationRepository;
     }
 
     /**
-     * Find the category via the slug
+     * Find the producer via the slug
      *
      * @param string $slug
-     * @return \App\Shop\Categories\Category
+     * @return \App\Shop\Categories\Producer
      */
-    public function getCategory(string $slug)
+    public function getProducer(string $slug)
     {
-        $category = $this->categoryRepo->findCategoryBySlug(['slug' => $slug]);
+        $producer = $this->producerRepo->findProducerBySlug(['slug' => $slug]);
 
-        $repo = new CategoryRepository($category);
+        $repo = new ProducerRepository($producer);
 
         $products = $repo->findProducts()->where('status', 1)->all();
+//        dd($products);
 
-        return view('front.categories.category', [
+        return view('front.producers.producer', [
+            'producers'=>$this->getProducerOrder(),
             'cats'=>$this->getCategoryOrder(),
-            'category' => $category,
+            'producer' => $producer,
             'products' => $repo->paginateArrayResults($products, 20),
             'config'=>$this->getConfig()
         ]);

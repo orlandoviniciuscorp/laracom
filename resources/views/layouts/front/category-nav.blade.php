@@ -10,8 +10,8 @@
                                                 <span>Produtores</span>
                                         </div>
                                         <ul>
-                                                @foreach($categories as $category)
-                                                        <li><a href="{{route('front.category.slug',$category->slug)}}">{{$category->name}}</a></li>
+                                                @foreach($producers as $producer)
+                                                        <li><a href="{{route('front.producer.slug',$producer->slug)}}">{{$producer->name}}</a></li>
                                                 @endforeach
 
                                         </ul>
@@ -117,6 +117,17 @@
                 <div class="container">
                         <br />
                         @include('layouts.errors-and-messages')
+                </div>
+        </div>
+        <div class="filter__item">
+                <div class="row">
+                        <div class="col-lg-4 col-md-5">
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                                <div class="filter__found">
+                                        <h6><span>{{$products->total()}}</span> Produtos Encontrados</h6>
+                                </div>
+                        </div>
                 </div>
         </div>
 

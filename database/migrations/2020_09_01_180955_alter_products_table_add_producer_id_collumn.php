@@ -13,9 +13,6 @@ class AlterProductsTableAddProducerIdCollumn extends Migration
      */
     public function up()
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->dropColumn('producer_id');
-        });
 
         Schema::table('products', function (Blueprint $table) {
             $table->integer('producer_id');
@@ -25,13 +22,13 @@ class AlterProductsTableAddProducerIdCollumn extends Migration
         dump('Atualizando ' . $products->count() . ' produtos.');
         foreach ($products as $product){
 
-            dump("Atualizando o produto ". $product->name);
+            //dump("Atualizando o produto ". $product->name);
             foreach($product->categories as $category) {
 
 
                 $producer = app(\App\Shop\Producers\Repositories\ProducerRepository::class)
                     ->findProducerBySlug(['slug'=>$category->slug]);
-                dump("Associando o produto ". $product->name . " ao produtor " .$producer->name);
+                dump("Associando o produto ". $product->name . " ao produtor " .$producer->name . ' ID: '. $producer->id);
             $product->producer_id = $producer->id;
             $product->save();
             }
