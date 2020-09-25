@@ -204,10 +204,12 @@ class FairController extends Controller
 
         $orderStatus = $this->orderStatusRepo->findByName('Pago');
         foreach ($orders as $order) {
+            if($order->order_status_id != env('ORDER_CANCELED') &&
+                $order->order_status_id != env('ORDER_ERROR'))
             $this->orderRepo->markAsPayed($order->id,$orderStatus);
         }
 
-
+        request()->session()->flash('message',$this->getSucessMesseger());
         return redirect()->route('admin.dashboard');
     }
 
