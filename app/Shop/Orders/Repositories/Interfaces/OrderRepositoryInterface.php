@@ -32,4 +32,6 @@ interface OrderRepositoryInterface extends BaseRepositoryInterface
     public function getCouriers() : Collection;
 
     public function findByFairId($fair_id);
+
+    public function markAsPayed($id,$orderStatus);
 }
