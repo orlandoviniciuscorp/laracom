@@ -3,7 +3,7 @@
 @section('content')
     <!-- Main content -->
     <section class="content">
-
+    @include('layouts.errors-and-messages')
         <!-- Default box -->
         <div class="box">
             <div class="box-header with-border">
@@ -64,10 +64,18 @@
                                             <a href="{{ route('admin.fair.financial', $fair->id) }}" class="btn btn-success btn-sm">
                                                 <i class="fa fa-usd" aria-hidden="true"></i> Financeiro
                                             </a>
-
-
                                     </li>
-
+                                    @if(auth()->guard('employee')->user()->hasRole('admin|superadmin'))
+                                        <li class="list-group-item">
+                                            <form action="{{route('admin.fair.mark-all-as-payed',$fair->id)}}" method="post"  class="form-horizontal">
+                                                {{ csrf_field() }}
+                                                <button onclick="return confirm('Todos os pagamentos dessa feirão ficarão como pagos. Tem certeza?')"
+                                                        type="submit" class="btn btn-danger btn-sm">
+                                                    <i class="fa fa-usd" aria-hidden="true"></i> Marcar todos Pagos
+                                                </button>
+                                            </form>
+                                        </li>
+                                    @endif
                                 </ul>
                                     @else
                                     <ul class="list-group list-group-flush">
@@ -132,6 +140,8 @@
                                             @endif
                                     </li>
                                 @endif
+
+
 
                             </ul>
                         </div>

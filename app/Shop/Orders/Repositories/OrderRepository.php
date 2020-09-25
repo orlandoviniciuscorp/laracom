@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;
+use phpDocumentor\Reflection\Types\Integer;
 
 class OrderRepository extends BaseRepository implements OrderRepositoryInterface
 {
@@ -243,5 +244,17 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     public function findByFairId($fair_id)
     {
         return $this->model->where('fair_id',$fair_id)->get();
+    }
+
+    public function markAsPayed($id,$orderStatus)
+    {
+
+        $order = $this->findOrderById((int) $id);
+        $order->order_status_id = $orderStatus->id;
+        $order->total_paid = $order->total;
+
+        $order->save();
+
+        return $order;
     }
 }

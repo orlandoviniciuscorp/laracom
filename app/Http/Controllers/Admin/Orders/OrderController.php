@@ -205,13 +205,11 @@ class OrderController extends Controller
     }
 
     public function markAsPayed($id){
-        $order =$this->orderRepo->find($id);
         $orderStatus = $this->orderStatusRepo->findByName('Pago');
 
-        $order->order_status_id = $orderStatus->id;
-        $order->total_paid = $order->total;
+        $order = $this->orderRepo->markAsPayed($id,$orderStatus);
 
-        $order->save();
+
 
         request()->session()->flash('message',$this->getSucessMesseger());
         return redirect()->route('admin.fair.orders-list', $order->fair_id);
