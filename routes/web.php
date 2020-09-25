@@ -85,6 +85,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
                 Route::get('/{fair_id}/delivery', 'Fairs\FairController@generateDeliveryList')->name('fair.delivery');
                 Route::get('/{fair_id}/financial', 'Fairs\FairController@financial')->name('fair.financial');
                 Route::get('/{fair_id}/detail-report', 'Fairs\FairController@detailReport')->name('fair.detail-report');
+                Route::post('/{fair_id}/mark-all-as-payed', 'Fairs\FairController@markAllAssPayed')->name('fair.mark-all-as-payed');
 
 
             });
