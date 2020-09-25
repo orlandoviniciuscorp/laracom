@@ -11,13 +11,13 @@
                 <div class="box-body">
                     <h2>Feiras</h2>
                     @include('layouts.search', ['route' => route('admin.orders.index')])
-                    <table class="table">
+                    <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <td class="col-md-2">Nome</td>
+                                <td class="col-md-1">Nome</td>
                                 <td class="col-md-2">Início</td>
-                                <td class="col-md-2">Status</td>
-                                <td class="col-md-6">Ações</td>
+                                <td class="col-md-1">Status</td>
+                                <td class="col-md-8">Ações</td>
                                 {{--<td class="col-md-2">Total</td>--}}
                                 {{--<td class="col-md-2">Status</td>--}}
                             </tr>
@@ -25,6 +25,7 @@
                         <tbody>
                         @foreach ($fairs as $fair)
                             <tr>
+                                <form action="{{route('admin.fair.mark-all-as-payed',$fair->id)}}" method="post"  class="form-horizontal">
                                 {{--<td>{{ date('M d, Y h:i a', strtotime($order->created_at)) }}</a></td>--}}
                                 <td>
                                     <a title="Show order" href="{{ route('admin.fair.show', $fair->id) }}">
@@ -43,7 +44,7 @@
                                         </span>
                                     @endif
                                 </td>
-                                <td>
+                                <td style="">
                                     <a href="{{ route('admin.fair.orders-list', $fair->id) }}" class="btn btn-primary btn-sm">
                                         <i class="fa fa-money"></i> Pedidos
                                     </a>
@@ -55,8 +56,6 @@
                                     <a href="{{ route('admin.fair.delivery', $fair->id) }}" class="btn btn-primary btn-sm">
                                         <i class="fa fa-truck" aria-hidden="true"></i> Entregas
                                     </a>
-                                    <br />
-
                                     <a href="{{ route('admin.fair.pending', $fair->id) }}" class="btn btn-danger btn-sm">
                                         <i class="fa fa-bomb" aria-hidden="true"></i> Pedidos Pendentes
                                     </a>
@@ -70,9 +69,19 @@
                                             <i class="fa fa-usd" aria-hidden="true"></i> Financeiro
                                         </a>
 
+                                    @if(auth()->guard('employee')->user()->hasRole('superadmin'))
+
+                                            {{ csrf_field() }}
+                                            <button onclick="return confirm('Todos os pagamentos dessa feirão ficarão como pagos. Tem certeza?')"
+                                                    type="submit" class="btn btn-danger btn-sm">
+                                                <i class="fa fa-usd" aria-hidden="true"></i> Marcar todos Pagos
+                                            </button>
+
+                                    @endif
+
 
                                 </td>
-
+                                </form>
                             </tr>
                         @endforeach
                         </tbody>
