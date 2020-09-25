@@ -65,7 +65,7 @@
                                                 <i class="fa fa-usd" aria-hidden="true"></i> Financeiro
                                             </a>
                                     </li>
-                                    @if(auth()->guard('employee')->user()->hasRole('admin|superadmin'))
+                                    @if(auth()->guard('employee')->user()->hasRole('superadmin'))
                                         <li class="list-group-item">
                                             <form action="{{route('admin.fair.mark-all-as-payed',$fair->id)}}" method="post"  class="form-horizontal">
                                                 {{ csrf_field() }}
