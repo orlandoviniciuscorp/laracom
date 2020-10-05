@@ -14,10 +14,10 @@
                             <thead>
                             <tr>
                                 <th class="shoping__product">Produtos</th>
-                                <th>Preço</th>
                                 <th>Quantidade</th>
-                                <th>Total</th>
                                 <th></th>
+                                <th>Preço</th>
+                                <th>Total</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -26,9 +26,6 @@
                                     <td class="shoping__cart__item">
                                         <img src="{{asset("storage/$cartItem->cover")}}" class="mh-100" style="width: 50px; height: 50px; alt="">
                                         <h5>{{ $cartItem->name }}</h5>
-                                    </td>
-                                    <td class="shoping__cart__price">
-                                        {{config('cart.currency')}} {{ number_format($cartItem->price, 2) }}
                                     </td>
                                     <td class="shoping__cart__quantity">
                                         <form action="{{ route('cart.update', $cartItem->rowId) }}" class="form-inline" method="post">
@@ -45,16 +42,21 @@
 
                                         </form>
                                     </td>
-                                    <td class="shoping__cart__total">
-                                        {{config('cart.currency')}} {{ number_format(($cartItem->qty*$cartItem->price), 2) }}
-                                    </td>
                                     <td class="shoping__cart__item__close">
-                                        <form action="{{ route('cart.destroy', $cartItem->rowId) }}" method="post">
+                                        <form action="{{ route('cart.destroy', $cartItem->rowId) }}" method="post" class="form-inline">
                                             {{ csrf_field() }}
                                             <input type="hidden" name="_method" value="delete">
                                             <button onclick="return confirm('Tem certeza que deseja remover o Item?')" class="btn btn-danger btn-sm"><span class="icon_close"></span></button>
                                         </form>
                                     </td>
+                                    <td class="shoping__cart__price">
+                                        {{config('cart.currency')}} {{ number_format($cartItem->price, 2) }}
+                                    </td>
+
+                                    <td class="shoping__cart__total">
+                                        {{config('cart.currency')}} {{ number_format(($cartItem->qty*$cartItem->price), 2) }}
+                                    </td>
+
                                 </tr>
                             @endforeach
                             </tbody>
