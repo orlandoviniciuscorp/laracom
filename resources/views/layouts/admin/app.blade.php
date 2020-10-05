@@ -8,6 +8,10 @@
     <title>{{ config('app.name') }}</title>
 
     <link rel="stylesheet" href="{{ asset('css/admin.min.css') }}">
+    <style>
+        .btn-default.btn-on.active{background-color: #006FFC;color: white;}
+        .btn-default.btn-off.active{background-color: #DA4F49;color: white;}
+    </style>
     @yield('css')
     <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('favicons/apple-icon-57x57.png')}}">
     <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('favicons/apple-icon-60x60.png')}}">

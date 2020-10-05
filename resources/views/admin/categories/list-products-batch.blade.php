@@ -23,11 +23,32 @@
                         @foreach ($products as $product)
                             <tr>
                                 <td>
-                                    {{ $product->name }}
+                                    <input type="hidden" name="id_{{$product->id}}" value="{{$product->id}}" >
+                                    <input type="text" class="col-md-8" name="name_{{$product->id}}" value="{{$product->name}}" />
                                 </td>
-                                <td>@include('layouts.status', ['status' => $product->status])</td>
                                 <td>
-                                    <input type="number" name="{{$product->id}}" value="{{$product->quantity}}" />
+                                    <div class="btn-group" id="status" data-toggle="buttons">
+                                        <label class="btn btn-default btn-on btn-xs
+                            @if($product->status == 1)
+                                                active
+@endif
+                                                ">
+                                            <input type="radio" value="1" name="status_{{$product->id}}"
+                                                   @if($product->status == 1)
+                                                   checked="checked"
+                                                    @endif
+                                            >Habilitado</label>
+                                        <label class="btn btn-default btn-off btn-xs @if($product->status == 0) active @endif">
+                                            <input type="radio" value="0" name="status_{{$product->id}}"
+                                                   @if($product->status == 0)
+                                                   checked="checked"
+                                                    @endif
+                                            >Desabilitado</label>
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <input type="number" name="quantity_{{$product->id}}" value="{{$product->quantity}}" />
                                 </td>
                             </tr>
                         @endforeach
