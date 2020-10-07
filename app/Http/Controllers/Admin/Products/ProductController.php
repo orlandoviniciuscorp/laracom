@@ -341,7 +341,7 @@ class ProductController extends Controller
             }
 
         }
-        
+
         $request->session()->flash('message', $this->getSucessMesseger());
         return redirect()->route('admin.categories.list.products')->with('message',$this->getSucessMesseger());
     }
