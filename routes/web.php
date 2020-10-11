@@ -61,6 +61,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
                 Route::get('/list-batch/{id}','CategoryController@listProductsBatch')->name('categories.products.list-batch');
 
             });
+
+            Route::namespace('Producers')->group(function () {
+                Route::resource('producers', 'ProducerController');
+                Route::get('/list-batch','ProducerController@listProducers')->name('producer.list.products');
+                Route::get('/list-batch/{id}','ProducerController@listProductsBatch')->name('producers.products.list-batch');
+            });
+
             Route::namespace('Orders')->group(function () {
                 Route::resource('orders', 'OrderController');
                 Route::resource('order-statuses', 'OrderStatusController');
@@ -151,6 +158,7 @@ Route::namespace('Front')->group(function () {
     Route::resource('cart', 'CartController');
     Route::post("/add-to-cart", 'CartController@addToCartAjax')->name('front.add.cart');
     Route::get("category/{slug}", 'CategoryController@getCategory')->name('front.category.slug');
+    Route::get("producer/{slug}", 'ProducerController@getProducer')->name('front.producer.slug');
     Route::get("search", 'ProductController@search')->name('search.product');
     Route::get("{product}", 'ProductController@show')->name('front.get.product');
 

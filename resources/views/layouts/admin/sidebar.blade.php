@@ -28,7 +28,7 @@
                 </a>
                 <ul class="treeview-menu">
                     @if($user->hasPermission('view-product'))<li><a href="{{ route('admin.products.index') }}"><i class="fa fa-circle-o"></i> Lista de Produtos</a></li>@endif
-                        @if($user->hasPermission('view-product'))<li><a href="{{ route('admin.categories.list.products') }}"><i class="fa fa-list" aria-hidden="true"></i>Atualizar em Lote</a></li>@endif
+                        @if($user->hasPermission('view-product'))<li><a href="{{ route('admin.producer.list.products') }}"><i class="fa fa-list" aria-hidden="true"></i>Atualizar em Lote</a></li>@endif
                     @if($user->hasPermission('create-product'))<li><a href="{{ route('admin.products.create') }}"><i class="fa fa-plus"></i> Criar Produto</a></li>@endif
                     <li class="@if(request()->segment(2) == 'attributes') active @endif">
                     <a href="#">
@@ -70,14 +70,26 @@
             </li>
             <li class="treeview @if(request()->segment(2) == 'categories') active @endif">
                 <a href="#">
+                    <i class="fa fa-circle" aria-hidden="true"></i> <span>Categorias</span>
+                    <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ route('admin.categories.index') }}"><i class="fa fa-circle-o"></i> Lista de Categorias</a></li>
+                    <li><a href="{{ route('admin.categories.create') }}"><i class="fa fa-plus"></i> Cadastrar Categoria</a></li>
+                </ul>
+            </li>
+            <li class="treeview @if(request()->segment(2) == 'categories') active @endif">
+                <a href="#">
                     <i class="fa fa-users" aria-hidden="true"></i> <span>Produtores</span>
                     <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ route('admin.categories.index') }}"><i class="fa fa-circle-o"></i> Lista de Produtores</a></li>
-                    <li><a href="{{ route('admin.categories.create') }}"><i class="fa fa-plus"></i> Cadastrar Produtores</a></li>
+                    <li><a href="{{ route('admin.producers.index') }}"><i class="fa fa-circle-o"></i> Lista de Produtores</a></li>
+                    <li><a href="{{ route('admin.producers.create') }}"><i class="fa fa-plus"></i> Cadastrar Produtores</a></li>
                 </ul>
             </li>
             <li class="treeview @if(request()->segment(2) == 'customers' || request()->segment(2) == 'addresses') active @endif">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Shop\Categories\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Shop\Configurations\Repositories\ConfigurationRepository;
+use App\Shop\Producers\Repositories\ProducerRepository;
 use App\Shop\Products\Product;
 use App\Shop\Products\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Http\Controllers\Controller;
@@ -18,14 +19,18 @@ class ProductController extends Controller
      */
     protected $productRepo;
 
+
+
     /**
      * ProductController constructor.
      * @param ProductRepositoryInterface $productRepository
      */
     public function __construct(ProductRepositoryInterface $productRepository,
                                 CategoryRepositoryInterface $categoryRepository,
-                                ConfigurationRepository $configurationRepository)
+                                ConfigurationRepository $configurationRepository,
+                                ProducerRepository $producerRepository)
     {
+        $this->producerRepo = $producerRepository;
         $this->categoryRepo = $categoryRepository;
         $this->productRepo = $productRepository;
         $this->configRepo = $configurationRepository;
@@ -63,7 +68,8 @@ class ProductController extends Controller
 
         return view('front.products.product-search', [
             'products' => $this->productRepo->paginateArrayResults($products->all(), $perPage),
-            'config'=>$this->getConfig()
+            'config'=>$this->getConfig(),
+            'cats'=>$this->getCategoryOrder()
         ]);
     }
 
@@ -96,6 +102,7 @@ class ProductController extends Controller
         });
         return view('front.products.product-list', [
             'cats'=>$this->getCategoryOrder(),
+            'producers'=>$this->getProducerOrder(),
             'products' => $this->productRepo->paginateArrayResults($products->all(), 30),
             'config'=> $this->getConfig()
         ]);

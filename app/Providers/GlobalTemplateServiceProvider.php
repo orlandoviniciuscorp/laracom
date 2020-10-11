@@ -8,6 +8,8 @@ use App\Shop\Categories\Category;
 use App\Shop\Categories\Repositories\CategoryRepository;
 use App\Shop\Employees\Employee;
 use App\Shop\Employees\Repositories\EmployeeRepository;
+use App\Shop\Producers\Producer;
+use App\Shop\Producers\Repositories\ProducerRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 
@@ -35,6 +37,7 @@ class GlobalTemplateServiceProvider extends ServiceProvider
         //dd($this->getCategories());
         view()->composer(['layouts.front.app', 'front.categories.sidebar-category','front.index'], function ($view) {
             $view->with('categories', $this->getCategories());
+            $view->with('producers', $this->getProducers());
             $view->with('cartCount', $this->getCartCount());
             $view->with('totalCartItens',$this->getTotalItems());
         });
@@ -67,6 +70,7 @@ class GlobalTemplateServiceProvider extends ServiceProvider
 
         view()->composer(['layouts.front.category-nav'], function ($view) {
             $view->with('categories', $this->getCategories());
+            $view->with('producers', $this->getProducers());
         });
     }
 
@@ -79,6 +83,11 @@ class GlobalTemplateServiceProvider extends ServiceProvider
         $categoryRepo = new CategoryRepository(new Category);
         return $categoryRepo->allActive();
 
+    }
+
+    private function getProducers(){
+        $producerRepo = new ProducerRepository(new Producer);
+        return $producerRepo->allActive();
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Shop\Producers;
 
+use App\Shop\Employees\Employee;
 use App\Shop\Products\Product;
 use Kalnoy\Nestedset\NodeTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -33,6 +34,10 @@ class Producer extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->hasMany(Product::class);
+    }
+
+    public function employee(){
+        return $this->hasMany(Employee::class);
     }
 }

@@ -19,7 +19,7 @@ class CreateTableProductor extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('slug');
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->string('cover')->nullable();
             $table->integer('status')->default(0);
             $table->timestamps();

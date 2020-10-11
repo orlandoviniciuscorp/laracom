@@ -21,7 +21,7 @@
                         @foreach ($categories as $category)
                             <tr>
                                 <td>
-                                    <a href="{{ route('admin.categories.products.list-batch', $category->id) }}">{{ $category->name }}</a>
+                                    <a href="{{ route('admin.producers.products.list-batch', $category->id) }}">{{ $category->name }}</a>
                                 </td>
                                 <td>@include('layouts.status', ['status' => $category->status])</td>
                                 <td>

@@ -2,6 +2,7 @@
 
 namespace App\Shop\Employees;
 
+use App\Shop\Producers\Producer;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -20,7 +21,8 @@ class Employee extends Authenticatable
         'name',
         'email',
         'password',
-        'status'
+        'status',
+        'producer_id',
     ];
 
     /**
@@ -34,4 +36,8 @@ class Employee extends Authenticatable
     ];
 
     protected $dates = ['deleted_at'];
+
+    public function producer(){
+        return $this->belongsTo(Producer::class);
+    }
 }
