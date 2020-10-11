@@ -6,6 +6,7 @@ use App\Shop\Admins\Requests\CreateEmployeeRequest;
 use App\Shop\Admins\Requests\UpdateEmployeeRequest;
 use App\Shop\Employees\Repositories\EmployeeRepository;
 use App\Shop\Employees\Repositories\Interfaces\EmployeeRepositoryInterface;
+use App\Shop\Producers\Repositories\ProducerRepository;
 use App\Shop\Roles\Repositories\RoleRepositoryInterface;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -21,6 +22,8 @@ class EmployeeController extends Controller
      */
     private $roleRepo;
 
+    private $producerRepo;
+
     /**
      * EmployeeController constructor.
      *
@@ -29,10 +32,12 @@ class EmployeeController extends Controller
      */
     public function __construct(
         EmployeeRepositoryInterface $employeeRepository,
-        RoleRepositoryInterface $roleRepository
+        RoleRepositoryInterface $roleRepository,
+        ProducerRepository $producerRepo
     ) {
         $this->employeeRepo = $employeeRepository;
         $this->roleRepo = $roleRepository;
+        $this->producerRepo = $producerRepo;
     }
 
     /**
@@ -57,8 +62,9 @@ class EmployeeController extends Controller
     public function create()
     {
         $roles = $this->roleRepo->listRoles();
+        $producers = $this->producerRepo->listProducers();
 
-        return view('admin.employees.create', compact('roles'));
+        return view('admin.employees.create', compact('roles','producers'));
     }
 
     /**
@@ -105,12 +111,14 @@ class EmployeeController extends Controller
         $employee = $this->employeeRepo->findEmployeeById($id);
         $roles = $this->roleRepo->listRoles('created_at', 'desc');
         $isCurrentUser = $this->employeeRepo->isAuthUser($employee);
+        $producers = $this->producerRepo->listProducers();
 
         return view(
             'admin.employees.edit',
             [
                 'employee' => $employee,
                 'roles' => $roles,
+                'producers'=> $producers,
                 'isCurrentUser' => $isCurrentUser,
                 'selectedIds' => $employee->roles()->pluck('role_id')->all()
             ]

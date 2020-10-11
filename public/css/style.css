@@ -812,7 +812,7 @@ ol {
 -----------------------*/
 
 .featured {
-	padding-top: 80px;
+	padding-top: 0px;
 	padding-bottom: 40px;
 }
 
@@ -822,6 +822,16 @@ ol {
 }
 
 .featured__controls ul li {
+	list-style: none;
+	font-size: 18px;
+	color: #1c1c1c;
+	display: inline-block;
+	margin-right: 25px;
+	position: relative;
+	cursor: pointer;
+}
+
+#category_teste {
 	list-style: none;
 	font-size: 18px;
 	color: #1c1c1c;

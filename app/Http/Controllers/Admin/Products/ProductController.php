@@ -6,6 +6,7 @@ use App\Shop\Attributes\Repositories\AttributeRepositoryInterface;
 use App\Shop\AttributeValues\Repositories\AttributeValueRepositoryInterface;
 use App\Shop\Brands\Repositories\BrandRepositoryInterface;
 use App\Shop\Categories\Repositories\Interfaces\CategoryRepositoryInterface;
+use App\Shop\Producers\Repositories\ProducerRepository;
 use App\Shop\ProductAttributes\ProductAttribute;
 use App\Shop\ProductPercents\ProductPercent;
 use App\Shop\ProductPercents\Repositories\ProductPercentRepository;
@@ -58,6 +59,11 @@ class ProductController extends Controller
     protected $brandRepo;
 
     /**
+     * @var ProducerRepository
+     */
+    protected $producerRepo;
+
+    /**
      * ProductController constructor.
      *
      * @param ProductRepositoryInterface $productRepository
@@ -74,7 +80,8 @@ class ProductController extends Controller
         AttributeValueRepositoryInterface $attributeValueRepository,
         ProductAttribute $productAttribute,
         BrandRepositoryInterface $brandRepository,
-        ProductPercentRepository $productPercentRepository
+        ProductPercentRepository $productPercentRepository,
+        ProducerRepository $producerRepository
     ) {
         $this->productRepo = $productRepository;
         $this->categoryRepo = $categoryRepository;
@@ -83,6 +90,7 @@ class ProductController extends Controller
         $this->productAttribute = $productAttribute;
         $this->brandRepo = $brandRepository;
         $this->productPercentRepo = $productPercentRepository;
+        $this->producerRepo = $producerRepository;
 
         $this->middleware(['permission:create-product, guard:employee'], ['only' => ['create', 'store']]);
         $this->middleware(['permission:update-product, guard:employee'], ['only' => ['edit', 'update']]);
@@ -210,7 +218,8 @@ class ProductController extends Controller
         }
 
         $categories = $this->categoryRepo->listCategories('name', 'asc')->toTree();
-	
+        $producers = $this->producerRepo->listProducers('name', 'asc');
+
         return view('admin.products.edit', [
             'product' => $product,
             'images' => $product->images()->get(['src']),
@@ -222,7 +231,8 @@ class ProductController extends Controller
             'brands' => $this->brandRepo->listBrands(['*'], 'name', 'asc'),
             'weight' => $product->weight,
             'default_weight' => $product->mass_unit,
-            'weight_units' => Product::MASS_UNIT
+            'weight_units' => Product::MASS_UNIT,
+            'producers'=>$producers
         ]);
     }
 
@@ -343,7 +353,7 @@ class ProductController extends Controller
         }
 
         $request->session()->flash('message', $this->getSucessMesseger());
-        return redirect()->route('admin.categories.list.products')->with('message',$this->getSucessMesseger());
+        return redirect()->route('admin.producer.list.products')->with('message',$this->getSucessMesseger());
     }
 
     public function indexPercent(Request $request, int $product_id)

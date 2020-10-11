@@ -4,7 +4,7 @@
             <div class="radio">
                 <label>
                     <input
-                            type="radio"
+                            type="checkbox"
                             @if(isset($selectedIds) && in_array($category->id, $selectedIds))checked="checked" @endif
                             name="categories[]"
                             value="{{ $category->id }}">

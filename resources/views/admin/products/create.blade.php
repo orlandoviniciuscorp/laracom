@@ -85,7 +85,7 @@
                         {{--@include('admin.shared.attribute-select', [compact('default_weight')])--}}
                     </div>
                     <div class="col-md-4">
-                        <h2>Produtor</h2>
+                        <h2>Categorias</h2>
                         @include('admin.shared.categories', ['categories' => $categories, 'selectedIds' => []])
                     </div>
                 </div>

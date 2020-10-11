@@ -44,13 +44,13 @@ class ProducerRepository extends BaseRepository implements ProducerRepositoryInt
 
     public function pageOrder(){
 
-        return $this->model->orderBy('page_order')->get();
+        return $this->model->orderBy('id')->get();
 
     }
 
     public function allActive()
     {
-        return $this->model->where('status',1)->orderBy('page_order')->get();
+        return $this->model->where('status',1)->orderBy('id')->get();
     }
 
 
@@ -126,23 +126,11 @@ class ProducerRepository extends BaseRepository implements ProducerRepositoryInt
 
         if (isset($params['cover']) && ($params['cover'] instanceof UploadedFile)) {
             $cover = $this->uploadOne($params['cover'], 'producers');
+        }else{
+            $cover = null;
         }
 
         $merge = $collection->merge(compact('slug', 'cover'));
-
-        // set parent attribute default value if not set
-        $params['parent'] = $params['parent'] ?? 0;
-
-        // If parent producer is not set on update
-        // just make current producer as root
-        // else we need to find the parent
-        // and associate it as child
-        if ( (int)$params['parent'] == 0) {
-            $producer->saveAsRoot();
-        } else {
-            $parent = $this->findProducerById($params['parent']);
-            $producer->parent()->associate($parent);
-        }
 
         $producer->update($merge->all());
         
