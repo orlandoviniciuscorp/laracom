@@ -100,15 +100,15 @@
                                                 @if(!$productAttributes->isEmpty())<span class="text-danger">Note: Price is disabled. Price is derived based on the combination.</span> @endif
                                             </div>
 
-                                            <div class="form-group">
-                                                <label for="producer_id">Produtor </label>
-                                                <select name="producer_id" id="producer_id" class="form-control select2">
-                                                    <option value=""></option>
+{{--                                            <div class="form-group">--}}
+{{--                                                <label for="producer_id">Produtor </label>--}}
+{{--                                                <select name="producer_id" id="producer_id" class="form-control select2">--}}
+{{--                                                    <option value=""></option>--}}
                                                     @foreach($producers as $producer)
                                                         <option @if($producer->id == $product->producer_id) selected="selected" @endif value="{{ $producer->id }}">{{ $producer->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
+{{--                                                    @endforeach--}}
+{{--                                                </select>--}}
+{{--                                            </div>--}}
 
                                             <div class="form-group">
                                                 <label for="is_distinct">Produto diferenciável <span class="text-danger">*</span></label>

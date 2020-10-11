@@ -7,11 +7,11 @@
                                 <div class="hero__categories">
                                         <div class="hero__categories__all">
                                                 <i class="fa fa-bars"></i>
-                                                <span>Produtores</span>
+                                                <span>Categorias</span>
                                         </div>
                                         <ul>
-                                                @foreach($producers as $producer)
-                                                        <li><a href="{{route('front.producer.slug',$producer->slug)}}">{{$producer->name}}</a></li>
+                                                @foreach($cats as $cat)
+                                                        <li><a href="{{route('front.category.slug',$cat->slug)}}">{{$cat->name}}</a></li>
                                                 @endforeach
 
                                         </ul>
