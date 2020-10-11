@@ -5,7 +5,7 @@
     <section class="content">
         @include('layouts.errors-and-messages')
         <div class="box">
-            <form action="{{ route('admin.categories.update', $producer->id) }}" method="post" class="form" enctype="multipart/form-data">
+            <form action="{{ route('admin.producers.update', $producer->id) }}" method="post" class="form" enctype="multipart/form-data">
                 <div class="box-body">
                     <input type="hidden" name="_method" value="put">
                     {{ csrf_field() }}

@@ -7,7 +7,10 @@ use App\Shop\Categories\Repositories\CategoryRepository;
 use App\Shop\Categories\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Shop\Countries\Repositories\Interfaces\CountryRepositoryInterface;
 use App\Http\Controllers\Controller;
+use App\Shop\Producers\Producer;
 use App\Shop\Producers\Repositories\ProducerRepository;
+use App\Shop\Producers\Requests\CreateProducerRequest;
+use App\Shop\Producers\Requests\UpdateProducerRequest;
 use App\Shop\Provinces\Repositories\Interfaces\ProvinceRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -61,11 +64,11 @@ class ProducerController extends Controller
      * @param  CreateCategoryRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateCategoryRequest $request)
+    public function store(CreateProducerRequest $request)
     {
-        $this->producerRepo->createCategory($request->except('_token', '_method'));
+        $this->producerRepo->createProducer($request->except('_token', '_method'));
 
-        return redirect()->route('admin.producers.index')->with('message', 'Category created');
+        return redirect()->route('admin.producers.index')->with('message', 'Produtor criado');
     }
 
     /**
@@ -76,13 +79,12 @@ class ProducerController extends Controller
      */
     public function show($id)
     {
-        $category = $this->producerRepo->findCategoryById($id);
+        $producer = $this->producerRepo->findProducerById($id);
 
-        $cat = new CategoryRepository($category);
+        $cat = new ProducerRepository($producer);
 
         return view('admin.producers.show', [
-            'category' => $category,
-            'categories' => $category->children,
+            'producer' => $producer,
             'products' => $cat->findProducts()
         ]);
     }
@@ -96,8 +98,8 @@ class ProducerController extends Controller
     public function edit($id)
     {
         return view('admin.producers.edit', [
-            'categories' => $this->producerRepo->listProducers('name', 'asc', $id),
-            'category' => $this->producerRepo->findCategoryById($id)
+            'producers' => $this->producerRepo->listProducers('name', 'asc', $id),
+            'producer' => $this->producerRepo->findProducerById($id)
         ]);
     }
 
@@ -108,12 +110,12 @@ class ProducerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCategoryRequest $request, $id)
+    public function update(UpdateProducerRequest $request, $id)
     {
-        $category = $this->producerRepo->findCategoryById($id);
+        $producer = $this->producerRepo->findProducerById($id);
 
-        $update = new CategoryRepository($category);
-        $update->updateCategory($request->except('_token', '_method'));
+        $update = new ProducerRepository($producer);
+        $update->updateProducer($request->except('_token', '_method'));
 
         $request->session()->flash('message', 'Update successful');
         return redirect()->route('admin.producers.edit', $id);
@@ -127,9 +129,9 @@ class ProducerController extends Controller
      */
     public function destroy(int $id)
     {
-        $category = $this->producerRepo->findCategoryById($id);
-        $category->products()->sync([]);
-        $category->delete();
+        $producer = $this->producerRepo->findProducerById($id);
+        $producer->products()->sync([]);
+        $producer->delete();
 
         request()->session()->flash('message', 'Delete successful');
         return redirect()->route('admin.producers.index');
@@ -146,43 +148,21 @@ class ProducerController extends Controller
         return redirect()->route('admin.producers.edit', $request->input('category'));
     }
 
-    public function rotateFarmers(Request $request)
-    {
-        $categories = $this->producerRepo->listProducers('page_order', 'desc',null);
 
-        $count = $categories->count();
-
-        foreach ($categories as $category){
-
-            if($category->page_order == 1) {
-                $category->page_order = $count;
-            }else{
-                $category->page_order = $category->page_order - 1;
-            }
-
-            $category->save();
-
-        }
-
-        request()->session()->flash('message','Ordem dos Produtores alterada!');
-        return redirect()->back();
-
-
-    }
 
     public function listProducers()
     {
-        $categories = $this->producerRepo->listProducers('page_order', 'desc',null);
+        $producers = $this->producerRepo->listProducers('name', 'desc',null);
 
-        return view('admin.producers.list-categories-batch')->with('categories',$categories);
+        return view('admin.producers.list-producers-batch')->with('producers',$producers);
     }
 
     public function listProductsBatch($id)
     {
-        $category = $this->producerRepo->findCategoryById($id);
-        $products = $category->products()->get();
+        $producer = $this->producerRepo->findProducerById($id);
+        $products = $producer->products()->get();
 
         return view('admin.producers.list-products-batch')->with(['products'=>$products,
-            'category'=>$category->name]);
+            'producer'=>$producer->name]);
     }
 }

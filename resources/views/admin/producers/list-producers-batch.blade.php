@@ -5,7 +5,7 @@
     <section class="content">
     @include('layouts.errors-and-messages')
     <!-- Default box -->
-        @if($categories)
+        @if($producers)
             <div class="box">
                 <div class="box-body">
                     <h2>Produtores</h2>
@@ -18,18 +18,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach ($categories as $category)
+                        @foreach ($producers as $producer)
                             <tr>
                                 <td>
-                                    <a href="{{ route('admin.categories.products.list-batch', $category->id) }}">{{ $category->name }}</a>
+                                    <a href="{{ route('admin.producers.products.list-batch', $producer->id) }}">{{ $producer->name }}</a>
                                 </td>
-                                <td>@include('layouts.status', ['status' => $category->status])</td>
+                                <td>@include('layouts.status', ['status' => $producer->status])</td>
                                 <td>
-                                    <form action="{{ route('admin.categories.destroy', $category->id) }}" method="post" class="form-horizontal">
+                                    <form action="{{ route('admin.producers.destroy', $producer->id) }}" method="post" class="form-horizontal">
                                         {{ csrf_field() }}
                                         <input type="hidden" name="_method" value="delete">
                                         <div class="btn-group">
-                                            <a href="{{ route('admin.categories.edit', $category->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Editar</a>
+                                            <a href="{{ route('admin.producers.edit', $producer->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Editar</a>
+
                                             <button onclick="return confirm('Tem Certeza?')" type="submit" class="btn btn-danger btn-sm"><i class="fa fa-times"></i> Apagar</button>
                                         </div>
                                     </form>
@@ -38,7 +39,7 @@
                         @endforeach
                         </tbody>
                     </table>
-{{--                    {{ $categories->links() }}--}}
+{{--                    {{ $producers->links() }}--}}
                 </div>
                 <!-- /.box-body -->
             </div>

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Shop\Categories\Requests;
+namespace App\Shop\Producers\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateCategoryRequest extends FormRequest
+class UpdateProducerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,9 @@ class UpdateCategoryRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
-            'name' => ['required', Rule::unique('categories')->ignore(request()->segment(3))]
+            'name' => ['required', Rule::unique('producers')]
         ];
     }
 }

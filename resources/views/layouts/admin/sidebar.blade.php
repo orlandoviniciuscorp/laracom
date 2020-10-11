@@ -28,7 +28,7 @@
                 </a>
                 <ul class="treeview-menu">
                     @if($user->hasPermission('view-product'))<li><a href="{{ route('admin.products.index') }}"><i class="fa fa-circle-o"></i> Lista de Produtos</a></li>@endif
-                        @if($user->hasPermission('view-product'))<li><a href="{{ route('admin.categories.list.products') }}"><i class="fa fa-list" aria-hidden="true"></i>Atualizar em Lote</a></li>@endif
+                        @if($user->hasPermission('view-product'))<li><a href="{{ route('admin.producer.list.products') }}"><i class="fa fa-list" aria-hidden="true"></i>Atualizar em Lote</a></li>@endif
                     @if($user->hasPermission('create-product'))<li><a href="{{ route('admin.products.create') }}"><i class="fa fa-plus"></i> Criar Produto</a></li>@endif
                     <li class="@if(request()->segment(2) == 'attributes') active @endif">
                     <a href="#">

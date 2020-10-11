@@ -10,7 +10,7 @@
                 {{ csrf_field() }}
             <div class="box">
                 <div class="box-body">
-                    <h2>Produtos de {{$category}}</h2>
+                    <h2>Produtos de {{$producer}}</h2>
                     <table class="table">
                         <thead>
                             <tr>

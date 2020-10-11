@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Shop\Categories\Requests;
+namespace App\Shop\Producers\Requests;
 
 use App\Shop\Base\BaseFormRequest;
 
-class CreateCategoryRequest extends BaseFormRequest
+class CreateProducerRequest extends BaseFormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,7 +14,7 @@ class CreateCategoryRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'unique:categories']
+            'name' => ['required', 'unique:producers']
         ];
     }
 }

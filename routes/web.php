@@ -64,6 +64,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
 
             Route::namespace('Producers')->group(function () {
                 Route::resource('producers', 'ProducerController');
+                Route::get('/list-batch','ProducerController@listProducers')->name('producer.list.products');
+                Route::get('/list-batch/{id}','ProducerController@listProductsBatch')->name('producers.products.list-batch');
             });
 
             Route::namespace('Orders')->group(function () {

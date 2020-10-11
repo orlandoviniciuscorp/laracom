@@ -340,7 +340,7 @@ class ProductController extends Controller
 
         }
         $request->session()->flash('message', $this->getSucessMesseger());
-        return redirect()->route('admin.categories.list.products')->with('message',$this->getSucessMesseger());
+        return redirect()->route('admin.producer.list.products')->with('message',$this->getSucessMesseger());
     }
 
     public function indexPercent(Request $request, int $product_id)
