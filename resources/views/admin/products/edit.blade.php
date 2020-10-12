@@ -104,8 +104,8 @@
 {{--                                                <label for="producer_id">Produtor </label>--}}
 {{--                                                <select name="producer_id" id="producer_id" class="form-control select2">--}}
 {{--                                                    <option value=""></option>--}}
-                                                    @foreach($producers as $producer)
-                                                        <option @if($producer->id == $product->producer_id) selected="selected" @endif value="{{ $producer->id }}">{{ $producer->name }}</option>
+{{--                                                    @foreach($producers as $producer)--}}
+{{--                                                        <option @if($producer->id == $product->producer_id) selected="selected" @endif value="{{ $producer->id }}">{{ $producer->name }}</option>--}}
 {{--                                                    @endforeach--}}
 {{--                                                </select>--}}
 {{--                                            </div>--}}
