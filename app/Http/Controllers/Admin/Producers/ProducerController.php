@@ -160,6 +160,7 @@ class ProducerController extends Controller
     public function listProductsBatch($id)
     {
         $producer = $this->producerRepo->findProducerById($id);
+//        dd($producer);
         $products = $producer->products()->get();
 
         return view('admin.producers.list-products-batch')->with(['products'=>$products,

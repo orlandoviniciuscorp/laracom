@@ -25,6 +25,8 @@ class Producer extends Model
         'page_order'
     ];
 
+    protected $with=['products'];
+
     /**
      * The attributes that should be hidden for arrays.
      *
