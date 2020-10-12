@@ -129,6 +129,19 @@
                                                 </div>
                                             </div>
 
+                                            <div class="form-group">
+                                                <label for="status">Percentual </label>
+                                                <select name="percentage_id" id="status" class="form-control select2">
+                                                    @foreach($percentages as $percentage)
+                                                        <option value="{{$percentage->id}}"
+                                                                @if(((!is_null($product->percentage->id)
+                                                                && $product->percentage->id == $percentage->id)))
+                                                                selected="selected"
+                                                                @endif>{{$percentage->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
 
                                             <div class="form-group">
                                                 <label for="table_percent">Tabela de Porcentagem</label>

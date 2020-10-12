@@ -6,6 +6,7 @@ use App\Shop\Attributes\Repositories\AttributeRepositoryInterface;
 use App\Shop\AttributeValues\Repositories\AttributeValueRepositoryInterface;
 use App\Shop\Brands\Repositories\BrandRepositoryInterface;
 use App\Shop\Categories\Repositories\Interfaces\CategoryRepositoryInterface;
+use App\Shop\Percentages\Repositories\PercentageRepository;
 use App\Shop\Producers\Repositories\ProducerRepository;
 use App\Shop\ProductAttributes\ProductAttribute;
 use App\Shop\ProductPercents\ProductPercent;
@@ -63,6 +64,8 @@ class ProductController extends Controller
      */
     protected $producerRepo;
 
+    protected $percentageRepo;
+
     /**
      * ProductController constructor.
      *
@@ -81,7 +84,8 @@ class ProductController extends Controller
         ProductAttribute $productAttribute,
         BrandRepositoryInterface $brandRepository,
         ProductPercentRepository $productPercentRepository,
-        ProducerRepository $producerRepository
+        ProducerRepository $producerRepository,
+        PercentageRepository $percentageRepository
     ) {
         $this->productRepo = $productRepository;
         $this->categoryRepo = $categoryRepository;
@@ -91,6 +95,7 @@ class ProductController extends Controller
         $this->brandRepo = $brandRepository;
         $this->productPercentRepo = $productPercentRepository;
         $this->producerRepo = $producerRepository;
+        $this->percentageRepo = $percentageRepository;
 
         $this->middleware(['permission:create-product, guard:employee'], ['only' => ['create', 'store']]);
         $this->middleware(['permission:update-product, guard:employee'], ['only' => ['edit', 'update']]);
@@ -121,6 +126,7 @@ class ProductController extends Controller
     {
         $categories = $this->categoryRepo->listCategories('name', 'asc');
         $nextSKU = $this->productRepo->countProducts() + 1;
+        $percentages = $this->percentageRepo->listPercentages('id');
 
 
         return view('admin.products.create', [
@@ -129,7 +135,8 @@ class ProductController extends Controller
             'default_weight' => env('SHOP_WEIGHT'),
             'weight_units' => Product::MASS_UNIT,
             'product' => new Product,
-            'nextSKU' => $nextSKU
+            'nextSKU' => $nextSKU,
+            'percentages'=>$percentages
         ]);
     }
 
@@ -148,12 +155,7 @@ class ProductController extends Controller
         if ($request->hasFile('cover') && $request->file('cover') instanceof UploadedFile) {
             $data['cover'] = $this->productRepo->saveCoverImage($request->file('cover'));
         }
-        $percentage_id = 1;
-        if($request->get('is_distinct') == 1) {
-            $percentage_id = 2;
-        }
 
-        $data['percentage_id']  = $percentage_id;
 
         $product = $this->productRepo->createProduct($data);
 
@@ -219,6 +221,7 @@ class ProductController extends Controller
 
         $categories = $this->categoryRepo->listCategories('name', 'asc')->toTree();
         $producers = $this->producerRepo->listProducers('name', 'asc');
+        $percentages = $this->percentageRepo->listPercentages('id');
 
         return view('admin.products.edit', [
             'product' => $product,
@@ -232,7 +235,8 @@ class ProductController extends Controller
             'weight' => $product->weight,
             'default_weight' => $product->mass_unit,
             'weight_units' => Product::MASS_UNIT,
-            'producers'=>$producers
+            'producers'=>$producers,
+            'percentages'=>$percentages
         ]);
     }
 
@@ -270,15 +274,6 @@ class ProductController extends Controller
             'combination',
             'origin'
         );
-
-        if($request->get('is_distinct') == 1){
-            $percentage_id = 2;
-        }else{
-            $percentage_id = 1;
-        }
-
-        $data = array_merge($data,['percentage_id'=>$percentage_id]);
-
 
         $data['slug'] = str_slug($request->input('name'));
 

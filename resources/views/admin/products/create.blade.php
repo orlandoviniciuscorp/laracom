@@ -70,6 +70,20 @@
                                 </div>
                             </label>
                         </div>
+                        <div class="form-group">
+                        <label for="status">Percentual </label>
+                        <select name="percentage_id" id="status" class="form-control select2">
+                            @foreach($percentages as $percentage)
+                            <option value="{{$percentage->id}}"
+                                    @if(((!is_null(old('percentage_id'))
+                                    && old('percentage_id') == $percentage->id)))
+                                        selected="selected"
+                                    @endif>{{$percentage->name}}</option>
+                            @endforeach
+                        </select>
+                        </div>
+
+
                         @if(!$brands->isEmpty())
                         <div class="form-group">
                             <label for="brand_id">Brand </label>
