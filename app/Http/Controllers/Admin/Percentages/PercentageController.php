@@ -131,28 +131,28 @@ class PercentageController extends Controller
     {
         $data = $request->except('_token', '_method');
 
-
-
-        $product = $this->percentageRepository->store($data);
-
+        $percentage = $this->percentageRepository->store($data);
 
         $request->session()->flash('message', $this->getSucessMesseger());
 
         return redirect()->route('admin.percentages.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show(int $id)
+    public function update(CreatePercentageRequest $request)
     {
-        $product = $this->productRepo->findProductById($id);
-        return view('admin.products.show', compact('product'));
+        $data = $request->except('_token', '_method');
+
+        $percentage = $this->percentageRepository->find($data['id']);
+
+        $update = new PercentageRepository($percentage);
+
+        $update->update($data);
+
+        $request->session()->flash('message', $this->getSucessMesseger());
+
+        return redirect()->route('admin.percentages.index');
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -161,114 +161,12 @@ class PercentageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(int $id)
+    public function edit(int $percentage_id)
     {
-        $product = $this->productRepo->findProductById($id);
-        $productAttributes = $product->attributes()->get();
+        $percentage = $this->percentageRepository->find($percentage_id);
+//        dd($percentage);
 
-        $qty = $productAttributes->map(function ($item) {
-            return $item->quantity;
-        })->sum();
-
-        if (request()->has('delete') && request()->has('pa')) {
-            $pa = $productAttributes->where('id', request()->input('pa'))->first();
-            $pa->attributesValues()->detach();
-            $pa->delete();
-
-            request()->session()->flash('message', $this->getSucessMesseger());
-            return redirect()->route('admin.products.edit', [$product->id, 'combination' => 1]);
-        }
-
-        $categories = $this->categoryRepo->listCategories('name', 'asc')->toTree();
-	
-        return view('admin.products.edit', [
-            'product' => $product,
-            'images' => $product->images()->get(['src']),
-            'categories' => $categories,
-            'selectedIds' => $product->categories()->pluck('category_id')->all(),
-            'attributes' => $this->attributeRepo->listAttributes(),
-            'productAttributes' => $productAttributes,
-            'qty' => $qty,
-            'brands' => $this->brandRepo->listBrands(['*'], 'name', 'asc'),
-            'weight' => $product->weight,
-            'default_weight' => $product->mass_unit,
-            'weight_units' => Product::MASS_UNIT
-        ]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  UpdateProductRequest $request
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     * @throws \App\Shop\Products\Exceptions\ProductUpdateErrorException
-     */
-    public function update(UpdateProductRequest $request, int $id)
-    {
-        $product = $this->productRepo->findProductById($id);
-        $productRepo = new ProductRepository($product);
-
-        if ($request->has('attributeValue')) {
-            $this->saveProductCombinations($request, $product);
-            return redirect()->route('admin.products.edit', [$id, 'combination' => 1])
-                ->with('message', $this->getSucessMesseger());
-        }
-
-        $data = $request->except(
-            'categories',
-            '_token',
-            '_method',
-            'default',
-            'image',
-            'productAttributeQuantity',
-            'productAttributePrice',
-            'attributeValue',
-            'combination'
-        );
-
-        $data['slug'] = str_slug($request->input('name'));
-
-        if ($request->hasFile('cover')) {
-            $data['cover'] = $productRepo->saveCoverImage($request->file('cover'));
-        }
-
-        if ($request->hasFile('image')) {
-            $productRepo->saveProductImages(collect($request->file('image')));
-        }
-
-        if ($request->has('categories')) {
-            $productRepo->syncCategories($request->input('categories'));
-        } else {
-            $productRepo->detachCategories();
-        }
-
-        $productRepo->updateProduct($data);
-
-        return redirect()->route('admin.products.edit', $id)
-            ->with('message', $this->getSucessMesseger());
-    }
-
-    public function updateQuantity(Request $request)
-    {
-
-
-
-        $product = $this->productRepo->find($request->input('id'));
-        $product->quantity = $request->input('quantity');
-        $product->save();
-
-        $products = $this->getAllProducts();
-
-        $request->session()->flash('message', $this->getSucessMesseger());
-
-//        return view('admin.products.list', [
-//            'products' => $this->productRepo->paginateArrayResults($products, 25)
-//        ]);
-
-        return redirect()->back()->with('message',$this->getSucessMesseger());
-
+        return view('admin.percentages.edit')->with('percentage',$percentage);
 
     }
 
@@ -289,145 +187,10 @@ class PercentageController extends Controller
         return redirect()->route('admin.products.edit', $product_id);
     }
 
-    public function emptyAvailability()
-    {
-        $products = $this->getAllProducts();
-
-        foreach($products as $product){
-            $p = $this->productRepo->find($product->id);
-            $p->quantity = 0;
-            $p->save();
-        }
-
-        return redirect()->route('admin.dashboard');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     * @throws \Exception
-     */
-    public function destroy($id)
-    {
-        $product = $this->productRepo->findProductById($id);
-        $product->categories()->sync([]);
-        $productAttr = $product->attributes();
-
-        $productAttr->each(function ($pa) {
-            DB::table('attribute_value_product_attribute')->where('product_attribute_id', $pa->id)->delete();
-        });
-
-        $productAttr->where('product_id', $product->id)->delete();
-
-        $productRepo = new ProductRepository($product);
-        $productRepo->removeProduct();
-
-        return redirect()->route('admin.products.index')->with('message', $this->getSucessMesseger());
-    }
-
-    /**
-     * @param Request $request
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function removeImage(Request $request)
-    {
-        $this->productRepo->deleteFile($request->only('product', 'image'), 'uploads');
-        return redirect()->back()->with('message', $this->getSucessMesseger());
-    }
-
-    /**
-     * @param Request $request
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function removeThumbnail(Request $request)
-    {
-        $this->productRepo->deleteThumb($request->input('src'));
-        return redirect()->back()->with('message', $this->getSucessMesseger());
-    }
-
-    /**
-     * @param Request $request
-     * @param Product $product
-     * @return boolean
-     */
-    private function saveProductCombinations(Request $request, Product $product): bool
-    {
-        $fields = $request->only(
-            'productAttributeQuantity',
-            'productAttributePrice',
-            'sale_price',
-            'default'
-        );
-
-        if ($errors = $this->validateFields($fields)) {
-            return redirect()->route('admin.products.edit', [$product->id, 'combination' => 1])
-                ->withErrors($errors);
-        }
-
-        $quantity = $fields['productAttributeQuantity'];
-        $price = $fields['productAttributePrice'];
-
-        $sale_price = null;
-        if (isset($fields['sale_price'])) {
-            $sale_price = $fields['sale_price'];
-        }
-
-        $attributeValues = $request->input('attributeValue');
-        $productRepo = new ProductRepository($product);
-
-        $hasDefault = $productRepo->listProductAttributes()->where('default', 1)->count();
-
-        $default = 0;
-        if ($request->has('default')) {
-            $default = $fields['default'];
-        }
-
-        if ($default == 1 && $hasDefault > 0) {
-            $default = 0;
-        }
-
-        $productAttribute = $productRepo->saveProductAttributes(
-            new ProductAttribute(compact('quantity', 'price', 'sale_price', 'default'))
-        );
-
-        // save the combinations
-        return collect($attributeValues)->each(function ($attributeValueId) use ($productRepo, $productAttribute) {
-            $attribute = $this->attributeValueRepository->find($attributeValueId);
-            return $productRepo->saveCombination($productAttribute, $attribute);
-        })->count();
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return
-     */
-    private function validateFields(array $data)
-    {
-        $validator = Validator::make($data, [
-            'productAttributeQuantity' => 'required'
-        ]);
-
-        if ($validator->fails()) {
-            return $validator;
-        }
-    }
 
     public function getAllPercentages()
     {
         $list = $this->percentageRepository->listPercentages('id');
-
-        if (request()->has('q') && request()->input('q') != '') {
-            $list = $this->percentageRepository->searchProduct(request()->input('q'));
-        }
-
-
-
         return $list;
     }
 }

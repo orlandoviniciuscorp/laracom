@@ -29,16 +29,20 @@
                         @foreach($percentages as $percentage)
 
                         <tr >
-                            <td>{{ $percentage->id}}</td>
+                            <td>
+                                <a href="{{route('admin.percentages.edit',$percentage->id)}}">
+                                    {{ $percentage->id}}
+                                </a>
+                            </td>
                             <td>{{$percentage->name}}</td>
-                            <td>{{is_null($percentage->farmer) ? 0 : $percentage->farmer}}</td>
-                            <td>{{is_null($percentage->plataform) ? 0 : $percentage->plataform}}</td>
-                            <td>{{is_null($percentage->separation) ? 0 : $percentage->separation}}</td>
-                            <td>{{is_null($percentage->client_contact) ? 0 : $percentage->client_contact}}</td>
-                            <td>{{is_null($percentage->fund) ? 0 : $percentage->fund}}</td>
-                            <td>{{is_null($percentage->payments_transfer) ? 0 : $percentage->payments_transfer}}</td>
-                            <td>{{is_null($percentage->accounting_close) ? 0 : $percentage->accounting_close}}</td>
-                            <td>{{is_null($percentage->payment_conference) ? 0 : $percentage->payment_conference}}</td>
+                            <td>{{is_null($percentage->farmer) ? 0 : $percentage->farmer}}% </td>
+                            <td>{{is_null($percentage->plataform) ? 0 : $percentage->plataform}}% </td>
+                            <td>{{is_null($percentage->separation) ? 0 : $percentage->separation}}% </td>
+                            <td>{{is_null($percentage->client_contact) ? 0 : $percentage->client_contact}}% </td>
+                            <td>{{is_null($percentage->fund) ? 0 : $percentage->fund}}% </td>
+                            <td>{{is_null($percentage->payments_transfer) ? 0 : $percentage->payments_transfer}}% </td>
+                            <td>{{is_null($percentage->accounting_close) ? 0 : $percentage->accounting_close}}% </td>
+                            <td>{{is_null($percentage->payment_conference) ? 0 : $percentage->payment_conference}}% </td>
                         </tr>
                         @endforeach
                             </tbody>
