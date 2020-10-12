@@ -70,7 +70,7 @@ class Product extends Model implements Buyable
         'slug',
         'is_distinct',
         'percentage_id',
-//        'producer_id'
+        'producer_id'
     ];
 
     protected $with = ['percentage'];
