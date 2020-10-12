@@ -32,6 +32,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
                Route::get('/create','Percentages\PercentageController@create')->name('percentages.create');
                Route::get('/','Percentages\PercentageController@index')->name('percentages.index');
                Route::post('/store','Percentages\PercentageController@store')->name('percentages.store');
+               Route::post('/update','Percentages\PercentageController@update')->name('percentages.update');
+               Route::get('{percentage_id}/edit/','Percentages\PercentageController@edit')->name('percentages.edit');
             });
 
             Route::namespace('Products')->group(function () {
