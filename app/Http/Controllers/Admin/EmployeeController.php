@@ -22,7 +22,7 @@ class EmployeeController extends Controller
      */
     private $roleRepo;
 
-    private $producerRepo;
+    protected $producerRepo;
 
     /**
      * EmployeeController constructor.
