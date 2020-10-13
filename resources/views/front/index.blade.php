@@ -21,7 +21,7 @@
                         </div>
                         <ul>
                             @foreach($cats as $cat)
-                                <li><a href="{{route('front.producer.slug',$cat->slug)}}">
+                                <li><a href="{{route('front.category.slug',$cat->slug)}}">
                                         {{$cat->name}}</a></li>
                             @endforeach
 
