@@ -96,7 +96,7 @@ class ProductController extends Controller
 
     public function listProducts(){
 
-        $list = $this->productRepo->listProducts();
+        $list = $this->productRepo->listProducts('name','asc');
         $products = $list->where('status', 1)->map(function (Product $item) {
             return $this->transformProduct($item);
         });
