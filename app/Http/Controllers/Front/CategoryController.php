@@ -35,7 +35,7 @@ class CategoryController extends Controller
 
         $repo = new CategoryRepository($category);
 
-        $products = $repo->findProducts()->where('status', 1)->all();
+        $products = $repo->findProducts()->where('status', 1)->sortBy('name')->all();
 
         return view('front.categories.category', [
             'cats'=>$this->getCategoryOrder(),
