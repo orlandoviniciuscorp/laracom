@@ -48,4 +48,13 @@ class ProducerController extends Controller
             'config'=>$this->getConfig()
         ]);
     }
+
+    public function listProductsBatch($id)
+    {
+        $producer = $this->productRepo->findProducerById($id);
+        $products = $producer->products()->get();
+
+        return view('admin.categories.list-products-batch')->with(['products'=>$products,
+            'category'=>$producer->name]);
+    }
 }
