@@ -128,6 +128,8 @@ class ProductController extends Controller
         $nextSKU = $this->productRepo->countProducts() + 1;
         $percentages = $this->percentageRepo->listPercentages('id');
 
+        $producers = $this->producerRepo->listProducers('name', 'asc');
+
 
         return view('admin.products.create', [
             'categories' => $categories,
@@ -136,7 +138,8 @@ class ProductController extends Controller
             'weight_units' => Product::MASS_UNIT,
             'product' => new Product,
             'nextSKU' => $nextSKU,
-            'percentages'=>$percentages
+            'percentages'=>$percentages,
+            'producers'=>$producers
         ]);
     }
 
@@ -171,6 +174,12 @@ class ProductController extends Controller
             $productRepo->syncCategories($request->input('categories'));
         } else {
             $productRepo->detachCategories();
+        }
+
+        if ($request->has('producers')) {
+            $productRepo->syncProducers($request->input('producers'));
+        } else {
+            $productRepo->detachProducers();
         }
 
         $request->session()->flash('message', $this->getSucessMesseger());
@@ -236,7 +245,8 @@ class ProductController extends Controller
             'default_weight' => $product->mass_unit,
             'weight_units' => Product::MASS_UNIT,
             'producers'=>$producers,
-            'percentages'=>$percentages
+            'percentages'=>$percentages,
+            'producersSelectedIds'=>$product->producers()->pluck('producer_id')->all(),
         ]);
     }
 
@@ -272,7 +282,8 @@ class ProductController extends Controller
             'productAttributePrice',
             'attributeValue',
             'combination',
-            'origin'
+            'origin',
+            'producers'
         );
 
         $data['slug'] = str_slug($request->input('name'));
@@ -289,6 +300,12 @@ class ProductController extends Controller
             $productRepo->syncCategories($request->input('categories'));
         } else {
             $productRepo->detachCategories();
+        }
+
+        if ($request->has('producers')) {
+            $productRepo->syncProducers($request->input('producers'));
+        } else {
+            $productRepo->detachProducers();
         }
 
         $productRepo->updateProduct($data);

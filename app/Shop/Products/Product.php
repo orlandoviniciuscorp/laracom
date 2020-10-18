@@ -70,7 +70,6 @@ class Product extends Model implements Buyable
         'slug',
         'is_distinct',
         'percentage_id',
-        'producer_id'
     ];
 
     protected $with = ['percentage'];
@@ -91,8 +90,8 @@ class Product extends Model implements Buyable
         return $this->belongsTo(Percentage::class);
     }
 
-    public function producer(){
-        return $this->belongsTo(Producer::class);
+    public function producers(){
+        return $this->belongsToMany(Producer::class);
     }
 
     /**
