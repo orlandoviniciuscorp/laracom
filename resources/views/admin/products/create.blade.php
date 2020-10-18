@@ -102,6 +102,10 @@
                         <h2>Categorias</h2>
                         @include('admin.shared.categories', ['categories' => $categories, 'selectedIds' => []])
                     </div>
+                    <div class="col-md-4">
+                        <h2>Produtores</h2>
+                        @include('admin.shared.producers', ['producers' => $producers, 'ids' => $product])
+                    </div>
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer">
