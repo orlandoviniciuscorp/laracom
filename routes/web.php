@@ -59,8 +59,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
                 Route::post('rotate-farmers', 'CategoryController@rotateFarmers')->name('category.rotate-farmers');
                 Route::resource('categories', 'CategoryController');
                 Route::get('remove-image-category', 'CategoryController@removeImage')->name('category.remove.image');
-                Route::get('/list-batch','CategoryController@listCategories')->name('categories.list.products');
-                Route::get('/list-batch/{id}','CategoryController@listProductsBatch')->name('categories.products.list-batch');
+                Route::get('/list-batch','ProducerController@listProducers')->name('categories.list.products');
+                Route::get('/list-batch/{id}','ProducerController@listProductsBatch')->name('categories.products.list-batch');
 
             });
 
