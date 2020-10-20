@@ -44,7 +44,7 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
 
     public function pageOrder(){
 
-        return $this->model->orderBy('page_order')->get();
+        return $this->model->where('status',1)->orderBy('page_order')->get();
 
     }
 
