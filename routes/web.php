@@ -28,6 +28,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
             Route::get('/', 'DashboardController@index')->name('dashboard');
             Route::post('/open-site', 'DashboardController@open')->name('config.open');
 
+            Route::group(['prefix'=>'config'],function(){
+                Route::get('/','DashboardController@showConfig')->name('config.show');
+                Route::post('/store','DashboardController@storeConfig')->name('config.store');
+
+            });
+
             Route::group(['prefix'=>'percentages'],function(){
                Route::get('/create','Percentages\PercentageController@create')->name('percentages.create');
                Route::get('/','Percentages\PercentageController@index')->name('percentages.index');
