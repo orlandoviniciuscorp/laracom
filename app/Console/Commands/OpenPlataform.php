@@ -41,8 +41,13 @@ class OpenPlataform extends Command
         $configRepo = app(ConfigurationRepository::class);
 
         $config = $configRepo->getConfig();
-        $config->is_open = true;
-        $configRepo->updateConfig($config);
-        dump($config->is_open);
+        if($config->is_automatic_open) {
+            $config->is_open = true;
+            $configRepo->updateConfig($config);
+            dump($config->is_open);
+        }else{
+            dump('Abertura automática desligada');
+        }
+
     }
 }

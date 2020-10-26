@@ -40,9 +40,15 @@ class ClosePlataform extends Command
     {
         $configRepo = app(ConfigurationRepository::class);
 
+
         $config = $configRepo->getConfig();
-        $config->is_open = false;
-        $configRepo->updateConfig($config);
-        dump($config->is_open);
+        if($config->is_automatic_close) {
+            $config->is_open = false;
+            $configRepo->updateConfig($config);
+            dump($config->is_open);
+        }else{
+            dump('Fechamento automático desligada');
+        }
+
     }
 }

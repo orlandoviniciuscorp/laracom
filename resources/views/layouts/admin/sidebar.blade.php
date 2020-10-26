@@ -169,6 +169,14 @@
             </li>
             <li class="header">Configurações</li>
             @if($user->hasRole('admin|superadmin'))
+                <li  class="treeview">
+                    <a href="{{route('admin.config.show')}}">
+                        <i class="fa fa-cog"></i> <span>Sistema</span>
+                        <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                </span>
+                    </a>
+                </li>
                 <li class="treeview
                     @if(request()->segment(2) == 'employees' ||
                         request()->segment(2) == 'roles' ||
