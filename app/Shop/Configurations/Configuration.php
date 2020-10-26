@@ -23,7 +23,9 @@ class Configuration extends Model
      * @var array
      */
     protected $fillable = [
-        'is_open'
+        'is_open',
+        'is_automatic_open',
+        'is_automatic_close'
     ];
 
     /**
