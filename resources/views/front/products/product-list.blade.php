@@ -7,7 +7,7 @@
     <div class="container">
         <div class="row">
             <!--new section -->
-            <div class="featured spad">
+            <div class="featured spad" style="width: 100%">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12">
@@ -38,6 +38,11 @@
                                 </div>
                             @endisset
                         </div>
+                    </div>
+                    <div class="row justify-content-center"  style="margin-bottom: 15px">
+                        @isset($category)
+                            {!! $category->description !!}
+                        @endif
                     </div>
                     <div class="row featured__filter">
 
