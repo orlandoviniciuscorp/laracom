@@ -34,6 +34,10 @@
                                          src="{{asset("storage/$image->src")}}" alt="">
                                 </div>
                                 @endforeach
+                                    <div class="owl-item cloned" style="width: 67.5px; margin-right: 20px;">
+                                        <img data-imgbigurl="{{asset("storage/$product->cover")}}"
+                                             src="{{asset("storage/$product->cover")}}" alt="">
+                                    </div>
 
                             </div>
                         </div>
