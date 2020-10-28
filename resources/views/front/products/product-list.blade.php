@@ -78,7 +78,7 @@
                                         </ul>
                                     </div>
                                     <div class="product__item__text">
-                                        <h6><a href="#">{{$product->name}}</a></h6>
+                                        <h6><a href="{{route('front.get.product',$product->slug)}}">{{$product->name}}</a></h6>
                                         <h5>R${{$product->price}}</h5>
                                     </div>
                                 </div>

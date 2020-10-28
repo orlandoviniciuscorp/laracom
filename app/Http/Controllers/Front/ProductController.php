@@ -81,16 +81,20 @@ class ProductController extends Controller
      */
     public function show(string $slug)
     {
+//        dd($slug);
         $product = $this->productRepo->findProductBySlug(['slug' => $slug]);
         $images = $product->images()->get();
         $category = $product->categories()->first();
         $productAttributes = $product->attributes;
-
+        $cats = $this->getCategoryOrder();
+        $config= $this->getConfig();
         return view('front.products.product', compact(
             'product',
             'images',
             'productAttributes',
-            'category'
+            'category',
+            'cats',
+            'config'
         ));
     }
 
