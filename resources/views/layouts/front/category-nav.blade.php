@@ -119,6 +119,7 @@
                         @include('layouts.errors-and-messages')
                 </div>
         </div>
+        @isset($products)
         <div class="filter__item">
                 <div class="row">
                         <div class="col-lg-4 col-md-5">
@@ -130,6 +131,7 @@
                         </div>
                 </div>
         </div>
+        @endisset
 
 </section>
 
