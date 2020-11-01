@@ -256,8 +256,8 @@ class FairRepository extends BaseRepository
             '		   sum(op.quantity*p.price*pp.payments_transfer/100) as pagamentos,            '.
             '		   sum(op.quantity*p.price*pp.client_contact/100) as contato_cliente,          '.
             '		   sum(op.quantity*p.price*pp.accounting_close/100) as contas,                 '.
-            '		   sum(op.quantity*p.price*pp.seeller/100) as vendedores,                      '.
-            '		   sum(op.quantity*p.price*pp.logistic/100) as logistica,                      '.
+//            '		   sum(op.quantity*p.price*pp.seeller/100) as vendedores,                      '.
+//            '		   sum(op.quantity*p.price*pp.logistic/100) as logistica,                      '.
             '		   sum(op.quantity*p.price*pp.payment_conference/100) as conferencia_pagamento                      '.
             '	 from orders o,                                                               '.
             '		 order_product op,                                                        '.

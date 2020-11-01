@@ -59,8 +59,13 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="6">
+                            <td>
                                 Arrecadado: {{currency_format($totalAmount)}}
+                            </td>
+                            <td  colspan="5">
+                                <a href="{{ route('admin.fair.detail-export-fair', $fair->id) }}">
+                                    <button name="excel_fair" class="btn btn-success">Exportar para o Excel</button>
+                                </a>
                             </td>
                         </tr>
                         </tbody>
@@ -77,6 +82,11 @@
                     <hr/>
                     <div class="box-tools">
                     <h3>Pagamento por Produtor/Catergoria</h3>
+                        <br />
+                        <a href="{{ route('admin.fair.detail-export-harverst-payment', $fair->id) }}">
+                            <button name="report" class="btn btn-success">Exportar Produtos Vendidos</button>
+                        </a>
+                        <br />
 
                     <table class="table">
                         <thead>

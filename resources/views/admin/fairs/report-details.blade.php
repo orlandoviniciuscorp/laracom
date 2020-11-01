@@ -10,6 +10,10 @@
                 <div class="box-body">
                     <h3>{{env('APP_NAME')}} - {{$fair->name}}</h3>
                     <br />
+                    <a href="{{ route('admin.fair.detail-export-orders', $fair->id) }}">
+                        <button name="report" class="btn btn-success">Exportar para o Excel</button>
+                    </a>
+                    <br />
                     <div class="box-tools">
                     <table class="table">
                         <thead>
