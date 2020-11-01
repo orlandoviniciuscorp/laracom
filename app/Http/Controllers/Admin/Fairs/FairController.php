@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Admin\Fairs;
 
+use App\Exports\FinancialExport;
 use App\Exports\HarverstExport;
+use App\Exports\HarverstPaymentExport;
+use App\Exports\OrdersDetailExport;
 use App\Shop\Addresses\Repositories\Interfaces\AddressRepositoryInterface;
 use App\Shop\Addresses\Transformations\AddressTransformable;
 use App\Shop\Couriers\Courier;
@@ -196,6 +199,24 @@ class FairController extends Controller
         return view('admin.fairs.report-details')
             ->with('orders',$orders)
             ->with('fair',$this->fairRepo->find($fair_id));
+    }
+
+    public function exportFair($fair_id){
+//        $this->fairRepo->getExtract($fair_id);
+
+        return (new FinancialExport($this->fairRepo,$this->orderRepo,$fair_id))->download('extrato_feira.xlsx');
+//        return Excel::download(new FinancialExport($this->fairRepo,$this->orderRepo,$fair_id), 'extrato_feira.xlsx');
+    }
+
+    public function exportHarverstPayment($fair_id){
+//        $this->fairRepo->getExtract($fair_id);
+
+        return (new HarverstPaymentExport($this->fairRepo,$this->orderRepo,$fair_id))->download('produtos_vendidos.xlsx');
+//        return Excel::download(new FinancialExport($this->fairRepo,$this->orderRepo,$fair_id), 'extrato_feira.xlsx');
+    }
+
+    public function exportFairsOrders($fair_id){
+        return (new OrdersDetailExport($this->fairRepo,$this->orderRepo,$fair_id))->download('pedidos_feira.xlsx');
     }
 
     public function markAllAssPayed($fair_id)
