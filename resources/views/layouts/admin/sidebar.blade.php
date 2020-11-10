@@ -28,7 +28,7 @@
                 </a>
                 <ul class="treeview-menu">
                     @if($user->hasPermission('view-product'))<li><a href="{{ route('admin.products.index') }}"><i class="fa fa-circle-o"></i> Lista de Produtos</a></li>@endif
-                        @if($user->hasPermission('view-product'))<li><a href="{{ route('admin.producer.list.products') }}"><i class="fa fa-list" aria-hidden="true"></i>Atualizar em Lote</a></li>@endif
+                        @if($user->hasRole('admin|superadmin'))<li><a href="{{ route('admin.product.list.all-products') }}"><i class="fa fa-list" aria-hidden="true"></i>Atualizar Todos os produtos</a></li>@endif
                     @if($user->hasPermission('create-product'))<li><a href="{{ route('admin.products.create') }}"><i class="fa fa-plus"></i> Criar Produto</a></li>@endif
                     <li class="@if(request()->segment(2) == 'attributes') active @endif">
                     <a href="#">
@@ -89,6 +89,8 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="{{ route('admin.producers.index') }}"><i class="fa fa-circle-o"></i> Lista de Produtores</a></li>
+                    @if($user->hasPermission('view-product'))<li><a href="{{ route('admin.producer.list.products') }}">
+                            <i class="fa fa-list" aria-hidden="true"></i>Atualizar em Lote</a></li>@endif
                     <li><a href="{{ route('admin.producers.create') }}"><i class="fa fa-plus"></i> Cadastrar Produtores</a></li>
                 </ul>
             </li>

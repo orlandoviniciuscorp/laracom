@@ -177,6 +177,7 @@ class ProductController extends Controller
         }
 
         if ($request->has('producers')) {
+
             $productRepo->syncProducers($request->input('producers'));
         } else {
             $productRepo->detachProducers();
@@ -342,9 +343,10 @@ class ProductController extends Controller
 
     public function updateQuantityBatch(Request $request)
     {
+//        dd($request->all());
         $data = $request->except('_token');
 
-        //dump($data);
+//        dd($data);
 
         $product = null;
         foreach ($data as $key => $value) {
@@ -352,16 +354,33 @@ class ProductController extends Controller
             $fragment = explode("_",$key);
             if($fragment[0] == "id"){
                 $product = $this->productRepo->find($value);
-            }else if($fragment[0] == "name"){
+            } if($fragment[0] == "name"){
                 $product->name = $value;
-            }else if($fragment[0] == "status"){
+            } if($fragment[0] == "status"){
                 $product->status = $value;
-            }else if($fragment[0] == "quantity"){
-                $product->quantity = $value;
                 $product->save();
-                $product = null;
+            } if($fragment[0] == "price"){
+
+                $product->price = $value;
+            } if($fragment[0] == "quantity"){
+                $product->quantity = $value;
+
+//                $product = null;
             }
 
+            if($fragment[0] == "producers") {
+
+//                dd();
+                $pr = new ProductRepository($product);
+                if (is_null($value)) {
+
+                    $pr->detachProducers();
+                } else {
+                    $pr->syncProducers($value);
+                }
+                $product = null;
+
+            }
         }
 
         $request->session()->flash('message', $this->getSucessMesseger());
@@ -566,5 +585,16 @@ class ProductController extends Controller
         })->all();
 
         return $products;
+    }
+
+    public function listAllProduct()
+    {
+        $products = $this->getAllProducts();
+
+        $producers = $this->producerRepo->listProducers('name', 'asc');
+
+        return view('admin.products.edit-products-batch')->with(['products'=>$products,
+        'producers'=>$producers]);
+
     }
 }

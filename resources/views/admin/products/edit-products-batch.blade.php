@@ -10,13 +10,15 @@
                 {{ csrf_field() }}
                 <div class="box">
                     <div class="box-body">
-                        <h2>Produtos de {{$producer}}</h2>
+                        <h2>Atualização em Massa</h2>
                         <table class="table">
                             <thead>
                             <tr>
                                 <td class="col-md-3">Produto</td>
-                                <td class="col-md-1">Status</td>
                                 <td class="col-md-2">Quantidade</td>
+                                <td class="col-md-2">Preço</td>
+                                <td class="col-md-2">Status</td>
+                                <td class="col-md-2">Produtor</td>
                             </tr>
                             </thead>
                             <tbody>
@@ -24,7 +26,14 @@
                                 <tr>
                                     <td>
                                         <input type="hidden" name="id_{{$product->id}}" value="{{$product->id}}" >
-                                        <input type="text" class="col-md-8" name="name_{{$product->id}}" value="{{$product->name}}" />
+                                        <input type="text" class="col-md-8" name="name_{{$product->id}}"
+                                               value="{{$product->name}}" />
+                                    </td>
+                                    <td>
+                                        <input type="number" required name="quantity_{{$product->id}}" value="{{$product->quantity}}" class="col-md-4"/>
+                                    </td>
+                                    <td>
+                                        <input type="text" pattern="[\d.]*" required name="price_{{$product->id}}" value="{{$product->price}}" class="col-md-4"/>
                                     </td>
                                     <td>
                                         <div class="btn-group" id="status" data-toggle="buttons">
@@ -47,8 +56,21 @@
                                         </div>
 
                                     </td>
+
                                     <td>
-                                        <input type="number" required name="quantity_{{$product->id}}" value="{{$product->quantity}}" />
+                                        <select name="producers_{{$product->id}}[]" id="producers_{{$product->id}}" multiple>
+                                            @foreach($producers as $producer)
+                                                <option value="{{$producer->id}}"
+{{--                                                @if(!is_null($product->producers))--}}
+                                                    @foreach($product->producers as $producerIn)
+                                                        @if($producerIn->id == $producer->id)
+                                                            selected
+                                                        @endif
+                                                    @endforeach
+{{--                                                @endif--}}
+                                                >{{$producer->name}}</option>
+                                            @endforeach
+                                        </select>
                                     </td>
                                 </tr>
                             @endforeach
