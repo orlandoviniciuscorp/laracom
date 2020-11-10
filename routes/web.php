@@ -44,6 +44,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
 
             Route::namespace('Products')->group(function () {
 
+                Route::get('/list-all-product','ProductController@listAllProduct')->name('product.list.all-products');
                 Route::post('/update-quantity', 'ProductController@updateQuantity')->name('products.update-quantity');
                 Route::post('/update-quantity-batch', 'ProductController@updateQuantityBatch')->name('products.update-quantity-batch');
                 Route::post('/empty-availability', 'ProductController@emptyAvailability')->name('products.empty-availability');
