@@ -358,7 +358,7 @@ class ProductController extends Controller
                 $product->name = $value;
             } if($fragment[0] == "status"){
                 $product->status = $value;
-                $product->save();
+
             } if($fragment[0] == "price"){
 
                 $product->price = $value;
@@ -367,7 +367,7 @@ class ProductController extends Controller
 
 //                $product = null;
             }
-
+            $product->save();
             if($fragment[0] == "producers") {
 
 //                dd();
@@ -381,6 +381,8 @@ class ProductController extends Controller
                 $product = null;
 
             }
+
+
         }
 
         $request->session()->flash('message', $this->getSucessMesseger());
