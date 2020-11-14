@@ -101,6 +101,12 @@ class ProductController extends Controller
     public function listProducts(){
 
         $list = $this->productRepo->listProducts('name','asc');
+
+        $newestList = $this->productRepo->listProducts('created_at','desc');
+
+        $newestProducts = $newestList->where('status',1)->take(9)->map(function (Product $item){
+            return $this->transformProduct($item);
+        });
         $products = $list->where('status', 1)->map(function (Product $item) {
             return $this->transformProduct($item);
         });
@@ -108,7 +114,8 @@ class ProductController extends Controller
             'cats'=>$this->getCategoryOrder(),
             'producers'=>$this->getProducerOrder(),
             'products' => $this->productRepo->paginateArrayResults($products->all(), 30),
-            'config'=> $this->getConfig()
+            'config'=> $this->getConfig(),
+            'newestProducts' => $newestProducts
         ]);
 
     }

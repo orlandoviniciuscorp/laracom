@@ -18,7 +18,9 @@ class UpdateProductRequest extends BaseFormRequest
             'sku' => ['required'],
             'name' => ['required', Rule::unique('products')->ignore($this->segment(3))],
             'quantity' => ['required', 'integer'],
-            'price' => ['required']
+            'price' => ['required'],
+            'categories' =>['required'],
+            'producers' =>['required']
         ];
     }
 
@@ -32,7 +34,8 @@ class UpdateProductRequest extends BaseFormRequest
             'quantity.numeric' =>'O valor da quantidade tem que ser um número',
             'price.required'=> 'Por favor informe o preço do produto',
             'cover.required'=>'Por favor preencha a foto de capa',
-            'categories.required'=>'Por favor informar o Produtor'
+            'categories.required'=>'Por favor informar a categoria',
+            'producers.required'=>'Por favor informar o produtor',
         ];
     }
 }
