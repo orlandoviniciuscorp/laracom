@@ -19,7 +19,8 @@ class CreateProductRequest extends BaseFormRequest
             'quantity' => ['required', 'numeric'],
             'price' => ['required'],
             'cover' => ['required', 'file', 'image:png,jpeg,jpg,gif'],
-            'categories' =>['required']
+            'categories' =>['required'],
+            'producers' =>['required']
         ];
     }
 
@@ -33,7 +34,8 @@ class CreateProductRequest extends BaseFormRequest
             'quantity.numeric' =>'O valor da quantidade tem que ser um número',
             'price.required'=> 'Por favor informe o preço do produto',
             'cover.required'=>'Por favor preencha a foto de capa',
-            'categories.required'=>'Por favor informar o Produtor'
+            'categories.required'=>'Por favor informar a categoria',
+            'producers.required'=>'Por favor informar o produtor',
         ];
     }
 }
