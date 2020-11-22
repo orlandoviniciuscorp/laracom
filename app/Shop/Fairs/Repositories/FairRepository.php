@@ -181,7 +181,7 @@ class FairRepository extends BaseRepository
 
     public function harvest($id)
     {
-        return DB::select('select c.name as produtor, p.name as produto, sum(op.quantity) as quantidade '.
+        return DB::select('select c.name as produtor,p.name as produto, p.id, sum(op.quantity) as quantidade '.
                 ' from orders o, ' .
                 '	 order_product op, ' .
                 '	 products p, ' .
@@ -190,7 +190,8 @@ class FairRepository extends BaseRepository
                 'where o.fair_id = ? and o.order_status_id not in (?,?) ' .
                 'and o.id = op.order_id and p.id = op.product_id ' .
                 'and cp.category_id = c.id and cp.product_id = p.id ' .
-                'group by c.name, p.name', [$id,env('ORDER_ERROR'),env('ORDER_CANCELED')]);
+                'and p.id in (select product_id from producer_product)'.
+                'group by c.name, p.name, p.id', [$id,env('ORDER_ERROR'),env('ORDER_CANCELED')]);
     }
 
     public function deliveryAddresses($fair_id){
