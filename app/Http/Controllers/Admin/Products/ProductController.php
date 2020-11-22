@@ -589,9 +589,26 @@ class ProductController extends Controller
         return $products;
     }
 
+    public function getAllEnabledProduct()
+    {
+        $list = $this->productRepo->listProducts('id')->where('status','=',1);
+
+        $products = $list->map(function (Product $item) {
+            return $this->transformProduct($item);
+        })->all();
+
+        return $products;
+    }
     public function listAllProduct()
     {
-        $products = $this->getAllProducts();
+
+        $product = null;
+        if(request()->has('include_disables') && request()->get('include_disables') == 1){
+            $products = $this->getAllProducts();
+        }else{
+            $products = $this->getAllEnabledProduct();
+        }
+
 
         $producers = $this->producerRepo->listProducers('name', 'asc');
 
