@@ -16,7 +16,12 @@
                                 <br />
                                 <form action="{{route('admin.product.list.all-products')}}" method="get">
                                     <div class="col-sm-2">
-                                        <input type="checkbox" name="include_disables" value="1"> Incluir Desabilitados
+                                        <input type="checkbox" name="include_disables"
+                                                @if(request()->has('include_disables') &&
+                                                    request()->get('include_disables') == 1)
+                                                        checked="checked"
+                                               @endif
+                                               value="1"> Incluir Desabilitados
                                     </div>
                                     <div class="col-sm-2">
 
