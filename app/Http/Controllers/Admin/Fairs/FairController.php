@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Fairs;
 use App\Exports\FinancialExport;
 use App\Exports\HarverstExport;
 use App\Exports\HarverstPaymentExport;
+use App\Exports\ProducerHarverstExport;
 use App\Exports\OrdersDetailExport;
 use App\Shop\Addresses\Repositories\Interfaces\AddressRepositoryInterface;
 use App\Shop\Addresses\Transformations\AddressTransformable;
@@ -23,6 +24,7 @@ use App\Shop\OrderStatuses\OrderStatus;
 use App\Shop\OrderStatuses\Repositories\Interfaces\OrderStatusRepositoryInterface;
 use App\Shop\OrderStatuses\Repositories\OrderStatusRepository;
 use App\Http\Controllers\Controller;
+use App\Shop\Products\Repositories\ProductRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Facades\Excel;
@@ -58,12 +60,14 @@ class FairController extends Controller
         CourierRepositoryInterface $courierRepository,
         CustomerRepositoryInterface $customerRepository,
         OrderStatusRepositoryInterface $orderStatusRepository,
+        ProductRepository $productRepository,
         FairRepository $fairRepository
     ) {
         $this->orderRepo = $orderRepository;
         $this->courierRepo = $courierRepository;
         $this->customerRepo = $customerRepository;
         $this->orderStatusRepo = $orderStatusRepository;
+        $this->productRepo = $productRepository;
         $this->fairRepo = $fairRepository;
 
         $this->middleware(['permission:update-order, guard:employee'], ['only' => ['edit', 'update']]);
@@ -137,6 +141,11 @@ class FairController extends Controller
 //        return $pdf->stream();
 //        return view('invoices.harvest', $data);
         return Excel::download(new HarverstExport($this->fairRepo,$this->orderRepo,$fair_id),'colheita.xlsx');
+    }
+
+    public function showHarvestProducer($fair_id)
+    {
+        return Excel::download(new ProducerHarverstExport($this->fairRepo,$this->orderRepo,$this->productRepo,$fair_id),'colheita.xlsx');
     }
 
     public function generateLabel($fair_id)   {

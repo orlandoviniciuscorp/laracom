@@ -91,6 +91,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
                 Route::get('/{fair_id}/show/','Fairs\FairController@show')->name('fair.show');
                 Route::get('/{fair_id}/order/','Fairs\FairController@showOrders')->name('fair.orders-list');
                 Route::get('/{fair_id}/harvest/','Fairs\FairController@showHarvest')->name('fair.harvest');
+                Route::get('/{fair_id}/producer-harvest/','Fairs\FairController@showHarvestProducer')->name('fair.producer-harvest');
                 Route::get('/{fair_id}/labels/', 'Fairs\FairController@generateLabel')->name('fair.labels');
                 Route::get('/{fair_id}/pending', 'Fairs\FairController@getOrderPending')->name('fair.pending');
                 Route::get('/{fair_id}/delivery', 'Fairs\FairController@generateDeliveryList')->name('fair.delivery');
