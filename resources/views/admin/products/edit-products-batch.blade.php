@@ -6,11 +6,29 @@
     @include('layouts.errors-and-messages')
     <!-- Default box -->
         @if($products)
-            <form action="{{route('admin.products.update-quantity-batch')}}" method="post">
+
                 {{ csrf_field() }}
                 <div class="box">
                     <div class="box-body">
+                        <div class="row">
+                            <div class="panel-body">
+                                <h3>Filtros:</h3>
+                                <br />
+                                <form action="{{route('admin.product.list.all-products')}}" method="get">
+                                    <div class="col-sm-2">
+                                        <input type="checkbox" name="include_disables" value="1"> Incluir Desabilitados
+                                    </div>
+                                    <div class="col-sm-2">
+
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button type="submit" class="btn btn-primary">Filtrar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                         <h2>Atualização em Massa</h2>
+                        <form action="{{route('admin.products.update-quantity-batch')}}" method="post">
                         <table class="table">
                             <thead>
                             <tr>
@@ -79,10 +97,11 @@
                         <br />
                         <button type="submit" class="btn btn-success">Salvar</button>
                         {{--                    {{ $categories->links() }}--}}
+                        </form>
                     </div>
                     <!-- /.box-body -->
                 </div>
-            </form>
+
             <!-- /.box -->
         @endif
 
