@@ -580,6 +580,9 @@ class ProductController extends Controller
 
         if (request()->has('q') && request()->input('q') != '') {
             $list = $this->productRepo->searchProduct(request()->input('q'));
+        }else if(request()->has('categories')){
+            $list = $this->productRepo->listProducts('name')
+                ->whereIn('category_id', request()->get('categories'));
         }
 
         $products = $list->map(function (Product $item) {
@@ -592,6 +595,11 @@ class ProductController extends Controller
     public function getAllEnabledProduct()
     {
         $list = $this->productRepo->listProducts('id')->where('status','=',1);
+
+        if(request()->has('categories')){
+            $list = $this->productRepo->listProducts('name')
+                ->whereIn('category_id', request()->get('categories'));
+        }
 
         $products = $list->map(function (Product $item) {
             return $this->transformProduct($item);
@@ -609,11 +617,15 @@ class ProductController extends Controller
             $products = $this->getAllEnabledProduct();
         }
 
+//        dd($products->where('name','like','%123%'));
+
+        $categories = $this->getCategoryOrder();
 
         $producers = $this->producerRepo->listProducers('name', 'asc');
 
         return view('admin.products.edit-products-batch')->with(['products'=>$products,
-        'producers'=>$producers]);
+        'producers'=>$producers,
+            'categories'=>$categories]);
 
     }
 }
