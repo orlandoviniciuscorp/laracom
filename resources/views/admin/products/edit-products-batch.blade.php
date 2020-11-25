@@ -7,7 +7,7 @@
     <!-- Default box -->
         @if($products)
 
-                {{ csrf_field() }}
+
                 <div class="box">
                     <div class="box-body">
                         <div class="row">
@@ -23,9 +23,12 @@
                                                @endif
                                                value="1"> Incluir Desabilitados
                                     </div>
-                                    <div class="col-sm-2">
-
-                                    </div>
+{{--                                    <div class="col-sm-2">--}}
+{{--                                        @foreach($categories as $category)--}}
+{{--                                            <input type="checkbox" name="categories[]"--}}
+{{--                                            value="{{$category->id}}" > {{$category->name}} <br />--}}
+{{--                                        @endforeach--}}
+{{--                                    </div>--}}
                                     <div class="col-sm-2">
                                         <button type="submit" class="btn btn-primary">Filtrar</button>
                                     </div>
@@ -34,6 +37,7 @@
                         </div>
                         <h2>Atualização em Massa</h2>
                         <form action="{{route('admin.products.update-quantity-batch')}}" method="post">
+                            {{ csrf_field() }}
                         <table class="table">
                             <thead>
                             <tr>
@@ -53,7 +57,7 @@
                                                value="{{$product->name}}" />
                                     </td>
                                     <td>
-                                        <input type="number" required name="quantity_{{$product->id}}" value="{{$product->quantity}}" class="col-md-4"/>
+                                        <input type="number" required name="quantity_{{$product->id}}" value="{{$product->quantity}}" class="col-md-6"/>
                                     </td>
                                     <td>
                                         <input type="text" pattern="[\d.]*" required name="price_{{$product->id}}" value="{{$product->price}}" class="col-md-4"/>
