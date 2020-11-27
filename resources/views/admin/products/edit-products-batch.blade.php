@@ -23,12 +23,17 @@
                                                @endif
                                                value="1"> Incluir Desabilitados
                                     </div>
-{{--                                    <div class="col-sm-2">--}}
-{{--                                        @foreach($categories as $category)--}}
-{{--                                            <input type="checkbox" name="categories[]"--}}
-{{--                                            value="{{$category->id}}" > {{$category->name}} <br />--}}
-{{--                                        @endforeach--}}
-{{--                                    </div>--}}
+                                    <div class="col-sm-2">
+                                        @foreach($categories as $category)
+                                            <input type="checkbox" name="categories[]"
+                                            value="{{$category->id}}"
+                                            @if(request()->has('categories') &&
+                                                    in_array($category->id,request()->get('categories')))
+                                                checked="checked"
+                                            @endif
+                                            > {{$category->name}} <br />
+                                        @endforeach
+                                    </div>
                                     <div class="col-sm-2">
                                         <button type="submit" class="btn btn-primary">Filtrar</button>
                                     </div>
