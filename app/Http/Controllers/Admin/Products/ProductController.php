@@ -14,6 +14,7 @@ use App\Shop\ProductPercents\Repositories\ProductPercentRepository;
 use App\Shop\Products\Exceptions\ProductInvalidArgumentException;
 use App\Shop\Products\Exceptions\ProductNotFoundException;
 use App\Shop\Products\Product;
+use App\Shop\Products\Product as ProductModel;
 use App\Shop\Products\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Shop\Products\Repositories\ProductRepository;
 use App\Shop\ProductPercents\Requests\CreateProductPercentRequest;
@@ -354,6 +355,10 @@ class ProductController extends Controller
             $fragment = explode("_",$key);
             if($fragment[0] == "id"){
                 $product = $this->productRepo->find($value);
+
+                if(is_null($product)){
+                 dd($value);
+                }
             } if($fragment[0] == "name"){
                 $product->name = $value;
             } if($fragment[0] == "status"){
@@ -597,9 +602,18 @@ class ProductController extends Controller
         $list = $this->productRepo->listProducts('id')->where('status','=',1);
 
         if(request()->has('categories')){
-            $list = $this->productRepo->listProducts('name')
-                ->whereIn('category_id', request()->get('categories'));
+            $list = $this->productRepo->listProducts('name');
+            $categories = request()->get('categories');
+
+            $p = ProductModel::with('categories')
+
+                ->join('category_product','products.id','=','category_product.product_id')
+                ->whereIn('category_product.category_id',$categories)
+                ->get();
+            return $p;
         }
+
+
 
         $products = $list->map(function (Product $item) {
             return $this->transformProduct($item);
@@ -610,12 +624,21 @@ class ProductController extends Controller
     public function listAllProduct()
     {
 
-        $product = null;
-        if(request()->has('include_disables') && request()->get('include_disables') == 1){
-            $products = $this->getAllProducts();
-        }else{
-            $products = $this->getAllEnabledProduct();
+        $products = ProductModel::select('products.*')->with('categories')->whereNull('deleted_at');
+
+        if(!request()->has('include_disables') || request()->get('include_disables') != 1){
+            $products = $products->where('status','=',1);
         }
+
+        if(request()->has('categories')){
+            $categories = request()->get('categories');
+            $products = $products->join('category_product','products.id','=','category_product.product_id')
+                ->whereIn('category_product.category_id',$categories);
+
+
+        }
+
+//        dd($products->get()[0]);
 
 //        dd($products->where('name','like','%123%'));
 
@@ -623,7 +646,7 @@ class ProductController extends Controller
 
         $producers = $this->producerRepo->listProducers('name', 'asc');
 
-        return view('admin.products.edit-products-batch')->with(['products'=>$products,
+        return view('admin.products.edit-products-batch')->with(['products'=>$products->get(),
         'producers'=>$producers,
             'categories'=>$categories]);
 
