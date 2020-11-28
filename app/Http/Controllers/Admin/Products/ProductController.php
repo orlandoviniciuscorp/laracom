@@ -651,4 +651,14 @@ class ProductController extends Controller
             'categories'=>$categories]);
 
     }
+
+    public function listPendency()
+    {
+        $productCategories = Product::where('status','=',1)->whereDoesntHave('categories')->get();
+        $productProducers = Product::where('status','=',1)->whereDoesntHave('producers')->get();
+
+        return view('admin.products.pendency')->with(['productCategories'=>$productCategories,
+            'productProducers'=>$productProducers
+            ]);
+    }
 }
