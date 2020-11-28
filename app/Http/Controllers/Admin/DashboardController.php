@@ -9,7 +9,10 @@ use App\Shop\Fairs\Repositories\FairRepository;
 use App\Shop\Orders\Order;
 use App\Shop\Orders\Repositories\OrderRepository;
 use App\Shop\Configurations\Repositories\ConfigurationRepository;
+use App\Shop\Products\Product;
+use App\Shop\Products\Repositories\ProductRepository;
 use Illuminate\Http\Request;
+use PhpParser\Node\Expr\Array_;
 
 class DashboardController extends Controller
 {
@@ -41,11 +44,14 @@ class DashboardController extends Controller
         ];
         populate_breadcumb($breadcumb);
 
+        $this->checkPendency($fair);
+//
 
         return view('admin.dashboard')->with('fair',$fair)
             ->with('totalOrders',$totalOrders)
             ->with('amount',$amount)
-            ->with('config',$this->getConfig());
+            ->with('config',$this->getConfig())
+            ->withErrors($this->checkPendency($fair));
     }
 
     public function open(Request $request)
@@ -78,5 +84,26 @@ class DashboardController extends Controller
         $request->session()->flash('message',$this->getSucessMesseger());
         return redirect(route('admin.dashboard'));
 
+    }
+
+    private function checkPendency($fair)
+    {
+        $erros = Array();
+
+            if(Product::where('status','=',1)->whereDoesntHave('categories')->get()->count() > 0){
+
+               array_push($erros,'Há Produtos Habilitados sem categorias, por favor verificar em Pendências');
+
+            }
+
+
+
+            if(Product::where('status','=',1)->whereDoesntHave('producers')->get()->count() > 0){
+
+                array_push($erros,'Há Produtos Habilitados sem Produtores, por favor verificar em Pendências');
+
+            }
+
+        return $erros;
     }
 }
