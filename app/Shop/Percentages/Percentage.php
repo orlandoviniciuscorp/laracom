@@ -15,32 +15,7 @@ class Percentage extends Model
 {
     use SearchableTrait;
 
-    public const MASS_UNIT = [
-        'OUNCES' => 'oz',
-        'GRAMS' => 'gms',
-        'POUNDS' => 'lbs'
-    ];
 
-    public const DISTANCE_UNIT = [
-        'CENTIMETER' => 'cm',
-        'METER' => 'mtr',
-        'INCH' => 'in',
-        'MILIMETER' => 'mm',
-        'FOOT' => 'ft',
-        'YARD' => 'yd'
-    ];
-
-    /**
-     * Searchable rules.
-     *
-     * @var array
-     */
-    protected $searchable = [
-        'columns' => [
-            'products.name' => 10,
-            'products.description' => 5
-        ]
-    ];
 
     /**
      * The attributes that are mass assignable.

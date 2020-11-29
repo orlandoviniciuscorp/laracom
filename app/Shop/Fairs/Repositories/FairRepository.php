@@ -68,8 +68,8 @@ class FairRepository extends BaseRepository
 
     /**
      * @param int $id
-     * @return Order
-     * @throws OrderNotFoundException
+     * @return Fair
+     * @throws FairNotFoundException
      */
     public function findFairById(int $id) : Fair
     {
