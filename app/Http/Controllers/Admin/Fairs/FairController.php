@@ -16,6 +16,8 @@ use App\Shop\Customers\Customer;
 use App\Shop\Customers\Repositories\CustomerRepository;
 use App\Shop\Customers\Repositories\Interfaces\CustomerRepositoryInterface;
 use App\Shop\Fair\Requests\CreateFairRequest;
+use App\Shop\FairFinancials\FairFinancial;
+use App\Shop\FairFinancials\Repositories\FairFinancialRepository;
 use App\Shop\Orders\Order;
 use App\Shop\Fairs\Repositories\FairRepository;
 use App\Shop\Orders\Repositories\Interfaces\OrderRepositoryInterface;
@@ -188,11 +190,74 @@ class FairController extends Controller
 
     }
 
+    public function createFairFinancial($fair_id){
+
+
+        $data = Array();
+
+//    dump($harvest);
+        $fair = $this->fairRepo->findFairById($fair_id);
+
+        if($fair->fairFinancials()->count() == 0){
+        $harvest = $this->fairRepo->harvest($fair_id);
+
+        foreach($harvest as $item) {
+            $product = $this->productRepo->findProductById($item->id);
+            $quantity = array();
+//            dd($product->producers->count());
+            foreach ($product->producers as $producer) {
+
+                $quantity[$producer->id] = 0;
+            }
+            $productQuantity = $item->quantidade;
+//            dd($quantity);
+
+            while ($productQuantity != 0) {
+                foreach ($quantity as $key => $value)
+                    if ($productQuantity != 0) {
+                        $quantity[$key] = $value + 1;
+                        $productQuantity--;
+                    }
+            }
+            foreach ($quantity as $key => $value) {
+                $fairFinancial = new FairFinancial();
+                $fairFinancial->fair_id = $fair_id;
+                $fairFinancial->producer_id = $key;
+                $fairFinancial->product_id = $product->id;
+                $fairFinancial->quantity = $value;
+
+                $fairFinancial->farmer = $product->percentage->farmer / 100 * $product->price * $value;
+                $fairFinancial->plataform = $product->percentage->plataform / 100 * $product->price * $value;
+                $fairFinancial->separation = $product->percentage->separation / 100 * $product->price * $value;
+                $fairFinancial->fund = $product->percentage->fund / 100 * $product->price * $value;
+                $fairFinancial->payments_transfer = $product->percentage->payments_transfer / 100 * $product->price * $value;
+                $fairFinancial->accounting_close = $product->percentage->accounting_close / 100 * $product->price * $value;
+                $fairFinancial->client_contact = $product->percentage->client_contact / 100 * $product->price * $value;
+                $fairFinancial->payment_conference = $product->percentage->payment_conference / 100 * $product->price * $value;
+
+//                dump($fairFinancial);
+
+                $fairFinancialRepo = new FairFinancialRepository($fairFinancial);
+                $fairFinancialRepo->create($fairFinancial->toArray());
+
+            }
+        }
+            return redirect()->route('admin.fair.financial',$fair->id);
+        }else{
+            return redirect()->route('admin.fair.financial',$fair->id)->withErrors('O Extrato já foi gerado.');
+        }
+
+    }
+
     public function financial($fair_id)
     {
+        $fair = $this->fairRepo->find($fair_id);
+//        dd($fair->fairFinancials()->get()[0]->totalProducers());
+
          $data = ['financial'=>$this->fairRepo->getExtract($fair_id)];
          $data = array_merge($data,['productors'=>$this->fairRepo->getHarverstPayment($fair_id)]);
          $data = array_merge($data,['fair'=>$this->fairRepo->find($fair_id)]);
+//         $data = array_merge($data,['fairFinancial'])
          $data = array_merge($data,['totalOrders'=>$this->orderRepo->totalOrders($fair_id)]);
         $data = array_merge($data,['totalAmount'=>$this->orderRepo->totalAmount($fair_id)]);
 

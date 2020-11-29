@@ -82,48 +82,56 @@
                     <hr/>
                     <div class="box-tools">
                     <h3>Pagamento por Produtor/Catergoria</h3>
-                        <br />
-                        <a href="{{ route('admin.fair.detail-export-harverst-payment', $fair->id) }}">
-                            <button name="report" class="btn btn-success">Exportar Produtos Vendidos</button>
-                        </a>
-                        <br />
 
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <td>Categoria</td>
-                            <td>Produto</td>
-                            <td>Qtd</td>
-                            <td>Valor Vendido</td>
-                            <td>Valor Produtor</td>
-                            <td>Plataforma</td>
-                            <td>Separação</td>
-                            <td>Caixinha</td>
-                            <td>Pagamentos</td>
-                            <td>Contato Clientes</td>
-                            <td>Contas</td>
-                            <td>Conferencia</td>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($productors as $productor)
-                                <tr>
-                                    <td>{{$productor->produtor}}</td>
-                                    <td>{{$productor->produto}}</td>
-                                    <td>{{$productor->quantidade}}</td>
-                                    <td>{{currency_format($productor->valor_vendido)}}</td>
-                                    <td>{{currency_format($productor->valor_produtor)}}</td>
-                                    <td>{{currency_format($productor->plataforma)}}</td>
-                                    <td>{{currency_format($productor->separacao)}}</td>
-                                    <td>{{currency_format($productor->caixinha)}}</td>
-                                    <td>{{currency_format($productor->pagamentos)}}</td>
-                                    <td>{{currency_format($productor->contato_cliente)}}</td>
-                                    <td>{{currency_format($productor->contas)}}</td>
-                                    <td>{{currency_format($productor->conferencia_pagamento)}}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                        <div class="col-sm-2">
+                            <a href="{{ route('admin.fair.create-fair-financial', $fair->id) }}">
+                                <button name="report" class="btn btn-primary">Gerar Extrato Financeiro</button>
+                            </a>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <a href="{{ route('admin.fair.detail-export-harverst-payment', $fair->id) }}">
+                                <button name="report" class="btn btn-success">Exportar Produtos Vendidos</button>
+                            </a>
+                        </div>
+                        @include('admin.fairs.table')
+
+{{--                    <table class="table">--}}
+{{--                        <thead>--}}
+{{--                        <tr>--}}
+{{--                            <td>Categoria</td>--}}
+{{--                            <td>Produto</td>--}}
+{{--                            <td>Qtd</td>--}}
+{{--                            <td>Valor Vendido</td>--}}
+{{--                            <td>Valor Produtor</td>--}}
+{{--                            <td>Plataforma</td>--}}
+{{--                            <td>Separação</td>--}}
+{{--                            <td>Caixinha</td>--}}
+{{--                            <td>Pagamentos</td>--}}
+{{--                            <td>Contato Clientes</td>--}}
+{{--                            <td>Contas</td>--}}
+{{--                            <td>Conferencia</td>--}}
+{{--                        </tr>--}}
+{{--                        </thead>--}}
+{{--                        <tbody>--}}
+{{--                            @foreach($productors as $productor)--}}
+{{--                                <tr>--}}
+{{--                                    <td>{{$productor->produtor}}</td>--}}
+{{--                                    <td>{{$productor->produto}}</td>--}}
+{{--                                    <td>{{$productor->quantidade}}</td>--}}
+{{--                                    <td>{{currency_format($productor->valor_vendido)}}</td>--}}
+{{--                                    <td>{{currency_format($productor->valor_produtor)}}</td>--}}
+{{--                                    <td>{{currency_format($productor->plataforma)}}</td>--}}
+{{--                                    <td>{{currency_format($productor->separacao)}}</td>--}}
+{{--                                    <td>{{currency_format($productor->caixinha)}}</td>--}}
+{{--                                    <td>{{currency_format($productor->pagamentos)}}</td>--}}
+{{--                                    <td>{{currency_format($productor->contato_cliente)}}</td>--}}
+{{--                                    <td>{{currency_format($productor->contas)}}</td>--}}
+{{--                                    <td>{{currency_format($productor->conferencia_pagamento)}}</td>--}}
+{{--                                </tr>--}}
+{{--                            @endforeach--}}
+{{--                        </tbody>--}}
+{{--                    </table>--}}
                     </div>
 
                 </div>

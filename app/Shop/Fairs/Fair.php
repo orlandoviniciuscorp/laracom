@@ -5,6 +5,7 @@ namespace App\Shop\Fairs;
 use App\Shop\Addresses\Address;
 use App\Shop\Couriers\Courier;
 use App\Shop\Customers\Customer;
+use App\Shop\FairFinancials\FairFinancial;
 use App\Shop\OrderStatuses\OrderStatus;
 use App\Shop\Products\Product;
 use Illuminate\Database\Eloquent\Model;
@@ -14,28 +15,6 @@ class Fair extends Model
 {
     use SearchableTrait;
 
-    /**
-     * Searchable rules.
-     *
-     * Columns and their priority in search results.
-     * Columns with higher values are more important.
-     * Columns with equal values have equal importance.
-     *
-     * @var array
-     */
-//    protected $searchable = [
-//        'columns' => [
-//            'customers.name' => 10,
-//            'orders.reference' => 8,
-//            'products.name' => 5
-//        ],
-//        'joins' => [
-//            'customers' => ['customers.id', 'orders.customer_id'],
-//            'order_product' => ['orders.id', 'order_product.order_id'],
-//            'products' => ['products.id', 'order_product.product_id'],
-//        ],
-//        'groupBy' => ['orders.id']
-//    ];
 
     /**
      * The attributes that are mass assignable.
@@ -64,4 +43,8 @@ class Fair extends Model
         return $this->hasMany(Order::class);
     }
 
+    public function fairFinancials()
+    {
+        return $this->hasMany(FairFinancial::class)->orderBy('producer_id');
+    }
 }
