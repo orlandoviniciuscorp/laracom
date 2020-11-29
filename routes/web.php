@@ -101,6 +101,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
                 Route::post('/{fair_id}/mark-all-as-payed', 'Fairs\FairController@markAllAssPayed')->name('fair.mark-all-as-payed');
                 Route::get('/{fair_id}/export-result-fair', 'Fairs\FairController@exportFair')->name('fair.detail-export-fair');
                 Route::get('/{fair_id}/export-harvest-payment', 'Fairs\FairController@exportHarverstPayment')->name('fair.detail-export-harverst-payment');
+                Route::get('/{fair_id}/create-fair-financial','Fairs\FairController@createFairFinancial')->name('fair.create-fair-financial');
                 Route::get('/{fair_id}/export-orders', 'Fairs\FairController@exportFairsOrders')->name('fair.detail-export-orders');
 
 
