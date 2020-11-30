@@ -36,7 +36,7 @@
     @endforeach
     </tbody>
 </table>
-
+@if($fair->fairFinancials->count() > 0)
 <table class="table">
     <tr>
         <th colspan="2">
@@ -101,3 +101,4 @@
     </tr>
 
 </table>
+@endif
