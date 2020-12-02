@@ -91,7 +91,7 @@
                                         <ul class="product__item__pic__hover">
                                             <li>
                                                 <form name="form_{{$product->slug}}" id="form_{{$product->slug}}"
-                                                      action="{{ route('cart.store') }}" class="form-inline" method="post">
+                                                      action="{{ route('cart.store') }}" class="form-inline" method="post" ">
                                                     {{ csrf_field() }}
                                                     <div class="pro-qty">
                                                         <input type="text" value="1" name="quantity" >
@@ -100,6 +100,8 @@
                                                     <button id="add-to-cart-btn" name="add-to-cart-btn" type="submit" class="btn btn-success"
                                                             @if($product->quantity < 1)
                                                             disabled
+                                                            @else
+                                                            onclick="sendAjax('form_{{$product->slug}}')"
                                                             @endif
                                                             data-toggle="modal" data-target="#cart-modal">
                                                         <i class="fa fa-cart-plus">
