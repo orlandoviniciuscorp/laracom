@@ -23,23 +23,26 @@
     <link rel="stylesheet" href="{{asset('css/owl.carousel.min.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('css/slicknav.min.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('css/style.css')}}" type="text/css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 
 <body>
+@include('sweet::alert')
 @include('layouts.front.header')
 
 @yield('content')
 
 @include('layouts.front.footer')
 @yield('post-script')
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-180037187-1"></script>
+@yield('google-analytics-script')
+{{--<!-- Global site tag (gtag.js) - Google Analytics -->--}}
+<script async src="https://www.googletagmanager.com/gtag/js?id={{env('GOOGLE_ANALYTICS')}}"></script>
 <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
-    gtag('config', 'UA-180037187-1');
+//
+    gtag('config', '{{env('GOOGLE_ANALYTICS')}}');
 </script>
 
 
