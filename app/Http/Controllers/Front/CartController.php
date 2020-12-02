@@ -153,13 +153,23 @@ class CartController extends Controller
             $options['product_attribute_id'] = $request->input('productAttribute');
             $options['combination'] = $attr->attributesValues->toArray();
         }
-
-        $this->cartRepo->addToCart($product, $request->input('quantity'), $options);
+        if($product->quantity <1){
+            $msg= $product->name .' Esgotado.';
+            $status = 'error';
+        }else if($product->quantity < $request->input('quantity')){
+            $msg = $product->name .' só possui ' . $product->quantity . ' no estoque';
+            $status = 'error';
+        }else {
+            $this->cartRepo->addToCart($product, $request->input('quantity'), $options);
+            $msg= $product->name .' adicionado ao carrinho';
+            $status = 'success';
+        }
+        $obj = ['status'=>$status,'message'=>$msg];
 
 //        return redirect()->to(route('home').'#'.$request->input('category_slug'))
 //            ->with('message', $product->name .' adicionado ao carrinho');
         //return redirect()->back()->with('message', $product->name .' adicionado ao carrinho');
-        return Response::json($product->name . ' '. $this->getSucessMesseger());
+        return Response::json($obj);
     }
 
     /**

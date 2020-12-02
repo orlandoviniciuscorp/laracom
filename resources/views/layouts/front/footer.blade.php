@@ -104,3 +104,42 @@
 <script src="{{asset('js/owl.carousel.min.js')}}"></script>
 <script src="{{asset('js/main.js')}}"></script>
 
+
+<script type="text/javascript">
+    $(document).ready(function() {
+    });
+    function sendAjax(formId) {
+        // this is the id of the form
+        //
+        idf = "#" + formId;
+        //
+        $(idf).ready(function () {
+        });
+        //
+        $(idf).submit(function (e) {
+            //
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+            //
+            //
+            var url = '{{route('front.add.cart')}}'
+            //
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: $(idf).serialize(),
+                success: function (data) {
+                    // console.log(data.message);
+                    // alert(data); // show response from the php script.
+                    swal({
+                        text: data.message,
+                        icon: data.status
+                    });
+
+                }
+            });
+
+        });
+    }
+    //
+</script>
+

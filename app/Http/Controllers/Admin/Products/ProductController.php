@@ -624,7 +624,9 @@ class ProductController extends Controller
     public function listAllProduct()
     {
 
-        $products = ProductModel::select('products.*')->with('categories')->whereNull('deleted_at');
+        $products = ProductModel::select('products.*')
+            ->with('categories')
+            ->whereNull('deleted_at')->orderBy('products.name');
 
         if(!request()->has('include_disables') || request()->get('include_disables') != 1){
             $products = $products->where('status','=',1);
