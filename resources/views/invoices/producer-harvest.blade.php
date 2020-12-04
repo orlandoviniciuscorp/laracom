@@ -26,10 +26,10 @@
         <table border="0" style="border: 1px solid black">
             <tr>
                 <th>
-                    Produto
+                    Sítio
                 </th>
                 <th>
-                    Sítio
+                    Produto
                 </th>
                 <th>
                     Quantidade
@@ -42,16 +42,16 @@
                     @foreach($c['produtor'] as $key=>$value)
                     <tr>
                         <td>
-                            {{$c['produto']}}
+                            {{$key}}
                         </td>
                         <td>
-                            {{$key}}
+                            {{$c['produto']}}
                         </td>
                         <td>
                             {{$value}}
                         </td>
                     </tr>
-                    10\@endforeach
+                    @endforeach
                 @endforeach
         </table>
 {{--        <!-- /.box-body -->--}}

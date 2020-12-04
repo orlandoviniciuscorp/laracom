@@ -6,6 +6,7 @@ use App\Shop\Carts\Repositories\CartRepository;
 use App\Shop\Carts\ShoppingCart;
 use App\Shop\FairFinancials\FairFinancial;
 use App\Shop\Fairs\Fair;
+use App\Shop\Fairs\Repositories\FairRepository;
 use Carbon\Carbon;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\DB;
@@ -77,14 +78,57 @@ class FairFinancialRepository extends BaseRepository
         return $this->all($columns, $order, $sort);
     }
 
+    public function createFairFinancialByFairId($fair_id)
+    {
+        $fairRepo = new FairRepository(Fair::where('id','=',$fair_id)->first());
+        $harvest = $fairRepo ->harvest($fair_id);
 
+        foreach($harvest as $item) {
+            $product = Product::where('id','=',$item->id)->first();
+            $quantity = array();
+//            dd($product->producers->count());
+            foreach ($product->producers as $producer) {
 
+                $quantity[$producer->id] = 0;
+            }
+            $productQuantity = $item->quantidade;
+//            dd($quantity);
 
-    /**
-     * @param Product $product
-     * @param int $quantity
-     * @param array $data
-     */
+            while ($productQuantity != 0) {
+                foreach ($quantity as $key => $value)
+                    if ($productQuantity != 0) {
+                        $quantity[$key] = $value + 1;
+                        $productQuantity--;
+                    }
+            }
+            foreach ($quantity as $key => $value) {
+                $fairFinancial = new FairFinancial();
+                $fairFinancial->fair_id = $fair_id;
+                $fairFinancial->producer_id = $key;
+                $fairFinancial->product_id = $product->id;
+                $fairFinancial->quantity = $value;
 
+                $fairFinancial->farmer = $product->percentage->farmer / 100 * $product->price * $value;
+                $fairFinancial->plataform = $product->percentage->plataform / 100 * $product->price * $value;
+                $fairFinancial->separation = $product->percentage->separation / 100 * $product->price * $value;
+                $fairFinancial->fund = $product->percentage->fund / 100 * $product->price * $value;
+                $fairFinancial->payments_transfer = $product->percentage->payments_transfer / 100 * $product->price * $value;
+                $fairFinancial->accounting_close = $product->percentage->accounting_close / 100 * $product->price * $value;
+                $fairFinancial->client_contact = $product->percentage->client_contact / 100 * $product->price * $value;
+                $fairFinancial->payment_conference = $product->percentage->payment_conference / 100 * $product->price * $value;
+
+                $this->create($fairFinancial->toArray());
+
+            }
+        }
+    }
+
+    public function refreshFairFinancial($fair_id){
+
+         FairFinancial::where('fair_id','=',$fair_id)->delete();
+
+         $this->createFairFinancialByFairId($fair_id);
+
+    }
 
 }

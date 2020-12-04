@@ -3,6 +3,8 @@
 namespace App\Listeners;
 
 use App\Events\OrderCreateEvent;
+use App\Shop\FairFinancials\FairFinancial;
+use App\Shop\FairFinancials\Repositories\FairFinancialRepository;
 use App\Shop\Orders\Repositories\OrderRepository;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -32,5 +34,9 @@ class OrderCreateEventListener
 
         $orderRepo = new OrderRepository($event->order);
         $orderRepo->sendEmailNotificationToAdmin();
+
+        $fairRepo = new FairFinancialRepository(new FairFinancial());
+
+        $fairRepo->refreshFairFinancial($event->order->fair_id);
     }
 }
