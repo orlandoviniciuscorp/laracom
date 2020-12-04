@@ -57,13 +57,16 @@ class FairController extends Controller
 
     private $fairRepo;
 
+    private $fairFinancialRepo;
+
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         CourierRepositoryInterface $courierRepository,
         CustomerRepositoryInterface $customerRepository,
         OrderStatusRepositoryInterface $orderStatusRepository,
         ProductRepository $productRepository,
-        FairRepository $fairRepository
+        FairRepository $fairRepository,
+        FairFinancialRepository $fairFinancialRepository
     ) {
         $this->orderRepo = $orderRepository;
         $this->courierRepo = $courierRepository;
@@ -71,6 +74,7 @@ class FairController extends Controller
         $this->orderStatusRepo = $orderStatusRepository;
         $this->productRepo = $productRepository;
         $this->fairRepo = $fairRepository;
+        $this->fairFinancialRepo = $fairFinancialRepository;
 
         $this->middleware(['permission:update-order, guard:employee'], ['only' => ['edit', 'update']]);
     }
@@ -193,59 +197,19 @@ class FairController extends Controller
     public function createFairFinancial($fair_id){
 
 
-        $data = Array();
+
 
 //    dump($harvest);
         $fair = $this->fairRepo->findFairById($fair_id);
 
-        if($fair->fairFinancials()->count() == 0){
-        $harvest = $this->fairRepo->harvest($fair_id);
+//        if($fair->fairFinancials()->count() == 0){
 
-        foreach($harvest as $item) {
-            $product = $this->productRepo->findProductById($item->id);
-            $quantity = array();
-//            dd($product->producers->count());
-            foreach ($product->producers as $producer) {
+            $this->fairFinancialRepo->refreshFairFinancial($fair_id);
 
-                $quantity[$producer->id] = 0;
-            }
-            $productQuantity = $item->quantidade;
-//            dd($quantity);
-
-            while ($productQuantity != 0) {
-                foreach ($quantity as $key => $value)
-                    if ($productQuantity != 0) {
-                        $quantity[$key] = $value + 1;
-                        $productQuantity--;
-                    }
-            }
-            foreach ($quantity as $key => $value) {
-                $fairFinancial = new FairFinancial();
-                $fairFinancial->fair_id = $fair_id;
-                $fairFinancial->producer_id = $key;
-                $fairFinancial->product_id = $product->id;
-                $fairFinancial->quantity = $value;
-
-                $fairFinancial->farmer = $product->percentage->farmer / 100 * $product->price * $value;
-                $fairFinancial->plataform = $product->percentage->plataform / 100 * $product->price * $value;
-                $fairFinancial->separation = $product->percentage->separation / 100 * $product->price * $value;
-                $fairFinancial->fund = $product->percentage->fund / 100 * $product->price * $value;
-                $fairFinancial->payments_transfer = $product->percentage->payments_transfer / 100 * $product->price * $value;
-                $fairFinancial->accounting_close = $product->percentage->accounting_close / 100 * $product->price * $value;
-                $fairFinancial->client_contact = $product->percentage->client_contact / 100 * $product->price * $value;
-                $fairFinancial->payment_conference = $product->percentage->payment_conference / 100 * $product->price * $value;
-
-//                dump($fairFinancial);
-
-                $fairFinancialRepo = new FairFinancialRepository($fairFinancial);
-                $fairFinancialRepo->create($fairFinancial->toArray());
-
-            }
-        }
             return redirect()->route('admin.fair.financial',$fair->id);
-        }else{
-            return redirect()->route('admin.fair.financial',$fair->id)->withErrors('O Extrato já foi gerado.');
-        }
+//        }else{
+//            return redirect()->route('admin.fair.financial',$fair->id)->withErrors('O Extrato já foi gerado.');
+//        }
 
     }
 

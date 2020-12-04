@@ -60,7 +60,8 @@ class FairFinancial extends Model
 
     public function sumProducer(){
 
-        return $this->where('producer_id','=',$this->producer_id)->sum('farmer');
+        return $this->where('producer_id','=',$this->producer_id)
+            ->where('fair_id','=',$this->fair_id)->sum('farmer');
     }
 
     public function sumPlataform()

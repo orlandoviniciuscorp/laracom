@@ -135,6 +135,10 @@
                         icon: data.status
                     });
 
+                    var cartNumber = parseInt($("#cartNumber").text()) +1;
+                    console.log('Carrinho: ' +  cartNumber);
+                    $("#cartNumber").text(cartNumber);
+
                 }
             });
 
