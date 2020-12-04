@@ -45,33 +45,12 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="is_distinct">Produto diferenciável <span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <input
-                                            type="radio"
-                                            name="is_distinct"
-                                            id="is_distinct"
-                                            @if(is_null(old('is_distinct')) || old('is_distinct') == 0)
-                                            checked="checked"
-                                            @endif
-                                            value="0"> Não
-                                    <br/>
-                                    <input
-                                            type="radio"
-                                            name="is_distinct"
-                                            id="is_distinct"
-                                            @if(old('is_distinct') == 1)
-                                            checked="checked"
-                                            @endif
-                                            value="1"> Sim
-
-
-
-                                </div>
-                            </label>
-                        </div>
-                        <div class="form-group">
                         <label for="status">Percentual </label>
+                            <input
+                                    type="hidden"
+                                    name="is_distinct"
+                                    id="is_distinct"
+                                    value="0">
                         <select name="percentage_id" id="status" class="form-control select2">
                             @foreach($percentages as $percentage)
                             <option value="{{$percentage->id}}"

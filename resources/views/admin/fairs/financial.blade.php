@@ -85,7 +85,13 @@
 
                         <div class="col-sm-2">
                             <a href="{{ route('admin.fair.create-fair-financial', $fair->id) }}">
-                                <button name="report" class="btn btn-primary">Gerar Extrato Financeiro</button>
+                                <button name="report" class="btn btn-primary">
+                                    @if($fair->fairFinancials->count() == 0)
+                                        Gerar Extrato Financeiro
+                                    @else
+                                        Atualizar Extrato Financeiro
+                                    @endif
+                                </button>
                             </a>
                         </div>
 
