@@ -185,7 +185,7 @@
                             </table>
                         </div>
 
-                        <form action="{{ route('checkout.store') }}" method="post">
+                        <form action="{{ route('checkout.store') }}" method="post" onsubmit="disableButton()">
                         <div class="row">
                             <div class="col-md-12">
                                 <legend><i class="fa fa-commenting" aria-hidden="true"></i> Observação</legend>
@@ -257,7 +257,7 @@
                                     <p class="alert alert-danger">No payment method set</p>
                                 @endif
                                     <a href="{{ route('cart.index') }}" class="btn btn-dark">Voltar</a>
-                                    <button type="submit" onclick="return confirm('Tem Certeza?')" class="btn btn-danger">Confirmar Compra</button>
+                                    <button type="submit" id="btn_confirm"onclick="return confirm('Tem Certeza?'); " class="btn btn-danger">Confirmar Compra</button>
                                     <br />
                                     <br />
                             </div>
@@ -281,6 +281,12 @@
 @endsection
 @section('js')
     <script type="text/javascript">
+
+        function disableButton() {
+            var btn = document.getElementById('btn_confirm');
+            btn.disabled = true;
+            btn.innerText = 'Finalizando';
+        }
 
         function setTotal(total, shippingCost) {
             let computed = +shippingCost + parseFloat(total);
