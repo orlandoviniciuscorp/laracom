@@ -51,30 +51,39 @@
                                     name="is_distinct"
                                     id="is_distinct"
                                     value="0">
+
                         <select name="percentage_id" id="status" class="form-control select2">
+
                             @foreach($percentages as $percentage)
+
                             <option value="{{$percentage->id}}"
-                                    @if(((!is_null(old('percentage_id'))
-                                    && old('percentage_id') == $percentage->id)))
+                                    @if((old('percentage_id',null) === null
+                                        && $percentage->name == 'Padrão')))
                                         selected="selected"
+                                    @endif
+                                    @if(
+                                        old('percentage_id') == $percentage->id)
+                                    selected="selected"
                                     @endif>{{$percentage->name}}</option>
                             @endforeach
                         </select>
                         </div>
 
-
-                        @if(!$brands->isEmpty())
                         <div class="form-group">
-                            <label for="brand_id">Brand </label>
-                            <select name="brand_id" id="brand_id" class="form-control select2">
-                                <option value=""></option>
-                                @foreach($brands as $brand)
-                                    <option @if(old('brand_id') == $brand->id) selected="selected" @endif value="{{ $brand->id }}">{{ $brand->name }}</option>
-                                @endforeach
-                            </select>
+                            <label for="name">Em Promoção: <span class="text-danger">*</span></label>
+                            <br />
+                            <div class="btn-group" id="status" data-toggle="buttons">
+                                <label class="btn btn-default btn-on btn-xs">
+                                    <input type="radio" value="1" name="is_in_promotion"
+                                    >Sim</label>
+                                <label class="btn btn-default btn-off btn-xs active">
+                                    <input type="radio" value="0" name="is_in_promotion"
+                                           checked="checked"
+                                    >Não</label>
+                            </div>
                         </div>
-                        @endif
-                        @include('admin.shared.status-select', ['status' => 0])
+
+                        @include('admin.shared.status-select', ['status' => 1])
                         {{--@include('admin.shared.attribute-select', [compact('default_weight')])--}}
                     </div>
                     <div class="col-md-4">

@@ -10,6 +10,9 @@ use App\Shop\Employees\Employee;
 use App\Shop\Employees\Repositories\EmployeeRepository;
 use App\Shop\Producers\Producer;
 use App\Shop\Producers\Repositories\ProducerRepository;
+use App\Shop\Products\Product;
+use App\Shop\Products\Repositories\ProductRepository;
+use App\Shop\Products\Transformations\ProductTransformable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 
@@ -20,6 +23,9 @@ use Illuminate\Support\ServiceProvider;
  */
 class GlobalTemplateServiceProvider extends ServiceProvider
 {
+
+    use ProductTransformable;
+
     /**
      * Register bindings in the container.
      *
@@ -40,6 +46,8 @@ class GlobalTemplateServiceProvider extends ServiceProvider
             $view->with('producers', $this->getProducers());
             $view->with('cartCount', $this->getCartCount());
             $view->with('totalCartItens',$this->getTotalItems());
+            $view->with('newestProducts',$this->getNewestProducts());
+            $view->with('producsInPromotion',$this->getPromotionProducts());
         });
 
         /**
@@ -90,6 +98,22 @@ class GlobalTemplateServiceProvider extends ServiceProvider
         return $producerRepo->allActive();
     }
 
+    private function getNewestProducts(){
+        $productRepo = new ProductRepository(new Product);
+        $newestList = $productRepo->listProducts('created_at','desc');
+        return  $newestList->where('status',1)->take(10)->map(function (Product $item){
+            return $this->transformProduct($item);
+        });
+
+    }
+
+    private function getPromotionProducts(){
+        $productRepo = new ProductRepository(new Product);
+        $newestList = $productRepo->listProducts('created_at','desc');
+        return  $newestList->where('is_in_promotion',1)->take(10)->map(function (Product $item){
+            return $this->transformProduct($item);
+        });
+    }
     /**
      * @return int
      */

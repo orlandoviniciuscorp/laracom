@@ -49,6 +49,7 @@
                                 <td class="col-md-3">Produto</td>
                                 <td class="col-md-2">Quantidade</td>
                                 <td class="col-md-2">Preço</td>
+                                <td class="col-md-2">Em Promoção</td>
                                 <td class="col-md-2">Status</td>
                                 <td class="col-md-2">Produtor</td>
                             </tr>
@@ -65,8 +66,31 @@
                                         <input type="number" required name="quantity_{{$product->id}}" value="{{$product->quantity}}" class="col-md-6"/>
                                     </td>
                                     <td>
-                                        <input type="text" pattern="[\d.]*" required name="price_{{$product->id}}" value="{{$product->price}}" class="col-md-4"/>
+                                        <input type="text" pattern="[\d.]*" required name="price_{{$product->id}}" value="{{$product->price}}" class="col-md-4"
+                                        style="padding: 0px 0px 0px 0px"/>
                                     </td>
+                                    <td>
+                                        <div class="btn-group" id="status" data-toggle="buttons">
+                                            <label class="btn btn-default btn-on btn-xs
+                            @if($product->is_in_promotion == 1)
+                                                    active
+@endif
+                                                    ">
+                                                <input type="radio" value="1" name="promotion_{{$product->id}}"
+                                                       @if($product->is_in_promotion == 1)
+                                                       checked="checked"
+                                                        @endif
+                                                >Sim</label>
+                                            <label class="btn btn-default btn-off btn-xs @if($product->is_in_promotion == 0) active @endif">
+                                                <input type="radio" value="0" name="promotion_{{$product->id}}"
+                                                       @if($product->is_in_promotion == 0)
+                                                       checked="checked"
+                                                        @endif
+                                                >Não</label>
+                                        </div>
+
+                                    </td>
+
                                     <td>
                                         <div class="btn-group" id="status" data-toggle="buttons">
                                             <label class="btn btn-default btn-on btn-xs
