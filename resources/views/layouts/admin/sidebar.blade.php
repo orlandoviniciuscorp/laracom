@@ -69,6 +69,18 @@
                     <li><a href="{{ route('admin.percentages.create') }}"><i class="fa fa-plus"></i> Criar Percentual</a></li>
                 </ul>
             </li>
+            <li class="treeview @if(request()->segment(2) == 'coupons' || request()->segment(2) == 'attributes' || request()->segment(2) == 'brands') active @endif">
+                <a href="#">
+                    <i class="fa fa-usd" aria-hidden="true"></i> <span>Cupons</span>
+                    <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ route('admin.coupons.index') }}"><i class="fa fa-circle-o"></i> Lista de Cupons</a></li>
+                    <li><a href="{{ route('admin.coupons.create') }}"><i class="fa fa-plus"></i> Criar Cupom</a></li>
+                </ul>
+            </li>
             <li class="treeview @if(request()->segment(2) == 'categories') active @endif">
                 <a href="#">
                     <i class="fa fa-circle" aria-hidden="true"></i> <span>Categorias</span>

@@ -42,6 +42,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
                Route::get('{percentage_id}/edit/','Percentages\PercentageController@edit')->name('percentages.edit');
             });
 
+            Route::group(['prefix'=>'coupons'],function(){
+                Route::get('/create','Coupons\CouponController@create')->name('coupons.create');
+                Route::get('/','Coupons\CouponController@index')->name('coupons.index');
+                Route::post('/store','Coupons\CouponController@store')->name('coupons.store');
+                Route::get('{coupon_id}/edit','Coupons\CouponController@edit')->name('coupons.edit');
+                Route::post('{coupon_id}/destroy','Coupons\CouponController@destroy')->name('coupons.destroy');
+            });
+
             Route::namespace('Products')->group(function () {
 
                 Route::get('/list-all-product','ProductController@listAllProduct')->name('product.list.all-products');
@@ -168,6 +176,7 @@ Route::namespace('Front')->group(function () {
         Route::post('checkout/execute', 'CheckoutController@charge')->name('checkout.execute');
         Route::get('checkout/cancel', 'CheckoutController@cancel')->name('checkout.cancel');
         Route::get('checkout/success', 'CheckoutController@success')->name('checkout.success');
+        Route::post('checkout/validate', 'CheckoutController@validateCoupon')->name('checkout.coupon.validate');
         Route::resource('customer.address', 'CustomerAddressController');
     });
     Route::resource('cart', 'CartController');

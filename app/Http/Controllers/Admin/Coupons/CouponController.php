@@ -1,71 +1,68 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Products;
+namespace App\Http\Controllers\Admin\Coupons;
 
 use App\Shop\Attributes\Repositories\AttributeRepositoryInterface;
 use App\Shop\AttributeValues\Repositories\AttributeValueRepositoryInterface;
 use App\Shop\Brands\Repositories\BrandRepositoryInterface;
 use App\Shop\Categories\Repositories\Interfaces\CategoryRepositoryInterface;
-use App\Shop\Percentages\Repositories\PercentageRepository;
-use App\Shop\Producers\Repositories\ProducerRepository;
+use App\Shop\Coupons\Repositories\CouponRepository;
+use App\Shop\Coupons\Requests\CreateCouponRequest;
+use App\Shop\CouponTypes\Repositories\CouponTypeRepository;
 use App\Shop\ProductAttributes\ProductAttribute;
 use App\Shop\ProductPercents\ProductPercent;
 use App\Shop\ProductPercents\Repositories\ProductPercentRepository;
 use App\Shop\Products\Exceptions\ProductInvalidArgumentException;
 use App\Shop\Products\Exceptions\ProductNotFoundException;
 use App\Shop\Products\Product;
-use App\Shop\Products\Product as ProductModel;
 use App\Shop\Products\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Shop\Products\Repositories\ProductRepository;
 use App\Shop\ProductPercents\Requests\CreateProductPercentRequest;
 use App\Shop\Products\Requests\CreateProductRequest;
 use App\Shop\Products\Requests\UpdateProductRequest;
 use App\Http\Controllers\Controller;
-use App\Shop\Products\Transformations\ProductTransformable;
 use App\Shop\Tools\UploadableTrait;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
-class ProductController extends Controller
+class CouponController extends Controller
 {
-    use ProductTransformable, UploadableTrait;
+    use UploadableTrait;
 
 
+    /**
+     * @var CategoryRepositoryInterface
+     */
+    protected $categoryRepo;
 
-
-
-    protected $productPercentRepo;
+    private $productPercentRepo;
 
     /**
      * @var AttributeRepositoryInterface
      */
-    protected $attributeRepo;
+    private $attributeRepo;
 
     /**
      * @var AttributeValueRepositoryInterface
      */
-    protected $attributeValueRepository;
+    private $attributeValueRepository;
 
     /**
      * @var ProductAttribute
      */
-    protected $productAttribute;
+    private $productAttribute;
 
     /**
      * @var BrandRepositoryInterface
      */
-    protected $brandRepo;
+    private $brandRepo;
 
-    /**
-     * @var ProducerRepository
-     */
-    protected $producerRepo;
+    private $couponRepository;
 
-    protected $percentageRepo;
+    private $couponTypeRepository;
 
     /**
      * ProductController constructor.
@@ -79,14 +76,14 @@ class ProductController extends Controller
      */
     public function __construct(
         ProductRepositoryInterface $productRepository,
+        CouponRepository $couponRepository,
         CategoryRepositoryInterface $categoryRepository,
         AttributeRepositoryInterface $attributeRepository,
         AttributeValueRepositoryInterface $attributeValueRepository,
         ProductAttribute $productAttribute,
         BrandRepositoryInterface $brandRepository,
         ProductPercentRepository $productPercentRepository,
-        ProducerRepository $producerRepository,
-        PercentageRepository $percentageRepository
+        CouponTypeRepository $couponTypeRepository
     ) {
         $this->productRepo = $productRepository;
         $this->categoryRepo = $categoryRepository;
@@ -95,8 +92,8 @@ class ProductController extends Controller
         $this->productAttribute = $productAttribute;
         $this->brandRepo = $brandRepository;
         $this->productPercentRepo = $productPercentRepository;
-        $this->producerRepo = $producerRepository;
-        $this->percentageRepo = $percentageRepository;
+        $this->couponRepository = $couponRepository;
+        $this->couponTypeRepository = $couponTypeRepository;
 
         $this->middleware(['permission:create-product, guard:employee'], ['only' => ['create', 'store']]);
         $this->middleware(['permission:update-product, guard:employee'], ['only' => ['edit', 'update']]);
@@ -111,10 +108,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = $this->getAllProducts();
+        $coupons = $this->getAllCoupons();
 
-        return view('admin.products.list', [
-            'products' => $this->productRepo->paginateArrayResults($products, 25)
+        return view('admin.coupons.list', [
+            'coupons' => $coupons
         ]);
     }
 
@@ -125,23 +122,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = $this->categoryRepo->listCategories('name', 'asc');
-        $nextSKU = $this->productRepo->countProducts() + 1;
-        $percentages = $this->percentageRepo->listPercentages('id');
-
-        $producers = $this->producerRepo->listProducers('name', 'asc');
-
-
-        return view('admin.products.create', [
-            'categories' => $categories,
-            'brands' => $this->brandRepo->listBrands(['*'], 'name', 'asc'),
-            'default_weight' => env('SHOP_WEIGHT'),
-            'weight_units' => Product::MASS_UNIT,
-            'product' => new Product,
-            'nextSKU' => $nextSKU,
-            'percentages'=>$percentages,
-            'producers'=>$producers
-        ]);
+        $couponTypes = $this->couponTypeRepository->listCouponTypes();
+        return view('admin.coupons.create')->with('couponTypes', $couponTypes);
     }
 
     /**
@@ -151,42 +133,23 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateProductRequest $request)
+    public function store(CreateCouponRequest $request)
     {
         $data = $request->except('_token', '_method');
-        $data['slug'] = str_slug($request->input('name'));
 
-        if ($request->hasFile('cover') && $request->file('cover') instanceof UploadedFile) {
-            $data['cover'] = $this->productRepo->saveCoverImage($request->file('cover'));
-        }
+        if(is_null($request->input('id'))) {
+            $this->couponRepository->create($data);
+        }else{
+            $coupon = $this->couponRepository->find($request->input('id'));
 
+            $update = new CouponRepository($coupon);
 
-        $product = $this->productRepo->createProduct($data);
-
-
-
-        $productRepo = new ProductRepository($product);
-
-        if ($request->hasFile('image')) {
-            $productRepo->saveProductImages(collect($request->file('image')));
-        }
-
-        if ($request->has('categories')) {
-            $productRepo->syncCategories($request->input('categories'));
-        } else {
-            $productRepo->detachCategories();
-        }
-
-        if ($request->has('producers')) {
-
-            $productRepo->syncProducers($request->input('producers'));
-        } else {
-            $productRepo->detachProducers();
+            $update->update($data);
         }
 
         $request->session()->flash('message', $this->getSucessMesseger());
 
-        return redirect()->route('admin.products.index');
+        return redirect()->route('admin.coupons.index');
     }
 
     /**
@@ -211,44 +174,11 @@ class ProductController extends Controller
      */
     public function edit(int $id)
     {
+        $coupon = $this->couponRepository->find($id);
 
-        //dd(request()->has('is_distinct'));
-
-        $product = $this->productRepo->findProductById($id);
-        $productAttributes = $product->attributes()->get();
-
-        $qty = $productAttributes->map(function ($item) {
-            return $item->quantity;
-        })->sum();
-
-        if (request()->has('delete') && request()->has('pa')) {
-            $pa = $productAttributes->where('id', request()->input('pa'))->first();
-            $pa->attributesValues()->detach();
-            $pa->delete();
-
-            request()->session()->flash('message', $this->getSucessMesseger());
-            return redirect()->route('admin.products.edit', [$product->id, 'combination' => 1]);
-        }
-
-        $categories = $this->categoryRepo->listCategories('name', 'asc')->toTree();
-        $producers = $this->producerRepo->listProducers('name', 'asc');
-        $percentages = $this->percentageRepo->listPercentages('id');
-
-        return view('admin.products.edit', [
-            'product' => $product,
-            'images' => $product->images()->get(['src']),
-            'categories' => $categories,
-            'selectedIds' => $product->categories()->pluck('category_id')->all(),
-            'attributes' => $this->attributeRepo->listAttributes(),
-            'productAttributes' => $productAttributes,
-            'qty' => $qty,
-            'brands' => $this->brandRepo->listBrands(['*'], 'name', 'asc'),
-            'weight' => $product->weight,
-            'default_weight' => $product->mass_unit,
-            'weight_units' => Product::MASS_UNIT,
-            'producers'=>$producers,
-            'percentages'=>$percentages,
-            'producersSelectedIds'=>$product->producers()->pluck('producer_id')->all(),
+	
+        return view('admin.coupons.edit', [
+            'coupon' => $coupon,
         ]);
     }
 
@@ -263,9 +193,7 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, int $id)
     {
-
         $product = $this->productRepo->findProductById($id);
-
         $productRepo = new ProductRepository($product);
 
         if ($request->has('attributeValue')) {
@@ -283,9 +211,7 @@ class ProductController extends Controller
             'productAttributeQuantity',
             'productAttributePrice',
             'attributeValue',
-            'combination',
-            'origin',
-            'producers'
+            'combination'
         );
 
         $data['slug'] = str_slug($request->input('name'));
@@ -304,19 +230,9 @@ class ProductController extends Controller
             $productRepo->detachCategories();
         }
 
-        if ($request->has('producers')) {
-            $productRepo->syncProducers($request->input('producers'));
-        } else {
-            $productRepo->detachProducers();
-        }
-
         $productRepo->updateProduct($data);
-        if($request->has('origin')){
-            $page = $request->input('origin');
 
-            return Redirect::to($page)->with('message', $this->getSucessMesseger());
-        }
-        return redirect()->back()
+        return redirect()->route('admin.products.edit', $id)
             ->with('message', $this->getSucessMesseger());
     }
 
@@ -342,57 +258,6 @@ class ProductController extends Controller
 
     }
 
-    public function updateQuantityBatch(Request $request)
-    {
-//        dd($request->all());
-        $data = $request->except('_token');
-
-//        dd($data);
-
-        $product = null;
-        foreach ($data as $key => $value) {
-
-            $fragment = explode("_",$key);
-            if($fragment[0] == "id"){
-                $product = $this->productRepo->find($value);
-
-            } if($fragment[0] == "name"){
-                $product->name = $value;
-            } if($fragment[0] == "promotion"){
-                $product->is_in_promotion = $value;
-            } if($fragment[0] == "status"){
-                $product->status = $value;
-
-            } if($fragment[0] == "price"){
-
-                $product->price = $value;
-            } if($fragment[0] == "quantity"){
-                $product->quantity = $value;
-
-//                $product = null;
-            }
-            $product->save();
-            if($fragment[0] == "producers") {
-
-//                dd();
-                $pr = new ProductRepository($product);
-                if (is_null($value)) {
-
-                    $pr->detachProducers();
-                } else {
-                    $pr->syncProducers($value);
-                }
-                $product = null;
-
-            }
-
-
-        }
-
-        $request->session()->flash('message', $this->getSucessMesseger());
-        return redirect()->route('admin.producer.list.products')->with('message',$this->getSucessMesseger());
-    }
-
     public function indexPercent(Request $request, int $product_id)
     {
         $product = $this->productRepo->findProductById($product_id);
@@ -415,51 +280,12 @@ class ProductController extends Controller
         $products = $this->getAllProducts();
 
         foreach($products as $product){
-
-            if($product->name!='Sacola Retornável') {
-                $p = $this->productRepo->find($product->id);
-                $p->quantity = 0;
-                $p->save();
-            }
+            $p = $this->productRepo->find($product->id);
+            $p->quantity = 0;
+            $p->save();
         }
-        request()->session()->flash('message', $this->getSucessMesseger());
+
         return redirect()->route('admin.dashboard');
-    }
-
-    public function disableEmptyProducts(Request $request)
-    {
-        $products = $this->getAllProducts();
-
-        foreach ($products as $product){
-            if($product->quantity == 0){
-                $p = $this->productRepo->find($product->id);
-                $p->status = 0;
-                $p->save();
-            }
-        }
-        request()->session()->flash('message', $this->getSucessMesseger());
-        return redirect()->route('admin.dashboard');
-    }
-
-    public function disabledProduct($id)
-    {
-        $product = $this->productRepo->find($id);
-
-        $product->status = 0;
-        $product->save();
-
-        request()->session()->flash('message', $this->getSucessMesseger());
-        return redirect()->back();
-    }
-
-    public function enabledProduct($id)
-    {
-        $product = $this->productRepo->find($id);
-
-        $product->status = 1;
-        $product->save();
-
-        return redirect()->back();
     }
 
     /**
@@ -578,88 +404,16 @@ class ProductController extends Controller
         }
     }
 
-    public function getAllProducts()
+    public function getAllCoupons()
     {
-        $list = $this->productRepo->listProducts('id');
+        $list = $this->couponRepository->listCoupons('id');
 
         if (request()->has('q') && request()->input('q') != '') {
-            $list = $this->productRepo->searchProduct(request()->input('q'));
-        }else if(request()->has('categories')){
-            $list = $this->productRepo->listProducts('name')
-                ->whereIn('category_id', request()->get('categories'));
-        }
-
-        $products = $list->map(function (Product $item) {
-            return $this->transformProduct($item);
-        })->all();
-
-        return $products;
-    }
-
-    public function getAllEnabledProduct()
-    {
-        $list = $this->productRepo->listProducts('id')->where('status','=',1);
-
-        if(request()->has('categories')){
-            $list = $this->productRepo->listProducts('name');
-            $categories = request()->get('categories');
-
-            $p = ProductModel::with('categories')
-
-                ->join('category_product','products.id','=','category_product.product_id')
-                ->whereIn('category_product.category_id',$categories)
-                ->get();
-            return $p;
+            $list = $this->couponRepository->searchProduct(request()->input('q'));
         }
 
 
 
-        $products = $list->map(function (Product $item) {
-            return $this->transformProduct($item);
-        })->all();
-
-        return $products;
-    }
-    public function listAllProduct()
-    {
-
-        $products = ProductModel::select('products.*')
-            ->with('categories')
-            ->whereNull('deleted_at')->orderBy('products.name');
-
-        if(!request()->has('include_disables') || request()->get('include_disables') != 1){
-            $products = $products->where('status','=',1);
-        }
-
-        if(request()->has('categories')){
-            $categories = request()->get('categories');
-            $products = $products->join('category_product','products.id','=','category_product.product_id')
-                ->whereIn('category_product.category_id',$categories);
-
-
-        }
-
-//        dd($products->get()[0]);
-
-//        dd($products->where('name','like','%123%'));
-
-        $categories = $this->getCategoryOrder();
-
-        $producers = $this->producerRepo->listProducers('name', 'asc');
-
-        return view('admin.products.edit-products-batch')->with(['products'=>$products->get(),
-        'producers'=>$producers,
-            'categories'=>$categories]);
-
-    }
-
-    public function listPendency()
-    {
-        $productCategories = Product::where('status','=',1)->whereDoesntHave('categories')->get();
-        $productProducers = Product::where('status','=',1)->whereDoesntHave('producers')->get();
-
-        return view('admin.products.pendency')->with(['productCategories'=>$productCategories,
-            'productProducers'=>$productProducers
-            ]);
+        return $list;
     }
 }

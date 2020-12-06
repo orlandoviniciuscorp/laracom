@@ -111,7 +111,36 @@
                                         </tbody>
                                     </table>
                                 </div>
-                            </div> <br>
+                            </div> <hr>
+                        <div class="row">
+                            <form method="post" action="{{route('checkout.coupon.validate')}}" >
+                                {{ csrf_field() }}
+                                <div class="col-md-12">
+                                    <legend><i class="fa fa-usd"></i> Cupons de Desconto</legend>
+                                    <div class="row">
+                                        <div class="col-md-6">
+
+                                            <input type="text" name="coupon"
+                                               @if(session()->get('coupon') != null)
+                                                   value="{{session()->get('coupon')->name}}"
+                                               @else
+                                                   value=""
+                                               @endif
+                                                   class="form-control form-inline" /> &nbsp;
+                                            <input type="hidden" name="courier_id" value="{{$courier->id}}" />
+
+                                        </div>
+                                        <div class="col-md-6">
+
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="fa fa-check" aria-hidden="true"></i> Validar
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
 
                         <div>
                             <table class="table table-striped">
@@ -132,19 +161,25 @@
                                         <td>{{config('cart.currency')}} {{ $courier->cost }}</td>
                                     </tr>
                                 @endif
-                                {{--<tr>--}}
-                                {{--<td>Tax</td>--}}
-                                {{--<td></td>--}}
-                                {{--<td></td>--}}
-                                {{--<td></td>--}}
-                                {{--<td>{{config('cart.currency')}} {{ number_format($tax, 2) }}</td>--}}
-                                {{--</tr>--}}
+                                @if(session()->get('coupon') != null)
+                                    <tr>
+                                        <td class="">Desconto</td>
+                                        <td class=""></td>
+                                        <td class=""></td>
+                                        <td class=""></td>
+                                        <td class="">{{config('cart.currency')}} {{ number_format(session()->get('discount') , 2) }}</td>
+                                    </tr>
+                                    @endif
                                 <tr>
                                     <td>Total</td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td>{{config('cart.currency')}} {{ number_format($total, 2, '.', ',') }}</td>
+                                    @if(session()->get('coupon') != null)
+                                        <td class="">{{config('cart.currency')}} {{ number_format($total-session()->get('discount'), 2, '.', ',') }}</td>
+                                    @else
+                                        <td class="">{{config('cart.currency')}} {{ number_format($total, 2, '.', ',') }}</td>
+                                    @endif
                                 </tr>
                                 </tbody>
                             </table>
@@ -157,6 +192,14 @@
                                 <textarea name="obs" class="form-control"
                                           placeholder="Gostaria de Acrescentar alguma observação?">{{old('obs')}}</textarea>
                                 <br />
+                                @if(session()->get('coupon') != null)
+                                    <input type="hidden" name="coupon_id" value="{{session()->get('coupon')->id}}" />
+
+{{--                                {{(number_format(session()->get('discount')))}}--}}
+
+                                    <input type="hidden" name="discount" value="{{session()->get('discount')}}" />
+                                @endif
+                            </div>
                             </div>
                         </div>
 

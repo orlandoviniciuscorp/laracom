@@ -55,7 +55,7 @@
                         <td class="bg-warning">{{ $order['tax'] }}</td>
                     </tr>
                     <tr>
-                        <td></td>
+                        <td>{{order['coupon']['name']}}</td>
                         <td></td>
                         <td class="bg-warning">Discount</td>
                         <td class="bg-warning">{{ $order['discounts'] }}</td>

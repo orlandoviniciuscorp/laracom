@@ -10,6 +10,7 @@ use App\Shop\Carts\Requests\PayPalCheckoutExecutionRequest;
 use App\Shop\Carts\Requests\StripeExecutionRequest;
 use App\Shop\Checkout\CheckoutRepository;
 use App\Shop\Checkout\Requests\CheckoutRequest;
+use App\Shop\Coupons\Coupon;
 use App\Shop\Couriers\Repositories\Interfaces\CourierRepositoryInterface;
 use App\Shop\Customers\Customer;
 use App\Shop\Customers\Repositories\CustomerRepository;
@@ -24,6 +25,7 @@ use App\Shop\PaymentMethods\Stripe\StripeRepository;
 use App\Shop\Products\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Shop\Products\Transformations\ProductTransformable;
 use App\Shop\Shipping\ShippingInterface;
+use Carbon\Carbon;
 use Exception;
 use App\Http\Controllers\Controller;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -201,6 +203,7 @@ class CheckoutController extends Controller
 
     public function store(CheckoutRequest $request)
     {
+
         $checkoutRepo = new CheckoutRepository;
         $orderStatusRepo = new OrderStatusRepository(new OrderStatus);
         $os = $orderStatusRepo->findByName('Pedido Feito');
@@ -210,6 +213,18 @@ class CheckoutController extends Controller
         ||$request->input('payment_method') == config('debit.name')){
             $os = $orderStatusRepo->findByName('Pagar na Entrega');
         }
+
+        $coupon_id = null;
+        if($request->has('coupon_id')){
+            $coupon_id = $request->input('coupon_id');
+        }
+        $discount = 0;
+
+//        dd($coupon_id);
+
+        if($request->has('discount')){
+            $discount =  $request->input('discount');
+        }
 //
         $order = $checkoutRepo->buildCheckoutItems([
             'reference' => Uuid::uuid4()->toString(),
@@ -218,13 +233,14 @@ class CheckoutController extends Controller
             'address_id' => $request->input('billingAddress_id'),
             'order_status_id' => $os->id,
             'payment' => $request->input('payment_method'),
-            'discounts' => 0,
+            'discounts' => $discount,
             'total_products' => $this->cartRepo->getSubTotal(),
-            'total' => $this->cartRepo->getTotal(2, $courier->cost),
+            'total' => $this->cartRepo->getTotal(2, $courier->cost) - $discount,
             'total_shipping' => $courier->cost,
             'total_paid' => 0,
             'tax' => $this->cartRepo->getTax(),
-            'obs' =>$request->input('obs')
+            'obs' =>$request->input('obs'),
+            'coupon_id'=>$coupon_id,
         ]);
 
         Cart::destroy();
@@ -335,5 +351,58 @@ class CheckoutController extends Controller
         }
 
 
+    }
+
+    public function validateCoupon(Request $request){
+
+
+        $coupon = Coupon::where('name',$request->get('coupon'))
+            ->where('expires_at', '>=', Carbon::now())
+            ->where('start_at', '<=', Carbon::now())
+            ->where('status', '!=', 0);
+
+
+
+        if ($coupon->count() == 0) {
+            return redirect()->back()->withErrors(['message'=>'Cupom Inválido']);
+
+        }elseif($coupon->first()->need_basket && !$this->hasbasket()) {
+            return redirect()->back()->withErrors(['message'=>'É necessário ter uma cesta no carrinho para aplicar esse cupom']);
+        }else{
+            $coupon = $coupon->first();
+            //return redirect(route('front.checkout'))->with('message','Cupom aplicado com sucesso');
+//            $request->session()->put(['coupon'=>$coupon->get()[0]]);
+            $courier = $this->courierRepo->findCourierById($request->input('courier_id'));
+
+            if($coupon->include_delivery) {
+                $total = $this->cartRepo->getTotal(2, $courier->cost);
+            }else{
+                $total = $this->cartRepo->getSubTotal(2, $courier->cost);
+            }
+            $discount =  $coupon->percentage;
+
+            if($coupon->couponType->name == 'Percentual'){
+                $discount = $total*$coupon->percentage / 100;
+            }
+
+            return redirect()->back()
+                ->with(['coupon'=>$coupon])
+                ->with(['discount'=>$discount])
+                ->with(['message'=>'Cupom aplicado com sucesso'])
+                ;
+        }
+    }
+
+    public function hasbasket()
+    {
+        foreach ($this->cartRepo->getCartItems() as $cartItem){
+
+            if($cartItem->product->categories->first()->slug == 'cestas'){
+
+                return true;
+            }
+
+        }
+        return false;
     }
 }

@@ -68,8 +68,8 @@ class Product extends Model implements Buyable
         'height',
         'distance_unit',
         'slug',
-        'is_distinct',
         'percentage_id',
+        'is_in_promotion'
     ];
 
     protected $with = ['percentage'];

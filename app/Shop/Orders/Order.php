@@ -3,6 +3,7 @@
 namespace App\Shop\Orders;
 
 use App\Shop\Addresses\Address;
+use App\Shop\Coupons\Coupon;
 use App\Shop\Couriers\Courier;
 use App\Shop\Customers\Customer;
 use App\Shop\Fairs\Fair;
@@ -60,7 +61,8 @@ class Order extends Model
         'tracking_number',
         'total_shipping',
         'obs',
-        'fair_id'
+        'fair_id',
+        'coupon_id'
     ];
 
     /**
@@ -69,6 +71,8 @@ class Order extends Model
      * @var array
      */
     protected $hidden = [];
+
+    protected $with =['coupon'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -121,6 +125,11 @@ class Order extends Model
     public function fair()
     {
         return $this->belongsTo(Fair::class);
+    }
+
+    public function coupon()
+    {
+        return $this->belongsTo(Coupon::class);
     }
 
     /**

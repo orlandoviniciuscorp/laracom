@@ -51,12 +51,12 @@
                     <tr>
                         <td></td>
                         <td></td>
-                        <td class="bg-warning">Tax</td>
-                        <td class="bg-warning">{{ $order['tax'] }}</td>
+                        <td class="bg-warning">Entrega</td>
+                        <td class="bg-warning">{{ $order->courier->cost }}</td>
                     </tr>
                     <tr>
-                        <td></td>
-                        <td></td>
+                        <td>Cupom de Desconto:</td>
+                        <td>{{$order->coupon->name}}</td>
                         <td class="bg-warning">Discount</td>
                         <td class="bg-warning">{{ $order['discounts'] }}</td>
                     </tr>

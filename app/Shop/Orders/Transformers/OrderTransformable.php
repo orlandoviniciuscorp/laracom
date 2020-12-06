@@ -4,6 +4,8 @@ namespace App\Shop\Orders\Transformers;
 
 use App\Shop\Addresses\Address;
 use App\Shop\Addresses\Repositories\AddressRepository;
+use App\Shop\Coupons\Coupon;
+use App\Shop\Coupons\Repositories\CouponRepository;
 use App\Shop\Couriers\Courier;
 use App\Shop\Couriers\Repositories\CourierRepository;
 use App\Shop\Customers\Customer;
@@ -38,6 +40,11 @@ trait OrderTransformable
 
         $fairRepo = new FairRepository(new Fair());
         $order->fair = $fairRepo->findFairById($order->fair_id);
+
+        if (!is_null($order->coupon_id)){
+            $couponRepo = new CouponRepository(new Coupon());
+            $order->coupon_id = $couponRepo->findBy(['id' => $order->coupon_id]);
+        }
 
         return $order;
     }
