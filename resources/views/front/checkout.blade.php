@@ -285,7 +285,7 @@
         function disableButton() {
             var btn = document.getElementById('btn_confirm');
             btn.disabled = true;
-            btn.innerText = 'Finalizando';
+            btn.innerText = 'Finalizando pedido';
         }
 
         function setTotal(total, shippingCost) {
