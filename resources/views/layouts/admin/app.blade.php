@@ -60,6 +60,12 @@
 <script src="{{ asset('js/admin.min.js') }}"></script>
 <script src="{{ asset('//cdn.ckeditor.com/4.8.0/standard/ckeditor.js') }}"></script>
 <script src="{{ asset('js/scripts.js?v=0.2') }}"></script>
+<script>
+    $(document).ready(function() {
+        $('.js-example-basic-multiple').select2();
+    });
+</script>
 @yield('js')
+
 </body>
 </html>
