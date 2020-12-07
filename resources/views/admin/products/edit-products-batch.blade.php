@@ -114,7 +114,8 @@
                                     </td>
 
                                     <td>
-                                        <select name="producers_{{$product->id}}[]" id="producers_{{$product->id}}" multiple>
+                                        <select name="producers_{{$product->id}}[]" id="producers_{{$product->id}}"
+                                                multiple="multiple" class="js-example-basic-multiple">
                                             @foreach($producers as $producer)
                                                 <option value="{{$producer->id}}"
 {{--                                                @if(!is_null($product->producers))--}}
@@ -145,4 +146,5 @@
 
     </section>
     <!-- /.content -->
+
 @endsection

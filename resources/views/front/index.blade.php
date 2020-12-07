@@ -142,7 +142,19 @@
                             </div>
                         </div>
                     @endforeach
+
+                    <div>
+
+                    </div>
                 </div>
+                <div class="row justify-content-center">
+                    <h4>Quer ver mais produtos?</h4>
+                </div>
+                <div class="row justify-content-center" style="margin-top: 20px">
+                    <a href="{{route('product.list')}}" class="primary-btn">Clique aqui.</a>
+                </div>
+
+
             </div>
         </section>
     @else
