@@ -15,18 +15,22 @@
 <body>
 <section class="container">
     <div class="col-md-12">
-        <h2>Hello {{$customer->name}}!</h2>
-        @php($country = \App\Shop\Countries\Country::find($address->country_id))
-        <p>This order is for deliver to your: <strong>{{ ucfirst($address->alias) }} <br /></strong></p>
-        <p>Address: {{$address->address_1}} {{$address->address_2}} {{$address->city}} {{$address->state_code}}, {{$country->name}}</p>
+        <h2>Olá {{$customer->name}}!</h2>
+        <p>Seu pedido foi recebido no nosso sistema. <br /></strong></p>
+        @if($order->courier_id == 3)
+            <p>Sua Cesta estará disponível sábado na Feira da AAT.</p>
+        @else
+            <p>Sua Cesta será entregue no seguinte endereço: {{$address->address_1}} {{$address->address_2}} {{$address->city}} {{$address->state_code}}</p>
+        @endif
+        <p>Segue a relação dos pedidos.</p>
         <table class="table table-striped" width="100%" border="0" cellspacing="0" cellpadding="0">
             <thead>
             <tr>
-                <th class="col-md-2">SKU</th>
-                <th class="col-md-2">Name</th>
-                <th class="col-md-3">Description</th>
-                <th class="col-md-1">Quantity</th>
-                <th class="col-md-4 text-right">Price</th>
+                <th class="col-md-2">Código</th>
+                <th class="col-md-2">Produto</th>
+                <th class="col-md-3">Descrição</th>
+                <th class="col-md-1">Quantidade</th>
+                <th class="col-md-4 text-right">Preço</th>
             </tr>
             </thead>
             <tbody>
@@ -35,7 +39,7 @@
                     <td>{{$product->sku}}</td>
                     <td>{{$product->name}}</td>
                     <td>
-                        {{$product->description}}
+                        {!! $product->description !!}
                         @php($pattr = \App\Shop\ProductAttributes\ProductAttribute::find($product->pivot->product_attribute_id))
                         @if(!is_null($pattr))<br>
                         @foreach($pattr->attributesValues as $it)
