@@ -152,8 +152,8 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
         $employeeRepo = new EmployeeRepository(new Employee);
         $employee = $employeeRepo->findEmployeeById(1);
 
-        Mail::to($employee)
-            ->send(new sendEmailNotificationToAdminMailable($this->findOrderById($this->model->id)));
+//        Mail::to($employee)
+//            ->send(new sendEmailNotificationToAdminMailable($this->findOrderById($this->model->id)));
     }
 
     /**

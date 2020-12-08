@@ -42,6 +42,8 @@ class SendOrderToCustomerMailable extends Mailable
             'payment' => $this->order->paymentMethod
         ];
 
-        return $this->view('emails.customer.sendOrderDetailsToCustomer', $data);
+        return $this->subject('Confirmação do pedido #'. $this->order->id)->view('emails.customer.sendOrderDetailsToCustomer', $data);
     }
+
+
 }
