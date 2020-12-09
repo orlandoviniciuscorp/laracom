@@ -56,7 +56,10 @@
                     </tr>
                     <tr>
                         <td>Cupom de Desconto:</td>
-                        <td>{{$order->coupon->name}}</td>
+                        <td>@isset($order->coupon)
+                            {{$order->coupon->name}}
+                            @endisset
+                        </td>
                         <td class="bg-warning">Discount</td>
                         <td class="bg-warning">{{ $order['discounts'] }}</td>
                     </tr>
