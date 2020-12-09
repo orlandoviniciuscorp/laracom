@@ -61,7 +61,7 @@
                                     </a>
 
                                     @if(auth()->guard('employee')->user()->hasRole('admin|superadmin'))
-                                        <a href="{{ route('admin.fair.harvest', $fair->id) }}" class="btn btn-success btn-sm">
+                                        <a href="{{ route('admin.fair.producer-harvest', $fair->id) }}" class="btn btn-success btn-sm">
                                             <i class="fa fa-leaf" aria-hidden="true"></i> Colheita
                                         </a>
                                     @endif
