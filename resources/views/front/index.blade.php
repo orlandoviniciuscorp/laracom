@@ -43,7 +43,7 @@
 
                         <div class="hero__search__phone">
                             <div class="hero__search__phone__icon">
-                                <a href='https://chat.whatsapp.com/DPprk8jugf8DxqEs16Qfkv'>
+                                <a href='{{env('WHATSAPP_GROUP')}}'>
                                     <i class="fa fa-whatsapp"></i>
                                 </a>
 
@@ -159,5 +159,29 @@
         </section>
     @else
     @include('front.closed')
+    @endif
+
+@endsection
+@section('post-script')
+{{--    {{dd(env('SHOW_INITIAL_MESSAGE'))}}--}}
+    @if(env('SHOW_INITIAL_MESSAGE') == 1)
+    <script>
+        var content = document.createElement('div');
+        content.innerHTML = 'Caros clientes, devido às festas de fim de ano, ' +
+            'as <strong>duas próximas listas abrirão</strong> para pedidos no sábado ' +
+            'as 18hs e fecharão na segunda-feira às 18hs e <strong>serão entregues na quarta-feira.</strong> <br /><br />' +
+            '<strong>A lista dessa semana segue normal, com a entrega no sábado.</strong> <br /><br />'+
+
+            'O lembrete de abertura e fechamento das listas será dado no nosso grupo de Whatsapp ' +
+            'e caso haja alguma dúvida entre em contato via whatsapp com o número (62) 998649778 - João ' +
+            'ou entre no grupo <a href={{env('WHATSAPP_GROUP')}} >clicando aqui</a>';
+        $(window).on('load',function(){
+            swal({
+                title: 'Atenção',
+                content: content,
+                icon: "warning",
+            })
+        });
+    </script>
     @endif
 @endsection
