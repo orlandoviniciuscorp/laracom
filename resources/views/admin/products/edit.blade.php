@@ -111,23 +111,31 @@
 {{--                                            </div>--}}
 
                                             <div class="form-group">
-                                                <label for="is_distinct">Produto diferenciável <span class="text-danger">*</span></label>
-                                                <div class="input-group">
-                                                    <input
-                                                            type="radio"
-                                                            name="is_distinct"
-                                                            id="is_distinct"
-                                                            @if(isset($product->is_distinct) && $product->is_distinct == 0)   checked ='checked' @endif
-                                                            value="0"> Não
-                                                    <br/>
-                                                    <input
-                                                            type="radio"
-                                                            name="is_distinct"
-                                                            id="is_distinct"
-                                                            @if(isset($product->is_distinct) && $product->is_distinct == 1)   checked ='checked' @endif
-                                                            value="1"> Sim
+                                                <input type="hidden" name="is_distinct" id="is_distinct" value="{{$product->is_distinct}}">
+                                                <label for="name">Em Promoção: <span class="text-danger">*</span></label>
+                                                <br />
+
+
+                                                <div class="btn-group" id="status" data-toggle="buttons">
+                                                    <label class="btn btn-default btn-on btn-xs
+                                                    @if($product->is_in_promotion) active @endif">
+                                                        <input type="radio" value="1" name="is_in_promotion"
+                                                               @if($product->is_in_promotion)
+                                                                   checked="checked"
+                                                               @endif
+                                                        >Sim</label>
+                                                    <label class="btn btn-default btn-off btn-xs
+                                                      @if($product->is_in_promotion==0) active @endif">
+                                                        <input type="radio" value="0" name="is_in_promotion"
+                                                               @if($product->is_in_promotion == 0)
+                                                               checked="checked"
+                                                                @endif
+                                                        >Não</label>
                                                 </div>
                                             </div>
+
+
+
 
                                             <div class="form-group">
                                                 <label for="status">Percentual </label>
