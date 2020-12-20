@@ -36,6 +36,8 @@
                                 >Fechado</label>
                         </div>
                     </div>
+
+
                     <br />
 {{--                    <div class="form-group">--}}
 {{--                        <label for="name">Criação de feira automática: <span class="text-danger">*</span></label>--}}
@@ -109,44 +111,37 @@
                         </div>
                     </div>
                     <br />
-{{--                    <div class="form-group">--}}
-{{--                        <label for="name">Avisar de Estoque baixo: <span class="text-danger">*</span></label>--}}
-{{--                        <br />--}}
-{{--                        <div class="btn-group" id="status" data-toggle="buttons">--}}
-{{--                            <label class="btn btn-default btn-on btn-xs--}}
-{{--                            @if($config->is_warning_stock_low == 1)--}}
-{{--                                    active--}}
-{{--@endif--}}
-{{--                                    ">--}}
-{{--                                <input type="radio" value="1" name="is_warning_stock_low"--}}
-{{--                                       @if($config->is_warning_stock_low == 1)--}}
-{{--                                       checked="checked"--}}
-{{--                                        @endif--}}
-{{--                                >Ligado--}}
-{{--                            </label>--}}
-{{--                            <label class="btn btn-default btn-off btn-xs @if($config->is_warning_stock_low == 0) active @endif">--}}
-{{--                                <input type="radio" value="0" name="is_warning_stock_low"--}}
-{{--                                       @if($config->is_warning_stock_low == 0)--}}
-{{--                                       checked="checked"--}}
-{{--                                        @endif--}}
-{{--                                >Desligado</label>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <br />--}}
-{{--                    <div class="form-group">--}}
-{{--                        <label for="quantity_stock_low">Aviso de Estoque Baixo: <span class="text-danger">*</span></label>--}}
-{{--                        <div class="input-group">--}}
-{{--                            <input type="number" name="quantity_stock_low" id="quantity_stock_low" placeholder="Estoque Baixo" class="form-control" value="{{ $config->quantity_stock_low }}">--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
 
-{{--                    <div class="form-group">--}}
-{{--                        <label for="quantity_stock_low">Quantidade de Produtos nos mais vendidos: <span class="text-danger">*</span></label>--}}
-{{--                        <div class="input-group">--}}
-{{--                            <input type="number" name="quantity_top_sellers" id="quantity_top_sellers" placeholder="Quantos produtos" class="form-control" value="{{ $config->quantity_top_sellers }}">--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
+                    <div class="form-group">
+                        <label for="name">Exibir Alerta: <span class="text-danger">*</span></label>
+                        <br />
+                        <div class="btn-group" id="status" data-toggle="buttons">
+                            <label class="btn btn-default btn-on btn-xs
+                            @if($config->show_message == 1)
+                                    active
+@endif
+                                    ">
+                                <input type="radio" value="1" name="show_message"
+                                       @if($config->show_message == 1)
+                                       checked="checked"
+                                        @endif
+                                >Sim</label>
+                            <label class="btn btn-default btn-off btn-xs @if($config->show_message == 0) active @endif">
+                                <input type="radio" value="0" name="show_message"
+                                       @if($config->show_message == 0)
+                                       checked="checked"
+                                        @endif
+                                >Não</label>
+                        </div>'
+                    </div>
                 </div>
+
+                <div class="form-group">
+                    <label for="description">Descrição </label>
+                    <textarea class="form-control ckeditor" name="message" id="message" rows="5" placeholder="Description">{!! $config->message  !!}</textarea>
+                </div>
+
+
 
                 <!-- /.box-body -->
                 <div class="box-footer">
