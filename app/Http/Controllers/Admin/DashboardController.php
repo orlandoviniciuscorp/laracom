@@ -70,13 +70,13 @@ class DashboardController extends Controller
     public function storeConfig(Request $request)
     {
 //        $data = $request->except('_token', '_method');
-//        dump($data);
+//        dd($data);
         $config = $this->getConfig();
         $config->is_open = $request->input('is_open');
         $config->is_automatic_open = $request->input('is_automatic_open');
         $config->is_automatic_close = $request->input('is_automatic_close');
-//        $config->is_warning_stock_low = $request->input('is_warning_stock_low');
-//        $config->quantity_stock_low = $request->input('quantity_stock_low');
+        $config->show_message = $request->input('show_message');
+        $config->message = $request->input('message');
 //        $config->quantity_top_sellers = $request->input('quantity_top_sellers');
 //        $config->is_fair_automatic = $request->input('is_fair_automatic');
         $this->configRepo->updateConfig($config);
