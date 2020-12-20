@@ -25,7 +25,9 @@ class Configuration extends Model
     protected $fillable = [
         'is_open',
         'is_automatic_open',
-        'is_automatic_close'
+        'is_automatic_close',
+        'show_message',
+        'message',
     ];
 
     /**

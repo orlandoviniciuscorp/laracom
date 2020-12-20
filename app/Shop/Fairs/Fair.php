@@ -6,6 +6,7 @@ use App\Shop\Addresses\Address;
 use App\Shop\Couriers\Courier;
 use App\Shop\Customers\Customer;
 use App\Shop\FairFinancials\FairFinancial;
+use App\Shop\Orders\Order;
 use App\Shop\OrderStatuses\OrderStatus;
 use App\Shop\Products\Product;
 use Illuminate\Database\Eloquent\Model;

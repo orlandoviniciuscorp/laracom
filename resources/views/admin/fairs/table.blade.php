@@ -101,4 +101,58 @@
     </tr>
 
 </table>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th colspan="9">
+            Detalhes dos pagamentos
+        </th>
+    </tr>
+    <tr>
+        <td>Pedido</td>
+        <td>Cliente</td>
+        <td>Telefone</td>
+        <td>e-mail</td>
+        <td>Tipo de Pagamento</td>
+        <td>Produtos</td>
+        <td>Entrega</td>
+        <td>Total</td>
+        <td>Status</td>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach ($fair->orders as $order)
+        <tr @if($order->orderStatus->name == 'Cancelado')class="danger"@endif >
+            <td>
+                #{{$order->id}}
+            </td>
+            <td>
+                {{$order->customer->name}}
+            </td>
+            <td>
+                {{$order->address->phone}}
+            </td>
+            <td>
+                {{$order->customer->email}}
+            </td>
+            <td>
+                {{$order->payment}}
+            </td>
+            <td>
+                {{currency_format($order->total_products)}}
+            </td>
+            <td>
+                {{currency_format($order->total_shipping)}}
+            </td>
+            <td>
+                {{currency_format($order->total)}}
+            </td>
+            <td>
+                {{$order->orderStatus->name}}
+            </td>
+        </tr>
+    @endforeach
+    </tbody>
+</table>
 @endif
