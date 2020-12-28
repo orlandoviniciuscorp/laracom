@@ -24,7 +24,7 @@
                         <tbody>
                         @foreach ($customers as $customer)
                             <tr>
-                                <td>{{ $customer['id'] }}</td>
+                                <td><a href="{{route('admin.customers.show', $customer['id'])}}">#{{ $customer['id'] }}</a></td>
                                 <td>{{ $customer['name'] }}</td>
                                 <td>{{ $customer['email'] }}</td>
                                 <td>@include('layouts.status', ['status' => $customer['status']])</td>

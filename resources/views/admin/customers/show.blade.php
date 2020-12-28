@@ -7,12 +7,12 @@
         <!-- Default box -->
         <div class="box">
             <div class="box-body">
-                <h2>Customer</h2>
+                <h2>Cliente</h2>
                 <table class="table">
                     <tbody>
                     <tr>
                         <td class="col-md-4">ID</td>
-                        <td class="col-md-4">Name</td>
+                        <td class="col-md-4">Nome</td>
                         <td class="col-md-4">Email</td>
                     </tr>
                     </tbody>
@@ -26,11 +26,11 @@
                 </table>
             </div>
             <div class="box-body">
-                <h2>Addresses</h2>
+                <h2>Endereço</h2>
                 <table class="table">
                     <tbody>
                     <tr>
-                        <td class="col-md-2">Alias</td>
+                        <td class="col-md-2">Apelido</td>
                         <td class="col-md-2">Address 1</td>
                         <td class="col-md-2">Country</td>
                         <td class="col-md-2">Status</td>
@@ -58,6 +58,47 @@
                         </tr>
                     @endforeach
                     </tbody>
+                </table>
+            </div>
+            <div class="box-body">
+                <h2>Pedidos ({{$customer->orders->count()}})</h2>
+                <table class="table">
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            Feira
+                        </th>
+                        <th>
+                            Total
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                        <th>
+                            Pagamento
+                        </th>
+                        @foreach($customer->orders as $order)
+                            <tr>
+                                <td>
+                                    <a href="{{ route('admin.orders.show', $order->id) }}">#{{$order->id}}</a>
+                                </td>
+                                <td>
+                                    {{$order->fair->name}}
+                                </td>
+                                <td>
+                                    {{currency_format($order->total)}}
+                                </td>
+                                <td>
+                                    {{$order->orderStatus->name}}
+                                </td>
+                                <td>
+                                    {{$order->payment}}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tr>
                 </table>
             </div>
             <!-- /.box-body -->
