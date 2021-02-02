@@ -38,6 +38,7 @@ class FairFinancial extends Model
             'accounting_close',
             'client_contact',
             'payment_conference',
+            'unity_price_by_farmer'
     ];
     /**
      * The attributes that should be hidden for arrays.
@@ -61,7 +62,7 @@ class FairFinancial extends Model
     public function sumProducer(){
 
         return $this->where('producer_id','=',$this->producer_id)
-            ->where('fair_id','=',$this->fair_id)->sum('farmer');
+            ->where('fair_id','=',$this->fair_id)->sum(\DB::raw('unity_price_by_farmer*quantity'));
     }
 
     public function sumPlataform()

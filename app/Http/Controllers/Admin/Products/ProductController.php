@@ -7,6 +7,7 @@ use App\Shop\AttributeValues\Repositories\AttributeValueRepositoryInterface;
 use App\Shop\Brands\Repositories\BrandRepositoryInterface;
 use App\Shop\Categories\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Shop\Percentages\Repositories\PercentageRepository;
+use App\Shop\Producers\ProducerDetail;
 use App\Shop\Producers\Repositories\ProducerRepository;
 use App\Shop\ProductAttributes\ProductAttribute;
 use App\Shop\ProductPercents\ProductPercent;
@@ -306,11 +307,20 @@ class ProductController extends Controller
 
         if ($request->has('producers')) {
             $productRepo->syncProducers($request->input('producers'));
+
+
         } else {
             $productRepo->detachProducers();
         }
 
-        $productRepo->updateProduct($data);
+
+
+
+        $product = $productRepo->updateProduct($data);
+
+        //verificar se o preço está inserido na tabela producer_details, se não estiver, incluir
+        $this->syncProducerDetails($id,$request->input('producers'));
+
         if($request->has('origin')){
             $page = $request->input('origin');
 
@@ -374,13 +384,13 @@ class ProductController extends Controller
             $product->save();
             if($fragment[0] == "producers") {
 
-//                dd();
                 $pr = new ProductRepository($product);
                 if (is_null($value)) {
 
                     $pr->detachProducers();
                 } else {
                     $pr->syncProducers($value);
+                    $this->syncProducerDetails($product->id,$value);
                 }
                 $product = null;
 
@@ -388,7 +398,7 @@ class ProductController extends Controller
 
 
         }
-
+//        dd('fim');
         $request->session()->flash('message', $this->getSucessMesseger());
         return redirect()->route('admin.producer.list.products')->with('message',$this->getSucessMesseger());
     }
@@ -661,5 +671,23 @@ class ProductController extends Controller
         return view('admin.products.pendency')->with(['productCategories'=>$productCategories,
             'productProducers'=>$productProducers
             ]);
+    }
+
+    private function syncProducerDetails($id, array $producers)
+    {
+        $product = $this->productRepo->findProductById($id);
+
+        foreach($producers as $producer_id){
+
+                //Se não estiver inserido na tabela, inserir agora
+               if(!app(ProducerRepository::class)->verifyProductDetail($product->id,$producer_id)){
+                   $producerDetail = new ProducerDetail();
+                   $producerDetail->product_id = $product->id;
+                   $producerDetail->product_price = $product->price * $product->percentage->farmer/100;
+                   $producerDetail->producer_id = $producer_id;
+                   $producerDetail->save();
+               }
+        }
+
     }
 }

@@ -218,10 +218,11 @@ class FairController extends Controller
         $fair = $this->fairRepo->find($fair_id);
 //        dd($fair->fairFinancials()->get()[0]->totalProducers());
 
+        $data[] = null;
          $data = ['financial'=>$this->fairRepo->getExtract($fair_id)];
          $data = array_merge($data,['productors'=>$this->fairRepo->getHarverstPayment($fair_id)]);
-         $data = array_merge($data,['fair'=>$this->fairRepo->find($fair_id)]);
-//         $data = array_merge($data,['fairFinancial'])
+         $data = array_merge($data,['fair'=>$fair]);
+         $data = array_merge($data,['fairFinancial']);
          $data = array_merge($data,['totalOrders'=>$this->orderRepo->totalOrders($fair_id)]);
         $data = array_merge($data,['totalAmount'=>$this->orderRepo->totalAmount($fair_id)]);
 

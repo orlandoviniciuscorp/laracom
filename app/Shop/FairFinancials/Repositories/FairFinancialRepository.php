@@ -7,6 +7,7 @@ use App\Shop\Carts\ShoppingCart;
 use App\Shop\FairFinancials\FairFinancial;
 use App\Shop\Fairs\Fair;
 use App\Shop\Fairs\Repositories\FairRepository;
+use App\Shop\Producers\ProducerDetail;
 use Carbon\Carbon;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\DB;
@@ -108,7 +109,25 @@ class FairFinancialRepository extends BaseRepository
                 $fairFinancial->product_id = $product->id;
                 $fairFinancial->quantity = $value;
 
-                $fairFinancial->farmer = $product->percentage->farmer / 100 * $product->price * $value;
+                $price = $product->price;
+                $pd = ProducerDetail::where('producer_id','=',$key)->where('product_id','=',$product->id)->first();
+                dump('producer....: ' . $key . ' product ...: ' . $product->id);
+
+                if(!is_null($pd)){
+                    dump('producer....: ' . $key . ' com preço diferente');
+                    dump($price . '  != ' . $pd->product_price);
+                    $price = $pd->product_price;
+                    dump($price);
+                    $fairFinancial->unity_price_by_farmer = $price;
+                    $fairFinancial->farmer = $price * $value;
+                }else{
+                    dump( $price*$product->percentage->farmer / 100 . ' unity_price_by_farmer');
+                    $fairFinancial->unity_price_by_farmer = $price*$product->percentage->farmer / 100;
+                    $fairFinancial->farmer = $product->percentage->farmer / 100 * $price * $value;
+                }
+
+
+
                 $fairFinancial->plataform = $product->percentage->plataform / 100 * $product->price * $value;
                 $fairFinancial->separation = $product->percentage->separation / 100 * $product->price * $value;
                 $fairFinancial->fund = $product->percentage->fund / 100 * $product->price * $value;
@@ -120,6 +139,7 @@ class FairFinancialRepository extends BaseRepository
                 $this->create($fairFinancial->toArray());
 
             }
+
         }
     }
 

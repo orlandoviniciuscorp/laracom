@@ -8,6 +8,7 @@ use App\Shop\Categories\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Shop\Countries\Repositories\Interfaces\CountryRepositoryInterface;
 use App\Http\Controllers\Controller;
 use App\Shop\Producers\Producer;
+use App\Shop\Producers\ProducerDetail;
 use App\Shop\Producers\Repositories\ProducerRepository;
 use App\Shop\Producers\Requests\CreateProducerRequest;
 use App\Shop\Producers\Requests\UpdateProducerRequest;
@@ -44,6 +45,22 @@ class ProducerController extends Controller
         return view('admin.producers.list', [
             'producers' => $this->producerRepo->paginateArrayResults($list->all())
         ]);
+    }
+
+    public function pricePerProducerList()
+    {
+        $list = $this->producerRepo->listProducers('created_at', 'desc');
+
+        return view('admin.producers.list-producers', [
+            'producers' => $this->producerRepo->paginateArrayResults($list->all())
+        ]);
+    }
+
+    public function pricePerProducer(int $id)
+    {
+        $producer = $this->producerRepo->find($id);
+        return view('admin.producers.details',['producer'=>$producer]);
+//        dd($producer->producerDetails);
     }
 
     /**
@@ -165,5 +182,37 @@ class ProducerController extends Controller
 
         return view('admin.producers.list-products-batch')->with(['products'=>$products,
             'producer'=>$producer->name]);
+    }
+
+
+
+    public function updateDetails($id, Request $request)
+    {
+//        dd($request);
+        $data = $request->except('_token');
+
+        $productDetail = null;
+//        dd($data);
+        foreach ($data as $key => $value) {
+
+
+            $fragment = explode("_",$key);
+
+            if($fragment[0] == 'id'){
+                $productDetail = app(ProducerDetail::class)->where('id', '=',$value)->first();
+//                dd($productDetail);
+            }
+
+            if($fragment[0] == 'price') {
+                $productDetail->product_price = $value;
+                $productDetail->save();
+                $productDetail = null;
+            }
+
+        }
+
+        return redirect()->route('admin.producers.price-per-products.list')->with('message',$this->getSucessMesseger());
+
+//
     }
 }

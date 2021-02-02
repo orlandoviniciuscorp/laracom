@@ -5,6 +5,7 @@ namespace App\Shop\Products;
 use App\Shop\Brands\Brand;
 use App\Shop\Categories\Category;
 use App\Shop\Producers\Producer;
+use App\Shop\Producers\ProducerDetail;
 use App\Shop\ProductAttributes\ProductAttribute;
 use App\Shop\ProductImages\ProductImage;
 use App\Shop\Percentages\Percentage;
@@ -92,6 +93,11 @@ class Product extends Model implements Buyable
 
     public function producers(){
         return $this->belongsToMany(Producer::class);
+    }
+
+    public function producerDetails()
+    {
+        return $this->belongsToMany(ProducerDetail::class);
     }
 
     /**
