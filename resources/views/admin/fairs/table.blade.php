@@ -19,8 +19,14 @@
             <td>{{$fairFinancial->producer->name}}</td>
             <td>{{$fairFinancial->product->name}}</td>
             <td>{{currency_format($fairFinancial->product->price)}}</td>
-            <td>{{currency_format($fairFinancial->product->price*
-                $fairFinancial->product->percentage->farmer/100)}}</td>
+            <td>
+            @if(is_null($fairFinancial->unity_price_by_farmer))
+                {{currency_format($fairFinancial->product->price*
+                    $fairFinancial->product->percentage->farmer/100)}}
+            @else
+                    {{currency_format($fairFinancial->unity_price_by_farmer)}}
+            @endif
+            </td>
             <td>{{$fairFinancial->quantity}}</td>
 {{--            <td>{{currency_format($fairFinancial->product->price * $fairFinancial->quantity)}}</td>--}}
             <td>{{currency_format($fairFinancial->farmer)}}</td>

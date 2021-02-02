@@ -2,6 +2,7 @@
 
 namespace App\Shop\Producers\Repositories;
 
+use Illuminate\Support\Facades\DB;
 use Jsdecena\Baserepo\BaseRepository;
 use App\Shop\Producers\Producer;
 use App\Shop\Producers\Exceptions\ProducerInvalidArgumentException;
@@ -242,5 +243,13 @@ class ProducerRepository extends BaseRepository implements ProducerRepositoryInt
     public function findChildren()
     {
         return $this->model->children;
+    }
+
+    public function verifyProductDetail($product_id, $producer_id)
+    {
+        $count = DB::select('select count(id) is_available from producer_details where product_id = ? and producer_id = ?',
+        [$product_id,$producer_id]);
+
+        return ($count[0]->is_available > 0);
     }
 }
