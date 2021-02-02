@@ -32,6 +32,7 @@
                 <div class="form-group has-feedback">
                     <input name="password" type="password" class="form-control" placeholder="Senha">
                     <span class="fa fa-lock form-control-feedback"></span>
+                    <input type="hidden" name="remember" value="1" />
                 </div>
                 <div class="row">
                     <div class="col-xs-8">

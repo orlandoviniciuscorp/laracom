@@ -66,3 +66,33 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="pix" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <hr />
+            <h3>PIX</h3>
+            <hr>
+            <p>Chave Pix: <strong>62998649778</strong></p>
+            <p>Beneficiário: <strong>João Gabriel Pinheiro Borges</strong></p>
+            @isset($total)
+                <p>Valor: <strong> {{ config('cart.currency_symbol') }} {{ $total }}</strong></p>
+            @endisset
+            <p><strong><small class="text-danger text">* {{ config('bank-transfer.note') }}</small></strong></p>
+            <p><strong><small class="text-danger text">*Enviar o comprovante de depósito para o  número: (62) 99864-9778 - João Gabriel</small></strong></p>
+            <div class="modal-footer text-left">
+                @isset($courier)
+                    <form action="{{ route('checkout.store') }}" method="post">
+                        {{ csrf_field() }}
+
+                        <input type="hidden" name="courier_id" value="{{$courier->id}}" />
+                        <input type="hidden" name="billingAddress_id" value="{{$billingAddress->id}}" />
+                        <input type="hidden" name="payment_method" value="Transferência Bancária"/>
+                        <button type="submit" onclick="return confirm('Tem Certeza?')" class="btn btn-danger pull-left">Confirmar Compra</button>
+                    </form>
+                @endisset
+                <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>

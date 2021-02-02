@@ -42,4 +42,8 @@ class Producer extends Model
     public function employee(){
         return $this->hasMany(Employee::class);
     }
+
+    public function producerDetails(){
+        return $this->hasMany(ProducerDetail::class);
+    }
 }

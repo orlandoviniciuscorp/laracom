@@ -25,6 +25,11 @@
                                     data-target="#nubank">
                                 <i class="fa fa-university" aria-hidden="true"></i> Nubank</button>
 
+                            <button type="button" class="btn btn-success"
+                                    data-toggle="modal"
+                                    data-target="#pix">
+                                <i class="fa fa-plus-circle" aria-hidden="true"></i> PIX</button>
+
                         </div>
                     </div>
 

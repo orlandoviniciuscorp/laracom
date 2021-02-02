@@ -9,7 +9,7 @@
         @if($producer)
             <div class="box">
                 <div class="box-body">
-                    <h2>Categorias</h2>
+                    <h2>Produtores</h2>
                     <table class="table">
                         <thead>
                         <tr>
@@ -34,7 +34,7 @@
                 @if(!$products->isEmpty())
                     <div class="box-body">
                         <h2>Produtos</h2>
-                        @include('admin.shared.products', ['products' => $products])
+                        @include('admin.shared.products', ['products' => $products, 'producer_price'=> true])
                     </div>
                 @endif
                 <!-- /.box-body -->

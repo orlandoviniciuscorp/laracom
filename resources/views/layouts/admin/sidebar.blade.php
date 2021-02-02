@@ -105,6 +105,7 @@
                     @if($user->hasPermission('view-product'))<li><a href="{{ route('admin.producer.list.products') }}">
                             <i class="fa fa-list" aria-hidden="true"></i>Atualizar em Lote</a></li>@endif
                     <li><a href="{{ route('admin.producers.create') }}"><i class="fa fa-plus"></i> Cadastrar Produtores</a></li>
+                    <li><a href="{{ route('admin.producers.price-per-products.list') }}"><i class="fa fa-dollar"></i>Preço Por Produtor</a></li>
                 </ul>
             </li>
             <li class="treeview @if(request()->segment(2) == 'customers' || request()->segment(2) == 'addresses') active @endif">

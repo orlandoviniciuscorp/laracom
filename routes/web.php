@@ -84,6 +84,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
                 Route::resource('producers', 'ProducerController');
                 Route::get('/list-batch','ProducerController@listProducers')->name('producer.list.products');
                 Route::get('/list-batch/{id}','ProducerController@listProductsBatch')->name('producers.products.list-batch');
+
+                Route::group(['prefix'=>'price-per-producer'],function () {
+                    Route::get('/', 'ProducerController@pricePerProducerList')->name('producers.price-per-products.list');
+                    Route::get('/{id}', 'ProducerController@pricePerProducer')->name('producers.price-per-products.show');
+                    Route::post('/{id}', 'ProducerController@updateDetails')->name('producers.price-per-products.show');
+                });
+
             });
 
             Route::namespace('Orders')->group(function () {
