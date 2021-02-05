@@ -56,8 +56,9 @@ class HarverstExport implements FromView
     public function view(): View
     {
         $harvest = $this->fairRepo->harvest($this->fair_id);
+        $fair = $this->fairRepo->findFairById($this->fair_id);
 
-        $data = ['harvest'=>$harvest];
+        $data = ['harvest'=>$harvest, 'fair'=>$fair];
          return view('invoices.harvest', $data);
     }
 }

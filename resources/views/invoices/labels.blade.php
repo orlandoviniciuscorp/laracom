@@ -32,34 +32,28 @@
                             <strong>Número do Pedido</strong>: #{{$order->id}}
                             <br />
                             <br />
-
-                            <strong>Cliente - Telefone</strong>
-                            <br />
                             {{$order->customer->name}} -
                            <small> {{$order->address->phone}}
                            </small>
                             <br /><br/>
-                            <strong>Valor a Pagar</strong>
-                            <br />
                             <small><strong>Dinheiro:</strong> {{currency_format($order->total)}}
                             </small>
                             <br/>
                             <small><strong>Cartão:</strong> {{currency_format($order->total * 1.025)}}</small>
                             <br />
-                            <br />
-                            <strong>Forma de Pagamento:</strong>
-                            {{$order->payment}}
-                            <br />
-                            <strong>Tipo de Entrega:</strong>
-                            {{$order->courier->name}}
-                            <br />
-
-                            <strong>Endereço:</strong> <br/>
-                            {{$order->address->address_1}} - {{$order->address->address_2}} - {{$order->address->neighborhoods}}
+                            <strong>
+                            {{$order->payment}}</strong>
                             <br /><br/>
-                            Observação: <br />
-                            <small> <strong>{{$order->obs}}</strong>
-                            </small>
+
+                            <strong>{{$order->courier->name}}</strong> -
+                            {{$order->address->address_1}} - {{$order->address->address_2}} - {{$order->address->neighborhoods}}
+                            @if(!is_null($order->obs))
+                            <br /><br/>
+
+                                Observação: <br />
+                                <small> <strong>{{$order->obs}}</strong>
+                                </small>
+                            @endif
                         </td>
                         <td width="60%">
                             <strong>Produtos:</strong><br />
