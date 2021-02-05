@@ -25,6 +25,11 @@
 {{--    @if($harvest)--}}
         <table border="0" style="border: 1px solid black">
             <tr>
+                <td colspan="3">
+                    Planilha de Colheita da Feira - #{{$fair->fair_id}} para o dia {{$fair->end_at}}
+                </td>
+            </tr>
+            <tr>
                 <th>
                     Sítio
                 </th>
@@ -32,23 +37,23 @@
                     Produto
                 </th>
                 <th>
-                    Quantidade
+                    Qtd
                 </th>
             </tr>
-                @foreach ($harvest as $hav)
+{{--                @foreach ($harvest as $hav)--}}
 
-                    <tr>
-                        <td>
-                            {{$hav->produtor}}
-                        </td>
-                        <td>
-                            {{$hav->produto}}
-                        </td>
-                        <td>
-                            {{$hav->quantidade}}
-                        </td>
-                    </tr>
-                @endforeach
+{{--                    <tr>--}}
+{{--                        <td>--}}
+{{--                            {{$hav->produtor}}--}}
+{{--                        </td>--}}
+{{--                        <td>--}}
+{{--                            {{$hav->produto}}--}}
+{{--                        </td>--}}
+{{--                        <td>--}}
+{{--                            {{$hav->quantidade}}--}}
+{{--                        </td>--}}
+{{--                    </tr>--}}
+{{--                @endforeach--}}
         </table>
 {{--        <!-- /.box-body -->--}}
 

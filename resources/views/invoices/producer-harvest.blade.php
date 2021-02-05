@@ -23,16 +23,29 @@
 {{--<!-- Default box -->--}}
 {{--    <h2>{{env('APP_NAME')}} - Colheita</h2>--}}
 {{--    @if($harvest)--}}
-        <table border="0" style="border: 1px solid black">
+
+        <table border="0" style="border: 1px solid black; text-align: center;">
             <tr>
-                <th>
-                    Sítio
+                <td colspan="3" style="border: 1px solid black; text-align: center;">
+                    <strong>Planilha de Colheita da Feira - #{{$fair->id}}</strong>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="3" style="border: 1px solid black; text-align: center;">
+                    <strong>{{$fair->end_at}}</strong>
+                </td>
+            </tr>
+
+            <tr>
+                <th style="border: 1px solid black; text-align: center;max-width:5px;">
+                    <strong>Sítio</strong>
                 </th>
-                <th>
-                    Produto
+                <th  style="border: 1px solid black; text-align: center;max-width:20px;">
+                    <strong>Produto</strong>
                 </th>
-                <th>
-                    Quantidade
+                <th style="border: 1px solid black; text-align: center; width: auto;">
+                    <strong>Qtd</strong>
                 </th>
             </tr>
 
@@ -41,13 +54,13 @@
 
                     @foreach($c['produtor'] as $key=>$value)
                     <tr>
-                        <td>
+                        <td style="border: 1px solid black; text-align: center;max-width:5px;">
                             {{$key}}
                         </td>
-                        <td>
+                        <td style="border: 1px solid black; text-align: center;max-width:20px;">
                             {{$c['produto']}}
                         </td>
-                        <td>
+                        <td style="border: 1px solid black; text-align: center;width: 5px;">
                             {{$value}}
                         </td>
                     </tr>
