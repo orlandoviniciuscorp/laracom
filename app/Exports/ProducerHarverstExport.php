@@ -7,8 +7,9 @@ namespace App\Exports;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class ProducerHarverstExport implements FromView
+class ProducerHarverstExport implements FromView, ShouldAutoSize
 {
     use Exportable;
     protected $fair_id;
@@ -51,12 +52,12 @@ class ProducerHarverstExport implements FromView
             array_push($data, ['produto' =>$product->name,'produtor'=>$quantity]);
 
         }
-
+        $fair = $this->fairRepo->findFairById($this->fair_id);
 
 //        dump($pd);
 //        dd($data);
 
 //        $data = ['harvest'=>$harvest];
-        return view('invoices.producer-harvest', ['colheita'=>$data]);
+        return view('invoices.producer-harvest', ['colheita'=>$data, 'fair'=>$fair]);
     }
 }
