@@ -38,13 +38,13 @@
             </tr>
 
             <tr>
-                <th style="border: 1px solid black; text-align: center;max-width:5px;">
+                <th style="border: 1px solid black; text-align: center;">
                     <strong>Sítio</strong>
                 </th>
-                <th  style="border: 1px solid black; text-align: center;max-width:20px;">
+                <th  style="border: 1px solid black; text-align: center;">
                     <strong>Produto</strong>
                 </th>
-                <th style="border: 1px solid black; text-align: center; width: auto;">
+                <th style="border: 1px solid black; text-align: center;">
                     <strong>Qtd</strong>
                 </th>
             </tr>
@@ -54,13 +54,13 @@
 
                     @foreach($c['produtor'] as $key=>$value)
                     <tr>
-                        <td style="border: 1px solid black; text-align: center;max-width:5px;">
+                        <td style="border: 1px solid black; text-align: center; width: 20px;">
                             {{$key}}
                         </td>
-                        <td style="border: 1px solid black; text-align: center;max-width:20px;">
+                        <td style="border: 1px solid black; text-align: center; width: 80px;">
                             {{$c['produto']}}
                         </td>
-                        <td style="border: 1px solid black; text-align: center;width: 5px;">
+                        <td style="border: 1px solid black; text-align: center; width: 5px; ">
                             {{$value}}
                         </td>
                     </tr>
