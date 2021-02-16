@@ -15,8 +15,6 @@ class Configuration extends Model
 {
     use SearchableTrait;
 
-
-
     /**
      * The attributes that are mass assignable.
      *
@@ -28,6 +26,9 @@ class Configuration extends Model
         'is_automatic_close',
         'show_message',
         'message',
+        'automatic_fair',
+        'fair_name',
+        'next_fair_number',
     ];
 
     /**
@@ -36,6 +37,4 @@ class Configuration extends Model
      * @var array
      */
     protected $hidden = [];
-
-
 }
