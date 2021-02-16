@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         Commands\LaraStructure::class,
         Commands\OpenPlataform::class,
         Commands\ClosePlataform::class,
+        Commands\CreateFair::class,
     ];
 
     /**
