@@ -15,7 +15,7 @@ class CreateFair extends Command
      *
      * @var string
      */
-    protected $signature = 'organicosaat:create:fair';
+    protected $signature = 'organicosaat:create-fair';
 
     /**
      * The console command description.
