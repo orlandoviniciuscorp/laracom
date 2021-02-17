@@ -85,6 +85,9 @@ class DashboardController extends Controller
         $config->is_automatic_open = $request->input('is_automatic_open');
         $config->is_automatic_close = $request->input('is_automatic_close');
         $config->automatic_fair = $request->input('automatic_fair');
+        $config->automatic_clear_availability = $request->input(
+            'automatic_clear_availability'
+        );
         $config->show_message = $request->input('show_message');
         $config->fair_name = $request->input('fair_name');
         $config->next_fair_number = $request->input('next_fair_number');

@@ -35,10 +35,6 @@ class ProductController extends Controller
 {
     use ProductTransformable, UploadableTrait;
 
-
-
-
-
     protected $productPercentRepo;
 
     /**
@@ -99,10 +95,22 @@ class ProductController extends Controller
         $this->producerRepo = $producerRepository;
         $this->percentageRepo = $percentageRepository;
 
-        $this->middleware(['permission:create-product, guard:employee'], ['only' => ['create', 'store']]);
-        $this->middleware(['permission:update-product, guard:employee'], ['only' => ['edit', 'update']]);
-        $this->middleware(['permission:delete-product, guard:employee'], ['only' => ['destroy']]);
-        $this->middleware(['permission:view-product, guard:employee'], ['only' => ['index', 'show']]);
+        $this->middleware(
+            ['permission:create-product, guard:employee'],
+            ['only' => ['create', 'store']]
+        );
+        $this->middleware(
+            ['permission:update-product, guard:employee'],
+            ['only' => ['edit', 'update']]
+        );
+        $this->middleware(
+            ['permission:delete-product, guard:employee'],
+            ['only' => ['destroy']]
+        );
+        $this->middleware(
+            ['permission:view-product, guard:employee'],
+            ['only' => ['index', 'show']]
+        );
     }
 
     /**
@@ -115,7 +123,10 @@ class ProductController extends Controller
         $products = $this->getAllProducts();
 
         return view('admin.products.list', [
-            'products' => $this->productRepo->paginateArrayResults($products, 25)
+            'products' => $this->productRepo->paginateArrayResults(
+                $products,
+                25
+            ),
         ]);
     }
 
@@ -132,16 +143,15 @@ class ProductController extends Controller
 
         $producers = $this->producerRepo->listProducers('name', 'asc');
 
-
         return view('admin.products.create', [
             'categories' => $categories,
             'brands' => $this->brandRepo->listBrands(['*'], 'name', 'asc'),
             'default_weight' => env('SHOP_WEIGHT'),
             'weight_units' => Product::MASS_UNIT,
-            'product' => new Product,
+            'product' => new Product(),
             'nextSKU' => $nextSKU,
-            'percentages'=>$percentages,
-            'producers'=>$producers
+            'percentages' => $percentages,
+            'producers' => $producers,
         ]);
     }
 
@@ -157,14 +167,16 @@ class ProductController extends Controller
         $data = $request->except('_token', '_method');
         $data['slug'] = str_slug($request->input('name'));
 
-        if ($request->hasFile('cover') && $request->file('cover') instanceof UploadedFile) {
-            $data['cover'] = $this->productRepo->saveCoverImage($request->file('cover'));
+        if (
+            $request->hasFile('cover') &&
+            $request->file('cover') instanceof UploadedFile
+        ) {
+            $data['cover'] = $this->productRepo->saveCoverImage(
+                $request->file('cover')
+            );
         }
 
-
         $product = $this->productRepo->createProduct($data);
-
-
 
         $productRepo = new ProductRepository($product);
 
@@ -179,7 +191,6 @@ class ProductController extends Controller
         }
 
         if ($request->has('producers')) {
-
             $productRepo->syncProducers($request->input('producers'));
         } else {
             $productRepo->detachProducers();
@@ -212,26 +223,36 @@ class ProductController extends Controller
      */
     public function edit(int $id)
     {
-
         //dd(request()->has('is_distinct'));
 
         $product = $this->productRepo->findProductById($id);
         $productAttributes = $product->attributes()->get();
 
-        $qty = $productAttributes->map(function ($item) {
-            return $item->quantity;
-        })->sum();
+        $qty = $productAttributes
+            ->map(function ($item) {
+                return $item->quantity;
+            })
+            ->sum();
 
         if (request()->has('delete') && request()->has('pa')) {
-            $pa = $productAttributes->where('id', request()->input('pa'))->first();
+            $pa = $productAttributes
+                ->where('id', request()->input('pa'))
+                ->first();
             $pa->attributesValues()->detach();
             $pa->delete();
 
-            request()->session()->flash('message', $this->getSucessMesseger());
-            return redirect()->route('admin.products.edit', [$product->id, 'combination' => 1]);
+            request()
+                ->session()
+                ->flash('message', $this->getSucessMesseger());
+            return redirect()->route('admin.products.edit', [
+                $product->id,
+                'combination' => 1,
+            ]);
         }
 
-        $categories = $this->categoryRepo->listCategories('name', 'asc')->toTree();
+        $categories = $this->categoryRepo
+            ->listCategories('name', 'asc')
+            ->toTree();
         $producers = $this->producerRepo->listProducers('name', 'asc');
         $percentages = $this->percentageRepo->listPercentages('id');
 
@@ -239,7 +260,10 @@ class ProductController extends Controller
             'product' => $product,
             'images' => $product->images()->get(['src']),
             'categories' => $categories,
-            'selectedIds' => $product->categories()->pluck('category_id')->all(),
+            'selectedIds' => $product
+                ->categories()
+                ->pluck('category_id')
+                ->all(),
             'attributes' => $this->attributeRepo->listAttributes(),
             'productAttributes' => $productAttributes,
             'qty' => $qty,
@@ -247,9 +271,12 @@ class ProductController extends Controller
             'weight' => $product->weight,
             'default_weight' => $product->mass_unit,
             'weight_units' => Product::MASS_UNIT,
-            'producers'=>$producers,
-            'percentages'=>$percentages,
-            'producersSelectedIds'=>$product->producers()->pluck('producer_id')->all(),
+            'producers' => $producers,
+            'percentages' => $percentages,
+            'producersSelectedIds' => $product
+                ->producers()
+                ->pluck('producer_id')
+                ->all(),
         ]);
     }
 
@@ -264,14 +291,14 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, int $id)
     {
-
         $product = $this->productRepo->findProductById($id);
 
         $productRepo = new ProductRepository($product);
 
         if ($request->has('attributeValue')) {
             $this->saveProductCombinations($request, $product);
-            return redirect()->route('admin.products.edit', [$id, 'combination' => 1])
+            return redirect()
+                ->route('admin.products.edit', [$id, 'combination' => 1])
                 ->with('message', $this->getSucessMesseger());
         }
 
@@ -292,7 +319,9 @@ class ProductController extends Controller
         $data['slug'] = str_slug($request->input('name'));
 
         if ($request->hasFile('cover')) {
-            $data['cover'] = $productRepo->saveCoverImage($request->file('cover'));
+            $data['cover'] = $productRepo->saveCoverImage(
+                $request->file('cover')
+            );
         }
 
         if ($request->hasFile('image')) {
@@ -307,34 +336,30 @@ class ProductController extends Controller
 
         if ($request->has('producers')) {
             $productRepo->syncProducers($request->input('producers'));
-
-
         } else {
             $productRepo->detachProducers();
         }
 
-
-
-
         $product = $productRepo->updateProduct($data);
 
         //verificar se o preço está inserido na tabela producer_details, se não estiver, incluir
-        $this->syncProducerDetails($id,$request->input('producers'));
+        $this->syncProducerDetails($id, $request->input('producers'));
 
-        if($request->has('origin')){
+        if ($request->has('origin')) {
             $page = $request->input('origin');
 
-            return Redirect::to($page)->with('message', $this->getSucessMesseger());
+            return Redirect::to($page)->with(
+                'message',
+                $this->getSucessMesseger()
+            );
         }
-        return redirect()->back()
+        return redirect()
+            ->back()
             ->with('message', $this->getSucessMesseger());
     }
 
     public function updateQuantity(Request $request)
     {
-
-
-
         $product = $this->productRepo->find($request->input('id'));
         $product->quantity = $request->input('quantity');
         $product->save();
@@ -343,77 +368,75 @@ class ProductController extends Controller
 
         $request->session()->flash('message', $this->getSucessMesseger());
 
-//        return view('admin.products.list', [
-//            'products' => $this->productRepo->paginateArrayResults($products, 25)
-//        ]);
+        //        return view('admin.products.list', [
+        //            'products' => $this->productRepo->paginateArrayResults($products, 25)
+        //        ]);
 
-        return redirect()->back()->with('message',$this->getSucessMesseger());
-
-
+        return redirect()
+            ->back()
+            ->with('message', $this->getSucessMesseger());
     }
 
     public function updateQuantityBatch(Request $request)
     {
-//        dd($request->all());
+        //        dd($request->all());
         $data = $request->except('_token');
 
-//        dd($data);
+        //        dd($data);
 
         $product = null;
         foreach ($data as $key => $value) {
-
-            $fragment = explode("_",$key);
-            if($fragment[0] == "id"){
+            $fragment = explode('_', $key);
+            if ($fragment[0] == 'id') {
                 $product = $this->productRepo->find($value);
-
-            } if($fragment[0] == "name"){
+            }
+            if ($fragment[0] == 'name') {
                 $product->name = $value;
-            } if($fragment[0] == "promotion"){
+            }
+            if ($fragment[0] == 'promotion') {
                 $product->is_in_promotion = $value;
-            } if($fragment[0] == "status"){
+            }
+            if ($fragment[0] == 'status') {
                 $product->status = $value;
-
-            } if($fragment[0] == "price"){
-
+            }
+            if ($fragment[0] == 'price') {
                 $product->price = $value;
-            } if($fragment[0] == "quantity"){
+            }
+            if ($fragment[0] == 'quantity') {
                 $product->quantity = $value;
 
-//                $product = null;
+                //                $product = null;
             }
             $product->save();
-            if($fragment[0] == "producers") {
-
+            if ($fragment[0] == 'producers') {
                 $pr = new ProductRepository($product);
                 if (is_null($value)) {
-
                     $pr->detachProducers();
                 } else {
                     $pr->syncProducers($value);
-                    $this->syncProducerDetails($product->id,$value);
+                    $this->syncProducerDetails($product->id, $value);
                 }
                 $product = null;
-
             }
-
-
         }
-//        dd('fim');
+        //        dd('fim');
         $request->session()->flash('message', $this->getSucessMesseger());
-        return redirect()->route('admin.producer.list.products')->with('message',$this->getSucessMesseger());
+        return redirect()
+            ->route('admin.producer.list.products')
+            ->with('message', $this->getSucessMesseger());
     }
 
     public function indexPercent(Request $request, int $product_id)
     {
         $product = $this->productRepo->findProductById($product_id);
 
-        return view('admin.percents.create')->with('product',$product);
+        return view('admin.percents.create')->with('product', $product);
     }
 
-    public function percentStore(CreateProductPercentRequest $request, int $product_id)
-    {
-
-
+    public function percentStore(
+        CreateProductPercentRequest $request,
+        int $product_id
+    ) {
         $data = $request->except('_token', '_method');
         $this->productPercentRepo->createProductPercent($data);
         $product = $this->productRepo->findProductById($product_id);
@@ -422,17 +445,10 @@ class ProductController extends Controller
 
     public function emptyAvailability()
     {
-        $products = $this->getAllProducts();
-
-        foreach($products as $product){
-
-            if($product->name!='Sacola Retornável') {
-                $p = $this->productRepo->find($product->id);
-                $p->quantity = 0;
-                $p->save();
-            }
-        }
-        request()->session()->flash('message', $this->getSucessMesseger());
+        $this->productRepo->emptyAvailability();
+        request()
+            ->session()
+            ->flash('message', $this->getSucessMesseger());
         return redirect()->route('admin.dashboard');
     }
 
@@ -440,14 +456,16 @@ class ProductController extends Controller
     {
         $products = $this->getAllProducts();
 
-        foreach ($products as $product){
-            if($product->quantity == 0){
+        foreach ($products as $product) {
+            if ($product->quantity == 0) {
                 $p = $this->productRepo->find($product->id);
                 $p->status = 0;
                 $p->save();
             }
         }
-        request()->session()->flash('message', $this->getSucessMesseger());
+        request()
+            ->session()
+            ->flash('message', $this->getSucessMesseger());
         return redirect()->route('admin.dashboard');
     }
 
@@ -458,7 +476,9 @@ class ProductController extends Controller
         $product->status = 0;
         $product->save();
 
-        request()->session()->flash('message', $this->getSucessMesseger());
+        request()
+            ->session()
+            ->flash('message', $this->getSucessMesseger());
         return redirect()->back();
     }
 
@@ -487,7 +507,9 @@ class ProductController extends Controller
         $productAttr = $product->attributes();
 
         $productAttr->each(function ($pa) {
-            DB::table('attribute_value_product_attribute')->where('product_attribute_id', $pa->id)->delete();
+            DB::table('attribute_value_product_attribute')
+                ->where('product_attribute_id', $pa->id)
+                ->delete();
         });
 
         $productAttr->where('product_id', $product->id)->delete();
@@ -495,7 +517,9 @@ class ProductController extends Controller
         $productRepo = new ProductRepository($product);
         $productRepo->removeProduct();
 
-        return redirect()->route('admin.products.index')->with('message', $this->getSucessMesseger());
+        return redirect()
+            ->route('admin.products.index')
+            ->with('message', $this->getSucessMesseger());
     }
 
     /**
@@ -505,8 +529,13 @@ class ProductController extends Controller
      */
     public function removeImage(Request $request)
     {
-        $this->productRepo->deleteFile($request->only('product', 'image'), 'uploads');
-        return redirect()->back()->with('message', $this->getSucessMesseger());
+        $this->productRepo->deleteFile(
+            $request->only('product', 'image'),
+            'uploads'
+        );
+        return redirect()
+            ->back()
+            ->with('message', $this->getSucessMesseger());
     }
 
     /**
@@ -517,7 +546,9 @@ class ProductController extends Controller
     public function removeThumbnail(Request $request)
     {
         $this->productRepo->deleteThumb($request->input('src'));
-        return redirect()->back()->with('message', $this->getSucessMesseger());
+        return redirect()
+            ->back()
+            ->with('message', $this->getSucessMesseger());
     }
 
     /**
@@ -525,8 +556,10 @@ class ProductController extends Controller
      * @param Product $product
      * @return boolean
      */
-    private function saveProductCombinations(Request $request, Product $product): bool
-    {
+    private function saveProductCombinations(
+        Request $request,
+        Product $product
+    ): bool {
         $fields = $request->only(
             'productAttributeQuantity',
             'productAttributePrice',
@@ -535,7 +568,11 @@ class ProductController extends Controller
         );
 
         if ($errors = $this->validateFields($fields)) {
-            return redirect()->route('admin.products.edit', [$product->id, 'combination' => 1])
+            return redirect()
+                ->route('admin.products.edit', [
+                    $product->id,
+                    'combination' => 1,
+                ])
                 ->withErrors($errors);
         }
 
@@ -550,7 +587,10 @@ class ProductController extends Controller
         $attributeValues = $request->input('attributeValue');
         $productRepo = new ProductRepository($product);
 
-        $hasDefault = $productRepo->listProductAttributes()->where('default', 1)->count();
+        $hasDefault = $productRepo
+            ->listProductAttributes()
+            ->where('default', 1)
+            ->count();
 
         $default = 0;
         if ($request->has('default')) {
@@ -562,14 +602,26 @@ class ProductController extends Controller
         }
 
         $productAttribute = $productRepo->saveProductAttributes(
-            new ProductAttribute(compact('quantity', 'price', 'sale_price', 'default'))
+            new ProductAttribute(
+                compact('quantity', 'price', 'sale_price', 'default')
+            )
         );
 
         // save the combinations
-        return collect($attributeValues)->each(function ($attributeValueId) use ($productRepo, $productAttribute) {
-            $attribute = $this->attributeValueRepository->find($attributeValueId);
-            return $productRepo->saveCombination($productAttribute, $attribute);
-        })->count();
+        return collect($attributeValues)
+            ->each(function ($attributeValueId) use (
+                $productRepo,
+                $productAttribute
+            ) {
+                $attribute = $this->attributeValueRepository->find(
+                    $attributeValueId
+                );
+                return $productRepo->saveCombination(
+                    $productAttribute,
+                    $attribute
+                );
+            })
+            ->count();
     }
 
     /**
@@ -580,7 +632,7 @@ class ProductController extends Controller
     private function validateFields(array $data)
     {
         $validator = Validator::make($data, [
-            'productAttributeQuantity' => 'required'
+            'productAttributeQuantity' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -594,100 +646,125 @@ class ProductController extends Controller
 
         if (request()->has('q') && request()->input('q') != '') {
             $list = $this->productRepo->searchProduct(request()->input('q'));
-        }else if(request()->has('categories')){
-            $list = $this->productRepo->listProducts('name')
+        } elseif (request()->has('categories')) {
+            $list = $this->productRepo
+                ->listProducts('name')
                 ->whereIn('category_id', request()->get('categories'));
         }
 
-        $products = $list->map(function (Product $item) {
-            return $this->transformProduct($item);
-        })->all();
+        $products = $list
+            ->map(function (Product $item) {
+                return $this->transformProduct($item);
+            })
+            ->all();
 
         return $products;
     }
 
     public function getAllEnabledProduct()
     {
-        $list = $this->productRepo->listProducts('id')->where('status','=',1);
+        $list = $this->productRepo->listProducts('id')->where('status', '=', 1);
 
-        if(request()->has('categories')){
+        if (request()->has('categories')) {
             $list = $this->productRepo->listProducts('name');
             $categories = request()->get('categories');
 
             $p = ProductModel::with('categories')
 
-                ->join('category_product','products.id','=','category_product.product_id')
-                ->whereIn('category_product.category_id',$categories)
+                ->join(
+                    'category_product',
+                    'products.id',
+                    '=',
+                    'category_product.product_id'
+                )
+                ->whereIn('category_product.category_id', $categories)
                 ->get();
             return $p;
         }
 
-
-
-        $products = $list->map(function (Product $item) {
-            return $this->transformProduct($item);
-        })->all();
+        $products = $list
+            ->map(function (Product $item) {
+                return $this->transformProduct($item);
+            })
+            ->all();
 
         return $products;
     }
     public function listAllProduct()
     {
-
         $products = ProductModel::select('products.*')
             ->with('categories')
-            ->whereNull('deleted_at')->orderBy('products.name');
+            ->whereNull('deleted_at')
+            ->orderBy('products.name');
 
-        if(!request()->has('include_disables') || request()->get('include_disables') != 1){
-            $products = $products->where('status','=',1);
+        if (
+            !request()->has('include_disables') ||
+            request()->get('include_disables') != 1
+        ) {
+            $products = $products->where('status', '=', 1);
         }
 
-        if(request()->has('categories')){
+        if (request()->has('categories')) {
             $categories = request()->get('categories');
-            $products = $products->join('category_product','products.id','=','category_product.product_id')
-                ->whereIn('category_product.category_id',$categories);
-
-
+            $products = $products
+                ->join(
+                    'category_product',
+                    'products.id',
+                    '=',
+                    'category_product.product_id'
+                )
+                ->whereIn('category_product.category_id', $categories);
         }
 
-//        dd($products->get()[0]);
+        //        dd($products->get()[0]);
 
-//        dd($products->where('name','like','%123%'));
+        //        dd($products->where('name','like','%123%'));
 
         $categories = $this->getCategoryOrder();
 
         $producers = $this->producerRepo->listProducers('name', 'asc');
 
-        return view('admin.products.edit-products-batch')->with(['products'=>$products->get(),
-        'producers'=>$producers,
-            'categories'=>$categories]);
-
+        return view('admin.products.edit-products-batch')->with([
+            'products' => $products->get(),
+            'producers' => $producers,
+            'categories' => $categories,
+        ]);
     }
 
     public function listPendency()
     {
-        $productCategories = Product::where('status','=',1)->whereDoesntHave('categories')->get();
-        $productProducers = Product::where('status','=',1)->whereDoesntHave('producers')->get();
+        $productCategories = Product::where('status', '=', 1)
+            ->whereDoesntHave('categories')
+            ->get();
+        $productProducers = Product::where('status', '=', 1)
+            ->whereDoesntHave('producers')
+            ->get();
 
-        return view('admin.products.pendency')->with(['productCategories'=>$productCategories,
-            'productProducers'=>$productProducers
-            ]);
+        return view('admin.products.pendency')->with([
+            'productCategories' => $productCategories,
+            'productProducers' => $productProducers,
+        ]);
     }
 
     private function syncProducerDetails($id, array $producers)
     {
         $product = $this->productRepo->findProductById($id);
 
-        foreach($producers as $producer_id){
-
-                //Se não estiver inserido na tabela, inserir agora
-               if(!app(ProducerRepository::class)->verifyProductDetail($product->id,$producer_id)){
-                   $producerDetail = new ProducerDetail();
-                   $producerDetail->product_id = $product->id;
-                   $producerDetail->product_price = $product->price * $product->percentage->farmer/100;
-                   $producerDetail->producer_id = $producer_id;
-                   $producerDetail->save();
-               }
+        foreach ($producers as $producer_id) {
+            //Se não estiver inserido na tabela, inserir agora
+            if (
+                !app(ProducerRepository::class)->verifyProductDetail(
+                    $product->id,
+                    $producer_id
+                )
+            ) {
+                $producerDetail = new ProducerDetail();
+                $producerDetail->product_id = $product->id;
+                $producerDetail->product_price =
+                    ($product->price * $product->percentage->farmer) / 100;
+                $producerDetail->producer_id = $producer_id;
+                $producerDetail->save();
+            }
         }
-
     }
 }

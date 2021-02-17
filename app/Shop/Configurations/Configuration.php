@@ -29,6 +29,7 @@ class Configuration extends Model
         'automatic_fair',
         'fair_name',
         'next_fair_number',
+        'automatic_clear_availability',
     ];
 
     /**

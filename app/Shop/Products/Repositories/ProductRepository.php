@@ -20,7 +20,8 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
-class ProductRepository extends BaseRepository implements ProductRepositoryInterface
+class ProductRepository extends BaseRepository implements
+    ProductRepositoryInterface
 {
     use ProductTransformable, UploadableTrait;
 
@@ -42,8 +43,11 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      * @param array $columns
      * @return Collection
      */
-    public function listProducts(string $order = 'id', string $sort = 'desc', array $columns = ['*']) : Collection
-    {
+    public function listProducts(
+        string $order = 'id',
+        string $sort = 'desc',
+        array $columns = ['*']
+    ): Collection {
         return $this->all($columns, $order, $sort);
     }
 
@@ -55,7 +59,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      * @return Product
      * @throws ProductCreateErrorException
      */
-    public function createProduct(array $data) : Product
+    public function createProduct(array $data): Product
     {
         try {
             return $this->create($data);
@@ -72,12 +76,16 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      * @return bool
      * @throws ProductUpdateErrorException
      */
-    public function updateProduct(array $data) : bool
+    public function updateProduct(array $data): bool
     {
-        $filtered = collect($data)->except('image')->all();
+        $filtered = collect($data)
+            ->except('image')
+            ->all();
 
         try {
-            return $this->model->where('id', $this->model->id)->update($filtered);
+            return $this->model
+                ->where('id', $this->model->id)
+                ->update($filtered);
         } catch (QueryException $e) {
             throw new ProductUpdateErrorException($e);
         }
@@ -91,7 +99,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      * @return Product
      * @throws ProductNotFoundException
      */
-    public function findProductById(int $id) : Product
+    public function findProductById(int $id): Product
     {
         try {
             return $this->transformProduct($this->findOneOrFail($id));
@@ -100,9 +108,12 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         }
     }
 
-    public function findByProductName($name) : Product{
+    public function findByProductName($name): Product
+    {
         try {
-            return $this->transformProduct($this->findBy(['name'=>$name])->first());
+            return $this->transformProduct(
+                $this->findBy(['name' => $name])->first()
+            );
         } catch (ModelNotFoundException $e) {
             throw new ProductNotFoundException($e);
         }
@@ -118,7 +129,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      * @deprecated
      * @use removeProduct
      */
-    public function deleteProduct(Product $product) : bool
+    public function deleteProduct(Product $product): bool
     {
         $product->images()->delete();
         return $product->delete();
@@ -128,7 +139,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      * @return bool
      * @throws \Exception
      */
-    public function removeProduct() : bool
+    public function removeProduct(): bool
     {
         return $this->model->where('id', $this->model->id)->delete();
     }
@@ -154,7 +165,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      *
      * @return Collection
      */
-    public function getCategories() : Collection
+    public function getCategories(): Collection
     {
         return $this->model->categories()->get();
     }
@@ -164,7 +175,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      *
      * @return Collection
      */
-    public function getProducers() : Collection
+    public function getProducers(): Collection
     {
         return $this->model->producers()->get();
     }
@@ -179,7 +190,8 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         $this->model->categories()->sync($params);
     }
 
-    public function syncProducers(array $params){
+    public function syncProducers(array $params)
+    {
         $this->model->producers()->sync($params);
     }
 
@@ -188,7 +200,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      * @param null $disk
      * @return bool
      */
-    public function deleteFile(array $file, $disk = null) : bool
+    public function deleteFile(array $file, $disk = null): bool
     {
         return $this->update(['cover' => null], $file['product']);
     }
@@ -197,9 +209,11 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      * @param string $src
      * @return bool
      */
-    public function deleteThumb(string $src) : bool
+    public function deleteThumb(string $src): bool
     {
-        return DB::table('product_images')->where('src', $src)->delete();
+        return DB::table('product_images')
+            ->where('src', $src)
+            ->delete();
     }
 
     /**
@@ -210,7 +224,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      * @return Product
      * @throws ProductNotFoundException
      */
-    public function findProductBySlug(array $slug) : Product
+    public function findProductBySlug(array $slug): Product
     {
         try {
             return $this->findOneByOrFail($slug);
@@ -223,7 +237,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      * @param string $text
      * @return mixed
      */
-    public function searchProduct(string $text) : Collection
+    public function searchProduct(string $text): Collection
     {
         if (!empty($text)) {
             return $this->model->searchProduct($text);
@@ -235,7 +249,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     /**
      * @return mixed
      */
-    public function findProductImages() : Collection
+    public function findProductImages(): Collection
     {
         return $this->model->images()->get();
     }
@@ -244,7 +258,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      * @param UploadedFile $file
      * @return string
      */
-    public function saveCoverImage(UploadedFile $file) : string
+    public function saveCoverImage(UploadedFile $file): string
     {
         return $file->store('products', ['disk' => 'public']);
     }
@@ -260,7 +274,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             $filename = $this->storeFile($file);
             $productImage = new ProductImage([
                 'product_id' => $this->model->id,
-                'src' => $filename
+                'src' => $filename,
             ]);
             $this->model->images()->save($productImage);
         });
@@ -272,8 +286,9 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      * @param ProductAttribute $productAttribute
      * @return ProductAttribute
      */
-    public function saveProductAttributes(ProductAttribute $productAttribute) : ProductAttribute
-    {
+    public function saveProductAttributes(
+        ProductAttribute $productAttribute
+    ): ProductAttribute {
         $this->model->attributes()->save($productAttribute);
         return $productAttribute;
     }
@@ -283,7 +298,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      *
      * @return Collection
      */
-    public function listProductAttributes() : Collection
+    public function listProductAttributes(): Collection
     {
         return $this->model->attributes()->get();
     }
@@ -296,8 +311,9 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      * @return bool|null
      * @throws \Exception
      */
-    public function removeProductAttribute(ProductAttribute $productAttribute) : ?bool
-    {
+    public function removeProductAttribute(
+        ProductAttribute $productAttribute
+    ): ?bool {
         return $productAttribute->delete();
     }
 
@@ -307,9 +323,13 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      *
      * @return Collection
      */
-    public function saveCombination(ProductAttribute $productAttribute, AttributeValue ...$attributeValues) : Collection
-    {
-        return collect($attributeValues)->each(function (AttributeValue $value) use ($productAttribute) {
+    public function saveCombination(
+        ProductAttribute $productAttribute,
+        AttributeValue ...$attributeValues
+    ): Collection {
+        return collect($attributeValues)->each(function (
+            AttributeValue $value
+        ) use ($productAttribute) {
             return $productAttribute->attributesValues()->save($value);
         });
     }
@@ -317,11 +337,13 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     /**
      * @return Collection
      */
-    public function listCombinations() : Collection
+    public function listCombinations(): Collection
     {
-        return $this->model->attributes()->map(function (ProductAttribute $productAttribute) {
-            return $productAttribute->attributesValues;
-        });
+        return $this->model
+            ->attributes()
+            ->map(function (ProductAttribute $productAttribute) {
+                return $productAttribute->attributesValues;
+            });
     }
 
     /**
@@ -332,13 +354,16 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     {
         $values = $productAttribute->attributesValues()->get();
 
-        return $values->map(function (AttributeValue $attributeValue) {
-            return $attributeValue;
-        })->keyBy(function (AttributeValue $item) {
-            return strtolower($item->attribute->name);
-        })->transform(function (AttributeValue $value) {
-            return $value->value;
-        });
+        return $values
+            ->map(function (AttributeValue $attributeValue) {
+                return $attributeValue;
+            })
+            ->keyBy(function (AttributeValue $item) {
+                return strtolower($item->attribute->name);
+            })
+            ->transform(function (AttributeValue $value) {
+                return $value->value;
+            });
     }
 
     /**
@@ -357,7 +382,26 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         return $this->model->brand;
     }
 
-    public function countProducts(){
+    public function countProducts()
+    {
         return Product::count();
+    }
+
+    public function emptyAvailability()
+    {
+        $list = $this->listProducts('id');
+        $products = $list
+            ->map(function (Product $item) {
+                return $this->transformProduct($item);
+            })
+            ->all();
+
+        foreach ($products as $product) {
+            if ($product->name != 'Sacola Retornável') {
+                $p = $this->find($product->id);
+                $p->quantity = 0;
+                $p->save();
+            }
+        }
     }
 }

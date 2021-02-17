@@ -138,13 +138,34 @@
                     <div class="form-group">
                         <label for="name">Nome Feira: <span class="text-danger">*</span></label>
                         <input type="text" name="fair_name" value="{{$config->fair_name}}"/>
-                    </div>
-                    <br />
-                    <div class="form-group">
+
                         <label for="name">Próxima feira: <span class="text-danger">*</span></label>
                         <input type="number" name="next_fair_number" value="{{$config->next_fair_number}}"/>
                     </div>
                     <br />
+                    <div class="form-group">
+                        <label for="name">Zerar Disponibilidade automaticamente: <span class="text-danger">*</span></label>
+                        <br />
+                        <div class="btn-group" id="status" data-toggle="buttons">
+                            <label class="btn btn-default btn-on btn-xs
+                            @if($config->automatic_clear_availability == 1)
+                                    active
+@endif
+                                    ">
+                                <input type="radio" value="1" name="automatic_clear_availability"
+                                       @if($config->automatic_clear_availability == 1)
+                                       checked="checked"
+                                        @endif
+                                >Ligado
+                            </label>
+                            <label class="btn btn-default btn-off btn-xs @if($config->automatic_clear_availability == 0) active @endif">
+                                <input type="radio" value="0" name="automatic_clear_availability"
+                                       @if($config->automatic_clear_availability == 0)
+                                       checked="checked"
+                                        @endif
+                                >Desligado</label>
+                        </div>
+                    </div>
 
 
                     <div class="form-group">
