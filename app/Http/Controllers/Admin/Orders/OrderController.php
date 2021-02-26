@@ -174,6 +174,18 @@ class OrderController extends Controller
     {
         $order = $this->orderRepo->findOrderById($orderId);
 
+        $roles = auth()
+            ->guard('employee')
+            ->user()
+            ->roles()
+            ->first();
+        if ($roles->name != 'superadmin') {
+            //$request->session()->flash('message', $this->getSucessMesseger());
+            return redirect()
+                ->route('admin.orders.edit', $order->id)
+                ->withErrors('Somente Administradores podem Alterar pedidos');
+        }
+
         $product = $this->productRepo->findProductById(
             $request->get('product_id')
         );
@@ -213,6 +225,18 @@ class OrderController extends Controller
     public function removeProducts(Request $request, $orderId)
     {
         $order = $this->orderRepo->findOrderById($orderId);
+
+        $roles = auth()
+            ->guard('employee')
+            ->user()
+            ->roles()
+            ->first();
+        if ($roles->name != 'superadmin') {
+            //$request->session()->flash('message', $this->getSucessMesseger());
+            return redirect()
+                ->route('admin.orders.edit', $order->id)
+                ->withErrors('Somente Administradores podem Alterar pedidos');
+        }
 
         $order->products()->detach($request->get('selected_ids'));
 
