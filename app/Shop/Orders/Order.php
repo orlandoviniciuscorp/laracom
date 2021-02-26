@@ -29,14 +29,15 @@ class Order extends Model
         'columns' => [
             'customers.name' => 10,
             'orders.reference' => 8,
-            'products.name' => 5
+            'orders.id' => 8,
+            'products.name' => 5,
         ],
         'joins' => [
             'customers' => ['customers.id', 'orders.customer_id'],
             'order_product' => ['orders.id', 'order_product.order_id'],
             'products' => ['products.id', 'order_product.product_id'],
         ],
-        'groupBy' => ['orders.id']
+        'groupBy' => ['orders.id'],
     ];
 
     /**
@@ -62,7 +63,7 @@ class Order extends Model
         'total_shipping',
         'obs',
         'fair_id',
-        'coupon_id'
+        'coupon_id',
     ];
 
     /**
@@ -72,22 +73,21 @@ class Order extends Model
      */
     protected $hidden = [];
 
-    protected $with =['coupon'];
+    protected $with = ['coupon'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function products()
     {
-        return $this->belongsToMany(Product::class)
-                    ->withPivot([
-                        'quantity',
-                        'product_name',
-                        'product_sku',
-                        'product_description',
-                        'product_price',
-                        'product_attribute_id'
-                    ]);
+        return $this->belongsToMany(Product::class)->withPivot([
+            'quantity',
+            'product_name',
+            'product_sku',
+            'product_description',
+            'product_price',
+            'product_attribute_id',
+        ]);
     }
 
     /**

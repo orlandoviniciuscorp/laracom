@@ -65,6 +65,23 @@
         $('.js-example-basic-multiple').select2();
     });
 </script>
+<script>
+
+    $('body').on('shown.bs.modal', '.modal', function() {
+        // console.log('abri o modal');
+        $(this).find('select').each(function() {
+            var dropdownParent = $(document.body);
+            if ($(this).parents('.modal.in:first').length !== 0)
+                dropdownParent = $(this).parents('.modal.in:first');
+
+            $(this).select2({
+
+                dropdownParent: $('#products_modal')
+                // ...
+            });
+        });
+        });
+</script>
 @yield('js')
 
 </body>

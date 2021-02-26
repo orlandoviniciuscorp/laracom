@@ -115,21 +115,27 @@
                 </p>
 
             @endif
+        </form>
+
             <div class="box">
                 @if(!$items->isEmpty())
+                    <form action="{{route('admin.orders.remove-products',$order->id)}}" method="post">
+                        {{ csrf_field() }}
                     <div class="box-body">
                         <h4> <i class="fa fa-gift"></i> Items</h4>
                         <table class="table">
                             <thead>
-                            <th class="col-md-2">SKU</th>
-                            <th class="col-md-2">Name</th>
-                            <th class="col-md-2">Description</th>
-                            <th class="col-md-2">Quantity</th>
-                            <th class="col-md-2">Price</th>
+                            <th style="width: 10px;"></th>
+                            <th class="col-md-3">SKU</th>
+                            <th class="col-md-3">Name</th>
+                            <th class="col-md-3">Description</th>
+                            <th class="col-md-3">Quantity</th>
+                            <th class="col-md-3">Price</th>
                             </thead>
                             <tbody>
                             @foreach($items as $item)
                                 <tr>
+                                    <td><input type="checkbox" name="selected_ids[]" value="{{$item->id}}" class="allChecked" /> </td>
                                     <td>{{ $item->sku }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>{!! $item->description !!}</td>
@@ -138,8 +144,44 @@
                                 </tr>
                             @endforeach
                             </tbody>
+                            <tfoot>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <span class="input-group-btn">
+                                        <button id="selectAll"
+                                                type="button"
+                                                onclick="selectAll()"
+                                                class="btn btn-success">
+                                            <i class="fa fa-check-square-o" aria-hidden="true"></i> Selecionar Todos</button>
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="input-group-btn">
+                                        <button
+                                                type="submit"
+                                                class="btn btn-danger">
+                                            <i class="fa fa-trash" aria-hidden="true"></i> Remover Selecionados</button>
+                                    </span>
+                                </td>
+                                <td colspan="2">&nbsp;</td>
+                                <td>
+                                    <span class="input-group-btn">
+                                        <button
+                                                type="button"
+                                                 class="btn btn-primary"
+                                                 data-toggle="modal"
+                                                 data-target="#products_modal"
+                                        >
+                                            <i class="fa fa-plus-circle" aria-hidden="true"></i> Adicionar Item</button>
+                                    </span>
+                                </td>
+                            </tr>
+                            </tfoot>
                         </table>
                     </div>
+                    </form>
                 @endif
                 <div class="box-body">
                     <div class="row">
@@ -202,6 +244,7 @@
         @endif
 
     </section>
+    @include('admin.orders.include-products-modal')
     <!-- /.content -->
 @endsection
 @section('js')
@@ -216,5 +259,15 @@
                 }
             });
         })
+        function selectAll() {
+            $(".allChecked").each(
+                function() {
+                    if ($(this).prop("checked")) {
+                        $(this).prop("checked", false);
+                    } else {
+                        $(this).prop("checked", true);
+                    }
+            });
+        }
     </script>
 @endsection
