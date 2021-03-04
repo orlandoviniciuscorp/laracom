@@ -74,6 +74,7 @@
             <h3>PIX</h3>
             <hr>
             <p>Chave Pix: <strong>62998649778</strong></p>
+            <p>Tipo de Chave: <strong>Celular</strong></p>
             <p>Beneficiário: <strong>João Gabriel Pinheiro Borges</strong></p>
             @isset($total)
                 <p>Valor: <strong> {{ config('cart.currency_symbol') }} {{ $total }}</strong></p>
