@@ -76,7 +76,10 @@ class FairController extends Controller
         $this->fairRepo = $fairRepository;
         $this->fairFinancialRepo = $fairFinancialRepository;
 
-        $this->middleware(['permission:update-order, guard:employee'], ['only' => ['edit', 'update']]);
+        $this->middleware(
+            ['permission:update-order, guard:employee'],
+            ['only' => ['edit', 'update']]
+        );
     }
 
     /**
@@ -86,35 +89,35 @@ class FairController extends Controller
      */
     public function index()
     {
-        return view('admin.fairs.list', ['fairs' => $this->fairRepo->all()->sortByDesc('id')]);
+        return view('admin.fairs.list', [
+            'fairs' => $this->fairRepo->all()->sortByDesc('id'),
+        ]);
     }
 
     public function create()
     {
-        return view ('admin.fairs.create');
+        return view('admin.fairs.create');
     }
 
     public function show($fair_id)
     {
         $fair = $this->fairRepo->find($fair_id);
 
-
-        return view('admin.fairs.edit')->with('fair',$fair);
-
+        return view('admin.fairs.edit')->with('fair', $fair);
     }
 
-//    public function store(Request $request){
-//
-//        $this->fairRepo->create($request->toArray());
-//
-//        return view('admin.fairs.list', ['fairs' => $this->fairRepo->all()])->with('message',$this->getSucessMesseger());
-//    }
+    //    public function store(Request $request){
+    //
+    //        $this->fairRepo->create($request->toArray());
+    //
+    //        return view('admin.fairs.list', ['fairs' => $this->fairRepo->all()])->with('message',$this->getSucessMesseger());
+    //    }
 
-    public function store(Request $request){
-
-        if(is_null($request->input('id'))){
+    public function store(Request $request)
+    {
+        if (is_null($request->input('id'))) {
             $this->fairRepo->create($request->toArray());
-        }else{
+        } else {
             $fair = $this->fairRepo->findFairById($request->input('id'));
 
             $update = new FairRepository($fair);
@@ -122,63 +125,93 @@ class FairController extends Controller
             $update->update($request->all());
         }
 
-        return redirect()->route('admin.fairs.index')->with('fairs',$this->fairRepo->all())->with('message',$this->getSucessMesseger());
+        return redirect()
+            ->route('admin.fairs.index')
+            ->with('fairs', $this->fairRepo->all())
+            ->with('message', $this->getSucessMesseger());
     }
 
     public function showOrders($fair_id)
     {
-        $list = $this->orderRepo->listOrders('created_at', 'desc')->where('fair_id','=',$fair_id);
+        $list = $this->orderRepo
+            ->listOrders('created_at', 'desc')
+            ->where('fair_id', '=', $fair_id);
 
-        $orders = $this->orderRepo->paginateArrayResults($this->transFormOrder($list), 10);
+        $orders = $this->orderRepo->paginateArrayResults(
+            $this->transFormOrder($list),
+            10
+        );
 
-        return view('admin.orders.list', ['orders' => $orders,
-                                                'fair_id'=>$fair_id]);
+        return view('admin.orders.list', [
+            'orders' => $orders,
+            'fair_id' => $fair_id,
+        ]);
     }
 
     public function showHarvest($fair_id)
     {
-//        $harvest = $this->fairRepo->harvest($fair_id);
+        //        $harvest = $this->fairRepo->harvest($fair_id);
 
-//        $data = ['harvest'=>$harvest];
+        //        $data = ['harvest'=>$harvest];
 
-//        $pdf = app()->make('dompdf.wrapper');
-//        $pdf->loadView('invoices.harvest', $data)->stream();
+        //        $pdf = app()->make('dompdf.wrapper');
+        //        $pdf->loadView('invoices.harvest', $data)->stream();
 
-//        return $pdf->stream();
-//        return view('invoices.harvest', $data);
-        return Excel::download(new HarverstExport($this->fairRepo,$this->orderRepo,$fair_id),'colheita.xlsx');
+        //        return $pdf->stream();
+        //        return view('invoices.harvest', $data);
+        return Excel::download(
+            new HarverstExport($this->fairRepo, $this->orderRepo, $fair_id),
+            'colheita.xlsx'
+        );
     }
 
     public function showHarvestProducer($fair_id)
     {
-        return Excel::download(new ProducerHarverstExport($this->fairRepo,$this->orderRepo,$this->productRepo,$fair_id),'colheita.xlsx');
+        return Excel::download(
+            new ProducerHarverstExport(
+                $this->fairRepo,
+                $this->orderRepo,
+                $this->productRepo,
+                $fair_id
+            ),
+            'colheita.xlsx'
+        );
     }
 
-    public function generateLabel($fair_id)   {
-
+    public function generateLabel($fair_id)
+    {
         $orders = app(Order::class)
-            ->where('fair_id','=',$fair_id)
-            ->whereNotIn('order_status_id',[env('ORDER_ERROR'),env('ORDER_CANCELED')])
-            ->get()->sortBy(function($orders){
-                return $orders->products()->count();
-            });
-        $data = ['orders'=>$orders];
+            ->where('fair_id', '=', $fair_id)
+            ->whereNotIn('order_status_id', [
+                env('ORDER_ERROR'),
+                env('ORDER_CANCELED'),
+            ])
+            ->get();
+        $data = ['orders' => $orders];
         $pdf = app()->make('dompdf.wrapper');
         $pdf->loadView('invoices.labels', $data)->stream();
 
         return $pdf->stream();
 
-//        return view('invoices.labels', $data);
-//         return view('admin.orders.labels')->with('orders',$this->transFormOrder($orders));
+        //        return view('invoices.labels', $data);
+        //         return view('admin.orders.labels')->with('orders',$this->transFormOrder($orders));
     }
 
-    public function getOrderPending($fair_id){
-        $list = app(Order::class)->where('fair_id','=',$fair_id)->whereNotIn('order_status_id',[1,4,7])->get();
+    public function getOrderPending($fair_id)
+    {
+        $list = app(Order::class)
+            ->where('fair_id', '=', $fair_id)
+            ->whereNotIn('order_status_id', [1, 4, 7])
+            ->get();
 
-        $orders = $this->orderRepo->paginateArrayResults($this->transFormOrder($list), 10);
-        return view('admin.orders.list', ['orders' => $orders,
-            'fair_id'=>$fair_id]);
-
+        $orders = $this->orderRepo->paginateArrayResults(
+            $this->transFormOrder($list),
+            10
+        );
+        return view('admin.orders.list', [
+            'orders' => $orders,
+            'fair_id' => $fair_id,
+        ]);
     }
 
     public function generateDeliveryList($fair_id)
@@ -186,54 +219,53 @@ class FairController extends Controller
         $deliveryAddrresses = $this->fairRepo->deliveryAddresses($fair_id);
         $fair = $this->fairRepo->find($fair_id);
 
-        $data = ['deliveryAddrresses'=>$deliveryAddrresses];
-        $data = array_merge($data,['fair'=>$fair]);
+        $data = ['deliveryAddrresses' => $deliveryAddrresses];
+        $data = array_merge($data, ['fair' => $fair]);
 
-//        dd($data);
-//
+        //        dd($data);
+        //
         $pdf = app()->make('dompdf.wrapper');
         $pdf->loadView('invoices.delivery', $data)->stream();
-//
+        //
         return $pdf->stream();
-                return view('invoices.delivery', $data);
-
+        return view('invoices.delivery', $data);
     }
 
-    public function createFairFinancial($fair_id){
-
-
-
-
-//    dump($harvest);
+    public function createFairFinancial($fair_id)
+    {
+        //    dump($harvest);
         $fair = $this->fairRepo->findFairById($fair_id);
 
-//        if($fair->fairFinancials()->count() == 0){
+        //        if($fair->fairFinancials()->count() == 0){
 
-            $this->fairFinancialRepo->refreshFairFinancial($fair_id);
+        $this->fairFinancialRepo->refreshFairFinancial($fair_id);
 
-            return redirect()->route('admin.fair.financial',$fair->id);
-//        }else{
-//            return redirect()->route('admin.fair.financial',$fair->id)->withErrors('O Extrato já foi gerado.');
-//        }
-
+        return redirect()->route('admin.fair.financial', $fair->id);
+        //        }else{
+        //            return redirect()->route('admin.fair.financial',$fair->id)->withErrors('O Extrato já foi gerado.');
+        //        }
     }
 
     public function financial($fair_id)
     {
         $fair = $this->fairRepo->find($fair_id);
-//        dd($fair->fairFinancials()->get()[0]->totalProducers());
+        //        dd($fair->fairFinancials()->get()[0]->totalProducers());
 
         $data[] = null;
-         $data = ['financial'=>$this->fairRepo->getExtract($fair_id)];
-         $data = array_merge($data,['productors'=>$this->fairRepo->getHarverstPayment($fair_id)]);
-         $data = array_merge($data,['fair'=>$fair]);
-         $data = array_merge($data,['fairFinancial']);
-         $data = array_merge($data,['totalOrders'=>$this->orderRepo->totalOrders($fair_id)]);
-        $data = array_merge($data,['totalAmount'=>$this->orderRepo->totalAmount($fair_id)]);
+        $data = ['financial' => $this->fairRepo->getExtract($fair_id)];
+        $data = array_merge($data, [
+            'productors' => $this->fairRepo->getHarverstPayment($fair_id),
+        ]);
+        $data = array_merge($data, ['fair' => $fair]);
+        $data = array_merge($data, ['fairFinancial']);
+        $data = array_merge($data, [
+            'totalOrders' => $this->orderRepo->totalOrders($fair_id),
+        ]);
+        $data = array_merge($data, [
+            'totalAmount' => $this->orderRepo->totalAmount($fair_id),
+        ]);
 
-
-
-         return view('admin.fairs.financial', $data);
+        return view('admin.fairs.financial', $data);
     }
 
     public function detailReport($fair_id)
@@ -241,26 +273,41 @@ class FairController extends Controller
         $orders = $this->orderRepo->findByFairId($fair_id);
 
         return view('admin.fairs.report-details')
-            ->with('orders',$orders)
-            ->with('fair',$this->fairRepo->find($fair_id));
+            ->with('orders', $orders)
+            ->with('fair', $this->fairRepo->find($fair_id));
     }
 
-    public function exportFair($fair_id){
-//        $this->fairRepo->getExtract($fair_id);
+    public function exportFair($fair_id)
+    {
+        //        $this->fairRepo->getExtract($fair_id);
 
-        return (new FinancialExport($this->fairRepo,$this->orderRepo,$fair_id))->download('extrato_feira.xlsx');
-//        return Excel::download(new FinancialExport($this->fairRepo,$this->orderRepo,$fair_id), 'extrato_feira.xlsx');
+        return (new FinancialExport(
+            $this->fairRepo,
+            $this->orderRepo,
+            $fair_id
+        ))->download('extrato_feira.xlsx');
+        //        return Excel::download(new FinancialExport($this->fairRepo,$this->orderRepo,$fair_id), 'extrato_feira.xlsx');
     }
 
-    public function exportHarverstPayment($fair_id){
-//        $this->fairRepo->getExtract($fair_id);
+    public function exportHarverstPayment($fair_id)
+    {
+        //        $this->fairRepo->getExtract($fair_id);
 
-        return (new HarverstPaymentExport($this->fairRepo,$this->orderRepo,$fair_id))->download('produtos_vendidos.xlsx');
-//        return Excel::download(new FinancialExport($this->fairRepo,$this->orderRepo,$fair_id), 'extrato_feira.xlsx');
+        return (new HarverstPaymentExport(
+            $this->fairRepo,
+            $this->orderRepo,
+            $fair_id
+        ))->download('produtos_vendidos.xlsx');
+        //        return Excel::download(new FinancialExport($this->fairRepo,$this->orderRepo,$fair_id), 'extrato_feira.xlsx');
     }
 
-    public function exportFairsOrders($fair_id){
-        return (new OrdersDetailExport($this->fairRepo,$this->orderRepo,$fair_id))->download('pedidos_feira.xlsx');
+    public function exportFairsOrders($fair_id)
+    {
+        return (new OrdersDetailExport(
+            $this->fairRepo,
+            $this->orderRepo,
+            $fair_id
+        ))->download('pedidos_feira.xlsx');
     }
 
     public function markAllAssPayed($fair_id)
@@ -269,12 +316,17 @@ class FairController extends Controller
 
         $orderStatus = $this->orderStatusRepo->findByName('Pago');
         foreach ($orders as $order) {
-            if($order->order_status_id != env('ORDER_CANCELED') &&
-                $order->order_status_id != env('ORDER_ERROR'))
-            $this->orderRepo->markAsPayed($order->id,$orderStatus);
+            if (
+                $order->order_status_id != env('ORDER_CANCELED') &&
+                $order->order_status_id != env('ORDER_ERROR')
+            ) {
+                $this->orderRepo->markAsPayed($order->id, $orderStatus);
+            }
         }
 
-        request()->session()->flash('message',$this->getSucessMesseger());
+        request()
+            ->session()
+            ->flash('message', $this->getSucessMesseger());
         return redirect()->route('admin.dashboard');
     }
 
@@ -288,11 +340,23 @@ class FairController extends Controller
         $customerRepo = new CustomerRepository(new Customer());
         $orderStatusRepo = new OrderStatusRepository(new OrderStatus());
 
-        return $list->transform(function (Order $order) use ($courierRepo, $customerRepo, $orderStatusRepo) {
-            $order->courier = $courierRepo->findCourierById($order->courier_id);
-            $order->customer = $customerRepo->findCustomerById($order->customer_id);
-            $order->status = $orderStatusRepo->findOrderStatusById($order->order_status_id);
-            return $order;
-        })->all();
+        return $list
+            ->transform(function (Order $order) use (
+                $courierRepo,
+                $customerRepo,
+                $orderStatusRepo
+            ) {
+                $order->courier = $courierRepo->findCourierById(
+                    $order->courier_id
+                );
+                $order->customer = $customerRepo->findCustomerById(
+                    $order->customer_id
+                );
+                $order->status = $orderStatusRepo->findOrderStatusById(
+                    $order->order_status_id
+                );
+                return $order;
+            })
+            ->all();
     }
 }
