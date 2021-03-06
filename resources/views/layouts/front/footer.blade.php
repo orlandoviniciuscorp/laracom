@@ -37,7 +37,7 @@
                     </div>
                     <ul>
                         <li>Endereço: R. Fritz Weber, 75 - Fazendinha, Teresópolis - RJ</li>
-                        <li>Whatsapp:&nbsp;&nbsp;<a href='https://chat.whatsapp.com/DPprk8jugf8DxqEs16Qfkv'>
+                        <li>Whatsapp:&nbsp;&nbsp;<a href={{env('WHATSAPP_GROUP')}}>
                                 <i class="fa fa-whatsapp" aria-hidden="true"></i>
                                 Participar</a></li>
                         <li>Email: {{env('CONTACT_SITE')}}</li>

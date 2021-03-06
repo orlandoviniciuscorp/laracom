@@ -21,10 +21,10 @@
                                 <div class="hero__search">
                                         <div class="hero__search__form">
 
-                                                        <div class="hero__search__categories">
-                                                                Buscar
+{{--                                                        <div class="hero__search__categories">--}}
+{{--                                                                Buscar--}}
 
-                                                        </div>
+{{--                                                        </div>--}}
                                                         <input type="text" name="q" placeholder="Do que você precisa?"
                                                         @if(request()->has("q"))
                                                                 value="{!! request()->get("q") !!}"
@@ -38,13 +38,13 @@
 
                                         <div class="hero__search__phone">
                                                 <div class="hero__search__phone__icon">
-                                                        <a href='https://chat.whatsapp.com/DPprk8jugf8DxqEs16Qfkv'>
+                                                        <a href={{env('WHATSAPP_GROUP')}}>
                                                                 <i class="fa fa-whatsapp"></i>
                                                         </a>
 
                                                 </div>
                                                 <div class="hero__search__phone__text">
-                                                        <a href='https://chat.whatsapp.com/DPprk8jugf8DxqEs16Qfkv'>
+                                                        <a href={{env('WHATSAPP_GROUP')}}>
                                                                 <h5>Whatsapp</h5>
                                                         </a>
                                                         <span>Participe do Grupo</span>
