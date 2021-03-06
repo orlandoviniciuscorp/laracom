@@ -32,10 +32,10 @@
                     <div class="hero__search">
                         <div class="hero__search__form">
                             <form action="{{route('search.product')}}">
-                                <div class="hero__search__categories">
-                                    Buscar
-                                    <span class="arrow_carrot-down"></span>
-                                </div>
+{{--                                <div class="hero__search__categories">--}}
+{{--                                    Buscar--}}
+{{--                                    <span class="arrow_carrot-down"></span>--}}
+{{--                                </div>--}}
                                 <input type="text" name="q" placeholder="Do que você precisa?">
                                 <button type="submit" class="site-btn">Buscar</button>
                             </form>
@@ -49,9 +49,9 @@
 
                             </div>
                             <div class="hero__search__phone__text">
-                                <a href='https://chat.whatsapp.com/DPprk8jugf8DxqEs16Qfkv'>
+{{--                                <a href={{env('WHATSAPP_GROUP')}}>--}}
                                     <h5>Whatsapp</h5>
-                                </a>
+{{--                                </a>--}}
                                 <span>Participe do Grupo</span>
                             </div>
                         </div>
