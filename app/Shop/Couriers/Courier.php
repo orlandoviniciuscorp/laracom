@@ -18,7 +18,8 @@ class Courier extends Model
         'url',
         'is_free',
         'cost',
-        'status'
+        'status',
+        'slug',
     ];
 
     /**
@@ -28,8 +29,8 @@ class Courier extends Model
      */
     protected $hidden = [];
 
-    public function orders(){
+    public function orders()
+    {
         return $this->hasMany(Order::class);
-
     }
 }

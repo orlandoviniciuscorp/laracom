@@ -21,7 +21,13 @@
                                                     request()->get('include_disables') == 1)
                                                         checked="checked"
                                                @endif
-                                               value="1"> Incluir Desabilitados
+                                               value="1"> Incluir Desabilitados <br /> <br />
+                                        <input type="checkbox" name="only_promotions"
+                                               @if(request()->has('only_promotions') &&
+                                                   request()->get('only_promotions') == 1)
+                                               checked="checked"
+                                               @endif
+                                               value="1"> Somente em Promoção
                                     </div>
                                     <div class="col-sm-2">
                                         @foreach($categories as $category)
