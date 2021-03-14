@@ -303,11 +303,12 @@ class FairController extends Controller
 
     public function exportFairsOrders($fair_id)
     {
+        $fair = $this->fairRepo->findFairById($fair_id);
         return (new OrdersDetailExport(
             $this->fairRepo,
             $this->orderRepo,
             $fair_id
-        ))->download('pedidos_feira.xlsx');
+        ))->download('Pedidos ' . $fair->name . '.xlsx');
     }
 
     public function markAllAssPayed($fair_id)

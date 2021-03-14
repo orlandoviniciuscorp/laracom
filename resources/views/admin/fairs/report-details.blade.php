@@ -20,13 +20,11 @@
                             <tr>
                                 <td>Pedido</td>
                                 <td>Cliente</td>
-                                <td>Telefone</td>
-                                <td>e-mail</td>
-                                <td>Tipo de Pagamento</td>
-                                <td>Produtos</td>
-                                <td>Entrega</td>
                                 <td>Total</td>
+                                <td>Pagamento</td>
                                 <td>Status</td>
+
+
                             </tr>
                         </thead>
                         <tbody>
@@ -39,22 +37,10 @@
                                     {{$order->customer->name}}
                                 </td>
                                 <td>
-                                    {{$order->address->phone}}
+                                    {{currency_format($order->total)}}
                                 </td>
                                 <td>
-                                    {{$order->customer->email}}
-                                </td>
-                                <td>
-                                    {{$order->payment}}
-                                </td>
-                                <td>
-                                     {{currency_format($order->total_products)}}
-                                </td>
-                                <td>
-                                     {{currency_format($order->total_shipping)}}
-                                </td>
-                                <td>
-                                     {{currency_format($order->total)}}
+                                    {{$order->courier->slug}} - {{$order->payment}}
                                 </td>
                                 <td>
                                     {{$order->orderStatus->name}}
