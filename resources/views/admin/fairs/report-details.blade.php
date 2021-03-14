@@ -15,40 +15,7 @@
                     </a>
                     <br />
                     <div class="box-tools">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <td>Pedido</td>
-                                <td>Cliente</td>
-                                <td>Total</td>
-                                <td>Pagamento</td>
-                                <td>Status</td>
-
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                        @foreach ($orders as $order)
-                            <tr @if($order->orderStatus->name == 'Cancelado')class="danger"@endif >
-                                <td>
-                                    #{{$order->id}}
-                                </td>
-                                <td>
-                                    {{$order->customer->name}}
-                                </td>
-                                <td>
-                                    {{currency_format($order->total)}}
-                                </td>
-                                <td>
-                                    {{$order->courier->slug}} - {{$order->payment}}
-                                </td>
-                                <td>
-                                    {{$order->orderStatus->name}}
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                        @include('admin.fairs.partials.table-report-details')
                     </div>
                     <hr>
 
