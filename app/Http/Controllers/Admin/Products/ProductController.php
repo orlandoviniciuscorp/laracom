@@ -703,6 +703,12 @@ class ProductController extends Controller
         ) {
             $products = $products->where('status', '=', 1);
         }
+        if (
+            request()->has('only_promotions') ||
+            request()->get('only_promotions') == 1
+        ) {
+            $products = $products->where('is_in_promotion', '=', 1);
+        }
 
         if (request()->has('categories')) {
             $categories = request()->get('categories');
@@ -715,6 +721,8 @@ class ProductController extends Controller
                 )
                 ->whereIn('category_product.category_id', $categories);
         }
+
+        //        dd($products->get());
 
         //        dd($products->get()[0]);
 

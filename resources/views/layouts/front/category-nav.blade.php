@@ -54,65 +54,65 @@
                         </div>
                 </div>
                         <br />
-                <div class="row">
-                        <div class="col-lg-2">
-                        </div>
-                        <div class="col-lg-2">
-                                <label for="exclude_sold_out" >Esconder esgotados: &nbsp;</label>
-                                <input type="checkbox" id="exclude_sold_out"
-                                       name="exclude_sold_out"
-                                       onclick="submitForm()"
-                                       @if(app('request')->input('exclude_sold_out') != null)
-                                        checked
-                                       @endif
-                                       value="1"
-                                />
+{{--                <div class="row">--}}
+{{--                        <div class="col-lg-2">--}}
+{{--                        </div>--}}
+{{--                        <div class="col-lg-2">--}}
+{{--                                <label for="exclude_sold_out" >Esconder esgotados: &nbsp;</label>--}}
+{{--                                <input type="checkbox" id="exclude_sold_out"--}}
+{{--                                       name="exclude_sold_out"--}}
+{{--                                       onclick="submitForm()"--}}
+{{--                                       @if(app('request')->input('exclude_sold_out') != null)--}}
+{{--                                        checked--}}
+{{--                                       @endif--}}
+{{--                                       value="1"--}}
+{{--                                />--}}
 
 
-                        </div>
-                        <div class="col-lg-1">
-                                <label for="order_id" >Ordenação: </label>
-                        </div>
-                        <div class="col-lg-2">
-                                <select id="order_id" name="order" onchange="submitForm()">
-                                        <option value="0">Padrão</option>
-                                        <option value="1"
-                                        @if(app('request')->input('order') != null &&
-                                            app('request')->input('order') == 1)
-                                                selected
-                                        @endif
-                                                >Alfabética</option>
-                                </select>
-                        </div>
-                        <div class="col-lg-2">
-                                <label for="page_itens" >Itens por Página: </label>
-                        </div>
-                        <div class="col-lg-2">
-                                <select id="page_itens" name="page_itens" onchange="submitForm()">
-                                        <option value="0"
-                                        @if(app('request')->input('page_itens') != null &&
-                                            app('request')->input('page_itens') == 0)
-                                                selected
-                                        @endif>Padrão</option>
-                                        <option value="10"
-                                                @if(app('request')->input('page_itens') != null &&
-                                                    app('request')->input('page_itens') == 10)
-                                                selected
-                                        @endif>10</option>
-                                        <option value="15"
-                                                @if(app('request')->input('page_itens') != null &&
-                                                    app('request')->input('page_itens') == 15)
-                                                selected
-                                        @endif>15</option>
-                                        <option value="50"
-                                                @if(app('request')->input('page_itens') != null &&
-                                                    app('request')->input('page_itens') == 50)
-                                                selected
-                                        @endif>50</option>
-                                </select>
-                        </div>
+{{--                        </div>--}}
+{{--                        <div class="col-lg-1">--}}
+{{--                                <label for="order_id" >Ordenação: </label>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-lg-2">--}}
+{{--                                <select id="order_id" name="order" onchange="submitForm()">--}}
+{{--                                        <option value="0">Padrão</option>--}}
+{{--                                        <option value="1"--}}
+{{--                                        @if(app('request')->input('order') != null &&--}}
+{{--                                            app('request')->input('order') == 1)--}}
+{{--                                                selected--}}
+{{--                                        @endif--}}
+{{--                                                >Alfabética</option>--}}
+{{--                                </select>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-lg-2">--}}
+{{--                                <label for="page_itens" >Itens por Página: </label>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-lg-2">--}}
+{{--                                <select id="page_itens" name="page_itens" onchange="submitForm()">--}}
+{{--                                        <option value="0"--}}
+{{--                                        @if(app('request')->input('page_itens') != null &&--}}
+{{--                                            app('request')->input('page_itens') == 0)--}}
+{{--                                                selected--}}
+{{--                                        @endif>Padrão</option>--}}
+{{--                                        <option value="10"--}}
+{{--                                                @if(app('request')->input('page_itens') != null &&--}}
+{{--                                                    app('request')->input('page_itens') == 10)--}}
+{{--                                                selected--}}
+{{--                                        @endif>10</option>--}}
+{{--                                        <option value="15"--}}
+{{--                                                @if(app('request')->input('page_itens') != null &&--}}
+{{--                                                    app('request')->input('page_itens') == 15)--}}
+{{--                                                selected--}}
+{{--                                        @endif>15</option>--}}
+{{--                                        <option value="50"--}}
+{{--                                                @if(app('request')->input('page_itens') != null &&--}}
+{{--                                                    app('request')->input('page_itens') == 50)--}}
+{{--                                                selected--}}
+{{--                                        @endif>50</option>--}}
+{{--                                </select>--}}
+{{--                        </div>--}}
 
-                </div>
+{{--                </div>--}}
                 </form>
                 <div class="container">
                         <br />
