@@ -16,20 +16,13 @@ class Fair extends Model
 {
     use SearchableTrait;
 
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
 
-
-    protected $fillable = [
-        'name',
-        'start_at',
-        'end_at',
-        'status',
-    ];
+    protected $fillable = ['name', 'start_at', 'end_at', 'status'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -37,7 +30,6 @@ class Fair extends Model
      * @var array
      */
     protected $hidden = [];
-
 
     public function orders()
     {
@@ -47,5 +39,11 @@ class Fair extends Model
     public function fairFinancials()
     {
         return $this->hasMany(FairFinancial::class)->orderBy('producer_id');
+    }
+
+    public function end_at_formatted()
+    {
+        $dt = $this->end_at;
+        return $dt->format('d/m/Y');
     }
 }
