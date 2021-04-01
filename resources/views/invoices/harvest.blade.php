@@ -26,7 +26,7 @@
         <table border="0" style="border: 1px solid black">
             <tr>
                 <td colspan="3">
-                    Planilha de Colheita da Feira - #{{$fair->fair_id}} para o dia {{$fair->end_at}}
+                    Planilha de Colheita da {{$fair->name}} para o dia {{$fair->end_at}}
                 </td>
             </tr>
             <tr>
