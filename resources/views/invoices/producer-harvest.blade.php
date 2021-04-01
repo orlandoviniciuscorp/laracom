@@ -27,12 +27,12 @@
         <table border="0" style="border: 1px solid black; text-align: center;">
             <tr>
                 <td colspan="3" style="border: 1px solid black; text-align: center;">
-                    <strong>Planilha de Colheita da Feira - #{{$fair->id}}</strong>
+                    <strong>Planilha de Colheita da {{$fair->name}}</strong>
                 </td>
             </tr>
 
             <tr>
-                <td colspan="3" style="border: 1px solid black; text-align: center;">
+                <td colspan="3" style=" border: 1px solid black; text-align: center;">
                     <strong>{{$fair->end_at}}</strong>
                 </td>
             </tr>
