@@ -20,10 +20,14 @@
                 {{$order->customer->name}}
             </td>
             <td @if($order->orderStatus->name == 'Cancelado') style="color: #FF0000;"  @endif >
-                {{currency_format($order->total)}}
+                @if(isset($is_export))
+                    {{($order->total)}}
+                @else
+                    {{currency_format($order->total)}}
+                @endif
             </td>
             <td @if($order->orderStatus->name == 'Cancelado') style="color: #FF0000;"  @endif >
-                {{$order->courier->slug}} - {{$order->payment}}
+                {{$order->courier->slug}} - {{explode(" ",$order->payment)[0]}}
             </td>
             <td @if($order->orderStatus->name == 'Cancelado') style="color: #FF0000;"  @endif >
                 {{$order->orderStatus->name}}
