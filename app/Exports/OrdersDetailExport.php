@@ -63,6 +63,7 @@ class OrdersDetailExport implements FromView, ShouldAutoSize
     {
         return view('admin.fairs.partials.table-report-details')
             ->with('fair', $this->fairRepo->find($this->fair_id))
-            ->with('orders', $this->orderRepo->findByFairId($this->fair_id));
+            ->with('orders', $this->orderRepo->findByFairId($this->fair_id))
+            ->with('is_export', true);
     }
 }
