@@ -21,7 +21,8 @@
             </td>
             <td @if($order->orderStatus->name == 'Cancelado') style="color: #FF0000;"  @endif >
                 @if(isset($is_export))
-                    {{($order->total)}}
+{{--                    {{($order->total)}}--}}
+                    &nbsp;
                 @else
                     {{currency_format($order->total)}}
                 @endif
