@@ -262,6 +262,12 @@ class FairController extends Controller
             'totalOrders' => $this->orderRepo->totalOrders($fair_id),
         ]);
         $data = array_merge($data, [
+            'totalShipping' => $this->orderRepo->totalShipping($fair_id),
+        ]);
+        $data = array_merge($data, [
+            'totalProducts' => $this->orderRepo->totalProducts($fair_id),
+        ]);
+        $data = array_merge($data, [
             'totalAmount' => $this->orderRepo->totalAmount($fair_id),
         ]);
 

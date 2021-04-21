@@ -15,16 +15,18 @@
 <body>
 <section class="container">
     <div class="col-md-12">
-        <h2>Hi {{config('app.name')}}! <br />An order has been created! </h2>
-        <p>Here are the details of the order below: </p>
+        <h2>Olá {{$employee->name}}! <br />Uma Compra foi efetuada </h2>
+        <p>Segue abaixo as informações: </p>
+        <p>Cliente: {{$order->customer->name}}</p>
+        <p>Pedido: #{{$order->id}}</p>
         <table class="table table-striped" width="100%" border="0" cellspacing="0" cellpadding="0">
             <thead>
             <tr>
                 <th class="col-md-2">SKU</th>
-                <th class="col-md-2">Name</th>
-                <th class="col-md-3">Description</th>
-                <th class="col-md-1">Quantity</th>
-                <th class="col-md-4 text-right">Price</th>
+                <th class="col-md-2">Produto</th>
+                <th class="col-md-3">Descrição</th>
+                <th class="col-md-1">Quantidade</th>
+                <th class="col-md-4 text-right">Preço</th>
             </tr>
             </thead>
             <tbody>
@@ -33,7 +35,7 @@
                     <td>{{$product->sku}}</td>
                     <td>{{$product->name}}</td>
                     <td>
-                        {{$product->description}}
+                        {!! $product->description !!}
                         @php($pattr = \App\Shop\ProductAttributes\ProductAttribute::find($product->pivot->product_attribute_id))
                         @if(!is_null($pattr))<br>
                         @foreach($pattr->attributesValues as $it)

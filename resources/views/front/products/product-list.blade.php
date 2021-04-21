@@ -91,7 +91,7 @@
                                         <ul class="product__item__pic__hover">
                                             <li>
                                                 <form name="form_{{$product->slug}}" id="form_{{$product->slug}}"
-                                                      action="{{ route('cart.store') }}" class="form-inline" method="post" ">
+                                                      action="{{ route('cart.store') }}" class="form-inline" method="post" >
                                                     {{ csrf_field() }}
                                                     <div class="pro-qty">
                                                         <input type="text" value="1" name="quantity" >

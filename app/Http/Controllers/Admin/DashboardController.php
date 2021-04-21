@@ -88,6 +88,10 @@ class DashboardController extends Controller
         $config->automatic_clear_availability = $request->input(
             'automatic_clear_availability'
         );
+        $config->send_email_on_buy_products = $request->input(
+            'send_email_on_buy_products'
+        );
+
         $config->show_message = $request->input('show_message');
         $config->fair_name = $request->input('fair_name');
         $config->next_fair_number = $request->input('next_fair_number');

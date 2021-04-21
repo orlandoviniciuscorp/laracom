@@ -110,7 +110,30 @@
                                 >Desligado</label>
                         </div>
                     </div>
-
+                    <div class="form-group">
+                        <label for="name">Receber email Na compra: <span class="text-danger">*</span></label>
+                        <br />
+                        <div class="btn-group" id="status" data-toggle="buttons">
+                            <label class="btn btn-default btn-on btn-xs
+                            @if($config->send_email_on_buy_products == 1)
+                                    active
+@endif
+                                    ">
+                                <input type="radio" value="1" name="send_email_on_buy_products"
+                                       @if($config->send_email_on_buy_products == 1)
+                                       checked="checked"
+                                        @endif
+                                >Ligado
+                            </label>
+                            <label class="btn btn-default btn-off btn-xs @if($config->send_email_on_buy_products == 0) active @endif">
+                                <input type="radio" value="0" name="send_email_on_buy_products"
+                                       @if($config->send_email_on_buy_products == 0)
+                                       checked="checked"
+                                        @endif
+                                >Desligado</label>
+                        </div>
+                    </div>
+                    <br />
                     <div class="form-group">
                         <label for="name">Criação de Feiras automático: <span class="text-danger">*</span></label>
                         <br />
@@ -134,6 +157,7 @@
                                 >Desligado</label>
                         </div>
                     </div>
+
                     <br />
                     <div class="form-group">
                         <label for="name">Nome Feira: <span class="text-danger">*</span></label>
@@ -142,6 +166,7 @@
                         <label for="name">Próxima feira: <span class="text-danger">*</span></label>
                         <input type="number" name="next_fair_number" value="{{$config->next_fair_number}}"/>
                     </div>
+
                     <br />
                     <div class="form-group">
                         <label for="name">Zerar Disponibilidade automaticamente: <span class="text-danger">*</span></label>
