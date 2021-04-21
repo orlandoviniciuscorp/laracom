@@ -54,9 +54,12 @@
                             </tr>
                         @endforeach
                         <tr>
-                            <td colspan="6">
+                            <td>
                                 Cestas : {{$totalOrders}}
                             </td>
+                            <td>Totais : </td>
+                            <td>{{currency_format($totalProducts)}}</td>
+                            <td>{{currency_format($totalShipping)}}</td>
                         </tr>
                         <tr>
                             <td>

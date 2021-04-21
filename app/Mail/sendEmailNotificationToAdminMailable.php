@@ -14,14 +14,16 @@ class sendEmailNotificationToAdminMailable extends Mailable
     use Queueable, SerializesModels, AddressTransformable;
 
     public $order;
+    public $employee;
 
     /**
      * Create a new message instance.
      * @param Order $order
      */
-    public function __construct(Order $order)
+    public function __construct(Order $order, $employee)
     {
         $this->order = $order;
+        $this->employee = $employee;
     }
 
     /**
@@ -38,9 +40,13 @@ class sendEmailNotificationToAdminMailable extends Mailable
             'courier' => $this->order->courier,
             'address' => $this->order->address,
             'status' => $this->order->orderStatus,
-            'payment' => $this->order->paymentMethod
+            'payment' => $this->order->paymentMethod,
+            'employee' => $this->employee,
         ];
 
-        return $this->view('emails.admin.OrderNotificationEmail', $data);
+        return $this->subject(config('app.name') . ' compra no site')->view(
+            'emails.admin.OrderNotificationEmail',
+            $data
+        );
     }
 }
