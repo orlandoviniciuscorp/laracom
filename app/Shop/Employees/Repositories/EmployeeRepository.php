@@ -2,6 +2,7 @@
 
 namespace App\Shop\Employees\Repositories;
 
+use Illuminate\Support\Facades\DB;
 use Jsdecena\Baserepo\BaseRepository;
 use App\Shop\Employees\Employee;
 use App\Shop\Employees\Exceptions\EmployeeNotFoundException;
@@ -11,7 +12,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class EmployeeRepository extends BaseRepository implements EmployeeRepositoryInterface
+class EmployeeRepository extends BaseRepository implements
+    EmployeeRepositoryInterface
 {
     /**
      * EmployeeRepository constructor.
@@ -32,8 +34,10 @@ class EmployeeRepository extends BaseRepository implements EmployeeRepositoryInt
      *
      * @return Collection
      */
-    public function listEmployees(string $order = 'id', string $sort = 'desc'): Collection
-    {
+    public function listEmployees(
+        string $order = 'id',
+        string $sort = 'desc'
+    ): Collection {
         return $this->all(['*'], $order, $sort);
     }
 
@@ -62,8 +66,17 @@ class EmployeeRepository extends BaseRepository implements EmployeeRepositoryInt
         try {
             return $this->findOneOrFail($id);
         } catch (ModelNotFoundException $e) {
-            throw new EmployeeNotFoundException;
+            throw new EmployeeNotFoundException();
         }
+    }
+
+    public function findEmployeesByRole(int $role_id)
+    {
+        return DB::table('employees')
+            ->select('employees.*')
+            ->join('role_user', 'user_id', '=', 'employees.id')
+            ->where('role_id', '=', $role_id)
+            ->get();
     }
 
     /**
@@ -126,7 +139,7 @@ class EmployeeRepository extends BaseRepository implements EmployeeRepositoryInt
      * @return bool
      * @throws \Exception
      */
-    public function deleteEmployee() : bool
+    public function deleteEmployee(): bool
     {
         return $this->delete();
     }

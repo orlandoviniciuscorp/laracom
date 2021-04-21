@@ -30,6 +30,7 @@ class Configuration extends Model
         'fair_name',
         'next_fair_number',
         'automatic_clear_availability',
+        'send_email_on_buy_products',
     ];
 
     /**

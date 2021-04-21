@@ -4,6 +4,8 @@ namespace App\Shop\Orders\Repositories;
 
 use App\Shop\Carts\Repositories\CartRepository;
 use App\Shop\Carts\ShoppingCart;
+use App\Shop\Configurations\Configuration;
+use App\Shop\Configurations\Repositories\ConfigurationRepository;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Jsdecena\Baserepo\BaseRepository;
 use App\Shop\Employees\Employee;
@@ -47,10 +49,9 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
      * @return Order
      * @throws OrderInvalidArgumentException
      */
-    public function createOrder(array $params) : Order
+    public function createOrder(array $params): Order
     {
         try {
-
             $order = $this->create($params);
 
             $orderRepo = new OrderRepository($order);
@@ -70,7 +71,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
      * @return bool
      * @throws OrderInvalidArgumentException
      */
-    public function updateOrder(array $params) : bool
+    public function updateOrder(array $params): bool
     {
         try {
             return $this->update($params);
@@ -84,7 +85,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
      * @return Order
      * @throws OrderNotFoundException
      */
-    public function findOrderById(int $id) : Order
+    public function findOrderById(int $id): Order
     {
         try {
             return $this->findOneOrFail($id);
@@ -92,7 +93,6 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
             throw new OrderNotFoundException($e);
         }
     }
-
 
     /**
      * Return all the orders
@@ -102,8 +102,11 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
      * @param array $columns
      * @return Collection
      */
-    public function listOrders(string $order = 'id', string $sort = 'desc', array $columns = ['*']) : Collection
-    {
+    public function listOrders(
+        string $order = 'id',
+        string $sort = 'desc',
+        array $columns = ['*']
+    ): Collection {
         return $this->all($columns, $order, $sort);
     }
 
@@ -111,7 +114,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
      * @param Order $order
      * @return mixed
      */
-    public function findProducts(Order $order) : Collection
+    public function findProducts(Order $order): Collection
     {
         return $order->products;
     }
@@ -121,17 +124,22 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
      * @param int $quantity
      * @param array $data
      */
-    public function associateProduct(Product $product, int $quantity = 1, array $data = [])
-    {
+    public function associateProduct(
+        Product $product,
+        int $quantity = 1,
+        array $data = []
+    ) {
         $this->model->products()->attach($product, [
             'quantity' => $quantity,
             'product_name' => $product->name,
             'product_sku' => $product->sku,
             'product_description' => $product->description,
             'product_price' => $product->price,
-            'product_attribute_id' => isset($data['product_attribute_id']) ? $data['product_attribute_id']: null,
+            'product_attribute_id' => isset($data['product_attribute_id'])
+                ? $data['product_attribute_id']
+                : null,
         ]);
-        $product->quantity = ($product->quantity - $quantity);
+        $product->quantity = $product->quantity - $quantity;
         $product->save();
     }
 
@@ -140,8 +148,11 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
      */
     public function sendEmailToCustomer()
     {
-        Mail::to($this->model->customer)
-            ->send(new SendOrderToCustomerMailable($this->findOrderById($this->model->id)));
+        Mail::to($this->model->customer)->send(
+            new SendOrderToCustomerMailable(
+                $this->findOrderById($this->model->id)
+            )
+        );
     }
 
     /**
@@ -149,18 +160,28 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
      */
     public function sendEmailNotificationToAdmin()
     {
-        $employeeRepo = new EmployeeRepository(new Employee);
-        $employee = $employeeRepo->findEmployeeById(1);
+        $configRepo = new ConfigurationRepository(new Configuration());
+        $config = $configRepo->getConfig();
+        if ($config->send_email_on_buy_products) {
+            $employeeRepo = new EmployeeRepository(new Employee());
+            $employees = $employeeRepo->findEmployeesByRole(1);
 
-//        Mail::to($employee)
-//            ->send(new sendEmailNotificationToAdminMailable($this->findOrderById($this->model->id)));
+            foreach ($employees as $employee) {
+                Mail::to($employee)->send(
+                    new sendEmailNotificationToAdminMailable(
+                        $this->findOrderById($this->model->id),
+                        $employee
+                    )
+                );
+            }
+        }
     }
 
     /**
      * @param string $text
      * @return mixed
      */
-    public function searchOrder(string $text) : Collection
+    public function searchOrder(string $text): Collection
     {
         if (!empty($text)) {
             return $this->model->searchForOrder($text)->get();
@@ -180,7 +201,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     /**
      * @return Collection
      */
-    public function listOrderedProducts() : Collection
+    public function listOrderedProducts(): Collection
     {
         return $this->model->products->map(function (Product $product) {
             $product->name = $product->pivot->product_name;
@@ -188,7 +209,8 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
             $product->description = $product->pivot->product_description;
             $product->price = $product->pivot->product_price;
             $product->quantity = $product->pivot->quantity;
-            $product->product_attribute_id = $product->pivot->product_attribute_id;
+            $product->product_attribute_id =
+                $product->pivot->product_attribute_id;
             return $product;
         });
     }
@@ -199,11 +221,12 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     public function buildOrderDetails(Collection $items)
     {
         $items->each(function ($item) {
-            $productRepo = new ProductRepository(new Product);
+            $productRepo = new ProductRepository(new Product());
             $product = $productRepo->find($item->id);
             if ($item->options->has('product_attribute_id')) {
                 $this->associateProduct($product, $item->qty, [
-                    'product_attribute_id' => $item->options->product_attribute_id
+                    'product_attribute_id' =>
+                        $item->options->product_attribute_id,
                 ]);
             } else {
                 $this->associateProduct($product, $item->qty);
@@ -214,7 +237,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     /**
      * @return Collection $addresses
      */
-    public function getAddresses() : Collection
+    public function getAddresses(): Collection
     {
         return $this->model->address()->get();
     }
@@ -222,33 +245,62 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     /**
      * @return Collection $couriers
      */
-    public function getCouriers() : Collection
+    public function getCouriers(): Collection
     {
         return $this->model->courier()->get();
     }
 
     public function totalOrders($fair_id)
     {
-        return $this->model->where('fair_id',$fair_id)
-            ->whereNotIn('order_status_id',[env('ORDER_ERROR'),env('ORDER_CANCELED')])
+        return $this->model
+            ->where('fair_id', $fair_id)
+            ->whereNotIn('order_status_id', [
+                env('ORDER_ERROR'),
+                env('ORDER_CANCELED'),
+            ])
             ->count();
+    }
+
+    public function totalShipping($fair_id)
+    {
+        return $this->model
+            ->where('fair_id', $fair_id)
+            ->whereNotIn('order_status_id', [
+                env('ORDER_ERROR'),
+                env('ORDER_CANCELED'),
+            ])
+            ->sum('total_shipping');
+    }
+
+    public function totalProducts($fair_id)
+    {
+        return $this->model
+            ->where('fair_id', $fair_id)
+            ->whereNotIn('order_status_id', [
+                env('ORDER_ERROR'),
+                env('ORDER_CANCELED'),
+            ])
+            ->sum('total_products');
     }
 
     public function totalAmount($fair_id)
     {
-        return $this->model->where('fair_id',$fair_id)
-            ->whereNotIn('order_status_id',[env('ORDER_ERROR'),env('ORDER_CANCELED')])
+        return $this->model
+            ->where('fair_id', $fair_id)
+            ->whereNotIn('order_status_id', [
+                env('ORDER_ERROR'),
+                env('ORDER_CANCELED'),
+            ])
             ->sum('total');
     }
 
     public function findByFairId($fair_id)
     {
-        return $this->model->where('fair_id',$fair_id)->get();
+        return $this->model->where('fair_id', $fair_id)->get();
     }
 
-    public function markAsPayed($id,$orderStatus)
+    public function markAsPayed($id, $orderStatus)
     {
-
         $order = $this->findOrderById((int) $id);
         $order->order_status_id = $orderStatus->id;
         $order->total_paid = $order->total;
