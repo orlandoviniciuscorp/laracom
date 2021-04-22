@@ -14,10 +14,13 @@
         </tr>
     </thead>
     <tbody>
+
     @foreach ($fair->fairFinancials as $fairFinancial)
+        @if(!is_null($fairFinancial->product))
         <tr>
+
             <td>{{$fairFinancial->producer->name}}</td>
-            <td>{{$fairFinancial->product->name}}</td>
+            <td>{{$fairFinancial->product->name ?? ''}}</td>
             <td>
                 @if(isset($is_export))
                     {{($fairFinancial->product->price)}}
@@ -76,6 +79,7 @@
                 {{currency_format($fairFinancial->sumProducer())}}</td>
             @endif
         </tr>
+        @endif
     @endforeach
     </tbody>
 </table>
