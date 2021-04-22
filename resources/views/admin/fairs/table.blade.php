@@ -22,7 +22,7 @@
             <td>{{$fairFinancial->producer->name}}</td>
             <td>{{$fairFinancial->product->name ?? ''}}</td>
             <td>
-                @if(isset($is_export))
+                @if(isset($is_export)  && $is_export)
                     {{($fairFinancial->product->price)}}
                 @else
                     {{currency_format($fairFinancial->product->price)}}
@@ -30,7 +30,7 @@
             </td>
             <td>
             @if(is_null($fairFinancial->unity_price_by_farmer))
-                @if($is_export)
+                @if($is_export)  && $is_export
 
                         {{$fairFinancial->product->price*
                             $fairFinancial->product->percentage->farmer/100}}
@@ -41,7 +41,7 @@
                     @endif
             @else
 
-                @if(isset($is_export))
+                @if(isset($is_export)  && $is_export)
                     {{($fairFinancial->unity_price_by_farmer)}}
                     @else
                         {{currency_format($fairFinancial->unity_price_by_farmer)}}
@@ -50,12 +50,12 @@
             </td>
             <td>{{$fairFinancial->quantity}}</td>
 {{--            <td>{{currency_format($fairFinancial->product->price * $fairFinancial->quantity)}}</td>--}}
-            <td>@if(isset($is_export))
+            <td>@if(isset($is_export)  && $is_export)
                     {{($fairFinancial->farmer)}}</td>
                 @else
                 {{currency_format($fairFinancial->farmer)}}</td>
             @endif
-            <td>@if(isset($is_export))
+            <td>@if(isset($is_export)  && $is_export)
                     {{($fairFinancial->plataform +
                     $fairFinancial->separation +
                     $fairFinancial->fund +
@@ -73,7 +73,7 @@
                     $fairFinancial->payment_conference)}}
             @endif
              </td>
-            <td>@if(isset($is_export))
+            <td>@if(isset($is_export)  && $is_export)
                     {{($fairFinancial->sumProducer())}}</td>
                 @else
                 {{currency_format($fairFinancial->sumProducer())}}</td>
@@ -95,7 +95,7 @@
             Plataforma
         </td>
         <td>
-            @if(isset($is_export))
+            @if(isset($is_export)  && $is_export)
                 {{($fair->fairFinancials[0]->sumPlataform())}}
             @else
             {{currency_format($fair->fairFinancials[0]->sumPlataform())}}
@@ -107,7 +107,7 @@
             Separação
         </td>
         <td>
-            @if(isset($is_export))
+            @if(isset($is_export)  && $is_export)
                 {{($fair->fairFinancials[0]->sumSeparation())}}
             @else
             {{currency_format($fair->fairFinancials[0]->sumSeparation())}}
@@ -119,7 +119,7 @@
             Caixinha
         </td>
         <td>
-            @if(isset($is_export))
+            @if(isset($is_export)  && $is_export)
                 {{($fair->fairFinancials[0]->sumFund())}}
             @else
             {{currency_format($fair->fairFinancials[0]->sumFund())}}
@@ -131,7 +131,7 @@
             Relização dos Pagamenos
         </td>
         <td>
-            @if(isset($is_export))
+            @if(isset($is_export)  && $is_export)
                 {{($fair->fairFinancials[0]->sumPaymentsTransfer())}}
             @else
             {{currency_format($fair->fairFinancials[0]->sumPaymentsTransfer())}}
@@ -143,7 +143,7 @@
             Fechamento das Contas
         </td>
         <td>
-            @if(isset($is_export))
+            @if(isset($is_export)  && $is_export)
                 {{($fair->fairFinancials[0]->sumAccountingClose())}}
             @else
             {{currency_format($fair->fairFinancials[0]->sumAccountingClose())}}
@@ -155,7 +155,7 @@
             Contato com os Clientes
         </td>
         <td>
-            @if(isset($is_export))
+            @if(isset($is_export)  && $is_export)
                 {{($fair->fairFinancials[0]->sumClientContact())}}
             @else
             {{currency_format($fair->fairFinancials[0]->sumClientContact())}}
@@ -167,7 +167,7 @@
             Conferência de Pagamentos
         </td>
         <td>
-            @if(isset($is_export))
+            @if(isset($is_export)  && $is_export)
                 {{($fair->fairFinancials[0]->sumPaymentConference())}}
             @else
             {{currency_format($fair->fairFinancials[0]->sumPaymentConference())}}
@@ -215,21 +215,21 @@
                 {{$order->payment}}
             </td>
             <td>
-                @if(isset($is_export))
+                @if(isset($is_export)  && $is_export)
                     {{($order->total_products)}}
                 @else
                 {{currency_format($order->total_products)}}
                     @endif
             </td>
             <td>
-                @if(isset($is_export))
+                @if(isset($is_export)  && $is_export)
                     {{($order->total_shipping)}}
                 @else
                 {{currency_format($order->total_shipping)}}
                     @endif
             </td>
             <td>
-                @if(isset($is_export))
+                @if(isset($is_export)  && $is_export)
                     {{($order->total)}}
                 @else
                 {{currency_format($order->total)}}
