@@ -20,7 +20,7 @@
                 {{$order->customer->name}}
             </td>
             <td @if($order->orderStatus->name == 'Cancelado') style="color: #FF0000;"  @endif >
-                @if(isset($is_export))
+                @if(isset($is_export) && $is_export)
                     @if($order->orderStatus->name != 'Cancelado')
                         {{($order->total)}}
                     @endif
