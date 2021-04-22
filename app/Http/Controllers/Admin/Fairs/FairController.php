@@ -257,7 +257,7 @@ class FairController extends Controller
             'productors' => $this->fairRepo->getHarverstPayment($fair_id),
         ]);
         $data = array_merge($data, ['fair' => $fair]);
-        //        $data = array_merge($data, ['is_export' => false]);
+        $data = array_merge($data, ['is_export' => false]);
         $data = array_merge($data, ['fairFinancial']);
         $data = array_merge($data, [
             'totalOrders' => $this->orderRepo->totalOrders($fair_id),
