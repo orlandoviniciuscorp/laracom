@@ -45,41 +45,6 @@ class FairFinancialRepository extends BaseRepository
         $this->model = $fairFinancial;
     }
 
-    /**
-     * @param int $id
-     * @return Order
-     * @throws OrderNotFoundException
-     */
-    public function findFairById(int $id): Fair
-    {
-        try {
-            return $this->findOneOrFail($id);
-        } catch (ModelNotFoundException $e) {
-            throw new FairNotFoundException($e);
-        }
-    }
-
-    public function findLastFair()
-    {
-        return $this->model->where('status', '=', 1)->max('id');
-    }
-
-    /**
-     * Return all the orders
-     *
-     * @param string $order
-     * @param string $sort
-     * @param array $columns
-     * @return Collection
-     */
-    public function listOrders(
-        string $order = 'id',
-        string $sort = 'desc',
-        array $columns = ['*']
-    ): Collection {
-        return $this->all($columns, $order, $sort);
-    }
-
     public function createFairFinancialByFairId($fair_id)
     {
         $fairRepo = new FairRepository(
