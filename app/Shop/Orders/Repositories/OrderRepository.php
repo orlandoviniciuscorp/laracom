@@ -309,4 +309,11 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
 
         return $order;
     }
+
+    public function cancelOrder($order_id)
+    {
+        $order = $this->findOrderById($order_id);
+        $order->order_status_id = env('ORDER_CANCELED');
+        return $order->save();
+    }
 }

@@ -51,10 +51,9 @@ class AccountsController extends Controller
 
         $addresses = $customerRepo->findAddresses();
 
-
         return view('front.accounts', [
             'customer' => $customer,
-            'addresses' => $addresses
+            'addresses' => $addresses,
         ]);
     }
 
@@ -71,9 +70,11 @@ class AccountsController extends Controller
 
         $orders->load('products');
 
-
         return view('front.orders', [
-            'orders' => $this->customerRepo->paginateArrayResults($orders->toArray(), 15),
+            'orders' => $this->customerRepo->paginateArrayResults(
+                $orders->toArray(),
+                15
+            ),
         ]);
     }
 
@@ -86,23 +87,20 @@ class AccountsController extends Controller
         $addresses = $customerRepo->findAddresses();
 
         return view('front.addresses', [
-            'addresses' => $addresses
+            'addresses' => $addresses,
         ]);
     }
 
     public function cancelOrder(Request $request)
     {
-        $order = $this->orderRepo->findOrderById($request->input('order_id'));
-        $order->order_status_id = env('ORDER_CANCELED');
-        $order->save();
-        $request->session()->flash('message','Pedido Cancelado');
+        $this->orderRepo->cancelOrder($request->input('order_id'));
+        $request->session()->flash('message', 'Pedido Cancelado');
 
         return redirect()->back();
-
     }
 
-    public function notices(){
-
+    public function notices()
+    {
         return view('front.shared.notices');
     }
 }
