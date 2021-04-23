@@ -271,6 +271,14 @@ class OrderController extends Controller
         return redirect()->route('admin.fair.orders-list', $order->fair_id);
     }
 
+    public function cancelOrder(Request $request)
+    {
+        $this->orderRepo->cancelOrder($request->input('order_id'));
+        $request->session()->flash('message', 'Pedido Cancelado');
+
+        return redirect()->back();
+    }
+
     /**
      * Generate order invoice
      *

@@ -35,6 +35,7 @@
                                 </td>
                                 <td><p class="text-center" style="color: #ffffff; background-color: {{ $order->status->color }}">{{ $order->status->name }}</p></td>
                                 <td>
+                                    @if($order->status->id != env('ORDER_CANCELED'))
                                     <form method="post" action="{{route('admin.orders.mark-as-payed',$order->id)}}" >
                                         {{ csrf_field() }}
                                         <button type="submit" class="btn btn-success btn-sm">
@@ -42,6 +43,15 @@
                                             Marcar como Pago
                                         </button>
                                     </form>
+
+                                    <form action="{{route('admin.orders.cancel-order')}}" method="post">
+                                        {{csrf_field()}}
+                                        <input type="hidden" name="order_id" value="{{$order['id']}}" />
+                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Tem Certeza?')" >
+                                            <i class="fa fa-ban" aria-hidden="true"></i> Cancelar
+                                        </button>
+                                    </form>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

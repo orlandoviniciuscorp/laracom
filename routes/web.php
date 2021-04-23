@@ -232,6 +232,11 @@ Route::group(
                             'orders/{id}/removeProducts',
                             'OrderController@removeProducts'
                         )->name('orders.remove-products');
+
+                        Route::post(
+                            'orders/cancel-order',
+                            'OrderController@cancelOrder'
+                        )->name('orders.cancel-order');
                     });
 
                     Route::group(['prefix' => 'fairs'], function () {
