@@ -49,10 +49,9 @@ class FairRepository extends BaseRepository
      * @return Order
      * @throws OrderInvalidArgumentException
      */
-    public function createOrder(array $params) : Order
+    public function createOrder(array $params): Order
     {
         try {
-
             $order = $this->create($params);
 
             $orderRepo = new OrderRepository($order);
@@ -71,7 +70,7 @@ class FairRepository extends BaseRepository
      * @return Fair
      * @throws FairNotFoundException
      */
-    public function findFairById(int $id) : Fair
+    public function findFairById(int $id): Fair
     {
         try {
             return $this->findOneOrFail($id);
@@ -80,11 +79,10 @@ class FairRepository extends BaseRepository
         }
     }
 
-    public function findLastFair(){
-
-        return $this->model->where('status','=',1)->max('id');
+    public function findLastFair()
+    {
+        return $this->model->where('status', '=', 1)->max('id');
     }
-
 
     /**
      * Return all the orders
@@ -94,30 +92,35 @@ class FairRepository extends BaseRepository
      * @param array $columns
      * @return Collection
      */
-    public function listOrders(string $order = 'id', string $sort = 'desc', array $columns = ['*']) : Collection
-    {
+    public function listOrders(
+        string $order = 'id',
+        string $sort = 'desc',
+        array $columns = ['*']
+    ): Collection {
         return $this->all($columns, $order, $sort);
     }
-
-
-
 
     /**
      * @param Product $product
      * @param int $quantity
      * @param array $data
      */
-    public function associateProduct(Product $product, int $quantity = 1, array $data = [])
-    {
+    public function associateProduct(
+        Product $product,
+        int $quantity = 1,
+        array $data = []
+    ) {
         $this->model->products()->attach($product, [
             'quantity' => $quantity,
             'product_name' => $product->name,
             'product_sku' => $product->sku,
             'product_description' => $product->description,
             'product_price' => $product->price,
-            'product_attribute_id' => isset($data['product_attribute_id']) ? $data['product_attribute_id']: null,
+            'product_attribute_id' => isset($data['product_attribute_id'])
+                ? $data['product_attribute_id']
+                : null,
         ]);
-        $product->quantity = ($product->quantity - $quantity);
+        $product->quantity = $product->quantity - $quantity;
         $product->save();
     }
 
@@ -126,8 +129,11 @@ class FairRepository extends BaseRepository
      */
     public function sendEmailToCustomer()
     {
-        Mail::to($this->model->customer)
-            ->send(new SendOrderToCustomerMailable($this->findOrderById($this->model->id)));
+        Mail::to($this->model->customer)->send(
+            new SendOrderToCustomerMailable(
+                $this->findOrderById($this->model->id)
+            )
+        );
     }
 
     /**
@@ -135,18 +141,21 @@ class FairRepository extends BaseRepository
      */
     public function sendEmailNotificationToAdmin()
     {
-        $employeeRepo = new EmployeeRepository(new Employee);
+        $employeeRepo = new EmployeeRepository(new Employee());
         $employee = $employeeRepo->findEmployeeById(1);
 
-        Mail::to($employee)
-            ->send(new sendEmailNotificationToAdminMailable($this->findOrderById($this->model->id)));
+        Mail::to($employee)->send(
+            new sendEmailNotificationToAdminMailable(
+                $this->findOrderById($this->model->id)
+            )
+        );
     }
 
     /**
      * @param string $text
      * @return mixed
      */
-    public function searchOrder(string $text) : Collection
+    public function searchOrder(string $text): Collection
     {
         if (!empty($text)) {
             return $this->model->searchForOrder($text)->get();
@@ -166,7 +175,7 @@ class FairRepository extends BaseRepository
     /**
      * @return Collection
      */
-    public function listOrderedProducts() : Collection
+    public function listOrderedProducts(): Collection
     {
         return $this->model->products->map(function (Product $product) {
             $product->name = $product->pivot->product_name;
@@ -174,102 +183,114 @@ class FairRepository extends BaseRepository
             $product->description = $product->pivot->product_description;
             $product->price = $product->pivot->product_price;
             $product->quantity = $product->pivot->quantity;
-            $product->product_attribute_id = $product->pivot->product_attribute_id;
+            $product->product_attribute_id =
+                $product->pivot->product_attribute_id;
             return $product;
         });
     }
 
     public function harvest($id)
     {
-        return DB::select('select c.name as produtor,p.name as produto, p.id, sum(op.quantity) as quantidade '.
+        return DB::select(
+            'select p.name as produto, p.id, sum(op.quantity) as quantidade ' .
                 ' from orders o, ' .
                 '	 order_product op, ' .
-                '	 products p, ' .
-                '     category_product cp, ' .
-                '     categories c ' .
+                '	 products p ' .
+                //                '     category_product cp, ' .
+                //                '     categories c ' .
                 'where o.fair_id = ? and o.order_status_id not in (?,?) ' .
                 'and o.id = op.order_id and p.id = op.product_id ' .
-                'and cp.category_id = c.id and cp.product_id = p.id ' .
-                'and p.id in (select product_id from producer_product)'.
-                'group by c.name, p.name, p.id', [$id,env('ORDER_ERROR'),env('ORDER_CANCELED')]);
+                //                'and cp.category_id = c.id and cp.product_id = p.id ' .
+                'and p.id in (select product_id from producer_product)' .
+                'group by ' .
+                //                ' c.name, '.
+                ' p.name, p.id',
+            [$id, env('ORDER_ERROR'), env('ORDER_CANCELED')]
+        );
     }
 
-    public function deliveryAddresses($fair_id){
-
-        return DB::select(' select 																' .
-            ' o.id as pedido,                                                       ' .
-            ' c.name as cliente,                                                    ' .
-            ' c.email as email,                                                     ' .
-            ' ad.phone as telefone,                                                 ' .
-            ' o.payment as pagamento,                                               ' .
-            ' o.total as total,                                                     ' .
-            ' co.name as zona,                                                      ' .
-            ' sum(op.quantity) as itens,	                                        ' .
-            ' ad.address_1 as end_1, 												' .
-            ' ad.address_2 as end_2,              									' .
-            ' ad.neighborhoods as bairro,              									' .
-            ' o.obs as observacao                                                   ' .
-            ' from orders o,                                                        ' .
-            ' 	 customers c,                                                       ' .
-            '      order_product op,                                                ' .
-            '      addresses ad,                                                    ' .
-            '      products p,                                                      ' .
-            '      couriers co                                                      ' .
-            ' where                                                                 ' .
-            ' o.fair_id = ?                                                         ' .
-            ' and co.id = o.courier_id                                              ' .
-            ' and o.customer_id = c.id                                              ' .
-            ' and op.order_id = o.id                                                ' .
-            ' and o.address_id = ad.id                                              ' .
-            ' and op.product_id = p.id                                              ' .
-            ' and o.order_status_id not in(?,?)                                     ' .
-            ' group by o.id,c.name, c.email, ad.phone, o.payment, o.total,co.name   ' .
-            ' order by co.id, o.payment                                             ',[$fair_id,env('ORDER_ERROR'),env('ORDER_CANCELED')]);
-
+    public function deliveryAddresses($fair_id)
+    {
+        return DB::select(
+            ' select 																' .
+                ' o.id as pedido,                                                       ' .
+                ' c.name as cliente,                                                    ' .
+                ' c.email as email,                                                     ' .
+                ' ad.phone as telefone,                                                 ' .
+                ' o.payment as pagamento,                                               ' .
+                ' o.total as total,                                                     ' .
+                ' co.name as zona,                                                      ' .
+                ' sum(op.quantity) as itens,	                                        ' .
+                ' ad.address_1 as end_1, 												' .
+                ' ad.address_2 as end_2,              									' .
+                ' ad.neighborhoods as bairro,              									' .
+                ' o.obs as observacao                                                   ' .
+                ' from orders o,                                                        ' .
+                ' 	 customers c,                                                       ' .
+                '      order_product op,                                                ' .
+                '      addresses ad,                                                    ' .
+                '      products p,                                                      ' .
+                '      couriers co                                                      ' .
+                ' where                                                                 ' .
+                ' o.fair_id = ?                                                         ' .
+                ' and co.id = o.courier_id                                              ' .
+                ' and o.customer_id = c.id                                              ' .
+                ' and op.order_id = o.id                                                ' .
+                ' and o.address_id = ad.id                                              ' .
+                ' and op.product_id = p.id                                              ' .
+                ' and o.order_status_id not in(?,?)                                     ' .
+                ' group by o.id,c.name, c.email, ad.phone, o.payment, o.total,co.name   ' .
+                ' order by co.id, o.payment                                             ',
+            [$fair_id, env('ORDER_ERROR'), env('ORDER_CANCELED')]
+        );
     }
 
     public function getExtract($fair_id)
     {
-        return DB::select(' select co.name Entrega,                              '.
-        ' 	   o.payment as "tipo_pagamento",                  '.
-        '        sum(o.total_products) as "total_produtos",    '.
-        '        sum(o.total_shipping) as "total_entrega",           '.
-        '        sum(o.total) as "total",                      '.
-        '        count(o.id) as "total_cestas"                 '.
-        ' from orders o,                                       '.
-        ' couriers co                                          '.
-        ' where o.courier_id = co.id                           '.
-        ' 	  and o.order_status_id not in (?,?)               '.
-        ' 	  and o.fair_id = ?                                '.
-        ' group by co.name, o.payment                                     ',[env('ORDER_ERROR'),env('ORDER_CANCELED'),$fair_id]);
+        return DB::select(
+            ' select co.name Entrega,                              ' .
+                ' 	   o.payment as "tipo_pagamento",                  ' .
+                '        sum(o.total_products) as "total_produtos",    ' .
+                '        sum(o.total_shipping) as "total_entrega",           ' .
+                '        sum(o.total) as "total",                      ' .
+                '        count(o.id) as "total_cestas"                 ' .
+                ' from orders o,                                       ' .
+                ' couriers co                                          ' .
+                ' where o.courier_id = co.id                           ' .
+                ' 	  and o.order_status_id not in (?,?)               ' .
+                ' 	  and o.fair_id = ?                                ' .
+                ' group by co.name, o.payment                                     ',
+            [env('ORDER_ERROR'), env('ORDER_CANCELED'), $fair_id]
+        );
     }
 
     public function getHarverstPayment($fair_id)
     {
-        return DB::select('	select c.name as produtor,                                                    '.
-            '		   p.name as produto,                                                     '.
-            '		   sum(op.quantity) as quantidade,                                        '.
-            '		   sum(op.quantity*p.price) as valor_vendido,                             '.
-            '           sum(op.quantity*p.price*pp.farmer/100) as valor_produtor,                    '.
-            '		   sum(op.quantity*p.price*pp.plataform/100) as plataforma,                    '.
-            '   		   sum(op.quantity*p.price*pp.separation/100) as separacao,                '.
-            '		   sum(op.quantity*p.price*pp.fund/100) as caixinha,                           '.
-            '		   sum(op.quantity*p.price*pp.payments_transfer/100) as pagamentos,            '.
-            '		   sum(op.quantity*p.price*pp.client_contact/100) as contato_cliente,          '.
-            '		   sum(op.quantity*p.price*pp.accounting_close/100) as contas,                 '.
-//            '		   sum(op.quantity*p.price*pp.seeller/100) as vendedores,                      '.
-//            '		   sum(op.quantity*p.price*pp.logistic/100) as logistica,                      '.
-            '		   sum(op.quantity*p.price*pp.payment_conference/100) as conferencia_pagamento                      '.
-            '	 from orders o,                                                               '.
-            '		 order_product op,                                                        '.
-            '		 products p left join percentages pp on p.percentage_id = pp.id,        '.
-            '		 category_product cp,                                                     '.
-            '		 categories c                                                             '.
-            '	where o.fair_id = ? and o.order_status_id not in (?,?)                        '.
-            '	and o.id = op.order_id and p.id = op.product_id                               '.
-            '	and cp.category_id = c.id and cp.product_id = p.id                            '.
-            '	group by c.name, p.name                                                       ',[$fair_id,env('ORDER_ERROR'),env('ORDER_CANCELED')]);
+        return DB::select(
+            '	select c.name as produtor,                                                    ' .
+                '		   p.name as produto,                                                     ' .
+                '		   sum(op.quantity) as quantidade,                                        ' .
+                '		   sum(op.quantity*p.price) as valor_vendido,                             ' .
+                '           sum(op.quantity*p.price*pp.farmer/100) as valor_produtor,                    ' .
+                '		   sum(op.quantity*p.price*pp.plataform/100) as plataforma,                    ' .
+                '   		   sum(op.quantity*p.price*pp.separation/100) as separacao,                ' .
+                '		   sum(op.quantity*p.price*pp.fund/100) as caixinha,                           ' .
+                '		   sum(op.quantity*p.price*pp.payments_transfer/100) as pagamentos,            ' .
+                '		   sum(op.quantity*p.price*pp.client_contact/100) as contato_cliente,          ' .
+                '		   sum(op.quantity*p.price*pp.accounting_close/100) as contas,                 ' .
+                //            '		   sum(op.quantity*p.price*pp.seeller/100) as vendedores,                      '.
+                //            '		   sum(op.quantity*p.price*pp.logistic/100) as logistica,                      '.
+                '		   sum(op.quantity*p.price*pp.payment_conference/100) as conferencia_pagamento                      ' .
+                '	 from orders o,                                                               ' .
+                '		 order_product op,                                                        ' .
+                '		 products p left join percentages pp on p.percentage_id = pp.id,        ' .
+                '		 category_product cp,                                                     ' .
+                '		 categories c                                                             ' .
+                '	where o.fair_id = ? and o.order_status_id not in (?,?)                        ' .
+                '	and o.id = op.order_id and p.id = op.product_id                               ' .
+                '	and cp.category_id = c.id and cp.product_id = p.id                            ' .
+                '	group by c.name, p.name                                                       ',
+            [$fair_id, env('ORDER_ERROR'), env('ORDER_CANCELED')]
+        );
     }
-
-
 }
