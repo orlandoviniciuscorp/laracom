@@ -30,7 +30,7 @@
             </td>
             <td>
 {{--            @if(is_null($fairFinancial->unity_price_by_farmer))--}}
-                @if($is_export)  && $is_export
+                @if(isset($is_export)  && $is_export)
 
                         {{$fairFinancial->product->price*
                             $fairFinancial->product->percentage->farmer/100}}
@@ -39,14 +39,6 @@
                         $fairFinancial->product->percentage->farmer/100)}}
 
                     @endif
-{{--            @else--}}
-
-{{--                @if(isset($is_export)  && $is_export)--}}
-{{--                    {{($fairFinancial->unity_price_by_farmer)}}--}}
-{{--                    @else--}}
-{{--                        {{currency_format($fairFinancial->unity_price_by_farmer)}}--}}
-{{--                    @endif--}}
-{{--            @endif--}}
             </td>
             <td>{{$fairFinancial->quantity}}</td>
 {{--            <td>{{currency_format($fairFinancial->product->price * $fairFinancial->quantity)}}</td>--}}
