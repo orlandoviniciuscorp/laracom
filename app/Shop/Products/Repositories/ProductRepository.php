@@ -79,7 +79,7 @@ class ProductRepository extends BaseRepository implements
     public function updateProduct(array $data): bool
     {
         $filtered = collect($data)
-            ->except('image')
+            ->except('image','pivot','percentage')
             ->all();
 
         try {
