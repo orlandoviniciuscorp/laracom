@@ -186,7 +186,7 @@ class OrderController extends Controller
                 ->withErrors('Somente Administradores podem Alterar pedidos');
         }
 
-        $product = $this->productRepo->findProductById(
+        $product = $this->productRepo->find(
             $request->get('product_id')
         );
         $qtd = $request->get('quantity');
@@ -194,13 +194,12 @@ class OrderController extends Controller
 
         foreach ($order->products()->get() as $item) {
             if ($product->id == $item->id) {
-                $qtd = $qtd + $item->pivot->quantity;
-                $product->quantity = $product->quantity - $qtd;
-                //                dd($qtd);
+
+
                 $order
                     ->products()
-                    ->updateExistingPivot($item, ['quantity' => $qtd], false);
-                $product->update();
+                    ->updateExistingPivot($item, ['quantity' => $qtd + $item->pivot->quantity], false);
+
                 $newProduct = false;
             }
         }
@@ -214,7 +213,15 @@ class OrderController extends Controller
                 'product_price' => $product->price,
                 'product_attribute_id' => null,
             ]);
+
         }
+        $product = $this->productRepo->findProductById($request->get('product_id'));
+//        dump($product->quantity);
+        $product->quantity = $product->quantity - $qtd;
+//        dd($product->quantity);
+        $productR = new ProductRepository($product);
+        $productR->updateProduct($product->toArray());
+//        $this->productRepo->updateProduct($product->toArray());
 
         $this->refreshTotal($order);
 
@@ -236,6 +243,16 @@ class OrderController extends Controller
             return redirect()
                 ->route('admin.orders.edit', $order->id)
                 ->withErrors('Somente Administradores podem Alterar pedidos');
+        }
+
+        foreach($request->get('selected_ids') as $id) {
+
+            foreach ($order->products()->get() as $product) {
+
+                $productR = new ProductRepository($product);
+                $product->quantity = $product->quantity + $product->pivot->quantity;
+                $productR->updateProduct($product->toArray());
+            }
         }
 
         $order->products()->detach($request->get('selected_ids'));
