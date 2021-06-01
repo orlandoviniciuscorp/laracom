@@ -398,6 +398,7 @@ Route::namespace('Front')->group(function () {
         Route::get('accounts', 'AccountsController@index')->name('accounts');
         Route::get('notices', 'AccountsController@notices')->name('notices');
         Route::get('orders', 'AccountsController@orders')->name('orders');
+        Route::post('send-feedback', 'AccountsController@sendFeedback')->name('send-feedback');
         Route::get('addresses', 'AccountsController@addresses')->name(
             'addresses'
         );

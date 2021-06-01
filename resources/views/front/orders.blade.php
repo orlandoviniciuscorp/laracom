@@ -67,6 +67,36 @@
 
             </div>
         </div>
+        @include('front.modal-orders-send-feedback')
     </section>
     <!-- /.content -->
+@endsection
+@section('post-script')
+@if(session()->has('message') && session()->get('message') == 'Pedido Cadastrado com Sucesso, Aguarde a aprovação do Pagamento')
+    <script>
+                    // $('#order_send_feed_back').modal('show');
+        var content = document.createElement('div');
+        content.innerHTML = 'Gostaria de Enviar algum comentário para a cesta e os produtores?';
+
+        $(window).on('load',function() {
+            swal({
+                title: 'Atenção',
+                content: content,
+                icon: "info",
+
+                buttons:{
+
+                    confirm:{
+                        text:"Claro!",
+                    },
+                    cancel:true,
+                }
+            }).then((willAccept) => {
+                if (willAccept) {
+                    $('#order_send_feed_back').modal('show');
+                }
+            })
+        });
+    </script>
+@endif
 @endsection

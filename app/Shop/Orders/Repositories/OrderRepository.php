@@ -2,6 +2,7 @@
 
 namespace App\Shop\Orders\Repositories;
 
+use App\Mail\SendFeedBackToAdminMailable;
 use App\Shop\Carts\Repositories\CartRepository;
 use App\Shop\Carts\ShoppingCart;
 use App\Shop\Configurations\Configuration;
@@ -174,6 +175,21 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
                     )
                 );
             }
+        }
+    }
+
+    public function sendFeedBackToAdminMailable($user, $comment){
+
+        $employeeRepo = new EmployeeRepository(new Employee());
+        $employees = $employeeRepo->findEmployeesByRole(1);
+
+        foreach ($employees as $employee) {
+            Mail::to($employee)->send(
+                new SendFeedBackToAdminMailable(
+                    $user,$comment,
+                    $employee
+                )
+            );
         }
     }
 
