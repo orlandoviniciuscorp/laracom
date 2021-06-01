@@ -9,11 +9,14 @@ use App\Http\Controllers\Controller;
 use App\Shop\Orders\Order;
 use App\Shop\Orders\Repositories\OrderRepository;
 use App\Shop\Orders\Transformers\OrderTransformable;
+use App\Shop\Products\Product;
+use App\Shop\Products\Repositories\Interfaces\ProductRepositoryInterface;
+use App\Shop\Products\Transformations\ProductTransformable;
 use Illuminate\Http\Request;
 
 class AccountsController extends Controller
 {
-    use OrderTransformable;
+    use OrderTransformable, ProductTransformable;
 
     /**
      * @var CustomerRepositoryInterface
@@ -36,11 +39,13 @@ class AccountsController extends Controller
     public function __construct(
         CourierRepositoryInterface $courierRepository,
         CustomerRepositoryInterface $customerRepository,
+        ProductRepositoryInterface $productRepository,
         OrderRepository $orderRepository
     ) {
         $this->customerRepo = $customerRepository;
         $this->courierRepo = $courierRepository;
         $this->orderRepo = $orderRepository;
+        $this->productRepo = $productRepository;
     }
 
     public function index()
@@ -61,6 +66,13 @@ class AccountsController extends Controller
     {
         $customer = $this->customerRepo->findCustomerById(auth()->user()->id);
 
+        $list = $this->productRepo->listProducts('name','asc');
+
+        $products = $list->where('status', 1)->where('quantity','>',0)->
+        map(function (Product $item) {
+            return $this->transformProduct($item);
+        });
+
         $customerRepo = new CustomerRepository($customer);
         $orders = $customerRepo->findOrders(['*'], 'created_at');
 
@@ -75,7 +87,7 @@ class AccountsController extends Controller
                 $orders->toArray(),
                 15
             ),
-        ]);
+        'products'=>$products]);
     }
 
     public function addresses()
@@ -103,4 +115,13 @@ class AccountsController extends Controller
     {
         return view('front.shared.notices');
     }
+
+    public function sendFeedback(Request $request){
+
+        $this->orderRepo->sendFeedBackToAdminMailable(auth()->user(), $request->get('comentario'));
+
+        return redirect()->route('orders')->with('message', 'Agradecemos pelo(s) comentário(s)! Obrigado por ajudar a cesta a melhorar!');
+
+    }
+
 }

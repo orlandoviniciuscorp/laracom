@@ -46,11 +46,33 @@
                             <td><img src="{{ asset("storage/".$product['cover']) }}" width=50px height=50px alt="{{ $product['name'] }}" class="img-orderDetail"></td>
                         </tr>
                     @endforeach
+{{--                    <tr>--}}
+{{--                        <td>--}}
+{{--                            <select name="product_id" id="product_id">--}}
+{{--                                <option value="">Adicionar Produto</option>--}}
+{{--                                    @foreach($products as $product)--}}
+{{--                                        <option value="{{$product->id}}">{{$product->name}} - R${{$product->price}}</option>--}}
+{{--                                    @endforeach--}}
+{{--                            </select>--}}
+{{--                        </td>--}}
+{{--                        <td>--}}
+{{--                            <input type="number" min="1" name="quantity" value="1" class="col-sm-5">--}}
+{{--                        </td>--}}
+{{--                        <td>--}}
+
+{{--                            <button type="button" class="btn btn-primary" data-toggle="modal"--}}
+{{--                            data-target="#include_products_order_{{$order['id']}}" title="Pedido"--}}
+{{--                                    href="javascript: void(0)"--}}
+{{--                            >Adicionar Produto</button>--}}
+
+{{--                            @include('front.include-products-modal',['order'=>$order])--}}
+{{--                        </td>--}}
+{{--                    </tr>--}}
                     </tbody>
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal">Fechar</button>
             </div>
         </div>
     </div>
