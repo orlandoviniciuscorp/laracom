@@ -39,8 +39,8 @@
                     </thead>
                     <tbody>
                     @if($order['fair']->status == 1
-                        //&& ($order['order_status_id'] != 1
-                        //&& $order['order_status_id'] != 7)
+                        && ($order['order_status_id'] != env('ORDER_CANCELED')
+                        && $order['order_status_id'] != env('ORDER_ERROR'))
                         && $config->is_open == 1)
                     <form class="form-inline" method="post" action="{{route('accounts.update-products',$order['id'])}}">
                         {{ csrf_field() }}
