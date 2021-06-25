@@ -85,6 +85,36 @@
 
                         @include('admin.shared.status-select', ['status' => 1])
                         {{--@include('admin.shared.attribute-select', [compact('default_weight')])--}}
+
+                        <br />
+                        <br />
+
+
+
+                        @if(auth()->guard('employee')->user()->hasRole('superadmin'))
+                        <div class="form-group">
+                            <label for="shop_id">Local de Venda </label>
+
+                            <ul class="checkbox-list">
+                                @foreach($shopLocalizations as $shopLocalization)
+
+                                    <li>
+                                        <div class="radio">
+                                            <label>
+                                                <input
+                                                        type="radio"
+                                                        name="shop_id"
+                                                        value="{{ $shopLocalization->id }}">
+                                                {{ $shopLocalization->name }}
+                                            </label>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @else
+                            <input type="hidden" name="shop_id" value="{{$shopLocalizations->first()->id}}" />
+                        @endif
                     </div>
                     <div class="col-md-4">
                         <h2>Categorias</h2>

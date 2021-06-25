@@ -11,5 +11,6 @@ return [
     'cancel_url' => env('PP_CANCEL_URL', 'xxxx'),
     'failed_url' => env('PP_FAILED_URL', 'xxxx'),
     'mode' => env('PP_MODE', 'xxxx'),
-    'note' => env('DEBIT_PAY_ON_DELIVERY_NOTE', 'Choosing this option may delay the shipment of the item.')
+    'note' => env('DEBIT_PAY_ON_DELIVERY_NOTE', 'Choosing this option may delay the shipment of the item.'),
+    'shop_localization_id' => [1]
 ];

@@ -57,7 +57,7 @@
                                 </select>
                             </td>
                             <td colspan="2">
-                                <input type="number" min="1" name="quantity" value="1" class="col-sm-5">
+                                <input type="hidden" min="1" name="quantity" value="1" class="col-sm-5">
                             </td>
 
 

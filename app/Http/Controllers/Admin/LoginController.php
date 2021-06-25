@@ -56,6 +56,8 @@ class LoginController extends Controller
         $details = $request->only('email', 'password');
         $details['status'] = 1;
         if (auth()->guard('employee')->attempt($details)) {
+            $session = app()->get('session');
+            $session->forget('shop_type');
             return $this->sendLoginResponse($request);
         }
 

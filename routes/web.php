@@ -42,6 +42,10 @@ Route::group(
                         'config.open'
                     );
 
+                    Route::post('/open-site-rio', 'DashboardController@openRio')->name(
+                        'config.open-rio'
+                    );
+
                     Route::group(['prefix' => 'config'], function () {
                         Route::get('/', 'DashboardController@showConfig')->name(
                             'config.show'
@@ -355,7 +359,7 @@ Route::group(
 );
 
 /**
- * Frontend routes
+ * Front end routes
  */
 Auth::routes();
 Route::namespace('Auth')->group(function () {
@@ -367,9 +371,34 @@ Route::namespace('Auth')->group(function () {
 });
 
 Route::namespace('Front')->group(function () {
-    Route::get('/', 'HomeController@index')->name('home');
-    Route::get('/products', 'ProductController@listProducts')->name(
-        'product.list'
+    /**
+     * Início do Front
+     */
+
+    /**
+     * Cestas - AAT - RJ
+     */
+
+    Route::get('selecione','HomeController@select')->name('home.selections');
+    Route::post('selecione','HomeController@selectCity')->name('home.type');
+
+    Route::group(['middleware'=>['shop.type:tere']], function(){
+        //dump( Route::group(['middleware'=>['shop.type:tere']]));
+        Route::get('/', 'HomeController@index')->name('home');
+        Route::get('/products', 'ProductController@listProducts')->name(
+            'product.list');
+        Route::get('category/{slug}', 'CategoryController@getCategory')->name(
+            'front.category.slug');
+        Route::get('producer/{slug}', 'ProducerController@getProducer')->name(
+            'front.producer.slug');
+    });
+
+    Route::group(['middleware'=>['shop.type:rio']],function (){
+        Route::get('cestas-rj','HomeController@basketRio')->name('home.rio');
+    });
+    Route::resource('cart', 'CartController');
+    Route::post('/add-to-cart', 'CartController@addToCartAjax')->name(
+        'front.add.cart'
     );
     Route::group(['middleware' => ['auth', 'web']], function () {
         Route::namespace('Payments')->group(function () {
@@ -434,18 +463,14 @@ Route::namespace('Front')->group(function () {
         )->name('checkout.coupon.validate');
         Route::resource('customer.address', 'CustomerAddressController');
     });
-    Route::resource('cart', 'CartController');
-    Route::post('/add-to-cart', 'CartController@addToCartAjax')->name(
-        'front.add.cart'
-    );
-    Route::get('category/{slug}', 'CategoryController@getCategory')->name(
-        'front.category.slug'
-    );
-    Route::get('producer/{slug}', 'ProducerController@getProducer')->name(
-        'front.producer.slug'
-    );
     Route::get('search', 'ProductController@search')->name('search.product');
+
+
     Route::get('{product}', 'ProductController@show')->name(
         'front.get.product'
     );
+
+    /**
+     * Fim do Front
+     */
 });

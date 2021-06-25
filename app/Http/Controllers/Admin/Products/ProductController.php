@@ -23,6 +23,7 @@ use App\Shop\Products\Requests\CreateProductRequest;
 use App\Shop\Products\Requests\UpdateProductRequest;
 use App\Http\Controllers\Controller;
 use App\Shop\Products\Transformations\ProductTransformable;
+use App\Shop\ShopLocalizations\Repositories\ShopLocalizationRepository;
 use App\Shop\Tools\UploadableTrait;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
@@ -141,7 +142,11 @@ class ProductController extends Controller
         $nextSKU = $this->productRepo->countProducts() + 1;
         $percentages = $this->percentageRepo->listPercentages('id');
 
+        $products = $this->productRepo->listProducts('name','asc');
+
         $producers = $this->producerRepo->listProducers('name', 'asc');
+
+        $shopLocalizations = app(ShopLocalizationRepository::class)->listShopLocalizations('id','asc');
 
         return view('admin.products.create', [
             'categories' => $categories,
@@ -152,6 +157,8 @@ class ProductController extends Controller
             'nextSKU' => $nextSKU,
             'percentages' => $percentages,
             'producers' => $producers,
+            'shopLocalizations' => $shopLocalizations,
+            'products' => $products,
         ]);
     }
 
@@ -256,6 +263,8 @@ class ProductController extends Controller
         $producers = $this->producerRepo->listProducers('name', 'asc');
         $percentages = $this->percentageRepo->listPercentages('id');
 
+        $shopLocalizations = app(ShopLocalizationRepository::class)->listShopLocalizations();
+
         return view('admin.products.edit', [
             'product' => $product,
             'images' => $product->images()->get(['src']),
@@ -277,6 +286,7 @@ class ProductController extends Controller
                 ->producers()
                 ->pluck('producer_id')
                 ->all(),
+            'shopLocalizations' => $shopLocalizations,
         ]);
     }
 

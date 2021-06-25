@@ -8,6 +8,7 @@ return [
     'account_name' => env('BANK_TRANSFER_ACCOUNT_NAME', 'John Doe'),
     'account_number' => env('BANK_TRANSFER_ACCOUNT_NUMBER', '99999-999-99999'),
     'bank_swift_code' => env('BANK_TRANSFER_SWIFT_CODE', 'ABC-123'),
-    'note' => env('BANK_TRANSFER_SWIFT_NOTE', 'Choosing this option may delay the shipment of the item.')
+    'note' => env('BANK_TRANSFER_SWIFT_NOTE', 'Choosing this option may delay the shipment of the item.'),
+    'shop_localization_id' => [1,2]
 ];
 

@@ -132,16 +132,25 @@
                 data: $(idf).serialize(),
                 success: function (data) {
                     // console.log(data.message);
-                    // alert(data); // show response from the php script.
+                    //  alert(data); // show response from the php script.
                     swal({
                         text: data.message,
                         icon: data.status
                     });
 
+
                     var cartNumber = parseInt($("#cartNumber").text()) +1;
                     console.log('Carrinho: ' +  cartNumber);
                     $("#cartNumber").text(cartNumber);
 
+                },
+                error: function(jqXhr, json, errorThrown, data){
+                    var error = jqXhr.responseJSON.errors['product'];
+                    console.log();
+                  swal({
+                      text:error[0],
+                      icon: 'error'
+                        });
                 }
             });
 

@@ -27,7 +27,7 @@ trait OrderTransformable
     protected function transformOrder(Order $order) : Order
     {
         $courierRepo = new CourierRepository(new Courier());
-        $order->courier = $courierRepo->findCourierById($order->courier_id);
+        $order->courier = $courierRepo->findCourierById($order->courier_id,false);
 
         $customerRepo = new CustomerRepository(new Customer());
         $order->customer = $customerRepo->findCustomerById($order->customer_id);

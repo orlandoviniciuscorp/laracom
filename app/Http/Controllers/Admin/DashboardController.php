@@ -59,12 +59,22 @@ class DashboardController extends Controller
             ->with('totalOrders', $totalOrders)
             ->with('amount', $amount)
             ->with('config', $this->getConfig())
+            ->with('configRio', $this->getConfigRio())
             ->withErrors($this->checkPendency($fair));
     }
 
     public function open(Request $request)
     {
         $config = $this->getConfig();
+        $config->is_open = $request->input('is_open');
+        $this->configRepo->updateConfig($config);
+
+        return redirect()->route('admin.dashboard');
+    }
+
+    public function openRio(Request $request)
+    {
+        $config = $this->getConfigRio();
         $config->is_open = $request->input('is_open');
         $this->configRepo->updateConfig($config);
 

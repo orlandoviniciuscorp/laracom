@@ -10,6 +10,8 @@
 
 @section('content')
     <!-- Hero Section Begin -->
+
+{{--    {{dd($config)}}--}}
     @if($config->is_open == 1)
         <div class="container">
             <div class="row">

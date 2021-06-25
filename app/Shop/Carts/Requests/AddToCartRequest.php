@@ -14,8 +14,13 @@ class AddToCartRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'product' => ['required', 'integer'],
+            'product' => ['required', 'integer','soldout'],
             'quantity' => ['required', 'integer']
         ];
+    }
+
+    public function messages()
+    {
+        return ['product.soldout'=>'Infelizmente o produto esgotou'];
     }
 }

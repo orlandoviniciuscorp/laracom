@@ -389,7 +389,9 @@ class ProductRepository extends BaseRepository implements
 
     public function emptyAvailability()
     {
-        $list = $this->listProducts('id');
+        $list = $this->listProducts('id')->where('shop_id','=',1);
+
+
         $products = $list
             ->map(function (Product $item) {
                 return $this->transformProduct($item);
