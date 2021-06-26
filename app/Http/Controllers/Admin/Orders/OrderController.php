@@ -172,58 +172,8 @@ class OrderController extends Controller
 
     public function updateProducts(Request $request, $orderId)
     {
-        $order = $this->orderRepo->findOrderById($orderId);
 
-        $roles = auth()
-            ->guard('employee')
-            ->user()
-            ->roles()
-            ->first();
-        if ($roles->name != 'superadmin') {
-            //$request->session()->flash('message', $this->getSucessMesseger());
-            return redirect()
-                ->route('admin.orders.edit', $order->id)
-                ->withErrors('Somente Administradores podem Alterar pedidos');
-        }
-
-        $product = $this->productRepo->find(
-            $request->get('product_id')
-        );
-        $qtd = $request->get('quantity');
-        $newProduct = true;
-
-        foreach ($order->products()->get() as $item) {
-            if ($product->id == $item->id) {
-
-
-                $order
-                    ->products()
-                    ->updateExistingPivot($item, ['quantity' => $qtd + $item->pivot->quantity], false);
-
-                $newProduct = false;
-            }
-        }
-
-        if ($newProduct) {
-            $order->products()->attach($product, [
-                'quantity' => $qtd,
-                'product_name' => $product->name,
-                'product_sku' => $product->sku,
-                'product_description' => $product->description,
-                'product_price' => $product->price,
-                'product_attribute_id' => null,
-            ]);
-
-        }
-        $product = $this->productRepo->findProductById($request->get('product_id'));
-//        dump($product->quantity);
-        $product->quantity = $product->quantity - $qtd;
-//        dd($product->quantity);
-        $productR = new ProductRepository($product);
-        $productR->updateProduct($product->toArray());
-//        $this->productRepo->updateProduct($product->toArray());
-
-        $this->refreshTotal($order);
+        $order = $this->orderRepo->updateProducts($request,$orderId);
 
         $request->session()->flash('message', $this->getSucessMesseger());
         return redirect()->route('admin.orders.edit', $order->id);
@@ -257,7 +207,7 @@ class OrderController extends Controller
 
         $order->products()->detach($request->get('selected_ids'));
 
-        $this->refreshTotal($order);
+        $this->orderRepo->refreshTotal($order);
 
         $request->session()->flash('message', $this->getSucessMesseger());
         return redirect()->route('admin.orders.edit', $order->id);
@@ -366,17 +316,5 @@ class OrderController extends Controller
         return redirect()->route('admin.fair.orders-list', $order->fair_id);
     }
 
-    private function refreshTotal(Order $order)
-    {
-        $total = 0.0;
-        foreach ($order->products()->get() as $item) {
-            $total += $item->pivot->quantity * $item->pivot->product_price;
-        }
-        $order->total_products = $total;
-        $order->total = $order->total_products + $order->total_shipping;
-        $order->save();
-        //        dd($total);
 
-        $this->fairFinancialRepo->refreshFairFinancial($order->fair_id);
-    }
 }

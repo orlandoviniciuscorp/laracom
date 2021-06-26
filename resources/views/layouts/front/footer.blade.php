@@ -97,12 +97,15 @@
 <!-- Js Plugins -->
 <script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
 <script src="{{asset('js/bootstrap.min.js')}}"></script>
-<script src="{{asset('js/jquery.nice-select.min.js')}}"></script>
+{{--<script src="{{asset('js/jquery.nice-select.min.js')}}"></script>--}}
 <script src="{{asset('js/jquery-ui.min.js')}}"></script>
 <script src="{{asset('js/jquery.slicknav.js')}}"></script>
 <script src="{{asset('js/mixitup.min.js')}}"></script>
 <script src="{{asset('js/owl.carousel.min.js')}}"></script>
 <script src="{{asset('js/main.js')}}"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 
 
 <script type="text/javascript">
@@ -129,16 +132,25 @@
                 data: $(idf).serialize(),
                 success: function (data) {
                     // console.log(data.message);
-                    // alert(data); // show response from the php script.
+                    //  alert(data); // show response from the php script.
                     swal({
                         text: data.message,
                         icon: data.status
                     });
 
+
                     var cartNumber = parseInt($("#cartNumber").text()) +1;
                     console.log('Carrinho: ' +  cartNumber);
                     $("#cartNumber").text(cartNumber);
 
+                },
+                error: function(jqXhr, json, errorThrown, data){
+                    var error = jqXhr.responseJSON.errors['product'];
+                    console.log();
+                  swal({
+                      text:error[0],
+                      icon: 'error'
+                        });
                 }
             });
 

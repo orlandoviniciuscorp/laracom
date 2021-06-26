@@ -126,7 +126,7 @@
                         </div>
                         <div class="col-lg-4 col-md-4">
                                 <div class="filter__found">
-                                        <h6><span>{{$products->total()}}</span> Produtos Encontrados</h6>
+{{--                                        <h6><span>{{$products->total()}}</span> Produtos Encontrados</h6>--}}
                                 </div>
                         </div>
                 </div>

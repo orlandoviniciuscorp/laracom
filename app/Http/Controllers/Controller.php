@@ -33,7 +33,18 @@ class Controller extends BaseController
 
     public function getConfig()
     {
-        return $this->configRepo->getConfig();
+//        dd(current_shop());
+        if(current_shop() == 2 && !auth()->guard('employee')->check()) {
+//            dd('aaaaaaaaaaaaaa');
+            return $this->configRepo->getConfigRio();
+        }else{
+            return $this->configRepo->getConfig();
+        }
+    }
+
+    public function getConfigRio()
+    {
+        return $this->configRepo->getConfigRio();
     }
 
     public function getCategoryOrder(){

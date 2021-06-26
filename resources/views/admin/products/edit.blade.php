@@ -275,6 +275,30 @@
                                                 @include('admin.shared.status-select', ['status' => $product->status])
                                             </div>
                                             {{--@include('admin.shared.attribute-select', [compact('default_weight')])--}}
+                                            @if(auth()->guard('employee')->user()->hasRole('superadmin'))
+                                            <br />
+                                            <div class="form-group">
+                                                <label for="shop_id">Local de Venda </label>
+
+                                                <ul class="checkbox-list">
+                                                @foreach($shopLocalizations as $shopLocalization)
+
+                                                    <li>
+                                                        <div class="radio">
+                                                            <label>
+                                                                <input
+                                                                        type="radio"
+                                                                        @if($shopLocalization->id == $product->shop_id)) checked @endif
+                                                                        name="shop_id"
+                                                                        value="{{ $shopLocalization->id }}">
+                                                                {{ $shopLocalization->name }}
+                                                            </label>
+                                                        </div>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                            </div>
+                                            @endif
                                             <!-- /.box-body -->
                                         </div>
                                         <div class="col-md-4">

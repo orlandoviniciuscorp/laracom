@@ -7,6 +7,7 @@ use App\Shop\Categories\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Shop\Categories\Requests\CreateCategoryRequest;
 use App\Shop\Categories\Requests\UpdateCategoryRequest;
 use App\Http\Controllers\Controller;
+use App\Shop\ShopLocalizations\Repositories\ShopLocalizationRepository;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -47,8 +48,11 @@ class CategoryController extends Controller
      */
     public function create()
     {
+        $shopLocalizations = app(ShopLocalizationRepository::class)->listShopLocalizations('id','asc');
+
         return view('admin.categories.create', [
-            'categories' => $this->categoryRepo->listCategories('name', 'asc')
+            'categories' => $this->categoryRepo->listCategories('name', 'asc'),
+            'shopLocalizations' => $shopLocalizations,
         ]);
     }
 
@@ -60,7 +64,15 @@ class CategoryController extends Controller
      */
     public function store(CreateCategoryRequest $request)
     {
-        $this->categoryRepo->createCategory($request->except('_token', '_method'));
+        $category =$this->categoryRepo->createCategory($request->except('_token', '_method'));
+
+
+        if($request->has('shop_id')) {
+            $category->shopLocalizations()->sync($request->get('shop_id'));
+        }
+
+
+
 
         return redirect()->route('admin.categories.index')->with('message', 'Category created');
     }
@@ -92,9 +104,20 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
+        $category = $this->categoryRepo->findCategoryById($id);
+//        dd($category
+//            ->shopLocalizations()
+//            ->pluck('shop_localization_id')
+//            ->all());
+        $shopLocalizations = app(ShopLocalizationRepository::class)->listShopLocalizations('id','asc');
         return view('admin.categories.edit', [
             'categories' => $this->categoryRepo->listCategories('name', 'asc', $id),
-            'category' => $this->categoryRepo->findCategoryById($id)
+            'category' => $category,
+            'shopLocalizations' => $shopLocalizations,
+            'selectedIds'=>$category
+                ->shopLocalizations()
+                ->pluck('shop_localization_id')
+                ->all(),
         ]);
     }
 
@@ -111,6 +134,9 @@ class CategoryController extends Controller
 
         $update = new CategoryRepository($category);
         $update->updateCategory($request->except('_token', '_method'));
+        if($request->has('shop_id')){
+            $category->shopLocalizations()->sync($request->get('shop_id'));
+        }
 
         $request->session()->flash('message', 'Update successful');
         return redirect()->route('admin.categories.edit', $id);
@@ -126,7 +152,9 @@ class CategoryController extends Controller
     {
         $category = $this->categoryRepo->findCategoryById($id);
         $category->products()->sync([]);
+        $category->shopLocalizations()->sync([]);
         $category->delete();
+
 
         request()->session()->flash('message', 'Delete successful');
         return redirect()->route('admin.categories.index');

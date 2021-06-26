@@ -90,3 +90,9 @@ if (!function_exists('validate_breadcumb')) {
 function currency_format($value){
      return env('CURRENCY_SYMBOL').' '.number_format ($value,2,',','.');
 }
+
+function current_shop(){
+    $session = app()->get('session');
+
+    return $session->get('shop_type');
+}

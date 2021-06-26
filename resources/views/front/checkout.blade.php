@@ -91,7 +91,6 @@
                                     </table>
                                 </div>
                             </div>
-
                         @endif
                             <div class="row">
                                 <div class="col-md-12">
@@ -223,6 +222,7 @@
                                         </thead>
                                         <tbody>
                                         @foreach($payments as $payment)
+                                            @if(in_array(current_shop(),$payment['shop_localization_id']))
                                            <tr>
                                                <td>
                                                    <label class="radio">
@@ -256,6 +256,7 @@
                                                </td>
 
                                            </tr>
+                                           @endif
                                         @endforeach
                                         </tbody>
                                     </table>

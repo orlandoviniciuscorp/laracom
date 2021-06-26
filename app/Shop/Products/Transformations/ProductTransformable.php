@@ -33,6 +33,8 @@ trait ProductTransformable
         $prod->percentage_id = (int)$product->percentage_id;
         $prod->producer_id = (int)$product->producer_id;
         $prod->is_in_promotion = $product->is_in_promotion;
+        $prod->is_basket = $product->is_basket;
+        $prod->shop_id = $product->shop_id;
 
         return $prod;
     }

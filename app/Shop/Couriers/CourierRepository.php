@@ -64,10 +64,15 @@ class CourierRepository extends BaseRepository implements CourierRepositoryInter
      * @return Courier
      * @throws CourierNotFoundException
      */
-    public function findCourierById(int $id) : Courier
+    public function findCourierById(int $id, $withGlobalScope = true) : Courier
     {
+
         try {
-            return $this->findOneOrFail($id);
+            if($withGlobalScope) {
+                return $this->findOneOrFail($id);
+            }else{
+                return $this->model->withoutGlobalScopes()->find($id);
+            }
         } catch (ModelNotFoundException $e) {
             throw new CourierNotFoundException('Courier not found.');
         }

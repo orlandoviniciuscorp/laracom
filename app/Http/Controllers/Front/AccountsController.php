@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Shop\Configurations\Repositories\ConfigurationRepository;
 use App\Shop\Couriers\Repositories\Interfaces\CourierRepositoryInterface;
 use App\Shop\Customers\Repositories\CustomerRepository;
 use App\Shop\Customers\Repositories\Interfaces\CustomerRepositoryInterface;
@@ -40,12 +41,14 @@ class AccountsController extends Controller
         CourierRepositoryInterface $courierRepository,
         CustomerRepositoryInterface $customerRepository,
         ProductRepositoryInterface $productRepository,
-        OrderRepository $orderRepository
+        OrderRepository $orderRepository,
+        ConfigurationRepository $configurationRepository
     ) {
         $this->customerRepo = $customerRepository;
         $this->courierRepo = $courierRepository;
         $this->orderRepo = $orderRepository;
         $this->productRepo = $productRepository;
+        $this->configRepo = $configurationRepository;
     }
 
     public function index()
@@ -87,7 +90,8 @@ class AccountsController extends Controller
                 $orders->toArray(),
                 15
             ),
-        'products'=>$products]);
+        'products'=>$products,
+        'config'=>$this->getConfig()]);
     }
 
     public function addresses()
@@ -122,6 +126,15 @@ class AccountsController extends Controller
 
         return redirect()->route('orders')->with('message', 'Agradecemos pelo(s) comentário(s)! Obrigado por ajudar a cesta a melhorar!');
 
+    }
+
+    public function updateProducts(Request $request, $orderId)
+    {
+        $this->orderRepo->updateProducts($request,$orderId);
+
+
+        $request->session()->flash('message', $this->getSucessMesseger());
+        return redirect()->route('orders');
     }
 
 }

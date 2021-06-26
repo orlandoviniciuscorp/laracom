@@ -7,7 +7,12 @@ use App\Shop\Carts\Repositories\CartRepository;
 use App\Shop\Carts\ShoppingCart;
 use App\Shop\Configurations\Configuration;
 use App\Shop\Configurations\Repositories\ConfigurationRepository;
+use App\Shop\FairFinancials\FairFinancial;
+use App\Shop\FairFinancials\Repositories\FairFinancialRepository;
+use App\Shop\Fairs\Fair;
+use App\Shop\Fairs\Repositories\FairRepository;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Http\Request;
 use Jsdecena\Baserepo\BaseRepository;
 use App\Shop\Employees\Employee;
 use App\Shop\Employees\Repositories\EmployeeRepository;
@@ -332,4 +337,66 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
         $order->order_status_id = env('ORDER_CANCELED');
         return $order->save();
     }
+
+    public function updateProducts(Request $request, $orderId)
+    {
+        $order = $this->findOrderById($orderId);
+
+        $productRepo = new ProductRepository(new Product());
+
+        $product = $productRepo->find(
+            $request->get('product_id')
+        );
+        $qtd = $request->get('quantity');
+        $newProduct = true;
+
+        foreach ($order->products()->get() as $item) {
+            if ($product->id == $item->id) {
+
+
+                $order
+                    ->products()
+                    ->updateExistingPivot($item, ['quantity' => $qtd + $item->pivot->quantity], false);
+
+                $newProduct = false;
+            }
+        }
+
+        if ($newProduct) {
+            $order->products()->attach($product, [
+                'quantity' => $qtd,
+                'product_name' => $product->name,
+                'product_sku' => $product->sku,
+                'product_description' => $product->description,
+                'product_price' => $product->price,
+                'product_attribute_id' => null,
+            ]);
+
+        }
+
+        $product = $productRepo->findProductById($request->get('product_id'));
+//        dump($product->quantity);
+        $product->quantity = $product->quantity - $qtd;
+//        dd($product->quantity);
+        $productR = new ProductRepository($product);
+        $productR->updateProduct($product->toArray());
+//        $productRepo->updateProduct($product->toArray());
+
+        $this->refreshTotal($order);
+    }
+
+    public function refreshTotal(Order $order)
+    {
+        $fairRepo = new FairFinancialRepository(new FairFinancial());
+        $total = 0.0;
+        foreach ($order->products()->get() as $item) {
+            $total += $item->pivot->quantity * $item->pivot->product_price;
+        }
+        $order->total_products = $total;
+        $order->total = $order->total_products + $order->total_shipping;
+        $order->save();
+        //        dd($total);
+        $fairRepo->refreshFairFinancial($order->fair_id);
+    }
+
 }
