@@ -43,6 +43,30 @@
                             <option value="1" @if($category->status == 1) selected="selected" @endif>Enable</option>
                         </select>
                     </div>
+
+                    @if(auth()->guard('employee')->user()->hasRole('superadmin'))
+                        <div class="form-group">
+                            <label for="shop_id">Local de Exibição </label>
+
+                            <ul class="checkbox-list">
+                                @foreach($shopLocalizations as $shopLocalization)
+
+                                    <li>
+                                        <div class="radio">
+                                            <label>
+                                                <input
+                                                        type="checkbox"
+                                                        @if(isset($selectedIds) && in_array($shopLocalization->id, $selectedIds))checked="checked" @endif
+                                                        name="shop_id[]"
+                                                        value="{{ $shopLocalization->id }}">
+                                                {{ $shopLocalization->name }}
+                                            </label>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer">

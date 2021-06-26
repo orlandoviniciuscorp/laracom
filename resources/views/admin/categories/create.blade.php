@@ -32,10 +32,37 @@
                     <div class="form-group">
                         <label for="status">Status </label>
                         <select name="status" id="status" class="form-control">
-                            <option value="0">Disable</option>
-                            <option value="1">Enable</option>
+                            <option value="0">Desabilitado</option>
+                            <option value="1">Habilitado</option>
                         </select>
                     </div>
+
+                    @if(auth()->guard('employee')->user()->hasRole('superadmin'))
+                        <div class="form-group">
+                            <label for="shop_id">Local de Exibição </label>
+
+                            <ul class="checkbox-list">
+                                @foreach($shopLocalizations as $shopLocalization)
+
+                                    <li>
+                                        <div class="radio">
+                                            <label>
+                                                <input
+                                                        type="checkbox"
+                                                        {{--                                                        @if($shopLocalization->id == $product->shop_id)) checked @endif--}}
+                                                        name="shop_id[]"
+                                                        value="{{ $shopLocalization->id }}">
+                                                {{ $shopLocalization->name }}
+                                            </label>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @else
+                        <input type="hidden" name="shop_id" value="{{$shopLocalizations->first()->id}}" />
+                    @endif
+
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer">

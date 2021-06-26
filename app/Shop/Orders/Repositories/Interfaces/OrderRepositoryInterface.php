@@ -34,4 +34,6 @@ interface OrderRepositoryInterface extends BaseRepositoryInterface
     public function findByFairId($fair_id);
 
     public function markAsPayed($id,$orderStatus);
+
+    public function updateProducts(\Illuminate\Http\Request $request, $orderId);
 }

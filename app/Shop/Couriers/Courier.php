@@ -2,6 +2,7 @@
 
 namespace App\Shop\Couriers;
 
+use App\Scope\ShopLocalizationScope;
 use App\Shop\Orders\Order;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,6 +21,7 @@ class Courier extends Model
         'cost',
         'status',
         'slug',
+        'shop_id',
     ];
 
     /**
@@ -32,5 +34,13 @@ class Courier extends Model
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new ShopLocalizationScope());
+
     }
 }

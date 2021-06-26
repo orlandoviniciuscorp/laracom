@@ -46,6 +46,11 @@ class ConfigurationRepository extends BaseRepository
         return $this->model->first();
 
     }
+
+    public function getConfigRio()
+    {
+        return $this->model->where('id','=',2)->first();
+    }
    
 
     

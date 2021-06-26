@@ -44,6 +44,29 @@
                             <option value="1">Enable</option>
                         </select>
                     </div>
+
+                    <br />
+                    <div class="form-group">
+                        <label for="shop_id">Local de Venda </label>
+
+                        <ul class="checkbox-list">
+                            @foreach($shopLocalizations as $shopLocalization)
+
+                                <li>
+                                    <div class="radio">
+                                        <label>
+                                            <input
+                                                    type="radio"
+                                                    name="shop_id"
+                                                    value="{{ $shopLocalization->id }}">
+                                            {{ $shopLocalization->name }}
+                                        </label>
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer">

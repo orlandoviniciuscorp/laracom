@@ -2,6 +2,7 @@
 
 namespace App\Shop\Products;
 
+use App\Scope\ShopLocalizationScope;
 use App\Shop\Brands\Brand;
 use App\Shop\Categories\Category;
 use App\Shop\Producers\Producer;
@@ -70,7 +71,9 @@ class Product extends Model implements Buyable
         'distance_unit',
         'slug',
         'percentage_id',
-        'is_in_promotion'
+        'is_in_promotion',
+        'is_basket',
+        'shop_id',
     ];
 
     protected $with = ['percentage'];
@@ -164,5 +167,12 @@ class Product extends Model implements Buyable
     public function brand()
     {
         return $this->belongsTo(Brand::class);
+    }
+
+
+    public static function boot(){
+        parent::boot();
+
+        static::addGlobalScope(new ShopLocalizationScope());
     }
 }

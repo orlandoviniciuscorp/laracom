@@ -23,6 +23,7 @@ use App\Shop\PaymentMethods\Paypal\Repositories\PayPalExpressCheckoutRepository;
 use App\Shop\PaymentMethods\Stripe\Exceptions\StripeChargingErrorException;
 use App\Shop\PaymentMethods\Stripe\StripeRepository;
 use App\Shop\Products\Repositories\Interfaces\ProductRepositoryInterface;
+use App\Shop\Products\Repositories\ProductRepository;
 use App\Shop\Products\Transformations\ProductTransformable;
 use App\Shop\Shipping\ShippingInterface;
 use Carbon\Carbon;
@@ -337,7 +338,7 @@ class CheckoutController extends Controller
         $carItens = $this->cartRepo->getCartItemsTransformed();
         $hasBag = false;
         foreach($carItens as $carItem){
-            if($carItem->name == 'Sacola Retornável'){
+            if($carItem->name == 'Sacola Retornável' || $carItem->name == 'Sacola Retornável (Rio)'){
                 $hasBag = true;
 
             }
@@ -345,11 +346,15 @@ class CheckoutController extends Controller
 
         if ((!is_null(auth()->user())) && auth()->user()->countBought() < 1 && !$hasBag) {
 
-            $product = $this->productRepo->findByProductName('Sacola Retornável');
-            $options = [];
+            if(current_shop() == 1) {
+                $product = $this->productRepo->findByProductName('Sacola Retornável');
+                $options = [];
+            }else{
+                $product = $this->productRepo->findByProductName('Sacola Retornável (Rio)');
+                $options = [];
+            }
             $this->cartRepo->addToCart($product,1,$options);
         }
-
 
     }
 

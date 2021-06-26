@@ -2,7 +2,11 @@
 
 namespace App\Shop\Categories;
 
+
+use App\Scope\CategoryShopLocalizationScope;
+use App\Shop\CategoryShopLocalizations\CategoryShopLocalization;
 use App\Shop\Products\Product;
+use App\Shop\ShopLocalizations\ShopLocalization;
 use Kalnoy\Nestedset\NodeTrait;
 use Illuminate\Database\Eloquent\Model;
 
@@ -35,5 +39,16 @@ class Category extends Model
     public function products()
     {
         return $this->belongsToMany(Product::class);
+    }
+
+    public function shopLocalizations()
+    {
+        return $this->belongsToMany(ShopLocalization::class);
+    }
+
+    public static function boot(){
+        parent::boot();
+
+        static::addGlobalScope(new CategoryShopLocalizationScope());
     }
 }

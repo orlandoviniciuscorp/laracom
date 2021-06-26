@@ -7,6 +7,7 @@ use App\Shop\Couriers\Repositories\Interfaces\CourierRepositoryInterface;
 use App\Shop\Couriers\Requests\CreateCourierRequest;
 use App\Shop\Couriers\Requests\UpdateCourierRequest;
 use App\Http\Controllers\Controller;
+use App\Shop\ShopLocalizations\Repositories\ShopLocalizationRepository;
 
 class CourierController extends Controller
 {
@@ -41,7 +42,11 @@ class CourierController extends Controller
      */
     public function create()
     {
-        return view('admin.couriers.create');
+        $shopLocalizations = app(ShopLocalizationRepository::class)->listShopLocalizations();
+
+        return view('admin.couriers.create')->with([
+            'shopLocalizations' => $shopLocalizations,
+        ]);
     }
 
     /**
@@ -66,7 +71,11 @@ class CourierController extends Controller
      */
     public function edit(int $id)
     {
-        return view('admin.couriers.edit', ['courier' => $this->courierRepo->findCourierById($id)]);
+        $shopLocalizations = app(ShopLocalizationRepository::class)->listShopLocalizations();
+
+        return view('admin.couriers.edit', ['courier' => $this->courierRepo->findCourierById($id),
+                'shopLocalizations' => $shopLocalizations,
+            ]);
     }
 
     /**
