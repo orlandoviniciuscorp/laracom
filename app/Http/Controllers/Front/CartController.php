@@ -203,10 +203,15 @@ class CartController extends Controller
 
     public function neededBag()
     {
+
+        if(current_shop() == 2){
+            return;
+        }
+
         $carItens = $this->cartRepo->getCartItemsTransformed();
         $hasBag = false;
         foreach($carItens as $carItem){
-            if($carItem->name == 'Sacola Retornável' || $carItem->name == 'Sacola Retornável (Rio)'){
+            if($carItem->name == 'Sacola Retornável'){
                 $hasBag = true;
 
             }
@@ -214,13 +219,10 @@ class CartController extends Controller
 
         if ((!is_null(auth()->user())) && auth()->user()->countBought() < 1 && !$hasBag) {
 
-            if(current_shop() == 1) {
-                $product = $this->productRepo->findByProductName('Sacola Retornável');
-                $options = [];
-            }else{
-                $product = $this->productRepo->findByProductName('Sacola Retornável (Rio)');
-                $options = [];
-            }
+
+            $product = $this->productRepo->findByProductName('Sacola Retornável');
+            $options = [];
+
             $this->cartRepo->addToCart($product,1,$options);
         }
 
