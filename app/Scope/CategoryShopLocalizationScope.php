@@ -23,7 +23,9 @@ class CategoryShopLocalizationScope implements Scope
 //            dd(current_shop());
             $builder->join('category_shop_localization',
                 'category_shop_localization.category_id','=','categories.id')
-            ->where('category_shop_localization.shop_localization_id','=',current_shop());
+            ->where('category_shop_localization.shop_localization_id','=',current_shop())
+            ->select('categories.*');
+
         }
 
 
