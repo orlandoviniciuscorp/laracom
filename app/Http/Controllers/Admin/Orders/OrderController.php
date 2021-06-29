@@ -176,7 +176,7 @@ class OrderController extends Controller
         $order = $this->orderRepo->updateProducts($request,$orderId);
 
         $request->session()->flash('message', $this->getSucessMesseger());
-        return redirect()->route('admin.orders.edit', $order->id);
+        return redirect()->route('admin.orders.edit', $orderId);
     }
 
     public function removeProducts(Request $request, $orderId)
