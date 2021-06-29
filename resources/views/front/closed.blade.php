@@ -10,7 +10,15 @@
         <h3>
             Receba as atualizações pelo Whatsapp.
             <br ><br >
-            <button onclick="location.href='{{env('GROUP_LINK')}}'" type="button" class="btn-success">
+            <button
+                    @if(current_shop()==1)
+                        onclick="location.href='{{env('WHATSAPP_GROUP')}}'"
+                    @else
+                        onclick="location.href='{{env('GROUP_RIO_LINK')}}'"
+                    @endif
+                    type="button" class="btn-success">
+
+
                 <i class="fa fa-whatsapp" aria-hidden="true"></i>
                 Participar</button>
         </h3>
