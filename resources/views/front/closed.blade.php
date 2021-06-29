@@ -18,7 +18,11 @@
 
     <div class="row justify-content-center">
         <h3>
-            Pedidos de 3a das 17hs até 5a feira às 18hs. Entrega aos sábados.
+            @if(current_shop() == 1)
+                Pedidos de 3a das 17hs até 5a feira às 18hs. Entrega aos sábados.
+            @else
+                Abertura para pedidos: 8/7. Próxima previsão de entrega: 14/7.
+            @endif
         </h3>
     </div>
     <div class="row justify-content-center">
