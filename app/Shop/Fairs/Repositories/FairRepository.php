@@ -79,9 +79,9 @@ class FairRepository extends BaseRepository
         }
     }
 
-    public function findLastFair()
+    public function findLastFair($shop_id = 1)
     {
-        return $this->model->where('status', '=', 1)->max('id');
+        return $this->model->where('status', '=', 1)->where('shop_id','=',$shop_id)->max('id');
     }
 
     /**

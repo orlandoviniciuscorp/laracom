@@ -453,9 +453,10 @@ class ProductController extends Controller
         return redirect()->route('admin.products.edit', $product_id);
     }
 
-    public function emptyAvailability()
+    public function emptyAvailability(Request $request)
     {
-        $this->productRepo->emptyAvailability();
+
+        $this->productRepo->emptyAvailability($request->get('shop_id'));
         request()
             ->session()
             ->flash('message', $this->getSucessMesseger());
@@ -464,10 +465,11 @@ class ProductController extends Controller
 
     public function disableEmptyProducts(Request $request)
     {
+        $shop_id = $request->get('shop_id');
         $products = $this->getAllProducts();
 
         foreach ($products as $product) {
-            if ($product->quantity == 0) {
+            if ($product->shop_id == $shop_id && $product->quantity == 0) {
                 $p = $this->productRepo->find($product->id);
                 $p->status = 0;
                 $p->save();

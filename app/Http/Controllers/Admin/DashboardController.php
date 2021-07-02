@@ -25,7 +25,9 @@ class DashboardController extends Controller
     {
         $fairRepo = new FairRepository(new Fair());
 
-        $fair = $fairRepo->find($fairRepo->findLastFair());
+        $fair = $fairRepo->find($fairRepo->findLastFair(1));
+
+        $fairRio = $fairRepo->find($fairRepo->findLastFair(2));
 
         $orderRepo = new OrderRepository(new Order());
 
@@ -36,6 +38,16 @@ class DashboardController extends Controller
             $totalOrders = $orderRepo->totalOrders($fair->id);
 
             $amount = $orderRepo->totalAmount($fair->id);
+        }
+
+
+        $totalOrdersRio = 0;
+        $amountRio = 0;
+
+        if (!is_null($fairRio)) {
+            $totalOrdersRio = $orderRepo->totalOrders($fairRio->id);
+
+            $amountRio = $orderRepo->totalAmount($fairRio->id);
         }
         $breadcumb = [
             [
@@ -56,8 +68,11 @@ class DashboardController extends Controller
 
         return view('admin.dashboard')
             ->with('fair', $fair)
+            ->with('fairRio', $fairRio)
             ->with('totalOrders', $totalOrders)
             ->with('amount', $amount)
+            ->with('totalOrdersRio', $totalOrdersRio)
+            ->with('amountRio', $amountRio)
             ->with('config', $this->getConfig())
             ->with('configRio', $this->getConfigRio())
             ->withErrors($this->checkPendency($fair));
