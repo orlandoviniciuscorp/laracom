@@ -27,6 +27,27 @@
                         </div>
                     </div>
                     @include('admin.shared.status-select', ['status' => $fair->status])
+                    <br /><br />
+                    <div class="form-group">
+                        <label for="shop_id">Local da Feira </label>
+                        <ul class="checkbox-list">
+                    @foreach($shopLocalizations as $shopLocalization)
+
+                        <li>
+                            <div class="radio">
+                                <label>
+                                    <input
+                                            type="radio"
+                                            @if($shopLocalization->id == $fair->shop_id)) checked @endif
+                                            name="shop_id"
+                                            value="{{ $shopLocalization->id }}">
+                                    {{ $shopLocalization->name }}
+                                </label>
+                            </div>
+                        </li>
+                    @endforeach
+                        </ul>
+                    </div>
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer">

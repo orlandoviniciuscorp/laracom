@@ -226,6 +226,8 @@ class CheckoutController extends Controller
         if($request->has('discount')){
             $discount =  $request->input('discount');
         }
+
+
 //
         $order = $checkoutRepo->buildCheckoutItems([
             'reference' => Uuid::uuid4()->toString(),
@@ -242,6 +244,7 @@ class CheckoutController extends Controller
             'tax' => $this->cartRepo->getTax(),
             'obs' =>$request->input('obs'),
             'coupon_id'=>$coupon_id,
+            'shop_id' => current_shop(),
         ]);
 
         Cart::destroy();
