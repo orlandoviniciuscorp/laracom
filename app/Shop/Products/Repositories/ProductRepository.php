@@ -387,9 +387,11 @@ class ProductRepository extends BaseRepository implements
         return Product::count();
     }
 
-    public function emptyAvailability()
+    public function emptyAvailability($shop_id = 1)
     {
-        $list = $this->listProducts('id')->where('shop_id','=',1);
+
+        $list = $this->listProducts('id')->where('status','=',1)
+            ->where('shop_id','=',$shop_id);
 
 
         $products = $list

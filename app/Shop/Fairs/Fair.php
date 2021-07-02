@@ -9,6 +9,7 @@ use App\Shop\FairFinancials\FairFinancial;
 use App\Shop\Orders\Order;
 use App\Shop\OrderStatuses\OrderStatus;
 use App\Shop\Products\Product;
+use App\Shop\ShopLocalizations\ShopLocalization;
 use Illuminate\Database\Eloquent\Model;
 use Nicolaslopezj\Searchable\SearchableTrait;
 
@@ -22,7 +23,7 @@ class Fair extends Model
      * @var array
      */
 
-    protected $fillable = ['name', 'start_at', 'end_at', 'status'];
+    protected $fillable = ['name', 'start_at', 'end_at', 'status','shop_id'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -45,5 +46,9 @@ class Fair extends Model
     {
         $dt = $this->end_at;
         return $dt->format('d/m/Y');
+    }
+
+    public function shopLocalization(){
+        return $this->belongsTo(ShopLocalization::class);
     }
 }

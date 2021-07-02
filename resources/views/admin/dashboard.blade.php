@@ -94,13 +94,14 @@
 
                         <div class="col col-md-4">
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item bg-info"><strong>Opções</strong></li>
+                                <li class="list-group-item bg-info"><strong>Opções - Teresópolis</strong></li>
 
 
                                 @if(auth()->guard('employee')->user()->hasRole('admin|superadmin'))
                                     <li class="list-group-item bg-info">
                                         <form action="{{route('admin.products.empty-availability')}}" method="post"  class="form-horizontal">
                                             {{ csrf_field() }}
+                                            <input type="hidden" name="shop_id" value="{{$fair->shop_id}}" />
                                             <button onclick="return confirm('Isso irá zerar de todos os produtores. Tem certeza?')" type="submit" class="btn btn-danger btn-sm">
                                                 <i class="fa fa-eraser" aria-hidden="true"></i> Zerar Disponibilidade
                                             </button>
@@ -110,6 +111,7 @@
                                     <li class="list-group-item bg-info">
                                         <form action="{{route('admin.products.disable-empty-products')}}" method="post"  class="form-horizontal">
                                             {{ csrf_field() }}
+                                            <input type="hidden" name="shop_id" value="{{$fair->shop_id}}" />
                                             <button onclick="return confirm('Isso irá desabilitar de todos os produtos zerados. Tem certeza?')"
                                                     type="submit" class="btn btn-danger btn-sm">
                                                 <i class="fa fa-eraser" aria-hidden="true"></i> Desabilitar Zerados
@@ -144,6 +146,116 @@
                                                 </button>
                                             </form>
                                             @endif
+                                    </li>
+                                @endif
+
+
+
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col col-md-6">
+                            <div class="card">
+                                @isset($fairRio)
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item bg-info"><strong>{{$fairRio->name}}</strong></li>
+                                        <li class="list-group-item">
+                                            @if( !$configRio->is_open)
+                                                <span class="label  label-danger">
+                                            Fechada
+                                        </span>
+                                            @else
+                                                <span class="label label-success">
+                                            Aberta
+                                        </span>
+                                            @endif
+                                        </li>
+                                        <li class="list-group-item">Inicio: {{$fairRio->start_at}}</li>
+                                        <li class="list-group-item">Fim: {{$fairRio->end_at}}</li>
+                                        <li class="list-group-item">Arrecadado: {{currency_format($amountRio)}}</li>
+                                        {{--<li class="list-group-item">Conferido: R$ {{$amount}}</li>--}}
+
+                                        <li class="list-group-item">Cestas: {{$totalOrdersRio}}</li>
+                                        <li class="list-group-item">
+                                            <a href="{{ route('admin.fair.orders-list', $fairRio->id) }}" class="btn btn-primary btn-sm">
+                                                <i class="fa fa-shopping-cart" aria-hidden="true"></i> Pedidos
+                                            </a>
+                                            <a href="{{ route('admin.fair.labels', $fairRio->id) }}" class="btn btn-primary btn-sm">
+                                                <i class="fa fa-tag" aria-hidden="true"></i> Etiquetas
+                                            </a>
+
+                                            <a href="{{ route('admin.fair.delivery', $fairRio->id) }}" class="btn btn-primary btn-sm">
+                                                <i class="fa fa-truck" aria-hidden="true"></i> Entregas
+                                            </a>
+
+                                            @if(auth()->guard('employee')->user()->hasRole('admin|superadmin'))
+                                                {{--                                            <a href="{{ route('admin.fair.harvest', $fairRio->id) }}" class="btn btn-success btn-sm">--}}
+                                                {{--                                                <i class="fa fa-leaf" aria-hidden="true"></i> Colheita--}}
+                                                {{--                                            </a>--}}
+
+                                                <a href="{{ route('admin.fair.producer-harvest', $fairRio->id) }}" class="btn btn-success btn-sm">
+                                                    <i class="fa fa-leaf" aria-hidden="true"></i> Colheita
+                                                </a>
+                                            @endif
+
+
+                                            <a href="{{ route('admin.fair.financial', $fairRio->id) }}" class="btn btn-success btn-sm">
+                                                <i class="fa fa-usd" aria-hidden="true"></i> Financeiro
+                                            </a>
+                                        </li>
+                                        @if(auth()->guard('employee')->user()->hasRole('superadmin'))
+                                            <li class="list-group-item">
+                                                <form action="{{route('admin.fair.mark-all-as-payed',$fairRio->id)}}" method="post"  class="form-horizontal">
+                                                    {{ csrf_field() }}
+                                                    <button onclick="return confirm('Todos os pagamentos dessa feirão ficarão como pagos. Tem certeza?')"
+                                                            type="submit" class="btn btn-danger btn-sm">
+                                                        <i class="fa fa-usd" aria-hidden="true"></i> Marcar todos Pagos
+                                                    </button>
+                                                </form>
+                                            </li>
+                                        @endif
+                                    </ul>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="col col-md-4">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item bg-info"><strong>Opções - Rio de Janeiro</strong></li>
+
+
+                                @if(auth()->guard('employee')->user()->hasRole('admin|superadmin'))
+                                    <li class="list-group-item bg-info">
+                                        <form action="{{route('admin.products.empty-availability')}}" method="post"  class="form-horizontal">
+                                            {{ csrf_field() }}
+                                            <input type="hidden" name="shop_id" value="{{$fairRio->shop_id}}" />
+                                            <button onclick="return confirm('Isso irá zerar de todos os produtores. Tem certeza?')" type="submit" class="btn btn-danger btn-sm">
+                                                <i class="fa fa-eraser" aria-hidden="true"></i> Zerar Disponibilidade
+                                            </button>
+                                        </form>
+                                    </li>
+
+                                    <li class="list-group-item bg-info">
+                                        <form action="{{route('admin.products.disable-empty-products')}}" method="post"  class="form-horizontal">
+                                            {{ csrf_field() }}
+                                            <input type="hidden" name="shop_id" value="{{$fairRio->shop_id}}" />
+                                            <button onclick="return confirm('Isso irá desabilitar de todos os produtos zerados. Tem certeza?')"
+                                                    type="submit" class="btn btn-danger btn-sm">
+                                                <i class="fa fa-eraser" aria-hidden="true"></i> Desabilitar Zerados
+                                            </button>
+                                        </form>
+                                    </li>
+
+                                    <li class="list-group-item bg-info">
+                                        <form action="{{route('admin.category.rotate-farmers')}}" method="post"  class="form-horizontal">
+                                            {{ csrf_field() }}
+                                            <button onclick="return confirm('Tem certeza?')" type="submit" class="btn btn-warning btn-sm">
+                                                <i class="fa fa-refresh" aria-hidden="true"></i> Rotacionar Produtores
+                                            </button>
+                                        </form>
                                     </li>
 
                                     <li class="list-group-item bg-info">

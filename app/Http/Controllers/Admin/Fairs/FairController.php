@@ -27,6 +27,7 @@ use App\Shop\OrderStatuses\Repositories\Interfaces\OrderStatusRepositoryInterfac
 use App\Shop\OrderStatuses\Repositories\OrderStatusRepository;
 use App\Http\Controllers\Controller;
 use App\Shop\Products\Repositories\ProductRepository;
+use App\Shop\ShopLocalizations\Repositories\ShopLocalizationRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Facades\Excel;
@@ -96,14 +97,18 @@ class FairController extends Controller
 
     public function create()
     {
-        return view('admin.fairs.create');
+        $shopLocalizations = app(ShopLocalizationRepository::class)->listShopLocalizations('id','asc');
+        return view('admin.fairs.create',['shopLocalizations' => $shopLocalizations]);
     }
 
     public function show($fair_id)
     {
         $fair = $this->fairRepo->find($fair_id);
 
-        return view('admin.fairs.edit')->with('fair', $fair);
+        $shopLocalizations = app(ShopLocalizationRepository::class)->listShopLocalizations('id','asc');
+
+        return view('admin.fairs.edit',['fair'=> $fair,
+            'shopLocalizations' => $shopLocalizations]);
     }
 
     //    public function store(Request $request){
