@@ -29,7 +29,7 @@
             @if(current_shop() == 1)
                 Pedidos de 3a das 17hs até 5a feira às 18hs. Entrega aos sábados.
             @else
-                Abertura para pedidos: 8/7. Próxima previsão de entrega: 14/7.
+                Abertura para pedidos: 8/7. Próxima previsão de entrega: 21/7.
             @endif
         </h3>
     </div>
