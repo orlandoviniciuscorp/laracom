@@ -104,7 +104,13 @@
 
                     <ul>
                         <li><b>Quantidade Disponível:</b> <span>{{$product->quantity}}</span></li>
-                        <li><b>Entrega:</b> <span>Entrega todos os sábados</li>
+                        <li><b>Entrega:</b> <span>
+                                @if(current_shop() == 1)
+                                    Entrega todos os sábados
+                                @else
+                                    Entrega 4a Feira
+                                @endif
+                        </li>
 {{--                        <li><b>Share on</b>--}}
 {{--                            <div class="share">--}}
 {{--                                <a href="#"><i class="fa fa-facebook"></i></a>--}}
