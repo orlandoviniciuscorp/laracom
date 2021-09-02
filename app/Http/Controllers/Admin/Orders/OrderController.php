@@ -151,11 +151,13 @@ class OrderController extends Controller
         $order->address = $orderRepo->getAddresses()->first();
         $items = $orderRepo->listOrderedProducts();
         $products = $this->productRepo->listProducts('name', 'asc');
+        $couriers = $this->courierRepo->findBy(['status' =>1]);
 
         return view('admin.orders.edit', [
             'statuses' => $this->orderStatusRepo->listOrderStatuses(),
             'order' => $order,
             'items' => $items,
+            'couriers' => $couriers,
             'customer' => $this->customerRepo->findCustomerById(
                 $order->customer_id
             ),
@@ -222,6 +224,7 @@ class OrderController extends Controller
     public function update(Request $request, $orderId)
     {
         $order = $this->orderRepo->findOrderById($orderId);
+        $courier = $this->courierRepo->findCourierById($request->get('courier_id'));
         $orderRepo = new OrderRepository($order);
 
         if (
@@ -233,7 +236,12 @@ class OrderController extends Controller
             $orderData = $request->except('_method', '_token', 'total_paid');
         }
 
+        $orderData = array_merge($orderData,['total_shipping'=>$courier->cost]);
+        
         $orderRepo->updateOrder($orderData);
+
+        $this->orderRepo->refreshTotal($order);
+
         $request->session()->flash('message', $this->getSucessMesseger());
         return redirect()->route('admin.fair.orders-list', $order->fair_id);
     }
