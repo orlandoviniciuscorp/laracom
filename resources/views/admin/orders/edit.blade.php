@@ -94,6 +94,49 @@
                 </table>
             </div>
             <!-- /.box-body -->
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4> <i class="fa fa-truck"></i> Entregador</h4>
+                    </div>
+                    <div class="form-group col-md-8 col-sm-4" >
+                        <select name="courier_id" id="courier_id" class="form-control select2">
+                            @foreach($couriers as $courier)
+                                <option @if($courier->id == $order->courier_id) selected="selected" @endif value="{{ $courier->id }}">{{ $courier->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <h4> <i class="fa fa-map-marker"></i> Endereço de Entrega</h4>
+                        <table class="table">
+                            <thead>
+                            <th>Endereço</th>
+                            <th>Complemento</th>
+                            <th>Cidade</th>
+                            <th>Province</th>
+                            <th>Zip</th>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>{{ $order->address->address_1 }}</td>
+                                <td>{{ $order->address->address_2 }}</td>
+                                <td>
+                                    @if(isset($order->address->city))
+                                        {{ $order->address->city }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if(isset($order->address->province))
+                                        {{ $order->address->province }}
+                                    @endif
+                                </td>
+                                <td>{{ $order->address->zip }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="box">
                 <div class="box-body">
@@ -123,7 +166,8 @@
                         {{ csrf_field() }}
                     <div class="box-body">
                         <h4> <i class="fa fa-gift"></i> Items</h4>
-                        <table class="table">
+                        <div style="overflow-x:auto;">
+                        <table class="table" >
                             <thead>
                             <th style="width: 10px;"></th>
                             <th class="col-md-3">SKU</th>
@@ -180,59 +224,11 @@
                             </tr>
                             </tfoot>
                         </table>
+                        </div>
                     </div>
                     </form>
                 @endif
-                <div class="box-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h4> <i class="fa fa-truck"></i> Courier</h4>
-                            <table class="table">
-                                <thead>
-                                    <th class="col-md-3">Name</th>
-                                    <th class="col-md-4">Description</th>
-                                    <th class="col-md-5">Link</th>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>{{ $order->courier->name }}</td>
-                                    <td>{{ $order->courier->description }}</td>
-                                    <td>{{ $order->courier->url }}</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col-md-6">
-                            <h4> <i class="fa fa-map-marker"></i> Address</h4>
-                            <table class="table">
-                                <thead>
-                                    <th>Address 1</th>
-                                    <th>Address 2</th>
-                                    <th>City</th>
-                                    <th>Province</th>
-                                    <th>Zip</th>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>{{ $order->address->address_1 }}</td>
-                                    <td>{{ $order->address->address_2 }}</td>
-                                    <td>
-                                        @if(isset($order->address->city))
-                                            {{ $order->address->city }}
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if(isset($order->address->province))
-                                            {{ $order->address->province }}
-                                        @endif
-                                    </td>
-                                    <td>{{ $order->address->zip }}</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+
             </div>
             <!-- /.box -->
             <div class="box-footer">
