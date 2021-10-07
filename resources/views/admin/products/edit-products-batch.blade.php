@@ -16,6 +16,9 @@
                                 <br />
                                 <form action="{{route('admin.product.list.all-products')}}" method="get">
                                     <div class="col-sm-2">
+{{--                                        @if(request()->has('page'))--}}
+{{--                                            <input type="hidden" name="page" value="{{request()->get('page')}}" />--}}
+{{--                                        @endif--}}
                                         <input type="checkbox" name="include_disables"
                                                 @if(request()->has('include_disables') &&
                                                     request()->get('include_disables') == 1)
@@ -46,9 +49,17 @@
                                 </form>
                             </div>
                         </div>
+                        {{$products->appends(request()->all())->links()}}
                         <h2>Atualização em Massa</h2>
+
                         <form action="{{route('admin.products.update-quantity-batch')}}" method="post">
                             {{ csrf_field() }}
+                            <div class="row" style="margin-bottom: 20px;">
+                                <div class="col-md-offset-3 col-md-6">
+                                    <button type="submit" class="btn btn-success">Salvar</button>
+                                </div>
+                            </div>
+
                         <table class="table">
                             <thead>
                             <tr>
@@ -137,15 +148,36 @@
                                     </td>
                                 </tr>
                             @endforeach
+
                             </tbody>
+                            <tfooter>
+                                <tr>
+                                    <td>
+                                        <button type="submit" class="btn btn-success">Salvar</button>
+                                    </td>
+                                </tr>
+{{--                                <tr>--}}
+{{--                                    <td colspan="5" style="text-align: center;">--}}
+{{--                                        {{$products->appends(request()->all())->links()}}--}}
+{{--                                    </td>--}}
+{{--                                </tr>--}}
+                            </tfooter>
                         </table>
+{{--                            <div class="row justify-content-md-center">--}}
+
+
+{{--                                </div>--}}
+{{--                            </div>--}}
+
                         <br />
-                        <button type="submit" class="btn btn-success">Salvar</button>
-                        {{--                    {{ $categories->links() }}--}}
+
+
                         </form>
                     </div>
+
+
                     <!-- /.box-body -->
-                </div>
+
 
             <!-- /.box -->
         @endif

@@ -745,7 +745,7 @@ class ProductController extends Controller
         $producers = $this->producerRepo->listProducers('name', 'asc');
 
         return view('admin.products.edit-products-batch')->with([
-            'products' => $products->get(),
+            'products' => $products->paginate(50),
             'producers' => $producers,
             'categories' => $categories,
         ]);
