@@ -10,6 +10,7 @@
                     <input type="hidden" name="_method" value="put">
                     {{ csrf_field() }}
                     <div class="form-group">
+                        <input type="hidden" name="id" value="{{$producer->id}}" />
                         <label for="name">Name <span class="text-danger">*</span></label>
                         <input type="text" name="name" id="name" placeholder="Name" class="form-control" value="{!! $producer->name ?: old('name')  !!}">
                     </div>

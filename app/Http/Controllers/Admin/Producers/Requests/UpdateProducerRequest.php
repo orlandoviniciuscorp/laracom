@@ -26,7 +26,7 @@ class UpdateProducerRequest extends FormRequest
     {
 
         return [
-            'name' => ['required', Rule::unique('producers')]
+      //      'name' => ['required', Rule::unique('producers')]
         ];
     }
 }
