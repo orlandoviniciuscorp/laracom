@@ -341,7 +341,7 @@ class FairController extends Controller
         request()
             ->session()
             ->flash('message', $this->getSucessMesseger());
-        return redirect()->route('admin.dashboard');
+        return redirect()->back();
     }
 
     /**
