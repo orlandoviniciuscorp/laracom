@@ -432,7 +432,7 @@ class ProductController extends Controller
         //        dd('fim');
         $request->session()->flash('message', $this->getSucessMesseger());
         return redirect()
-            ->route('admin.producer.list.products')
+            ->back()
             ->with('message', $this->getSucessMesseger());
     }
 
