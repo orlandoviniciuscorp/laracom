@@ -31,7 +31,7 @@
 </head>
 
 <body>
-@include('sweet::alert')
+@include('sweetalert::alert')
 @include('layouts.front.header')
 
 @yield('content')
