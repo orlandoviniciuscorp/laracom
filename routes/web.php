@@ -54,6 +54,10 @@ Route::group(
                             '/store',
                             'DashboardController@storeConfig'
                         )->name('config.store');
+                        Route::post(
+                            '/next-fair-date',
+                            'DashboardController@setNextFairDate'
+                        )->name('config.next-fair-date');
                     });
 
                     Route::group(['prefix' => 'percentages'], function () {

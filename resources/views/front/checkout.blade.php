@@ -358,3 +358,20 @@
         });
     </script>
 @endsection
+@section('post-script')
+
+
+        <script>
+            var content = document.createElement('div');
+            content.innerHTML = 'Escolha o método de pagamento e clique em Confirmar Compra';
+
+            $(window).on('load',function(){
+                swal({
+                    title: 'Atenção',
+                    content: content,
+                    icon: "warning",
+                })
+            });
+        </script>
+
+@endsection

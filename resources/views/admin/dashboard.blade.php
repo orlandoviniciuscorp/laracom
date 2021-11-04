@@ -261,7 +261,7 @@
                                     <li class="list-group-item bg-info">
                                         @if(!$configRio->is_open)
                                             <form action="{{route('admin.config.open-rio')}}" method="post"  class="form-horizontal">
-                                                {{ csrf_fieNovidadesld() }}
+                                                {{ csrf_field() }}
                                                 <input type="hidden" name="is_open" value="1">
                                                 <button onclick="return confirm('Tem certeza?')" type="submit" class="btn btn-success btn-sm">
                                                     <i class="fa fa-play" aria-hidden="true"></i> Abrir Vendas - RIO
@@ -277,9 +277,15 @@
                                             </form>
                                         @endif
                                     </li>
-                                    <li>
-                                        Próxima Feira: <input type="text" /> <button class=""
+                                    <form action="{{route('admin.config.next-fair-date')}}" method="post"  class="form-horizontal">
+                                        {{ csrf_field() }}
+                                    <li class="list-group-item bg-info">
+                                        Prox Feira: <input type="date" name="next_fair_date" value="{{$configRio->next_fair_date}}"/>
+                                        <input type="hidden" name="id" value="{{$configRio->id}}" >
+                                        <button onclick="return confirm('Tem certeza?')"
+                                                class="btn btn-primary" type="submit">Salvar</button>
                                     </li>
+                                    </form>
                                 @endif
 
 
