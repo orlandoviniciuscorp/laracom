@@ -52,8 +52,6 @@ class GlobalTemplateServiceProvider extends ServiceProvider
             function ($view) {
                 $view->with('categories', $this->getCategories());
                 $view->with('producers', $this->getProducers());
-                $view->with('cartCount', $this->getCartCount());
-                $view->with('totalCartItens', $this->getTotalItems());
                 $view->with('newestProducts', $this->getNewestProducts());
                 $view->with(
                     'producsInPromotion',

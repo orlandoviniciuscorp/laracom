@@ -391,6 +391,9 @@ Route::namespace('Front')->group(function () {
             'front.category.slug');
         Route::get('producer/{slug}', 'ProducerController@getProducer')->name(
             'front.producer.slug');
+        Route::get('produtores', 'ProducerController@info')->name(
+            'front.producers.info');
+
     });
 
     Route::group(['middleware'=>['shop.type:rio']],function (){

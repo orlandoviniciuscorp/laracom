@@ -427,6 +427,10 @@ ol {
 	position: relative;
 }
 
+.soldout{
+	background-color: #0a0c0d !important;
+}
+
 .header__menu ul li .header__menu__dropdown {
 	position: absolute;
 	left: 0;

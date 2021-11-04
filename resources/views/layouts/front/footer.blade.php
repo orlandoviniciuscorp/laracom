@@ -113,54 +113,48 @@
 
 
 
-<script type="text/javascript">
-    $(document).ready(function() {
-    });
-    function sendAjax(formId) {
-        // this is the id of the form
-        //
-        idf = "#" + formId;
-        //
-        $(idf).ready(function () {
-        });
-        //
-        $(idf).submit(function (e) {
-            //
-            e.preventDefault(); // avoid to execute the actual submit of the form.
-            //
-            //
-            var url = '{{route('front.add.cart')}}'
-            //
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: $(idf).serialize(),
-                success: function (data) {
-                    // console.log(data.message);
-                    //  alert(data); // show response from the php script.
-                    swal({
-                        text: data.message,
-                        icon: data.status
-                    });
+{{--<script type="text/javascript">--}}
+{{--    $(document).ready(function() {--}}
+{{--    });--}}
+{{--    function sendAjax(formId) {--}}
+{{--        // this is the id of the form--}}
+{{--        //--}}
+{{--        idf = "#" + formId;--}}
+{{--        //--}}
+{{--        $(idf).ready(function () {--}}
+{{--        });--}}
+{{--        //--}}
+{{--        $(idf).submit(function (e) {--}}
+{{--            //--}}
+{{--            e.preventDefault(); // avoid to execute the actual submit of the form.--}}
+{{--            //--}}
+{{--            //--}}
+{{--            var url = '{{route('front.add.cart')}}'--}}
+{{--            //--}}
+{{--            $.ajax({--}}
+{{--                type: "POST",--}}
+{{--                url: url,--}}
+{{--                data: $(idf).serialize(),--}}
+{{--                success: function (data) {--}}
+{{--                    // console.log(data.message);--}}
+{{--                    //  alert(data); // show response from the php script.--}}
+{{--                    swal({--}}
+{{--                        text: data.message,--}}
+{{--                        icon: data.status--}}
+{{--                    });--}}
+{{--                },--}}
+{{--                error: function(jqXhr, json, errorThrown, data){--}}
+{{--                    var error = jqXhr.responseJSON.errors['product'];--}}
+{{--                    console.log();--}}
+{{--                  swal({--}}
+{{--                      text:error[0],--}}
+{{--                      icon: 'error'--}}
+{{--                        });--}}
+{{--                }--}}
+{{--            });--}}
 
-
-                    var cartNumber = parseInt($("#cartNumber").text()) +1;
-                    console.log('Carrinho: ' +  cartNumber);
-                    $("#cartNumber").text(cartNumber);
-
-                },
-                error: function(jqXhr, json, errorThrown, data){
-                    var error = jqXhr.responseJSON.errors['product'];
-                    console.log();
-                  swal({
-                      text:error[0],
-                      icon: 'error'
-                        });
-                }
-            });
-
-        });
-    }
-    //
-</script>
+{{--        });--}}
+{{--    }--}}
+{{--    //--}}
+{{--</script>--}}
 

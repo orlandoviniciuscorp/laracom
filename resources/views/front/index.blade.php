@@ -77,7 +77,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-title">
-                            <h2>Novidades</h2>
+                            <h2 style='font-family: sans-serif'><strong>Novidades</strong></h2>
                         </div>
                     </div>
                     <div class="row categories__slider owl-carousel">
@@ -99,41 +99,19 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-title">
-                            <h2>Promoções</h2>
+                            <h2 style='font-family: sans-serif'><strong>Promoções</strong></h2>
                         </div>
                     </div>
                 </div>
-                <div class="row featured__filter">
+                <div  class="row featured__filter">
+
                     @foreach($producsInPromotion as $product)
                         <div class="col-lg-4 col-md-4 col-sm-6">
                             <div class="product__item">
                                 <div class="product__item__pic set-bg" data-setbg="{{asset("storage/$product->cover")}}">
                                     <ul class="product__item__pic__hover">
-                                        <li>
-                                            <form name="form_{{$product->slug}}" id="form_{{$product->slug}}"
-                                                  action="{{ route('cart.store') }}" class="form-inline" method="post" ">
-                                            {{ csrf_field() }}
-                                            <div class="pro-qty">
-                                                <input type="text" value="1" name="quantity" >
-                                            </div>
-                                            <input type="hidden" name="product" value="{{ $product->id }}">
-                                            <button id="add-to-cart-btn" name="add-to-cart-btn" type="submit" class="btn btn-success"
-                                                    @if($product->quantity < 1)
-                                                    disabled
-                                                    @else
-                                                    onclick="sendAjax('form_{{$product->slug}}')"
-                                                    @endif
-                                                    data-toggle="modal" data-target="#cart-modal">
-                                                <i class="fa fa-cart-plus">
-                                                    @if($product->quantity < 1)
-                                                        Esgotado
-                                                    @else
-                                                        Comprar
-                                                    @endif
-                                                </i>
-                                            </button>
-                                            </form>
-                                        </li>
+
+                                    <livewire:products.product :product="$product" wire:key="$product->id"/>
 
                                     </ul>
                                 </div>
@@ -143,13 +121,8 @@
                                 </div>
                             </div>
                         </div>
-
-
                     @endforeach
 
-                    <div>
-
-                    </div>
                 </div>
                 <div class="row justify-content-center">
                     <h4>Quer ver mais produtos?</h4>
@@ -167,7 +140,7 @@
 
 @endsection
 @section('post-script')
-{{--    {{dd(env('SHOW_INITIAL_MESSAGE'))}}--}}
+
     @if($config->show_message)
     <script>
         var content = document.createElement('div');

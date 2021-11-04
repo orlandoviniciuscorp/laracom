@@ -261,7 +261,7 @@
                                     <li class="list-group-item bg-info">
                                         @if(!$configRio->is_open)
                                             <form action="{{route('admin.config.open-rio')}}" method="post"  class="form-horizontal">
-                                                {{ csrf_field() }}
+                                                {{ csrf_fieNovidadesld() }}
                                                 <input type="hidden" name="is_open" value="1">
                                                 <button onclick="return confirm('Tem certeza?')" type="submit" class="btn btn-success btn-sm">
                                                     <i class="fa fa-play" aria-hidden="true"></i> Abrir Vendas - RIO
@@ -276,6 +276,9 @@
                                                 </button>
                                             </form>
                                         @endif
+                                    </li>
+                                    <li>
+                                        Próxima Feira: <input type="text" /> <button class=""
                                     </li>
                                 @endif
 

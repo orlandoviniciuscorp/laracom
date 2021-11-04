@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Cashier\Cashier;
 use Illuminate\Support\Facades\Schema;
@@ -23,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
 //        );
         Schema::defaultStringLength(191);
         Builder::defaultStringLength(191);
-
+        Paginator::useBootstrap();
         if (env('APP_ENV') != 'local') {
             URL::forceScheme('https');
         }
