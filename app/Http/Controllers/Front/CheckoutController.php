@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Shop\Addresses\Repositories\Interfaces\AddressRepositoryInterface;
 use App\Shop\Cart\Requests\CartCheckoutRequest;
-use App\Shop\Cart\Requests\CartDeliveryCheckoutRequest;
+use App\Shop\Carts\Requests\CartDeliveryCheckoutRequest;
 use App\Shop\Carts\Repositories\Interfaces\CartRepositoryInterface;
 use App\Shop\Carts\Requests\PayPalCheckoutExecutionRequest;
 use App\Shop\Carts\Requests\StripeExecutionRequest;

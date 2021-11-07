@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -172,7 +173,7 @@ class ProductController extends Controller
     public function store(CreateProductRequest $request)
     {
         $data = $request->except('_token', '_method');
-        $data['slug'] = str_slug($request->input('name'));
+        $data['slug'] = Str::slug($request->input('name'));
 
         if (
             $request->hasFile('cover') &&
@@ -326,7 +327,7 @@ class ProductController extends Controller
             'producers'
         );
 
-        $data['slug'] = str_slug($request->input('name'));
+        $data['slug'] = Str::slug($request->input('name'),'-');
 
         if ($request->hasFile('cover')) {
             $data['cover'] = $productRepo->saveCoverImage(

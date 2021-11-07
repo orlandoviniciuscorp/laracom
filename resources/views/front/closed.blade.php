@@ -8,7 +8,7 @@
 
     <div class="row justify-content-center">
         <h3>
-            Receba as atualizações pelo Whatsapp.
+            Participe do grupo do Whatsapp para ficar informado de novidades
             <br ><br >
             <button
                     @if(current_shop()==1)
@@ -24,12 +24,14 @@
         </h3>
     </div>
 
-    <div class="row justify-content-center">
+    <div class="row justify-content-center" style="margin-top: 10px;">
         <h3>
             @if(current_shop() == 1)
-                Pedidos de 3a das 17hs até 5a feira às 18hs. Entrega aos sábados.
+                Aberto para pedidos de 3a feira, a partir das 17hs, até 5a feira às 18hs. Entrega aos sábados
+                <br /> <br />
+                Os produtos podem ser visto quando a cesta estiver aberta.
             @else
-                Abertura para pedidos: 8/7. Próxima previsão de entrega: 21/7.
+                Próxima Abertura da Cesta será dia: {{$config->getNextFairDateFormatado()}}
             @endif
         </h3>
     </div>
@@ -42,6 +44,8 @@
     <div class="row justify-content-center">
         <br />
         <h2>
+
+            <br />
         Agradecemos pela visita.
         </h2>
 

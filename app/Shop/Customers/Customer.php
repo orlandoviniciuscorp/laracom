@@ -7,12 +7,11 @@ use App\Shop\Orders\Order;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Laravel\Cashier\Billable;
 use Nicolaslopezj\Searchable\SearchableTrait;
 
 class Customer extends Authenticatable
 {
-    use Notifiable, SoftDeletes, SearchableTrait, Billable;
+    use Notifiable, SoftDeletes, SearchableTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -66,10 +65,6 @@ class Customer extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
-    public function countBought(){
-        return $this->hasMany(Order::class)->whereNotIn('order_status_id',[env('ORDER_ERROR'),env('ORDER_CANCELED')])->count('*');
-    }
-
     /**
      * @param $term
      *
@@ -79,4 +74,9 @@ class Customer extends Authenticatable
     {
         return self::search($term);
     }
+
+    public function countBought(){
+        return $this->hasMany(Order::class)->whereNotIn('order_status_id',[env('ORDER_ERROR'),env('ORDER_CANCELED')])->count('*');
+    }
+
 }

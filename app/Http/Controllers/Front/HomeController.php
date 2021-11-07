@@ -38,6 +38,8 @@ class HomeController extends Controller
     public function index()
     {
 
+//        dd($this->getConfig());
+
         return view('front.index')->with('cats',$this->getCategoryOrder())
             ->with('config',$this->getConfig());
     }

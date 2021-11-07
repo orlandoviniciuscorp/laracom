@@ -277,6 +277,15 @@
                                             </form>
                                         @endif
                                     </li>
+                                    <form action="{{route('admin.config.next-fair-date')}}" method="post"  class="form-horizontal">
+                                        {{ csrf_field() }}
+                                    <li class="list-group-item bg-info">
+                                        Prox Feira: <input type="date" name="next_fair_date" value="{{$configRio->next_fair_date}}"/>
+                                        <input type="hidden" name="id" value="{{$configRio->id}}" >
+                                        <button onclick="return confirm('Tem certeza?')"
+                                                class="btn btn-primary" type="submit">Salvar</button>
+                                    </li>
+                                    </form>
                                 @endif
 
 
