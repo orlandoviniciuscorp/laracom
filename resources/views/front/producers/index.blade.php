@@ -22,7 +22,9 @@
                         <div class="container-fluid">
                             <div class="row">
                                <div class="col-3">
+                                   @if($producer->cover)
                                     <img src="{{asset("storage/$producer->cover")}}" />
+                                   @endif
                                </div>
                                 <div class="col-8">
                                     {!! $producer->description !!}
