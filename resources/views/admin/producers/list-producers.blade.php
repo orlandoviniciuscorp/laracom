@@ -8,8 +8,8 @@
         @if($producers)
             <div class="box">
                 <div class="box-body">
-                    <h2>Categorias</h2>
-                    <table class="table">
+                    <h2>Produtores</h2>
+                    {{--<table class="table">
                         <thead>
                         <tr>
                             <td class="col-md-3">Produtor</td>
@@ -44,8 +44,13 @@
                             </tr>
                         @endforeach
                         </tbody>
-                    </table>
-                    {{ $producers->links() }}
+                    </table>--}}
+{{--                    {{ $producers->links() }}--}}
+                    <div class="row">
+                        <div class="col-12">
+                            Função temporariamente desabilitada.
+                        </div>
+                    </div>
                 </div>
                 <!-- /.box-body -->
             </div>

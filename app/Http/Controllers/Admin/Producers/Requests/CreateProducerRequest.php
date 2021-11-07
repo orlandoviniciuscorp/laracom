@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Shop\Producers\Requests;
+namespace App\Http\Controllers\Admin\Producers\Requests;
 
 use App\Shop\Base\BaseFormRequest;
 

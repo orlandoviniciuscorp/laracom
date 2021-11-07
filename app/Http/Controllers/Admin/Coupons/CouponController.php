@@ -27,6 +27,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class CouponController extends Controller
 {
@@ -214,7 +215,7 @@ class CouponController extends Controller
             'combination'
         );
 
-        $data['slug'] = str_slug($request->input('name'));
+        $data['slug'] = Str::slug($request->input('name'),'-');
 
         if ($request->hasFile('cover')) {
             $data['cover'] = $productRepo->saveCoverImage($request->file('cover'));

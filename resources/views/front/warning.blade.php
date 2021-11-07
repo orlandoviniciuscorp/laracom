@@ -8,7 +8,7 @@
 
     <div class="row">
         <h3>
-            Receba as atualizações pelo Whatsapp.
+            Participe do grupo do Whatsapp para ficar informado de novidades.
             <br ><br >
             <button @if(current_shop()==1)
                     onclick="location.href='{{env('GROUP_LINK')}}'"
