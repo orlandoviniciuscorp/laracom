@@ -31,6 +31,7 @@ class Configuration extends Model
         'next_fair_number',
         'automatic_clear_availability',
         'send_email_on_buy_products',
+        'next_fair_date'
     ];
 
     /**
@@ -39,4 +40,11 @@ class Configuration extends Model
      * @var array
      */
     protected $hidden = [];
+
+    public function getNextFairDateFormatado()
+    {
+       return \Carbon\Carbon::parse($this->attributes['next_fair_date'])->format('d/m/Y');
+
+      //  return da(->format('d/m/Y'));
+    }
 }

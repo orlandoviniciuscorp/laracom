@@ -10,13 +10,11 @@
         <a href="#"><img src="img/logo_feira.png" alt=""></a>
     </div>
     <div class="humberger__menu__cart">
-        <ul>
-            <li><a href="{{route('cart.index')}}"><i class="fa fa-shopping-cart"></i> <span id="cart-number-hamburguer">{{$cartCount}}</span></a></li>
-        </ul>
-        <div class="header__cart__price">item: <span>{{$totalCartItens}}</span></div>
+
     </div>
     <div class="humberger__menu__widget">
         <div class="header__top__right__auth">
+
             @if(auth()->check())
                 <a href="{{ route('accounts', ['tab' => 'profile']) }}">
                     <i class="fa fa-home"></i> {{auth()->user()->name}}</a></li>
@@ -32,6 +30,7 @@
             <li><a href="{{route('product.list')}}">Produtos</a></li>
             <li><a href="{{route('cart.index')}}">Carrinho</a></li>
             <li><a href="http://organicosparatodos.com.br/">Sobre a AAT</a></li>
+            <li><a href="http://organicosparatodos.com.br/">Produtores</a></li>
             <li>Usuário
                 <ul class="header__menu__dropdown">
                     <li><a href="{{route('cart.index')}}">Carrinho</a></li>
@@ -113,17 +112,15 @@
                                 <li><a href="{{route('orders')}}">Pedidos</a></li>
                             </ul>
                         </li>
-                        <li><a href="http://organicosparatodos.com.br/">Sobre a AAT</a></li>
+                        <li><a href="http://organicosparatodos.com.br/">AAT</a></li>
+                        <li><a href="{{route('front.producers.info')}}">Produtores</a></li>
 
                     </ul>
                 </nav>
             </div>
             <div class="col-lg-3">
                 <div class="header__cart">
-                    <ul>
-                        <li><a href="{{route('cart.index')}}"><i class="fa fa-shopping-cart"></i> <span id="cartNumber">{{$cartCount}}</span></a></li>
-                    </ul>
-                    <div class="header__cart__price">item: <span>{{$totalCartItens}}</span></div>
+                    <livewire:cart-counter />
                 </div>
             </div>
         </div>

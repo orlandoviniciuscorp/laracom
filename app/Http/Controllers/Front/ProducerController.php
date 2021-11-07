@@ -57,4 +57,12 @@ class ProducerController extends Controller
         return view('admin.categories.list-products-batch')->with(['products'=>$products,
             'category'=>$producer->name]);
     }
+
+    public function info()
+    {
+        $producers = $this->producerRepo->allActive();
+        return view ('front.producers.index',[
+            'producers' =>$producers
+        ]);
+    }
 }

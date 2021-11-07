@@ -85,44 +85,7 @@
                     <div class="row featured__filter">
 
                         @foreach($products as $product)
-                            <div class="col-lg-4 col-md-4 col-sm-6">
-                                <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="{{asset("storage/$product->cover")}}">
-                                        <ul class="product__item__pic__hover">
-                                            <li>
-                                                <form name="form_{{$product->slug}}" id="form_{{$product->slug}}"
-                                                      action="{{ route('cart.store') }}" class="form-inline" method="post" >
-                                                    {{ csrf_field() }}
-                                                    <div class="pro-qty">
-                                                        <input type="text" value="1" name="quantity" >
-                                                    </div>
-                                                    <input type="hidden" name="product" value="{{ $product->id }}">
-                                                    <button id="add-to-cart-btn" name="add-to-cart-btn" type="submit" class="btn btn-success"
-                                                            @if($product->quantity < 1)
-                                                            disabled
-                                                            @else
-                                                            onclick="sendAjax('form_{{$product->slug}}')"
-                                                            @endif
-                                                            data-toggle="modal" data-target="#cart-modal">
-                                                        <i class="fa fa-cart-plus">
-                                                            @if($product->quantity < 1)
-                                                                Esgotado
-                                                            @else
-                                                                Comprar
-                                                            @endif
-                                                        </i>
-                                                    </button>
-                                                </form>
-                                            </li>
-
-                                        </ul>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <h6><a href="{{route('front.get.product',$product->slug)}}">{{$product->name}}</a></h6>
-                                        <h5>R${{$product->price}}</h5>
-                                    </div>
-                                </div>
-                            </div>
+                            <livewire:product />
                         @endforeach
                     </div>
                 </div>

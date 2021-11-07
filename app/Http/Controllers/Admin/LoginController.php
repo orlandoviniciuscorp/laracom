@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Shop\Admins\Requests\LoginRequest;
+use App\Shop\Employees\Requests\LoginRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -56,8 +56,6 @@ class LoginController extends Controller
         $details = $request->only('email', 'password');
         $details['status'] = 1;
         if (auth()->guard('employee')->attempt($details)) {
-            $session = app()->get('session');
-            $session->forget('shop_type');
             return $this->sendLoginResponse($request);
         }
 

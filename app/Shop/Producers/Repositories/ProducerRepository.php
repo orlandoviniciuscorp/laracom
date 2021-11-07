@@ -3,6 +3,7 @@
 namespace App\Shop\Producers\Repositories;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Jsdecena\Baserepo\BaseRepository;
 use App\Shop\Producers\Producer;
 use App\Shop\Producers\Exceptions\ProducerInvalidArgumentException;
@@ -86,7 +87,7 @@ class ProducerRepository extends BaseRepository implements ProducerRepositoryInt
 
             $collection = collect($params);
             if (isset($params['name'])) {
-                $slug = str_slug($params['name']);
+                $slug =  Str::slug($params['name']);
             }
 
             if (isset($params['cover']) && ($params['cover'] instanceof UploadedFile)) {
@@ -123,7 +124,7 @@ class ProducerRepository extends BaseRepository implements ProducerRepositoryInt
     {
         $producer = $this->findProducerById($this->model->id);
         $collection = collect($params)->except('_token');
-        $slug = str_slug($collection->get('name'));
+        $slug =  Str::slug($collection->get('name'));
 
         if (isset($params['cover']) && ($params['cover'] instanceof UploadedFile)) {
             $cover = $this->uploadOne($params['cover'], 'producers');

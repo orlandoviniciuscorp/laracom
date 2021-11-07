@@ -27,11 +27,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" type="text/css" />
 {{--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">--}}
 
-
+    @livewireStyles
 </head>
 
 <body>
-@include('sweet::alert')
+@include('sweetalert::alert')
 @include('layouts.front.header')
 
 @yield('content')
@@ -49,7 +49,12 @@
     gtag('config', '{{env('GOOGLE_ANALYTICS')}}');
 </script>
 
-
+@livewireScripts
+<script>
+    window.addEventListener('swal',function(e){
+        swal(e.detail);
+    });
+</script>
 </body>
 
 </html>

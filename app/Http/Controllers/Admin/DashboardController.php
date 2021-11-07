@@ -96,6 +96,16 @@ class DashboardController extends Controller
         return redirect()->route('admin.dashboard');
     }
 
+    public function setNextFairDate(Request $request)
+    {
+        $config = $this->getConfigRio();
+        $config->next_fair_date = $request->input('next_fair_date');
+        $this->configRepo->updateConfig($config);
+
+        $request->session()->flash('message', $this->getSucessMesseger());
+        return redirect()->route('admin.dashboard');
+    }
+
     public function showConfig(Request $request)
     {
         return view('admin.config.edit')->with('config', $this->getConfig());

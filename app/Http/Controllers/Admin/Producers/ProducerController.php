@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Producers;
 
+use App\Http\Controllers\Admin\Producers\Requests\CreateProducerRequest;
 use App\Shop\Addresses\Repositories\Interfaces\AddressRepositoryInterface;
 use App\Shop\Categories\Repositories\CategoryRepository;
 use App\Shop\Categories\Repositories\Interfaces\CategoryRepositoryInterface;
@@ -10,8 +11,8 @@ use App\Http\Controllers\Controller;
 use App\Shop\Producers\Producer;
 use App\Shop\Producers\ProducerDetail;
 use App\Shop\Producers\Repositories\ProducerRepository;
-use App\Shop\Producers\Requests\CreateProducerRequest;
-use App\Shop\Producers\Requests\UpdateProducerRequest;
+
+use App\Http\Controllers\Admin\Producers\Requests\UpdateProducerRequest;
 use App\Shop\Provinces\Repositories\Interfaces\ProvinceRepositoryInterface;
 use Illuminate\Http\Request;
 
