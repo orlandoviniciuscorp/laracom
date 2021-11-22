@@ -33,7 +33,7 @@
 
             <tr>
                 <td colspan="3" style=" border: 1px solid black; text-align: center;">
-                    <strong>{{$fair->end_at}}</strong>
+                    <strong>{{$fair->end_at->format('d/m/Y')}}</strong>
                 </td>
             </tr>
 

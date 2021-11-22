@@ -8,8 +8,9 @@ use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithColumnWidths;
 
-class ProducerHarverstExport implements FromView, ShouldAutoSize
+class ProducerHarverstExport implements FromView, WithColumnWidths
 {
     use Exportable;
     protected $fair_id;
@@ -59,5 +60,14 @@ class ProducerHarverstExport implements FromView, ShouldAutoSize
 
 //        $data = ['harvest'=>$harvest];
         return view('invoices.producer-harvest', ['colheita'=>$data, 'fair'=>$fair]);
+    }
+
+    public function columnWidths(): array
+    {
+        return [
+            'A' => 22,
+            'B' => 80,
+            'C' =>5
+        ];
     }
 }
