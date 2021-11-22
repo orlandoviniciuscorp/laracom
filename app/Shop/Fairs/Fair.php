@@ -25,6 +25,8 @@ class Fair extends Model
 
     protected $fillable = ['name', 'start_at', 'end_at', 'status','shop_id'];
 
+    protected $dates=[ 'start_at', 'end_at'];
+
     /**
      * The attributes that should be hidden for arrays.
      *
