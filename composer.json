@@ -9,6 +9,7 @@
         "ext-json": "*",
         "barryvdh/laravel-dompdf": "^0.8.2",
         "binarytorch/larecipe": "^2.4",
+        "bugsnag/bugsnag-laravel": "^2.0",
         "doctrine/dbal": "^3.1",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",

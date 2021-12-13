@@ -156,6 +156,7 @@ return [
         // Laravel\Cashier\CashierServiceProvider::class,
         Jsdecena\Baserepo\BaseRepositoryProvider::class,
         \Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
+        Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
 
         /*
          * Application Service Providers...
