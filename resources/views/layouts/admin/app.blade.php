@@ -11,6 +11,7 @@
     <style>
         .btn-default.btn-on.active{background-color: #006FFC;color: white;}
         .btn-default.btn-off.active{background-color: #DA4F49;color: white;}
+
     </style>
     @yield('css')
     <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('favicons/apple-icon-57x57.png')}}">
@@ -29,8 +30,103 @@
     <link rel="manifest" href="{{ asset('favicons/manifest.json')}}">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="{{ asset('favicons/ms-icon-144x144.png')}}">
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
     <meta name="theme-color" content="#ffffff">
+    @livewireStyles
+    <style>
+        /* The switch - the box around the slider */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 22px;
+        }
+
+        /* Hide default HTML checkbox */
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        /* The slider */
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 15px;
+            width: 15px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+    </style>
+{{--    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />--}}
 </head>
+@livewireScripts
+<script src="{{ asset('js/admin.min.js') }}"></script>
+<script src="{{ asset('//cdn.ckeditor.com/4.8.0/standard/ckeditor.js') }}"></script>
+<script src="{{ asset('js/scripts.js?v=0.2') }}"></script>
+<script>
+    $(document).ready(function() {
+        $('.js-example-basic-multiple').select2();
+    });
+</script>
+<script>
+
+    $('body').on('shown.bs.modal', '.modal', function() {
+        // console.log('abri o modal');
+        $(this).find('select').each(function() {
+            var dropdownParent = $(document.body);
+            if ($(this).parents('.modal.in:first').length !== 0)
+                dropdownParent = $(this).parents('.modal.in:first');
+
+            $(this).select2({
+
+                dropdownParent: $('#products_modal')
+                // ...
+            });
+        });
+    });
+</script>
+
+@yield('js')
 <body class="hold-transition skin-purple sidebar-mini">
 <noscript>
     <p class="alert alert-danger">
@@ -57,32 +153,6 @@
 </div>
 <!-- ./wrapper -->
 
-<script src="{{ asset('js/admin.min.js') }}"></script>
-<script src="{{ asset('//cdn.ckeditor.com/4.8.0/standard/ckeditor.js') }}"></script>
-<script src="{{ asset('js/scripts.js?v=0.2') }}"></script>
-<script>
-    $(document).ready(function() {
-        $('.js-example-basic-multiple').select2();
-    });
-</script>
-<script>
-
-    $('body').on('shown.bs.modal', '.modal', function() {
-        // console.log('abri o modal');
-        $(this).find('select').each(function() {
-            var dropdownParent = $(document.body);
-            if ($(this).parents('.modal.in:first').length !== 0)
-                dropdownParent = $(this).parents('.modal.in:first');
-
-            $(this).select2({
-
-                dropdownParent: $('#products_modal')
-                // ...
-            });
-        });
-        });
-</script>
-@yield('js')
-
+@yield('post-script')
 </body>
 </html>

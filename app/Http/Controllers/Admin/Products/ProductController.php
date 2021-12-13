@@ -32,6 +32,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 
 class ProductController extends Controller
 {
@@ -179,9 +180,19 @@ class ProductController extends Controller
             $request->hasFile('cover') &&
             $request->file('cover') instanceof UploadedFile
         ) {
-            $data['cover'] = $this->productRepo->saveCoverImage(
-                $request->file('cover')
-            );
+
+            $img = Image::make($request->file('cover'));
+
+
+            if($img->height() > 1080){
+            $img = $img->resize(1920, 1080, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save();
+            }
+            $file = new UploadedFile($img->basePath(),$img->filename);
+
+
+            $data['cover'] = $this->productRepo->saveCoverImage(UploadedFile::createFromBase($file));
         }
 
         $product = $this->productRepo->createProduct($data);

@@ -51,128 +51,27 @@
                         </div>
                         {{$products->appends(request()->all())->links()}}
                         <h2>Atualização em Massa</h2>
+                        <div>
 
-                        <form action="{{route('admin.products.update-quantity-batch')}}" method="post">
-                            {{ csrf_field() }}
-                            <div class="row" style="margin-bottom: 20px;">
-                                <div class="col-md-offset-3 col-md-6">
-                                    <button type="submit" class="btn btn-success">Salvar</button>
-                                </div>
-                            </div>
-
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <td class="col-md-3">Produto</td>
-                                <td class="col-md-2">Quantidade</td>
-                                <td class="col-md-2">Preço</td>
-                                <td class="col-md-2">Em Promoção</td>
-                                <td class="col-md-2">Status</td>
-                                <td class="col-md-2">Produtor</td>
-                            </tr>
-                            </thead>
-                            <tbody>
+                        <div class="row">
+                            <div class="col-md-3">Produto</div>
+                            <div class="col-md-2">Quantidade</div>
+                            <div class="col-md-1">Preço</div>
+                            <div class="col-md-1">Em Promoção</div>
+                            <div class="col-md-2">Status</div>
+                            <div class="col-md-2">Produtor</div>
+                        </div>
                             @foreach ($products as $product)
-                                <tr>
-                                    <td>
-                                        <input type="hidden" name="id_{{$product->id}}" value="{{$product->id}}" >
-                                        <input type="text" class="col-md-8" name="name_{{$product->id}}"
-                                               value="{{$product->name}}" />
-                                    </td>
-                                    <td>
-                                        <input type="number" required name="quantity_{{$product->id}}" value="{{$product->quantity}}" class="col-md-6"/>
-                                    </td>
-                                    <td>
-                                        <input type="text" pattern="[\d.]*" required name="price_{{$product->id}}" value="{{$product->price}}" class="col-md-4"
-                                        style="padding: 0px 0px 0px 0px"/>
-                                    </td>
-                                    <td>
-                                        <div class="btn-group" id="status" data-toggle="buttons">
-                                            <label class="btn btn-default btn-on btn-xs
-                            @if($product->is_in_promotion == 1)
-                                                    active
-@endif
-                                                    ">
-                                                <input type="radio" value="1" name="promotion_{{$product->id}}"
-                                                       @if($product->is_in_promotion == 1)
-                                                       checked="checked"
-                                                        @endif
-                                                >Sim</label>
-                                            <label class="btn btn-default btn-off btn-xs @if($product->is_in_promotion == 0) active @endif">
-                                                <input type="radio" value="0" name="promotion_{{$product->id}}"
-                                                       @if($product->is_in_promotion == 0)
-                                                       checked="checked"
-                                                        @endif
-                                                >Não</label>
-                                        </div>
-
-                                    </td>
-
-                                    <td>
-                                        <div class="btn-group" id="status" data-toggle="buttons">
-                                            <label class="btn btn-default btn-on btn-xs
-                            @if($product->status == 1)
-                                                    active
-@endif
-                                                    ">
-                                                <input type="radio" value="1" name="status_{{$product->id}}"
-                                                       @if($product->status == 1)
-                                                       checked="checked"
-                                                        @endif
-                                                >Habilitado</label>
-                                            <label class="btn btn-default btn-off btn-xs @if($product->status == 0) active @endif">
-                                                <input type="radio" value="0" name="status_{{$product->id}}"
-                                                       @if($product->status == 0)
-                                                       checked="checked"
-                                                        @endif
-                                                >Desabilitado</label>
-                                        </div>
-
-                                    </td>
-
-                                    <td>
-                                        <select name="producers_{{$product->id}}[]" id="producers_{{$product->id}}"
-                                                multiple="multiple" class="js-example-basic-multiple">
-                                            @foreach($producers as $producer)
-                                                <option value="{{$producer->id}}"
-{{--                                                @if(!is_null($product->producers))--}}
-                                                    @foreach($product->producers as $producerIn)
-                                                        @if($producerIn->id == $producer->id)
-                                                            selected
-                                                        @endif
-                                                    @endforeach
-{{--                                                @endif--}}
-                                                >{{$producer->name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                </tr>
+                                <div class="row" >
+                                    <livewire:admin.products.edit :product="$product" wire:key="$product->id" />
+                                    <hr />
+                                </div>
                             @endforeach
 
-                            </tbody>
-                            <tfooter>
-                                <tr>
-                                    <td>
-                                        <button type="submit" class="btn btn-success">Salvar</button>
-                                    </td>
-                                </tr>
-{{--                                <tr>--}}
-{{--                                    <td colspan="5" style="text-align: center;">--}}
-{{--                                        {{$products->appends(request()->all())->links()}}--}}
-{{--                                    </td>--}}
-{{--                                </tr>--}}
-                            </tfooter>
-                        </table>
-{{--                            <div class="row justify-content-md-center">--}}
 
 
-{{--                                </div>--}}
-{{--                            </div>--}}
-
-                        <br />
 
 
-                        </form>
                     </div>
 
 
