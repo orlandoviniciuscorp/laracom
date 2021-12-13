@@ -169,6 +169,7 @@ return [
         App\Providers\RepositoryServiceProvider::class,
         App\Providers\SoldOutServiceProvider::class,
         Laratrust\LaratrustServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
     ],
 
     /*
@@ -219,6 +220,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Image' => Intervention\Image\Facades\Image::class,
 
     ],
 
