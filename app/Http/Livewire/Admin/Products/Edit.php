@@ -35,8 +35,6 @@ class Edit extends Component
 
     public function mount($product)
     {
-        ini_set('max_execution_time', 180); //3 minutes
-
         $this->product = $product;
         $this->product_name = $product->name;
         $this->product_id = $product->id;
