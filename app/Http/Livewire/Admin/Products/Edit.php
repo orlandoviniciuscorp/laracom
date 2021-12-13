@@ -19,11 +19,23 @@ class Edit extends Component
     public $is_in_promotion;
     public $status =[];
     public $product_producers = [];
+
+    public static $producers;
     //public $producerModel;
 
     public $listeners = ['productUpdated'=>'loadProduct',
                         'selectedProducersId',
         'saveProducers'=>'saveProducers'];
+
+
+    public function boot()
+    {
+        if(is_null(self::$producers)){
+
+            self::$producers = self::getProducers();
+        }
+
+    }
 
     public function render()
     {
@@ -88,9 +100,9 @@ class Edit extends Component
         $this->emit('select2');
     }
 
-    public function update()
+    public function updated()
     {
-        dump('oi');
+        $this->product->producers()->sync($this->product_producers);
     }
 
     public function selectedProducersId($id)
@@ -99,4 +111,6 @@ class Edit extends Component
             $this->product_producers = $id;
         }
     }
+
+
 }
