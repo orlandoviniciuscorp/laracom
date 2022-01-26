@@ -14,7 +14,7 @@
                     <div class="form-group" id="select_products">
                         <label for="product_id">Produto:&nbsp;</label>
                             <select name="product_id" id="product_id"
-                                    class="select2 col-md-2">
+                                    class="select2 col-lg-4 col-md-12 col-sm-12">
                             @foreach($products as $product)
                                 <option value="{{$product->id}}">{{$product->name}} - R${{$product->price}}</option>
                             @endforeach
