@@ -14,7 +14,7 @@
                     <div class="form-group" id="select_products">
                         <label for="product_id">Produto:&nbsp;</label>
                             <select name="product_id" id="product_id"
-                                    class="select2 col-sm-4 col-md-8">
+                                    class="select2 col-md-2">
                             @foreach($products as $product)
                                 <option value="{{$product->id}}">{{$product->name}} - R${{$product->price}}</option>
                             @endforeach
@@ -56,4 +56,10 @@
         </div>
     </div>
 </div>
-
+@section('post-script')
+<script>
+    $('#product_id').select2({
+        dropdownParent: $('#products_modal')
+    });
+</script>
+@endsection
