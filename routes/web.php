@@ -403,7 +403,7 @@ Route::namespace('Front')->group(function () {
     Route::group(['middleware'=>['shop.type:rio']],function (){
         Route::get('cestas-rj','HomeController@basketRio')->name('home.rio');
     });
-    Route::resource('cart', 'CartController');
+
     Route::post('/add-to-cart', 'CartController@addToCartAjax')->name(
         'front.add.cart'
     );
@@ -439,10 +439,11 @@ Route::namespace('Front')->group(function () {
         Route::get('addresses', 'AccountsController@addresses')->name(
             'addresses'
         );
+        Route::resource('cart', 'CartController');
         Route::post('cancel-order', 'AccountsController@cancelOrder')->name(
             'accounts.cancel-order'
         );
-        Route::get('checkout/{courier_id}', 'CheckoutController@index')->name(
+        Route::get('checkout', 'CheckoutController@index')->name(
             'checkout.index'
         );
         Route::post('checkout/store', 'CheckoutController@store')->name(

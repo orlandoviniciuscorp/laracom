@@ -10,6 +10,7 @@ use App\Shop\Carts\Requests\PayPalCheckoutExecutionRequest;
 use App\Shop\Carts\Requests\StripeExecutionRequest;
 use App\Shop\Checkout\CheckoutRepository;
 use App\Shop\Checkout\Requests\CheckoutRequest;
+use App\Shop\Configurations\Repositories\ConfigurationRepository;
 use App\Shop\Coupons\Coupon;
 use App\Shop\Couriers\Repositories\Interfaces\CourierRepositoryInterface;
 use App\Shop\Customers\Customer;
@@ -87,7 +88,8 @@ class CheckoutController extends Controller
         CustomerRepositoryInterface $customerRepository,
         ProductRepositoryInterface $productRepository,
         OrderRepositoryInterface $orderRepository,
-        ShippingInterface $shipping
+        ShippingInterface $shipping,
+        ConfigurationRepository $configurationRepository
     ) {
         $this->cartRepo = $cartRepository;
         $this->courierRepo = $courierRepository;
@@ -97,6 +99,7 @@ class CheckoutController extends Controller
         $this->orderRepo = $orderRepository;
         $this->payPal = new PayPalExpressCheckoutRepository;
         $this->shippingRepo = $shipping;
+        $this->configRepo = $configurationRepository;
     }
 
     /**
@@ -109,6 +112,7 @@ class CheckoutController extends Controller
     public function index(CartDeliveryCheckoutRequest $request)
     {
         $this->neededBag();
+
 
 
         $customer = $request->user();
@@ -144,8 +148,12 @@ class CheckoutController extends Controller
 
         $billingAddress = $customer->addresses()->first();
 
-        $courier = $this->courierRepo->findCourierById($request->input('courier_id'));
+        $courier = null;//$this->courierRepo->findCourierById($request->input('courier_id'));
         //$shippingFee = $this->cartRepo->getShippingFee($courier);
+
+
+
+        $couriers = $this->courierRepo->allEnable();
 
         return view('front.checkout', [
             'customer' => $customer,
@@ -154,11 +162,13 @@ class CheckoutController extends Controller
             'products' => $this->cartRepo->getCartItems(),
             'subtotal' => $this->cartRepo->getSubTotal(),
             'tax' => $this->cartRepo->getTax(),
-            'total' => $this->cartRepo->getTotal(2,$courier->cost),
+            'total' => $this->cartRepo->getTotal(2),
             'payments' => $paymentGateways,
             'cartItems' => $this->cartRepo->getCartItemsTransformed(),
             'shipment_object_id' => $shipment_object_id,
-            'courier'=>$courier
+            'courier'=>$courier,
+            'config'=>$this->getConfig(),
+            'couriers' =>$couriers
         ]);
     }
 

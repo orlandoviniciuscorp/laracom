@@ -35,7 +35,6 @@ class Controller extends BaseController
     {
 //        dd(current_shop());
         if(current_shop() == 2 && !auth()->guard('employee')->check()) {
-//            dd('aaaaaaaaaaaaaa');
             return $this->configRepo->getConfigRio();
         }else{
             return $this->configRepo->getConfig();

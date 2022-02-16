@@ -97,6 +97,7 @@ class CartController extends Controller
      */
     public function store(AddToCartRequest $request)
     {
+        dd($this->cartRepo->find($request->input('product')));
         $product = $this->productRepo->findProductById($request->input('product'));
 
         if ($product->attributes()->count() > 0) {
@@ -206,7 +207,7 @@ class CartController extends Controller
         $this->cartRepo->updateQuantityInCart($id, $request->input('quantity'));
 
         request()->session()->flash('message', 'Update cart successful');
-        return redirect()->route('cart.index');
+        return redirect()->route('checkout.index');
     }
 
     /**
@@ -220,7 +221,7 @@ class CartController extends Controller
         $this->cartRepo->removeToCart($id);
 
         request()->session()->flash('message', 'Removed to cart successful');
-        return redirect()->route('cart.index');
+        return redirect()->route('checkout.index');
     }
 
     public function neededBag()
