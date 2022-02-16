@@ -1,27 +1,18 @@
 @extends('layouts.front.app')
 
 @section('content')
+    @include('front.carts.cart')
     <div class="container product-in-cart-list">
         @if(!$products->isEmpty())
             <div class="row">
-                <div class="col-md-12">
-                    <ol class="breadcrumb">
-                        <li><a href="{{ route('home') }}"> <i class="fa fa-home"></i> Home</a></li>
-                        <li class="active">Carrinho de Compras</li>
-                    </ol>
-                </div>
                 <div class="col-md-12 content">
                     <div class="box-body">
                         @include('layouts.errors-and-messages')
                     </div>
                     @if(count($addresses) > 0)
 
-                        <div class="row">
-                            <div class="col-md-12">
-                                @include('front.products.product-list-table', compact('products'))
-                            </div>
-                        </div>
                         @if(isset($addresses))
+                            <form action="{{ route('checkout.store') }}" method="post" onsubmit="disableButton()">
                             <div class="row">
                                 <div class="col-md-12">
                                     <legend><i class="fa fa-home"></i> Endereços</legend>
@@ -93,53 +84,61 @@
                             </div>
                         @endif
                             <div class="row">
-                                <div class="col-md-12">
-                                    <legend><i class="fa fa-truck"></i> Entrega</legend>
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <th>Nome</th>
-                                            <th>Descrição</th>
-                                            <th>Custo</th>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>{{$courier->name}}</td>
-                                                <td>{!! $courier->description !!}</td>
-                                                <td>{{currency_format($courier->cost)}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div> <hr>
-                        <div class="row">
-                            <form method="post" action="{{route('checkout.coupon.validate')}}" >
-                                {{ csrf_field() }}
-                                <div class="col-md-12">
-                                    <legend><i class="fa fa-usd"></i> Cupons de Desconto</legend>
+
                                     <div class="row">
-                                        <div class="col-md-6">
-
-                                            <input type="text" name="coupon"
-                                               @if(session()->get('coupon') != null)
-                                                   value="{{session()->get('coupon')->name}}"
-                                               @else
-                                                   value=""
-                                               @endif
-                                                   class="form-control form-inline" /> &nbsp;
-                                            <input type="hidden" name="courier_id" value="{{$courier->id}}" />
-
-                                        </div>
-                                        <div class="col-md-6">
-
-                                            <button type="submit" class="btn btn-primary">
-                                                <i class="fa fa-check" aria-hidden="true"></i> Validar
-                                            </button>
+                                        <div class="col-lg-12">
+                                            <div class="shoping__checkout">
+                                                <h5><i class="fa fa-truck"></i> Entrega</h5>
+                                                <ul>
+                                                    @foreach($couriers as $courier)
+                                                        <li><input type="radio" name="courier_id" data-fee="{{ $courier->name }}" value="{{ $courier->id }}" data-name="{{$courier->cost}}"> {{currency_format($courier->cost)}} - {{$courier->name}}
+                                                            <br />
+                                                            {{$courier->description}}
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                            {{--<div class="shoping__discount">--}}
+                                            {{--<h5>Discount Codes</h5>--}}
+                                            {{--<form action="#">--}}
+                                            {{--<input type="text" placeholder="Enter your coupon code">--}}
+                                            {{--<button type="submit" class="site-btn">APPLY COUPON</button>--}}
+                                            {{--</form>--}}
+                                            {{--</div>--}}
 
                                         </div>
                                     </div>
-                                </div>
-                            </form>
-                        </div>
+                                
+                            </div>
+{{--                        <div class="row">--}}
+{{--                            <form method="post" action="{{route('checkout.coupon.validate')}}" >--}}
+{{--                                {{ csrf_field() }}--}}
+{{--                                <div class="col-md-12">--}}
+{{--                                    <legend><i class="fa fa-usd"></i> Cupons de Desconto</legend>--}}
+{{--                                    <div class="row">--}}
+{{--                                        <div class="col-md-6">--}}
+
+{{--                                            <input type="text" name="coupon"--}}
+{{--                                               @if(session()->get('coupon') != null)--}}
+{{--                                                   value="{{session()->get('coupon')->name}}"--}}
+{{--                                               @else--}}
+{{--                                                   value=""--}}
+{{--                                               @endif--}}
+{{--                                                   class="form-control form-inline" /> &nbsp;--}}
+{{--                                            <input type="hidden" name="courier_id" value="{{$courier->id}}" />--}}
+
+{{--                                        </div>--}}
+{{--                                        <div class="col-md-6">--}}
+
+{{--                                            <button type="submit" class="btn btn-primary">--}}
+{{--                                                <i class="fa fa-check" aria-hidden="true"></i> Validar--}}
+{{--                                            </button>--}}
+
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </form>--}}
+{{--                        </div>--}}
 
                         <div>
                             <table class="table table-striped">
@@ -157,7 +156,7 @@
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td>{{config('cart.currency')}} {{ $courier->cost }}</td>
+                                        <td> <span id="frete">{{config('cart.currency')}} 0.00</span></td>
                                     </tr>
                                 @endif
                                 @if(session()->get('coupon') != null)
@@ -174,17 +173,20 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    @if(session()->get('coupon') != null)
-                                        <td class="">{{config('cart.currency')}} {{ number_format($total-session()->get('discount'), 2, '.', ',') }}</td>
-                                    @else
-                                        <td class="">{{config('cart.currency')}} {{ number_format($total, 2, '.', ',') }}</td>
-                                    @endif
+{{--                                    @if(session()->get('coupon') != null)--}}
+{{--                                        <td class="">{{config('cart.currency')}} {{ number_format($total-session()->get('discount'), 2, '.', ',') }}</td>--}}
+{{--                                    @else--}}
+                                        <td class="">
+                                            <span id="total">{{config('cart.currency')}} {{ number_format($total, 2, '.', ',') }}
+                                            </span>
+                                        </td>
+{{--                                    @endif--}}
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
 
-                        <form action="{{ route('checkout.store') }}" method="post" onsubmit="disableButton()">
+
                         <div class="row">
                             <div class="col-md-12">
                                 <legend><i class="fa fa-commenting" aria-hidden="true"></i> Observação</legend>
@@ -210,7 +212,7 @@
 
 
                                     {{ csrf_field() }}
-                                    <input type="hidden" name="courier_id" value="{{$courier->id}}" />
+{{--                                    <input type="hidden" name="courier_id" value="{{$courier->id}}" />--}}
                                     <input type="hidden" name="billingAddress_id" value="{{$billingAddress->id}}" />
 
                                 @if(isset($payments) && !empty($payments))
@@ -264,7 +266,7 @@
                                     <p class="alert alert-danger">No payment method set</p>
                                 @endif
                                     <a href="{{ route('cart.index') }}" class="btn btn-dark">Voltar</a>
-                                    <button type="submit" id="btn_confirm"onclick="return confirm('Tem Certeza?'); " class="btn btn-danger">Confirmar Compra</button>
+                                    <button type="submit" id="btn_confirm" onclick="return confirm('Tem Certeza?'); " class="btn btn-danger">Confirmar Compra</button>
                                     <br />
                                     <br />
                             </div>
@@ -373,5 +375,46 @@
                 })
             });
         </script>
+    <script>
+        // $(document).ready(function(){
+        //
+        //     var quantitiy=0;
+        //     $('.quantity-right-plus').click(function(e){
+        //
+        //         // Stop acting like a button
+        //         e.preventDefault();
+        //         // Get the field name
+        //         var quantity = parseInt($('#quantity').val());
+        //
+        //         // If is not undefined
+        //
+        //         $('#quantity').val(quantity + 1);
+        //
+        //
+        //         // Increment
+        //
+        //     });
+        //
+        //     $('.quantity-left-minus').click(function(e){
+        //         // Stop acting like a button
+        //         e.preventDefault();
+        //         // Get the field name
+        //         var quantity = parseInt($('#quantity').val());
+        //
+        //         // If is not undefined
+        //
+        //         // Increment
+        //         if(quantity>0){
+        //             $('#quantity').val(quantity - 1);
+        //         }
+        //     });
+        //
+        // });
 
+        $('input[name=courier_id]').change(function (e) {
+            $('#frete').text('R$ ' + $('input[name=courier_id]:checked').data('name'));
+            vlrTotal = parseFloat({{$total}}) + parseFloat($('input[name=courier_id]:checked').data('name'));
+            $('#total').text('R$ ' + vlrTotal.toFixed(2));
+        });
+    </script>
 @endsection
