@@ -108,7 +108,7 @@
 
                                         </div>
                                     </div>
-                                
+
                             </div>
 {{--                        <div class="row">--}}
 {{--                            <form method="post" action="{{route('checkout.coupon.validate')}}" >--}}
@@ -265,7 +265,7 @@
                                 @else
                                     <p class="alert alert-danger">No payment method set</p>
                                 @endif
-                                    <a href="{{ route('cart.index') }}" class="btn btn-dark">Voltar</a>
+                                    <a href="{{ route('checkout.index')}}" class="btn btn-dark">Voltar</a>
                                     <button type="submit" id="btn_confirm" onclick="return confirm('Tem Certeza?'); " class="btn btn-danger">Confirmar Compra</button>
                                     <br />
                                     <br />

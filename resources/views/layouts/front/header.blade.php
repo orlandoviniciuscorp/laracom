@@ -28,12 +28,12 @@
         <ul>
             <li class="active"><a href="{{route('home')}}">Home</a></li>
             <li><a href="{{route('product.list')}}">Produtos</a></li>
-            <li><a href="{{route('cart.index')}}">Carrinho</a></li>
+            <li><a href="{{route('checkout.index')}}">Carrinho</a></li>
             <li><a href="http://organicosparatodos.com.br/">Sobre a AAT</a></li>
             <li><a href="http://organicosparatodos.com.br/">Produtores</a></li>
             <li>Usuário
                 <ul class="header__menu__dropdown">
-                    <li><a href="{{route('cart.index')}}">Carrinho</a></li>
+                    <li><a href="{{route('checkout.index')}}">Carrinho</a></li>
                     <li><a href="{{route('accounts')}}">Meu Perfil</a></li>
                     <li><a href="{{route('orders')}}">Pedidos</a></li>
                 </ul>
@@ -107,7 +107,7 @@
                         <li><a href="{{route('product.list')}}">Produtos</a></li>
                         <li><a href="#">Usuário</a>
                             <ul class="header__menu__dropdown">
-                                <li><a href="{{route('cart.index')}}">Carrinho</a></li>
+                                <li><a href="{{route('checkout.index')}}">Carrinho</a></li>
                                 <li><a href="{{route('accounts')}}">Meu Perfil</a></li>
                                 <li><a href="{{route('orders')}}">Pedidos</a></li>
                             </ul>

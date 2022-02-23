@@ -24,7 +24,7 @@
 
                         <div class="btn-group">
                             <p><strong><small class="text-danger text">*Clique no botão abaixo para confirmar e finalizar sua compra.</small></strong></p>
-                            <a href="{{ route('cart.index') }}" class="btn btn-default">Back</a>
+                            <a href="{{ route('checkout.index') }}" class="btn btn-default">Back</a>
                             <button onclick="return confirm('Tem Certeza?')" class="btn btn-danger">Confirmar Compra</button>
                             <input type="hidden" id="billing_address" name="billing_address" value="{{ $billingAddress }}">
                             <input type="hidden" name="shipment_obj_id" value="{{ $shipmentObjId }}">
@@ -36,17 +36,7 @@
                     <div class="col-md-6">
                         <div class="box-body">
                             <hr />
-                            <h3>Banco: Banco do Brasil</h3>
-                            <hr>
-                            <p>Código do Banco: <strong>001</strong></p>
-                            <p>Tipo de Conta: <strong>Conta Corrente</strong></p>
-                            <p>Beneficiário: <strong>Sarita De Cassia C. Marques </strong></p>
-                            <p>Agência: <strong>1252-1</strong></p>
-                            <p>Número da Conta: <strong> 21529-5</strong></p>
-                            <p>CPF: <strong>126.853.717-96</strong></p>
-                            <p>Valor: <strong> {{ config('cart.currency_symbol') }} {{ $total }}</strong></p>
-                            <p><strong><small class="text-danger text">* {{ config('bank-transfer.note') }}</small></strong></p>
-                            <p><strong><small class="text-danger text">*Enviar o comprovante de depósito para o  número: </small></strong></p>
+
 
                         </div>
                     </div>
