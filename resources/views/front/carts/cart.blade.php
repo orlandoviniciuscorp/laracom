@@ -108,9 +108,8 @@
                         </p>
                     </div>
                 </div>
-
-                </div>
             @endforeach
+                </div>
 {{--                        <div class="col-lg-6">--}}
 {{--                            <div class="shoping__checkout">--}}
 {{--                                <h5>Total Carrinho</h5>--}}
