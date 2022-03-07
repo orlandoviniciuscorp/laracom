@@ -26,7 +26,7 @@
 
             </div>
             @foreach($cartItems as $cartItem)
-                <div class="row border-bottom">
+                <div class="row border-bottom" style="margin-bottom: 10px">
                     <div class="col-lg-1">
                         <td class="shoping__cart__item">
                         <img src="{{asset("storage/$cartItem->cover")}}" class="mh-100" style="width: 50px; height: 50px;" >
@@ -69,48 +69,68 @@
             </div>
 
                 <div class="d-lg-none">
+                    <table class="table">
+                        <thead>
+                        <th>
+                            Imagem
+                        </th>
+                        <th>
+                            Produto
+                        </th>
+                        <th>
+                            Qtd
+                        </th>
+                        <th>
+                            Ações
+                        </th>
+                        <th>
+                            Un.
+                        </th>
+                        <th>
+                            Total
+                        </th>
+                        </thead>
+                        <tbody>
                 @foreach($cartItems as $cartItem)
 
-
-                <div class="card" style="width: 288px;">
-                    <img class="card-img-top mh-100 img-fluid" src="{{asset("storage/$cartItem->cover")}}"
-                          >
-                    <div class="card-body">
-                        <p class="card-text">Produto: {{$cartItem->name}}</p>
-                        <p>
-                        <form action="{{ route('cart.update', $cartItem->rowId) }}" class="form-inline" method="post">
-                            {{ csrf_field() }}
-                            <input type="hidden" name="_method" value="put">
-                            <div class="quantity">
-                                <div class="pro-qty">
-                                    <input type="text" value="{{ $cartItem->qty }}" name="quantity" >
-
-                                </div>
-                                <span>&nbsp;&nbsp;<button type="submit">Atualizar</button></span>
-                            </div>
-                        </form>
-                        </p>
-                        <p>
-                        <div class="col-md-1">
-                            <form action="{{ route('cart.destroy', $cartItem->rowId) }}" method="post" class="form-inline">
+                        <tr>
+                            <td>
+                                <img class="card-img-top mh-100 img-fluid" src="{{asset("storage/$cartItem->cover")}}"
+                                     style="width: 50px"
+                                >
+                            </td>
+                            <td>
+                                {{$cartItem->name}}
+                            </td>
+                            <td>
+                                <form action="{{ route('cart.update', $cartItem->rowId) }}" class="form-inline" method="post">
                                 {{ csrf_field() }}
-                                <span>Remover Item&nbsp;&nbsp;</span>
-                                <input type="hidden" name="_method" value="delete">
-                                <button onclick="return confirm('Tem certeza que deseja remover o Item?')" class="btn btn-danger btn-sm"><span class="icon_close"></span></button>
-                            </form>
-                        </div>
-                        </p>
-                        <p>
-                            Valor Unitário: {{config('cart.currency')}} {{ number_format($cartItem->price, 2) }}
-                        </p>
-                        <p>
-                           Valor total do Item: {{config('cart.currency')}} {{ number_format(($cartItem->qty*$cartItem->price), 2) }}
-                        </p>
-                    </div>
-                </div>
+                                    <input type="hidden" name="_method" value="put">
+                                    <input type="text" class="col-sm-2" value="{{ $cartItem->qty }}" name="quantity" >
+                                    <span>&nbsp;&nbsp;<button type="submit">Atualizar</button></span>
+                                </form>
+                            </td>
+                            <td>
+                                <form action="{{ route('cart.destroy', $cartItem->rowId) }}" method="post" class="form-inline">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="_method" value="delete">
+                                    <button onclick="return confirm('Tem certeza que deseja remover o Item?')" class="btn btn-danger btn-sm"><span class="icon_close"></span></button>
+                                </form>
+                            </td>
+                            <td>
+                                {{config('cart.currency')}} {{ number_format($cartItem->price, 2) }}
+                            </td>
+                            <td>
+                                {{config('cart.currency')}} {{ number_format(($cartItem->qty*$cartItem->price), 2) }}
+                            </td>
+                        </tr>
+
+
+
             @endforeach
-                </div>
-{{--                        <div class="col-lg-6">--}}
+                        </tbody>
+                    </table>
+                {{--                        <div class="col-lg-6">--}}
 {{--                            <div class="shoping__checkout">--}}
 {{--                                <h5>Total Carrinho</h5>--}}
 {{--                                <ul>--}}
