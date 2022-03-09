@@ -18,20 +18,21 @@ class CartDeliveryCheckoutRequest extends BaseFormRequest
      */
     public function rules()
     {
-        $cartItems = $this->session()->get('cart')['default'];
-
-        return [
-            'courier_id' => ['required',
-            function($attribute,$value,$fail){
-                $cartItems = $this->session()->get('cart')['default'];
-                foreach ($cartItems as $cartItem){
-                    if($cartItem->qty >$cartItem->product->quantity){
-                        $fail('O produto "'. $cartItem->name . '" possui '.
-                            $cartItem->product->quantity . ' no estoque. Por favor, atualize o seu pedido');
-                    }
-                }
-            }]
-        ];
+        return [];
+//        $cartItems = $this->session()->get('cart')['default'];
+//
+//        return [
+//            'courier_id' => ['required',
+//            function($attribute,$value,$fail){
+//                $cartItems = $this->session()->get('cart')['default'];
+//                foreach ($cartItems as $cartItem){
+//                    if($cartItem->qty >$cartItem->product->quantity){
+//                        $fail('O produto "'. $cartItem->name . '" possui '.
+//                            $cartItem->product->quantity . ' no estoque. Por favor, atualize o seu pedido');
+//                    }
+//                }
+//            }]
+//        ];
     }
 
     public function messages()

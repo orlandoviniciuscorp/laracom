@@ -15,7 +15,9 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\LaraStructure::class,
         Commands\OpenPlataform::class,
+        Commands\OpenRioPlataform::class,
         Commands\ClosePlataform::class,
+        Commands\CloseRioPlataform::class,
         Commands\ClearAvailability::class,
         Commands\CreateFair::class,
     ];
