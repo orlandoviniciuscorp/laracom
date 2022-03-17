@@ -10,22 +10,15 @@
             <p>Agência: <strong>3096-1</strong></p>
             <p>Número da Conta: <strong> 17600-1</strong></p>
             <p>CPF: <strong>133.932.617-54</strong></p>
-            @isset($total)
-                <p>Valor: <strong> {{ config('cart.currency_symbol') }} {{ $total }}</strong></p>
-            @endisset
+{{--            @isset($total)--}}
+{{--                <p>Valor: <strong> {{ config('cart.currency_symbol') }} {{ $total }}</strong></p>--}}
+{{--            @endisset--}}
             <p><strong><small class="text-danger text">* {{ config('bank-transfer.note') }}</small></strong></p>
             <p><strong><small class="text-danger text">*Enviar o comprovante de depósito para o  <br />
                         número: (62) 99864-9778 - João Gabriel</small></strong></p>
             <div class="modal-footer text-left">
                 @isset($courier)
-                    <form action="{{ route('checkout.store') }}" method="post">
-                        {{ csrf_field() }}
-
-                        <input type="hidden" name="courier_id" value="{{$courier->id}}" />
-                        <input type="hidden" name="billingAddress_id" value="{{$billingAddress->id}}" />
-                        <input type="hidden" name="payment_method" value="Transferência Bancária"/>
-                        <button type="submit" onclick="return confirm('Tem Certeza?')" class="btn btn-danger pull-left">Confirmar Compra</button>
-                    </form>
+                    <label for="btn_confirm" tabindex="0" class="btn btn-danger pull-left">Confirmar Compra</label>
                 @endisset
                 <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">Fechar</button>
             </div>
@@ -45,21 +38,14 @@
             <p>Agência: <strong>0001</strong></p>
             <p>Número da Conta: <strong> 70922897-6</strong></p>
             <p>CPF: <strong>133.932.617-54</strong></p>
-            @isset($total)
-                <p>Valor: <strong> {{ config('cart.currency_symbol') }} {{ $total }}</strong></p>
-            @endisset
+{{--            @isset($total)--}}
+{{--                <p>Valor: <strong> {{ config('cart.currency_symbol') }} {{ $total }}</strong></p>--}}
+{{--            @endisset--}}
             <p><strong><small class="text-danger text">* {{ config('bank-transfer.note') }}</small></strong></p>
             <p><strong><small class="text-danger text">*Enviar o comprovante de depósito para o  número: (62) 99864-9778 - João Gabriel</small></strong></p>
             <div class="modal-footer text-left">
                 @isset($courier)
-                    <form action="{{ route('checkout.store') }}" method="post">
-                        {{ csrf_field() }}
-
-                        <input type="hidden" name="courier_id" value="{{$courier->id}}" />
-                        <input type="hidden" name="billingAddress_id" value="{{$billingAddress->id}}" />
-                        <input type="hidden" name="payment_method" value="Transferência Bancária"/>
-                        <button type="submit" onclick="return confirm('Tem Certeza?')" class="btn btn-danger pull-left">Confirmar Compra</button>
-                    </form>
+                    <label for="btn_confirm" tabindex="0" class="btn btn-danger pull-left">Confirmar Compra</label>
                 @endisset
                 <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">Fechar</button>
             </div>
@@ -76,21 +62,14 @@
             <p>Chave Pix: <strong>62998649778</strong></p>
             <p>Tipo de Chave: <strong>Celular</strong></p>
             <p>Beneficiário: <strong>João Gabriel Pinheiro Borges</strong></p>
-            @isset($total)
-                <p>Valor: <strong> {{ config('cart.currency_symbol') }} {{ $total }}</strong></p>
-            @endisset
+{{--            @isset($total)--}}
+{{--                <p>Valor: <strong> {{ config('cart.currency_symbol') }} {{ $total }}</strong></p>--}}
+{{--            @endisset--}}
             <p><strong><small class="text-danger text">* {{ config('bank-transfer.note') }}</small></strong></p>
             <p><strong><small class="text-danger text">*Enviar o comprovante de depósito para o  número: (62) 99864-9778 - João Gabriel</small></strong></p>
             <div class="modal-footer text-left">
                 @isset($courier)
-                    <form action="{{ route('checkout.store') }}" method="post">
-                        {{ csrf_field() }}
-
-                        <input type="hidden" name="courier_id" value="{{$courier->id}}" />
-                        <input type="hidden" name="billingAddress_id" value="{{$billingAddress->id}}" />
-                        <input type="hidden" name="payment_method" value="Transferência Bancária"/>
-                        <button type="submit" onclick="return confirm('Tem Certeza?')" class="btn btn-danger pull-left">Confirmar Compra</button>
-                    </form>
+                    <label for="btn_confirm" tabindex="0" class="btn btn-danger pull-left">Confirmar Compra</label>
                 @endisset
                 <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">Fechar</button>
             </div>

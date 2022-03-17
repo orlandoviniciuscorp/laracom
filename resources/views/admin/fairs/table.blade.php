@@ -194,7 +194,7 @@
     @foreach ($fair->orders as $order)
         <tr @if($order->orderStatus->name == 'Cancelado')class="danger"@endif >
             <td>
-                #{{$order->id}}
+                <a href="{{ route('admin.orders.show', $order->id) }}">#{{$order->id}}</a>
             </td>
             <td>
                 {{$order->customer->name}}
