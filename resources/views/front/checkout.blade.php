@@ -12,7 +12,7 @@
                     @if(count($addresses) > 0)
 
                         @if(isset($addresses))
-                            <form action="{{ route('checkout.store') }}" method="post" onsubmit="disableButton()">
+                            <form name="checkoutform" action="{{ route('checkout.store') }}" method="post" onsubmit="disableButton()">
                             <div class="row">
                                 <div class="col-md-12">
                                     <legend><i class="fa fa-home"></i> Endereços</legend>
@@ -212,7 +212,7 @@
 
 
                                     {{ csrf_field() }}
-{{--                                    <input type="hidden" name="courier_id" value="{{$courier->id}}" />--}}
+
                                     <input type="hidden" name="billingAddress_id" value="{{$billingAddress->id}}" />
 
                                 @if(isset($payments) && !empty($payments))
