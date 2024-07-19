@@ -18,10 +18,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-//        Cashier::useCurrency(
-//            config('cart.currency'),
-//            config('cart.currency_symbol')
-//        );
+//        Cashier::useCurrency(config('cart.currency'), config('cart.currency_symbol'));
         Schema::defaultStringLength(191);
         Builder::defaultStringLength(191);
         Paginator::useBootstrap();
