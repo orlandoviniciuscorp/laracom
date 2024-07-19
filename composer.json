@@ -21,8 +21,10 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.4",
         "livepixel/mercado-pago": "^1.0",
+        "livewire/livewire": "^2.12",
         "nicolaslopezj/searchable": "^1.13",
         "paypal/rest-api-sdk-php": "*",
+        "realrashid/sweet-alert": "^7.2",
         "santigarcor/laratrust": "^6.0",
         "shippo/shippo-php": "^2.0",
         "xenon/shoppingcart": "*"

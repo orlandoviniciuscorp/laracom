@@ -32,7 +32,7 @@
     <meta name="msapplication-TileImage" content="{{ asset('favicons/ms-icon-144x144.png')}}">
     <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
     <meta name="theme-color" content="#ffffff">
-    @livewireStyles
+    <livewire:styles />
     <style>
         /* The switch - the box around the slider */
         .switch {
@@ -99,7 +99,7 @@
     </style>
 {{--    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />--}}
 </head>
-@livewireScripts
+<livewire:scripts />
 <script src="{{ asset('js/admin.min.js') }}"></script>
 <script src="{{ asset('//cdn.ckeditor.com/4.8.0/standard/ckeditor.js') }}"></script>
 <script src="{{ asset('js/scripts.js?v=0.2') }}"></script>
