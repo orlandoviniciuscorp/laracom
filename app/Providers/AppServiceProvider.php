@@ -18,20 +18,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-//        Cashier::useCurrency(
-//            config('cart.currency'),
-//            config('cart.currency_symbol')
-//        );
+//        Cashier::useCurrency(config('cart.currency'), config('cart.currency_symbol'));
         Schema::defaultStringLength(191);
         Builder::defaultStringLength(191);
         Paginator::useBootstrap();
-        if (env('APP_ENV') != 'local') {
-            URL::forceScheme('https');
-        }
-
-        if (env('APP_ENV') == 'shared') {
-            URL::forceRootUrl('https://cestasaat.sharedwithexpose.com');
-        }
+//        if (env('APP_ENV') != 'local') {
+//            URL::forceScheme('https');
+//        }
+//
+//        if (env('APP_ENV') == 'shared') {
+//            URL::forceRootUrl('https://cestasaat.sharedwithexpose.com');
+//        }
     }
 
     /**
