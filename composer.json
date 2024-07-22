@@ -22,6 +22,7 @@
         "laravel/ui": "^3.4",
         "livepixel/mercado-pago": "^1.0",
         "livewire/livewire": "^2.12",
+        "maatwebsite/excel": "^3.1",
         "nicolaslopezj/searchable": "^1.13",
         "paypal/rest-api-sdk-php": "*",
         "realrashid/sweet-alert": "^7.2",
